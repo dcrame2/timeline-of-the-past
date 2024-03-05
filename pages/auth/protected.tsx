@@ -5,6 +5,7 @@ import AuthSignOutButton from "@/components/reusable/authSIgnOutButton/Index";
 import AddNewPersonButton from "@/components/reusable/addNewPersonButton/Index";
 import NewPersonForm from "@/components/newPersonForm/Index";
 import PeopleFeed from "@/components/peopleFeed/Index";
+import styled from "styled-components";
 
 export default function Protected({ session }: any) {
   const [showAddPersonFields, setShowAddPersonFields] =
@@ -19,6 +20,12 @@ export default function Protected({ session }: any) {
   interface PeopleDataProps {
     userData?: UserData[];
   }
+
+  const NavContainer = styled.div`
+    margin: 24px;
+    display: flex;
+    justify-content: space-between;
+  `;
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
 
@@ -52,6 +59,7 @@ export default function Protected({ session }: any) {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
+    setShowAddPersonFields(!showAddPersonFields);
   };
 
   useEffect(() => {
@@ -59,12 +67,15 @@ export default function Protected({ session }: any) {
   }, []);
   return (
     <>
-      <AddNewPersonButton
-        setShowAddPersonFields={setShowAddPersonFields}
-        showAddPersonFields={showAddPersonFields}
-      />
-      {!showAddPersonFields && <NewPersonForm fetchData={fetchData} />}
-      <AuthSignOutButton />
+      <NavContainer>
+        <AddNewPersonButton
+          setShowAddPersonFields={setShowAddPersonFields}
+          showAddPersonFields={showAddPersonFields}
+          fetchData={fetchData}
+        />
+
+        <AuthSignOutButton />
+      </NavContainer>
       <PeopleFeed peopleData={peopleData} />
     </>
   );
