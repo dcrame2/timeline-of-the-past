@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
+import EditPeopleScreen from "./editPeopleScreen/Index";
 
 interface UserData {
   enteredfirstName?: string;
@@ -36,6 +37,11 @@ const CRUDBtns = styled.div`
 `;
 
 function PeopleFeed({ peopleData }: { peopleData: PeopleDataProps }) {
+  const [showEditScreen, setShowEditScreen] = useState(false);
+
+  const showEditScreenHandler = () => {
+    setShowEditScreen(!showEditScreen);
+  };
   return (
     <PeopleFeedContainer>
       {peopleData &&
@@ -47,7 +53,10 @@ function PeopleFeed({ peopleData }: { peopleData: PeopleDataProps }) {
                 Name: {enteredfirstName} {enteredLastName}
               </p>
               <CRUDBtns>
-                <button>Edit</button>
+                <button onClick={showEditScreenHandler}>Edit</button>
+                {showEditScreen && (
+                  <EditPeopleScreen showEditScreen={showEditScreen} />
+                )}
                 <button>Delete</button>
               </CRUDBtns>
             </IndividualPeopleContainer>
