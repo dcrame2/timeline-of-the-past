@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { getSession } from "next-auth/react";
 
-const FormContainer = styled(motion.div)`
+const PeopleScreen = styled(motion.div)`
   width: 60vw;
   height: 100%;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: black;
+  background-color: lightblue;
 `;
 
 const motionPropsRight = {
@@ -30,11 +31,97 @@ const motionPropsRight = {
   },
 };
 
-function EditPeopleScreen({ showEditScreen }: { showEditScreen: boolean }) {
+interface PeopleProps {
+  enteredfirstName?: string;
+  enteredLastName?: string;
+}
+
+function EditPeopleScreen({
+  showEditScreen,
+  showEditScreenHandler,
+  person,
+  selectedIndex,
+  setShowEditScreen,
+}: {
+  showEditScreen: boolean;
+  showEditScreenHandler: (person: PeopleProps, index: number) => void;
+  person: PeopleProps | null;
+  selectedIndex: number;
+  setShowEditScreen: any;
+}) {
+  const [updatedPerson, setUpdatedPerson] = useState<PeopleProps>({
+    ...person,
+  });
+  // return (
+  // <PeopleScreen {...motionPropsRight}>
+  //   <p onClick={showEditScreenHandler}>
+  //     {person?.enteredfirstName} {person?.enteredLastName}
+  //   </p>
+  // </PeopleScreen>
+
+  const handleFirstNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setUpdatedPerson((prevState) => ({
+      ...prevState,
+      enteredfirstName: event.target.value,
+    }));
+  };
+
+  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUpdatedPerson((prevState) => ({
+      ...prevState,
+      enteredLastName: event.target.value,
+    }));
+  };
+
+  const handleSave = async () => {
+    // onSave(updatedPerson);
+
+    const session = await getSession();
+    const sessionUserEmail: string | null | undefined = session?.user?.email;
+    console.log(sessionUserEmail, "session");
+
+    const response = await fetch("/api/people/update-people", {
+      method: "POST",
+      body: JSON.stringify({
+        sessionUserEmail,
+        updatedPerson,
+        selectedIndex,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response, "Response");
+  };
+
+  // const handleCancel = () => {
+  //   onCancel();
+  // };
   return (
-    <FormContainer {...motionPropsRight}>
-      <p>hi</p>
-    </FormContainer>
+    <PeopleScreen {...motionPropsRight}>
+      <label>
+        First Name:
+        <input
+          type="text"
+          value={updatedPerson.enteredfirstName}
+          onChange={handleFirstNameChange}
+        />
+      </label>
+      <br />
+      <label>
+        Last Name:
+        <input
+          type="text"
+          value={updatedPerson.enteredLastName}
+          onChange={handleLastNameChange}
+        />
+      </label>
+      <br />
+      <button onClick={handleSave}>Save</button>
+      <button onClick={() => setShowEditScreen(!showEditScreen)}>Cancel</button>
+    </PeopleScreen>
   );
 }
 

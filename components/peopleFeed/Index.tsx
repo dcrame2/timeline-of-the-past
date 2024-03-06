@@ -36,26 +36,47 @@ const CRUDBtns = styled.div`
   gap: 4px;
 `;
 
+interface PeopleProps {
+  enteredfirstName?: string;
+  enteredLastName?: string;
+}
+
 function PeopleFeed({ peopleData }: { peopleData: PeopleDataProps }) {
   const [showEditScreen, setShowEditScreen] = useState(false);
+  const [selectedPerson, setSelectedPerson] = useState<PeopleProps | null>(
+    null
+  );
 
-  const showEditScreenHandler = () => {
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const showEditScreenHandler = (person: PeopleProps, index: number) => {
     setShowEditScreen(!showEditScreen);
+    setSelectedPerson(person);
+    setSelectedIndex(index);
   };
+
   return (
     <PeopleFeedContainer>
       {peopleData &&
-        peopleData?.userData?.map((people) => {
-          const { enteredfirstName, enteredLastName } = people;
+        peopleData?.userData?.map((person, index) => {
+          const { enteredfirstName, enteredLastName } = person;
           return (
             <IndividualPeopleContainer>
               <p>
                 Name: {enteredfirstName} {enteredLastName}
               </p>
               <CRUDBtns>
-                <button onClick={showEditScreenHandler}>Edit</button>
+                <button onClick={() => showEditScreenHandler(person, index)}>
+                  Edit
+                </button>
                 {showEditScreen && (
-                  <EditPeopleScreen showEditScreen={showEditScreen} />
+                  <EditPeopleScreen
+                    setShowEditScreen={setShowEditScreen}
+                    showEditScreenHandler={showEditScreenHandler}
+                    showEditScreen={showEditScreen}
+                    person={selectedPerson}
+                    selectedIndex={selectedIndex}
+                  />
                 )}
                 <button>Delete</button>
               </CRUDBtns>
