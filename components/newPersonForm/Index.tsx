@@ -95,7 +95,7 @@ function NewPersonForm({ fetchData, setShowAddPersonFields }: any) {
           type="text"
           ref={ageRef}
         />
-
+        {/* TODO: Look into Middleware Multer for file upload / can start off with localhost and maybe move to cloudinary  */}
         <TextInput
           name="images"
           label="Images"
