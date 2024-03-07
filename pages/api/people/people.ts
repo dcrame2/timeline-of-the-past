@@ -8,7 +8,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "POST") {
     const data = req.body;
-    const { enteredfirstName, enteredLastName, sessionUserEmail } = data;
+    const {
+      enteredfirstName,
+      enteredLastName,
+      sessionUserEmail,
+      enteredAge,
+      enteredImages,
+    } = data;
     console.log(
       enteredfirstName,
       enteredLastName,
@@ -30,12 +36,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       // Update the user document with the new data
-      await db
-        .collection("users")
-        .updateOne(
-          { _id: user._id },
-          { $push: { userData: { enteredfirstName, enteredLastName } } }
-        );
+      await db.collection("users").updateOne(
+        { _id: user._id },
+        {
+          $push: {
+            userData: {
+              enteredfirstName,
+              enteredLastName,
+              enteredAge,
+              enteredImages,
+            },
+          },
+        }
+      );
 
       res.status(200).json({ message: "Data updated successfully" });
       client.close();

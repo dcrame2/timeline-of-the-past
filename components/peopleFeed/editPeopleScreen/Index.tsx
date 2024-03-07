@@ -34,6 +34,7 @@ const motionPropsRight = {
 interface PeopleProps {
   enteredfirstName?: string;
   enteredLastName?: string;
+  enteredAge?: string;
 }
 
 function EditPeopleScreen({
@@ -72,6 +73,13 @@ function EditPeopleScreen({
     setUpdatedPerson((prevState) => ({
       ...prevState,
       enteredLastName: event.target.value,
+    }));
+  };
+
+  const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUpdatedPerson((prevState) => ({
+      ...prevState,
+      enteredAge: event.target.value,
     }));
   };
 
@@ -116,6 +124,15 @@ function EditPeopleScreen({
           type="text"
           value={updatedPerson.enteredLastName}
           onChange={handleLastNameChange}
+        />
+      </label>
+      <br />
+      <label>
+        Age:
+        <input
+          type="text"
+          value={updatedPerson.enteredAge}
+          onChange={handleAgeChange}
         />
       </label>
       <br />

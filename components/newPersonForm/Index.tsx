@@ -18,6 +18,8 @@ const Form = styled.form``;
 function NewPersonForm({ fetchData, setShowAddPersonFields }: any) {
   const firstNameRef = React.useRef<HTMLInputElement>(null);
   const lastNameRef = React.useRef<HTMLInputElement>(null);
+  const ageRef = React.useRef<HTMLInputElement>(null);
+  const imagesRef = React.useRef<HTMLInputElement>(null);
 
   const submitNewPerson: MouseEventHandler<HTMLButtonElement> = async (
     event
@@ -25,6 +27,8 @@ function NewPersonForm({ fetchData, setShowAddPersonFields }: any) {
     event.preventDefault();
     const enteredfirstName = firstNameRef.current?.value;
     const enteredLastName = lastNameRef.current?.value;
+    const enteredAge = ageRef.current?.value;
+    const enteredImages = imagesRef.current?.value;
     console.log(enteredfirstName, enteredLastName);
 
     const session = await getSession();
@@ -36,6 +40,8 @@ function NewPersonForm({ fetchData, setShowAddPersonFields }: any) {
       body: JSON.stringify({
         enteredfirstName,
         enteredLastName,
+        enteredAge,
+        enteredImages,
         sessionUserEmail,
       }),
       headers: {
@@ -81,6 +87,21 @@ function NewPersonForm({ fetchData, setShowAddPersonFields }: any) {
           placeholder="Doe"
           type="text"
           ref={lastNameRef}
+        />
+        <TextInput
+          name="age"
+          label="Age"
+          placeholder="21"
+          type="text"
+          ref={ageRef}
+        />
+
+        <TextInput
+          name="images"
+          label="Images"
+          // placeholder="21"
+          type="file"
+          ref={imagesRef}
         />
         <button onClick={submitNewPerson} type="submit">
           Submit New Person
