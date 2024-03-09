@@ -10,6 +10,7 @@ const PeopleScreen = styled(motion.div)`
   top: 0;
   right: 0;
   bottom: 0;
+  z-index: 100;
   background-color: lightblue;
 `;
 
@@ -43,12 +44,14 @@ function EditPeopleScreen({
   person,
   selectedIndex,
   setShowEditScreen,
+  fetchData,
 }: {
   showEditScreen: boolean;
   showEditScreenHandler: (person: PeopleProps, index: number) => void;
   person: PeopleProps | null;
   selectedIndex: number;
   setShowEditScreen: any;
+  fetchData: any;
 }) {
   const [updatedPerson, setUpdatedPerson] = useState<PeopleProps>({
     ...person,
@@ -102,6 +105,8 @@ function EditPeopleScreen({
       },
     });
     console.log(response, "Response");
+
+    fetchData();
   };
 
   // const handleCancel = () => {

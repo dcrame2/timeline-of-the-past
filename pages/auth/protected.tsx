@@ -59,7 +59,7 @@ export default function Protected({ session }: any) {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-    setShowAddPersonFields(!showAddPersonFields);
+    // setShowAddPersonFields(!showAddPersonFields);
   };
 
   useEffect(() => {
@@ -76,7 +76,11 @@ export default function Protected({ session }: any) {
 
         <AuthSignOutButton />
       </NavContainer>
-      <PeopleFeed peopleData={peopleData} />
+      <PeopleFeed
+        fetchData={fetchData}
+        setPeopleData={setPeopleData}
+        peopleData={peopleData}
+      />
     </>
   );
 }

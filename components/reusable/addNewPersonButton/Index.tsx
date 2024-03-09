@@ -22,7 +22,7 @@ export default function AddNewPersonButton({
     <>
       <button onClick={addNewPersonHandler}>Add New Person</button>
       <AnimatePresence mode="wait">
-        {!showAddPersonFields && (
+        {showAddPersonFields && (
           <NewPersonForm
             setShowAddPersonFields={setShowAddPersonFields}
             fetchData={fetchData}

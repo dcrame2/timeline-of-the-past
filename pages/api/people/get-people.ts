@@ -54,8 +54,6 @@ import { connectToDatabase } from "@/lib/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  //   if (req.method === "GET") {
-  console.log(req, "REQQQ");
   const { sessionUserEmail } = req.body;
   console.log(sessionUserEmail, "sessionUserEmailllll");
 
@@ -82,10 +80,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
-
-//   else {
-//     res.status(405).json({ message: "Method Not Allowed" });
-//   }
-// // }
 
 export default handler;

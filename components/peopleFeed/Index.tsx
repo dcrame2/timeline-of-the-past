@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import EditPeopleScreen from "./editPeopleScreen/Index";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface UserData {
   enteredfirstName?: string;
@@ -19,7 +20,7 @@ const PeopleFeedContainer = styled.div`
   margin: 0 24px;
 `;
 
-const IndividualPeopleContainer = styled.div`
+const IndividualPeopleContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
   padding: 24px 12px;
@@ -41,7 +42,15 @@ interface PeopleProps {
   enteredLastName?: string;
 }
 
-function PeopleFeed({ peopleData }: { peopleData: PeopleDataProps }) {
+function PeopleFeed({
+  peopleData,
+  fetchData,
+  setPeopleData,
+}: {
+  peopleData: PeopleDataProps;
+  setPeopleData: any;
+  fetchData: () => void;
+}) {
   const [showEditScreen, setShowEditScreen] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState<PeopleProps | null>(
     null
@@ -49,10 +58,54 @@ function PeopleFeed({ peopleData }: { peopleData: PeopleDataProps }) {
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
+  const [selectedIndexDelete, setSelectedIndexDelete] = useState(-1);
+
   const showEditScreenHandler = (person: PeopleProps, index: number) => {
     setShowEditScreen(!showEditScreen);
     setSelectedPerson(person);
     setSelectedIndex(index);
+  };
+
+  const deletePeopleHandler = async (person: PeopleProps, index: number) => {
+    const session = await getSession();
+    const sessionUserEmail: string | null | undefined = session?.user?.email;
+    console.log(sessionUserEmail, "session");
+
+    // setSelectedIndexDelete(index);
+
+    const response = await fetch("/api/people/delete-people", {
+      method: "POST",
+      body: JSON.stringify({
+        sessionUserEmail,
+        person,
+        index,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    fetchData();
+
+    console.log(response, "Response");
+  };
+
+  const motionPropsUp = {
+    initial: {
+      opacity: 0,
+      y: "100%",
+    },
+    animate: {
+      y: 0,
+      opacity: 1,
+    },
+    exit: {
+      y: "100%",
+      opacity: 0,
+    },
+    transition: {
+      duration: 0.4,
+    },
   };
 
   return (
@@ -61,26 +114,35 @@ function PeopleFeed({ peopleData }: { peopleData: PeopleDataProps }) {
         peopleData?.userData?.map((person, index) => {
           const { enteredfirstName, enteredLastName } = person;
           return (
-            <IndividualPeopleContainer>
-              <p>
-                Name: {enteredfirstName} {enteredLastName}
-              </p>
-              <CRUDBtns>
-                <button onClick={() => showEditScreenHandler(person, index)}>
-                  Edit
-                </button>
-                {showEditScreen && (
-                  <EditPeopleScreen
-                    setShowEditScreen={setShowEditScreen}
-                    showEditScreenHandler={showEditScreenHandler}
-                    showEditScreen={showEditScreen}
-                    person={selectedPerson}
-                    selectedIndex={selectedIndex}
-                  />
-                )}
-                <button>Delete</button>
-              </CRUDBtns>
-            </IndividualPeopleContainer>
+            <AnimatePresence>
+              <IndividualPeopleContainer
+                key={`${index}-person`}
+                {...motionPropsUp}
+              >
+                <p>
+                  Name: {enteredfirstName} {enteredLastName}
+                </p>
+                <CRUDBtns>
+                  <button onClick={() => showEditScreenHandler(person, index)}>
+                    Edit
+                  </button>
+
+                  <button onClick={() => deletePeopleHandler(person, index)}>
+                    Delete
+                  </button>
+                </CRUDBtns>
+              </IndividualPeopleContainer>
+              {showEditScreen && (
+                <EditPeopleScreen
+                  fetchData={fetchData}
+                  setShowEditScreen={setShowEditScreen}
+                  showEditScreenHandler={showEditScreenHandler}
+                  showEditScreen={showEditScreen}
+                  person={selectedPerson}
+                  selectedIndex={selectedIndex}
+                />
+              )}
+            </AnimatePresence>
           );
         })}
     </PeopleFeedContainer>
