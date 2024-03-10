@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
 import Image from "next/image";
+import { getSession } from "next-auth/react";
 
 const Container = styled.div`
   height: 100vw;

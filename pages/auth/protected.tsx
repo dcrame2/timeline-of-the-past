@@ -7,10 +7,9 @@ import NewPersonForm from "@/components/newPersonForm/Index";
 import PeopleFeed from "@/components/peopleFeed/Index";
 import styled from "styled-components";
 
-export default function Protected({ session }: any) {
+export default function Protected() {
   const [showAddPersonFields, setShowAddPersonFields] =
     useState<boolean>(false);
-  console.log(session, "session");
 
   interface UserData {
     firstName?: string;
@@ -30,6 +29,7 @@ export default function Protected({ session }: any) {
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
 
   console.log(peopleData, "PeopleData");
+
   const fetchData = async () => {
     try {
       const session = await getSession();
@@ -37,7 +37,10 @@ export default function Protected({ session }: any) {
         return; // No session, no need to fetch data
       }
       const sessionUserEmail = session?.user?.email;
-      console.log(sessionUserEmail, "sessionsss");
+      // const sessionFirstName = session?.user?.firstName;
+      // const sessionLastname = session?.user?.lastName;
+
+      console.log(session, "sessionsss BETTTT");
 
       const response = await fetch("/api/people/get-people", {
         method: "POST",
