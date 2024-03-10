@@ -1,7 +1,24 @@
 import React from "react";
 import { signOut } from "next-auth/react";
 import NewPersonForm from "@/components/newPersonForm/Index";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import styled from "styled-components";
+
+const Button = styled(motion.button)`
+  padding: 12px;
+  background-color: #7bb1dd;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: rgba(56, 59, 61, 0.2) 0px 4px 8px;
+  cursor: pointer;
+  display: flex;
+  /* gap: 12px; */
+  align-items: center;
+  border: none;
+  img {
+    width: 30px;
+  }
+`;
 
 interface AddNewPersonProps {
   setShowAddPersonFields: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +37,9 @@ export default function AddNewPersonButton({
   }
   return (
     <>
-      <button onClick={addNewPersonHandler}>Add New Person</button>
+      <Button whileHover={{ scale: 1.1 }} onClick={addNewPersonHandler}>
+        <img src="/add_icon.png" alt="icon" />
+      </Button>
       <AnimatePresence mode="wait">
         {showAddPersonFields && (
           <NewPersonForm

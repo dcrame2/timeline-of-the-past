@@ -6,6 +6,8 @@ import AddNewPersonButton from "@/components/reusable/addNewPersonButton/Index";
 import NewPersonForm from "@/components/newPersonForm/Index";
 import PeopleFeed from "@/components/peopleFeed/Index";
 import styled from "styled-components";
+import TabNavigation from "@/components/tabNavigation/Index";
+import DashboardHeader from "@/components/dashboardHeader/Index";
 
 export default function Protected() {
   const [showAddPersonFields, setShowAddPersonFields] =
@@ -20,10 +22,43 @@ export default function Protected() {
     userData?: UserData[];
   }
 
+  const Dashboard = styled.div`
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 0.75fr 1fr 1fr 1fr;
+    grid-template-rows: 0.25fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "header header header header"
+      "navigation dashboard dashboard dashboard"
+      "navigation dashboard dashboard dashboard"
+      "navigation dashboard dashboard dashboard";
+  `;
+
+  const DashboardHeaderContainer = styled.div`
+    grid-area: header;
+    /* background-color: white; */
+    /* border-bottom: 5px solid steelblue; */
+    z-index: 101;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+  `;
+
   const NavContainer = styled.div`
     margin: 24px;
     display: flex;
     justify-content: space-between;
+  `;
+
+  const InfoContainer = styled.div`
+    grid-area: dashboard;
+    h1 {
+      font-size: 30px;
+      margin: 24px;
+      color: #060606;
+    }
   `;
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
@@ -68,22 +103,26 @@ export default function Protected() {
     fetchData();
   }, []);
   return (
-    <>
-      <NavContainer>
-        <AddNewPersonButton
+    <Dashboard>
+      <DashboardHeaderContainer>
+        <DashboardHeader />
+      </DashboardHeaderContainer>
+      <TabNavigation
+        fetchData={fetchData}
+        setShowAddPersonFields={setShowAddPersonFields}
+        showAddPersonFields={showAddPersonFields}
+      />
+      <InfoContainer>
+        <h1>Hi, Dylan!</h1>
+        <PeopleFeed
           setShowAddPersonFields={setShowAddPersonFields}
           showAddPersonFields={showAddPersonFields}
           fetchData={fetchData}
+          setPeopleData={setPeopleData}
+          peopleData={peopleData}
         />
-
-        <AuthSignOutButton />
-      </NavContainer>
-      <PeopleFeed
-        fetchData={fetchData}
-        setPeopleData={setPeopleData}
-        peopleData={peopleData}
-      />
-    </>
+      </InfoContainer>
+    </Dashboard>
   );
 }
 

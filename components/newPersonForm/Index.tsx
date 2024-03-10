@@ -12,13 +12,13 @@ import { create } from "domain";
 import axios from "axios";
 
 const FormContainer = styled(motion.div)`
-  width: 60vw;
+  width: 100vw;
   height: 100%;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 100;
+  z-index: 105;
   background-color: black;
 `;
 const Form = styled.form`
@@ -109,14 +109,14 @@ function NewPersonForm({
   const motionPropsRight = {
     initial: {
       opacity: 0,
-      x: "100%",
+      // x: "100%",
     },
     animate: {
-      x: 0,
+      // x: 0,
       opacity: 1,
     },
     exit: {
-      x: "100%",
+      // x: "100%",
       opacity: 0,
     },
     transition: {
