@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { create } from "domain";
 import axios from "axios";
+import { variables } from "@/styles/Variables";
 
 const FormContainer = styled(motion.div)`
   width: 100vw;
@@ -19,7 +20,7 @@ const FormContainer = styled(motion.div)`
   right: 0;
   bottom: 0;
   z-index: 105;
-  background-color: black;
+  background-color: ${variables.lightGrey};
 `;
 const Form = styled.form`
   display: flex;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { getSession } from "next-auth/react";
+import { variables } from "@/styles/Variables";
 
 const PeopleScreen = styled(motion.div)`
   width: 60vw;
@@ -11,7 +12,7 @@ const PeopleScreen = styled(motion.div)`
   right: 0;
   bottom: 0;
   z-index: 105;
-  background-color: lightblue;
+  background-color: ${variables.lightGrey};
 `;
 
 const motionPropsRight = {

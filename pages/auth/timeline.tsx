@@ -6,8 +6,10 @@ import AddNewPersonButton from "@/components/reusable/addNewPersonButton/Index";
 import NewPersonForm from "@/components/newPersonForm/Index";
 import PeopleFeed from "@/components/peopleFeed/Index";
 import styled from "styled-components";
-import TabNavigation from "@/components/tabNavigation/Index";
-import DashboardHeader from "@/components/dashboardHeader/Index";
+import TabNavigation from "@/components/layout/dashboard/tabNavigation/Index";
+import DashboardHeader from "@/components/layout/dashboard/dashboardHeader/Index";
+
+import Layout from "@/components/layout/dashboard/Index";
 
 export default function Protected() {
   const [showAddPersonFields, setShowAddPersonFields] =
@@ -22,18 +24,17 @@ export default function Protected() {
     userData?: UserData[];
   }
 
-  const Dashboard = styled.div`
+  const TimelineView = styled.div`
     width: 100%;
     height: 100vh;
     display: grid;
-    grid-template-columns: 0.75fr 1fr 1fr 1fr;
-    grid-template-rows: 0.25fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     gap: 0px 0px;
     grid-template-areas:
-      "header header header header"
-      "navigation dashboard dashboard dashboard"
-      "navigation dashboard dashboard dashboard"
-      "navigation dashboard dashboard dashboard";
+      "dashboard dashboard dashboard"
+      "dashboard dashboard dashboard"
+      "dashboard dashboard dashboard";
   `;
 
   const DashboardHeaderContainer = styled.div`
@@ -72,9 +73,6 @@ export default function Protected() {
         return; // No session, no need to fetch data
       }
       const sessionUserEmail = session?.user?.email;
-      // const sessionFirstName = session?.user?.firstName;
-      // const sessionLastname = session?.user?.lastName;
-
       console.log(session, "sessionsss BETTTT");
 
       const response = await fetch("/api/people/get-people", {
@@ -103,26 +101,20 @@ export default function Protected() {
     fetchData();
   }, []);
   return (
-    <Dashboard>
-      <DashboardHeaderContainer>
-        <DashboardHeader />
-      </DashboardHeaderContainer>
-      <TabNavigation
-        fetchData={fetchData}
-        setShowAddPersonFields={setShowAddPersonFields}
-        showAddPersonFields={showAddPersonFields}
-      />
-      <InfoContainer>
-        <h1>Hi, Dylan!</h1>
-        <PeopleFeed
-          setShowAddPersonFields={setShowAddPersonFields}
-          showAddPersonFields={showAddPersonFields}
-          fetchData={fetchData}
-          setPeopleData={setPeopleData}
-          peopleData={peopleData}
-        />
-      </InfoContainer>
-    </Dashboard>
+    <Layout>
+      <TimelineView>
+        <InfoContainer>
+          <h1>Hi, Dylan!</h1>
+          <PeopleFeed
+            setShowAddPersonFields={setShowAddPersonFields}
+            showAddPersonFields={showAddPersonFields}
+            fetchData={fetchData}
+            setPeopleData={setPeopleData}
+            peopleData={peopleData}
+          />
+        </InfoContainer>
+      </TimelineView>
+    </Layout>
   );
 }
 

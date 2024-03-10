@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
           lastName: user.lastName,
           username: user.username,
           redirect: {
-            destination: "/auth/protected",
+            destination: "/auth/timeline",
           },
         };
       },

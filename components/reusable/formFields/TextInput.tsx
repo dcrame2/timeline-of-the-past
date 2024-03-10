@@ -1,7 +1,12 @@
+import { variables } from "@/styles/Variables";
 import React from "react";
 import styled from "styled-components";
 
-const FieldContainer = styled.div``;
+const FieldContainer = styled.div`
+  label {
+    color: ${variables.black};
+  }
+`;
 
 interface TextInputProps {
   type?: "text" | "password" | "file";

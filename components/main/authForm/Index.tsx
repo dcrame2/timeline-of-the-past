@@ -102,7 +102,7 @@ export default function AuthForm() {
       });
 
       if (!result?.error) {
-        router.replace("/auth/protected");
+        router.replace("/auth/timeline");
       }
     }
   };

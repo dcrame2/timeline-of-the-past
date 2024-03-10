@@ -4,6 +4,7 @@ import styled from "styled-components";
 import EditPeopleScreen from "./editPeopleScreen/Index";
 import { motion, AnimatePresence } from "framer-motion";
 import AddNewPersonButton from "../reusable/addNewPersonButton/Index";
+import { variables } from "@/styles/Variables";
 
 interface UserData {
   firstName?: string;
@@ -19,17 +20,17 @@ const PeopleFeedContainer = styled.div`
   flex-direction: column;
   gap: 12px;
   margin: 0 24px;
-  background-color: #fbfcfc;
+  background-color: ${variables.lightGrey};
   margin: 24px;
   padding: 24px;
   border-radius: 12px;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   h3 {
     font-size: 20px;
-    color: #060606;
+    color: ${variables.black};
   }
   h6 {
-    color: #060606;
+    color: ${variables.black};
   }
 `;
 
@@ -43,10 +44,10 @@ const IndividualPeopleContainer = styled(motion.div)`
   display: flex;
   flex-direction: row;
   padding: 16px 12px;
-  background-color: #fff;
+  background-color: ${variables.white};
   border-radius: 12px;
   justify-content: space-between;
-  color: #000;
+  color: ${variables.black};
   align-items: center;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
 `;

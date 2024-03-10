@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import AuthSignOutButton from "@/components/reusable/authSIgnOutButton/Index";
+import { variables } from "@/styles/Variables";
+import Link from "next/link";
 
 const ProfileContainer = styled(motion.div)`
-  padding: 12px;
+  padding: 12px 12px 12px 48px;
   border-radius: 12px;
-  background-color: red;
+  background-color: ${variables.lightGrey};
+  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
 
   ul {
     list-style-type: none;
@@ -15,7 +19,7 @@ const ProfileContainer = styled(motion.div)`
     align-items: flex-end;
     li {
       padding: 12px;
-      color: #060606;
+      color: ${variables.black};
       border-radius: 12px;
       transition: all 0.3s ease;
       cursor: pointer;
@@ -47,9 +51,16 @@ function ProfileMenu() {
   return (
     <ProfileContainer {...motionPropsIn}>
       <ul>
-        <li>Profile</li>
-        <li>Settings</li>
-        <li>Log out</li>
+        <li>
+          <Link href="/auth/profile">Profile</Link>
+        </li>
+        <li>
+          <Link href="/auth/subscription">Subscription</Link>
+        </li>
+        <li>
+          <Link href="/auth/settings">Settings</Link>
+        </li>
+        <AuthSignOutButton />
       </ul>
     </ProfileContainer>
   );
