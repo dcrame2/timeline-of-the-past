@@ -47,12 +47,59 @@ function NewPersonForm({
 
   const [image, setImage] = useState<File | null>(null);
 
+  const [imageSrc, setImageSrc] = useState();
+  const [uploadData, setUploadData] = useState();
+
   console.log(image, "IMAGE");
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImage(e.target.files[0]);
+  // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) {
+  //     setImage(e.target.files[0]);
+  //   }
+  // };
+
+  /**
+   * handleOnChange
+   * @description Triggers when the file input changes (ex: when a file is selected)
+   */
+
+  function handleOnChange(changeEvent: any) {
+    const reader = new FileReader();
+
+    reader.onload = function (onLoadEvent: any) {
+      setImageSrc(onLoadEvent.target.result);
+      setUploadData(undefined);
+    };
+
+    reader.readAsDataURL(changeEvent.target.files[0]);
+  }
+
+  const handleOnSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    console.log(form, "FORM");
+    const fileInput: any = Array.from(form.elements).find(
+      ({ name }: any) => name === "file"
+    );
+
+    const formData = new FormData();
+
+    for (const file of fileInput.files) {
+      formData.append("file", file);
     }
+
+    formData.append("upload_preset", "my-uploads");
+
+    const data = await fetch(
+      "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    ).then((r) => r.json());
+
+    setImageSrc(data.secure_url);
+    setUploadData(data);
   };
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
@@ -74,13 +121,17 @@ function NewPersonForm({
     // }
     // const formData = new FormData();
     // formData.append("image", image);
-    // console.log(formData, "FORMDATA");
+
+    // formData.append("upload_preset", "my-uploads");
 
     // try {
-    //   const response = await fetch("/api/upload/upload", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
+    //   const response = await fetch(
+    //     "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
+    //     {
+    //       method: "POST",
+    //       body: formData,
+    //     }
+    //   );
     //   const data = await response.json();
     //   console.log("Response from server:", data);
     // } catch (error) {
@@ -95,7 +146,7 @@ function NewPersonForm({
         middleName,
         age,
         dob,
-        images,
+        imageSrc,
         sessionUserEmail,
       }),
       headers: {
@@ -103,8 +154,8 @@ function NewPersonForm({
       },
     });
 
-    fetchData();
-    setShowAddPersonFields(false);
+    // fetchData();
+    // setShowAddPersonFields(false);
   };
 
   const motionPropsRight = {
@@ -127,7 +178,7 @@ function NewPersonForm({
 
   return (
     <FormContainer {...motionPropsRight}>
-      <Form onSubmit={submitNewPerson} encType="multipart/form-data">
+      <Form method="post" onSubmit={submitNewPerson}>
         <TextInput
           name="firstName"
           label="First Name"
@@ -171,20 +222,47 @@ function NewPersonForm({
         </LabelInputContainer>
 
         {/* TODO: Look into Middleware Multer for file upload / can start off with localhost and maybe move to cloudinary  */}
-        <LabelInputContainer>
-          <label htmlFor="images">Upload Image</label>
-          <input
-            name="image"
-            // label="Images"
-            // placeholder="21"
-            onChange={onChangeHandler}
-            type="file"
-            id="images"
-            // ref={imagesRef}
-          />
-        </LabelInputContainer>
+        {/* <LabelInputContainer>
+          <p>
+            <input type="file" name="file" />
+          </p>
+
+          <img src={imageSrc} />
+
+          {imageSrc && !uploadData && (
+            <p>
+              <button>Upload Files</button>
+            </p>
+          )}
+
+          {uploadData && (
+            <code>
+              <pre>{JSON.stringify(uploadData, null, 2)}</pre>
+            </code>
+          )}
+        </LabelInputContainer> */}
         <button type="submit">Submit New Person</button>
       </Form>
+
+      <form method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
+        <p>
+          <input type="file" name="file" />
+        </p>
+
+        <img src={imageSrc} />
+
+        {imageSrc && !uploadData && (
+          <p>
+            <button>Upload Files</button>
+          </p>
+        )}
+
+        {uploadData && (
+          <code>
+            <pre>{JSON.stringify(uploadData, null, 2)}</pre>
+          </code>
+        )}
+      </form>
     </FormContainer>
   );
 }

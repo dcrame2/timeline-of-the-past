@@ -182,7 +182,7 @@ function PeopleFeed({
         peopleData?.userData?.length !== undefined &&
         peopleData?.userData?.map((person, index) => {
           const { firstName, lastName } = person;
-          console.log(person, "PERSON");
+
           return (
             <AnimatePresence>
               <IndividualPeopleContainer

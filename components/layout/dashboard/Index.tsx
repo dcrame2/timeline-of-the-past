@@ -38,7 +38,7 @@ const ContentSection = styled.div`
   grid-row: 2;
   height: 100vh;
   @media ${MediaQueries.mobile} {
-    grid-row: unset;
+    /* grid-row: unset; */
     grid-column: unset;
   }
 `;

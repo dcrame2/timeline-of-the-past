@@ -64,7 +64,7 @@ export default function Protected() {
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
 
-  console.log(peopleData, "PeopleData");
+  // console.log(peopleData, "PeopleData");
 
   const fetchData = async () => {
     try {
@@ -89,7 +89,6 @@ export default function Protected() {
       }
       const userData = await response.json();
 
-      console.log(userData, "userData");
       setPeopleData(userData);
       // Process userData as needed
     } catch (error) {
