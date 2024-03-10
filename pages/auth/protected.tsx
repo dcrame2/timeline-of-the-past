@@ -13,8 +13,8 @@ export default function Protected({ session }: any) {
   console.log(session, "session");
 
   interface UserData {
-    enteredfirstName?: string;
-    enteredLastName?: string;
+    firstName?: string;
+    lastName?: string;
   }
 
   interface PeopleDataProps {
@@ -59,7 +59,6 @@ export default function Protected({ session }: any) {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-    // setShowAddPersonFields(!showAddPersonFields);
   };
 
   useEffect(() => {

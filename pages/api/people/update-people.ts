@@ -2,10 +2,6 @@ import { connectToDatabase } from "@/lib/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  //   if (!session) {
-  //     return res.status(401).json({ message: "Unauthorized" });
-  //   }
-
   if (req.method === "POST") {
     const data = req.body;
     const { updatedPerson, sessionUserEmail, selectedIndex } = data;

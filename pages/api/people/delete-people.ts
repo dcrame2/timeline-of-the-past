@@ -9,7 +9,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const data = req.body;
     const { person, sessionUserEmail, index } = data;
-    console.log(person, sessionUserEmail, index, "sessionUserEmail");
+    console.log("DELETE INDIVIDUAL TIMELINE");
 
     try {
       const client = await connectToDatabase();

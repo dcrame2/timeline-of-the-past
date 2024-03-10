@@ -21,7 +21,16 @@ const FormContainer = styled(motion.div)`
   z-index: 100;
   background-color: black;
 `;
-const Form = styled.form``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const LabelInputContainer = styled.div`
+  /* justify-content: center; */
+  display: flex;
+`;
 
 function NewPersonForm({
   fetchData,
@@ -32,6 +41,8 @@ function NewPersonForm({
   const lastNameRef = React.useRef<HTMLInputElement>(null);
   const ageRef = React.useRef<HTMLInputElement>(null);
   const imagesRef = React.useRef<HTMLInputElement>(null);
+  const middleNameRef = React.useRef<HTMLInputElement>(null);
+  const dobRef = React.useRef<HTMLInputElement>(null);
 
   const [image, setImage] = useState<File | null>(null);
 
@@ -45,11 +56,13 @@ function NewPersonForm({
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const enteredfirstName = firstNameRef.current?.value;
-    const enteredLastName = lastNameRef.current?.value;
-    const enteredAge = ageRef.current?.value;
-    const enteredImages = imagesRef.current?.files?.[0];
-    console.log(enteredfirstName, enteredLastName);
+    const firstName = firstNameRef.current?.value;
+    const lastName = lastNameRef.current?.value;
+    const age = ageRef.current?.value;
+    const images = imagesRef.current?.files?.[0];
+    const middleName = middleNameRef.current?.value;
+    const dob = dobRef.current?.value;
+    console.log(firstName, lastName, age, images, middleName, dob);
 
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
@@ -76,10 +89,12 @@ function NewPersonForm({
     await fetch("/api/people/people", {
       method: "POST",
       body: JSON.stringify({
-        enteredfirstName,
-        enteredLastName,
-        enteredAge,
-        enteredImages,
+        firstName,
+        lastName,
+        middleName,
+        age,
+        dob,
+        images,
         sessionUserEmail,
       }),
       headers: {
@@ -120,6 +135,13 @@ function NewPersonForm({
           ref={firstNameRef}
         />
         <TextInput
+          name="middleName"
+          label="Middle Name"
+          placeholder="George"
+          type="text"
+          ref={middleNameRef}
+        />
+        <TextInput
           name="lastName"
           label="Last Name"
           placeholder="Doe"
@@ -133,16 +155,33 @@ function NewPersonForm({
           type="text"
           ref={ageRef}
         />
+        <LabelInputContainer>
+          <label htmlFor="start">Date of Birth</label>
+
+          <input
+            type="date"
+            id="start"
+            name="trip-start"
+            // value="2018-07-22"
+            min="1900-01-01"
+            max="2030-12-31"
+            ref={dobRef}
+          />
+        </LabelInputContainer>
+
         {/* TODO: Look into Middleware Multer for file upload / can start off with localhost and maybe move to cloudinary  */}
-        <input
-          name="image"
-          // label="Images"
-          // placeholder="21"
-          onChange={onChangeHandler}
-          type="file"
-          id="images"
-          // ref={imagesRef}
-        />
+        <LabelInputContainer>
+          <label htmlFor="images">Upload Image</label>
+          <input
+            name="image"
+            // label="Images"
+            // placeholder="21"
+            onChange={onChangeHandler}
+            type="file"
+            id="images"
+            // ref={imagesRef}
+          />
+        </LabelInputContainer>
         <button type="submit">Submit New Person</button>
       </Form>
     </FormContainer>

@@ -5,8 +5,8 @@ import EditPeopleScreen from "./editPeopleScreen/Index";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface UserData {
-  enteredfirstName?: string;
-  enteredLastName?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 interface PeopleDataProps {
@@ -38,8 +38,9 @@ const CRUDBtns = styled.div`
 `;
 
 interface PeopleProps {
-  enteredfirstName?: string;
-  enteredLastName?: string;
+  firstName?: string;
+  lastName?: string;
+  dob?: string;
 }
 
 function PeopleFeed({
@@ -112,7 +113,8 @@ function PeopleFeed({
     <PeopleFeedContainer>
       {peopleData &&
         peopleData?.userData?.map((person, index) => {
-          const { enteredfirstName, enteredLastName } = person;
+          const { firstName, lastName } = person;
+          console.log(person, "PERSON");
           return (
             <AnimatePresence>
               <IndividualPeopleContainer
@@ -120,7 +122,7 @@ function PeopleFeed({
                 {...motionPropsUp}
               >
                 <p>
-                  Name: {enteredfirstName} {enteredLastName}
+                  Name: {firstName} {lastName}
                 </p>
                 <CRUDBtns>
                   <button onClick={() => showEditScreenHandler(person, index)}>

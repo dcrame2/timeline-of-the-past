@@ -33,9 +33,10 @@ const motionPropsRight = {
 };
 
 interface PeopleProps {
-  enteredfirstName?: string;
-  enteredLastName?: string;
-  enteredAge?: string;
+  firstName?: string;
+  lastName?: string;
+  age?: string;
+  dob?: string;
 }
 
 function EditPeopleScreen({
@@ -63,26 +64,36 @@ function EditPeopleScreen({
   //   </p>
   // </PeopleScreen>
 
-  const handleFirstNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+  // const handleFirstNameChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setUpdatedPerson((prevState) => ({
+  //     ...prevState,
+  //     enteredfirstName: event.target.value,
+  //   }));
+  // };
+
+  // const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setUpdatedPerson((prevState) => ({
+  //     ...prevState,
+  //     enteredLastName: event.target.value,
+  //   }));
+  // };
+
+  // const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setUpdatedPerson((prevState) => ({
+  //     ...prevState,
+  //     enteredAge: event.target.value,
+  //   }));
+  // };
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    propertyName: string
   ) => {
     setUpdatedPerson((prevState) => ({
       ...prevState,
-      enteredfirstName: event.target.value,
-    }));
-  };
-
-  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUpdatedPerson((prevState) => ({
-      ...prevState,
-      enteredLastName: event.target.value,
-    }));
-  };
-
-  const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUpdatedPerson((prevState) => ({
-      ...prevState,
-      enteredAge: event.target.value,
+      [propertyName]: event.target.value,
     }));
   };
 
@@ -118,8 +129,8 @@ function EditPeopleScreen({
         First Name:
         <input
           type="text"
-          value={updatedPerson.enteredfirstName}
-          onChange={handleFirstNameChange}
+          value={updatedPerson.firstName}
+          onChange={(e) => handleInputChange(e, "firstName")}
         />
       </label>
       <br />
@@ -127,8 +138,8 @@ function EditPeopleScreen({
         Last Name:
         <input
           type="text"
-          value={updatedPerson.enteredLastName}
-          onChange={handleLastNameChange}
+          value={updatedPerson.lastName}
+          onChange={(e) => handleInputChange(e, "lastName")}
         />
       </label>
       <br />
@@ -136,8 +147,16 @@ function EditPeopleScreen({
         Age:
         <input
           type="text"
-          value={updatedPerson.enteredAge}
-          onChange={handleAgeChange}
+          value={updatedPerson.age}
+          onChange={(e) => handleInputChange(e, "age")}
+        />
+      </label>
+      <label>
+        Age:
+        <input
+          type="date"
+          value={updatedPerson.dob}
+          onChange={(e) => handleInputChange(e, "dob")}
         />
       </label>
       <br />

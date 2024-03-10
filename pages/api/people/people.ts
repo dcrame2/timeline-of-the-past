@@ -8,19 +8,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "POST") {
     const data = req.body;
-    const {
-      enteredfirstName,
-      enteredLastName,
-      sessionUserEmail,
-      enteredAge,
-      enteredImages,
-    } = data;
-    console.log(
-      enteredfirstName,
-      enteredLastName,
-      sessionUserEmail,
-      "sessionUserEmail"
-    );
+
+    const { sessionUserEmail, ...userDataToSend } = data;
+
+    console.log("people.ts has been ran");
 
     try {
       const client = await connectToDatabase();
@@ -40,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         { _id: user._id },
         {
           $push: {
-            userData: data,
+            userData: userDataToSend,
           },
         }
       );

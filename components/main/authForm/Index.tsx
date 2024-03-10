@@ -35,6 +35,8 @@ export default function AuthForm() {
   const [loading, setLoading] = useState();
   const [toggleSignUpForm, setToggleSignUpForm] = useState(true);
   const emailInputRef = React.useRef<HTMLInputElement>(null);
+  const firstnameInputRef = React.useRef<HTMLInputElement>(null);
+  const lastnameInputRef = React.useRef<HTMLInputElement>(null);
   const usernameInputRef = React.useRef<HTMLInputElement>(null);
   const passwordInputRef = React.useRef<HTMLInputElement>(null);
   const confirmPasswordRef = React.useRef<HTMLInputElement>(null);
@@ -51,6 +53,8 @@ export default function AuthForm() {
     if (!toggleSignUpForm) {
       //create user
       const enteredEmail = emailInputRef.current?.value;
+      const enteredFirstname = firstnameInputRef.current?.value;
+      const enteredLastname = lastnameInputRef.current?.value;
       const enteredUsername = usernameInputRef.current?.value;
       const enteredPassword = passwordInputRef.current?.value;
       const enteredConfirmPassword = confirmPasswordRef.current?.value;
@@ -68,7 +72,9 @@ export default function AuthForm() {
           const result = await createUser(
             enteredUsername,
             enteredEmail,
-            enteredPassword
+            enteredPassword,
+            enteredFirstname,
+            enteredLastname
           );
         } catch (error) {
           let message = "Unknown Error";
@@ -105,6 +111,8 @@ export default function AuthForm() {
       <IntialSignInContainer>
         {!toggleSignUpForm ? (
           <SignUpForm
+            firstnameInputRef={firstnameInputRef}
+            lastnameInputRef={lastnameInputRef}
             submitHandler={submitHandler}
             emailInputRef={emailInputRef}
             usernameInputRef={usernameInputRef}
