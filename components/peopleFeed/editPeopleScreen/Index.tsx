@@ -10,7 +10,7 @@ const PeopleScreen = styled(motion.div)`
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 100;
+  z-index: 105;
   background-color: lightblue;
 `;
 
