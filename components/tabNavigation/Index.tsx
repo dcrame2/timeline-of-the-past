@@ -67,6 +67,7 @@ function TabNavigation({
           <img src="/media_icon.png" alt="icon" />
           Media Library
         </motion.li>
+
         <motion.li whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}>
           {" "}
           <img src="/subscription_icon.png" alt="icon" />
