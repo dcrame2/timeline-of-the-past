@@ -36,6 +36,7 @@ const PeopleFeedContainer = styled.div`
 const HeaderAddContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const IndividualPeopleContainer = styled(motion.div)`
