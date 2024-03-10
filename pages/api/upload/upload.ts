@@ -1,7 +1,7 @@
 // import { connectToDatabase } from "@/lib/db";
 // import type { NextApiRequest, NextApiResponse } from "next";
 
-import { NextApiRequest, NextApiResponse } from "next";
+// import { NextApiRequest, NextApiResponse } from "next";
 
 // async function handler(req: NextApiRequest, res: NextApiResponse) {
 //   const formData = await req.formData();
@@ -13,9 +13,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 // export default handler;
 
-import formidable, { IncomingForm } from "formidable";
-import path from "path";
-import fs from "fs";
+// import formidable, { IncomingForm } from "formidable";
+// import path from "path";
+// import fs from "fs";
 
 // import { NextRequest, NextResponse } from "next/server";
 
@@ -37,35 +37,35 @@ import fs from "fs";
 
 // export default POST;
 // Import necessary modules
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const form = new IncomingForm();
+// export default function handler(req: NextApiRequest, res: NextApiResponse) {
+//   const form = new IncomingForm();
 
-  //   console.log(form, "form");
+//   console.log(form, "form");
 
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-      console.error("Error parsing form data:", err);
-      return res.status(500).json({ error: "Error parsing form data" });
-    }
+//   form.parse(req, async (err, fields, files) => {
+//     if (err) {
+//       console.error("Error parsing form data:", err);
+//       return res.status(500).json({ error: "Error parsing form data" });
+//     }
 
-    const file = files["image"]; // Assuming 'image' is the field name
-    if (!file) {
-      return res.status(400).json({ error: "No file received" });
-    }
+//     const file = files["image"];
+//     if (!file) {
+//       return res.status(400).json({ error: "No file received" });
+//     }
 
-    console.log(file, "File");
+//     console.log(file, "File");
 
-    try {
-      // Move the uploaded file to the desired directory
-      const newPath = path.join(process.cwd(), "public/", file.name);
-      fs.renameSync(file.path, newPath);
-      console.log("File uploaded successfully:", newPath);
+//     try {
+//       // Move the uploaded file to the desired directory
+//       const newPath = path.join(process.cwd(), "public/", file.name);
+//       fs.renameSync(file.path, newPath);
+//       console.log("File uploaded successfully:", newPath);
 
-      // Respond with success message
-      return res.status(201).json({ message: "File uploaded successfully" });
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      return res.status(500).json({ error: "Error uploading file" });
-    }
-  });
-}
+//       // Respond with success message
+//       return res.status(201).json({ message: "File uploaded successfully" });
+//     } catch (error) {
+//       console.error("Error uploading file:", error);
+//       return res.status(500).json({ error: "Error uploading file" });
+//     }
+//   });
+// }
