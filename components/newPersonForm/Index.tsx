@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { create } from "domain";
 import axios from "axios";
 import { variables } from "@/styles/Variables";
+import UploadFileInput from "../reusable/formFields/uploadFileInput/Index";
 
 const FormContainer = styled(motion.div)`
   width: 100vw;
@@ -50,6 +51,8 @@ function NewPersonForm({
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
+  const [imageSrcs, setImageSrcs] = useState<string[]>([]);
+
   console.log(image, "IMAGE");
 
   // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,50 +60,6 @@ function NewPersonForm({
   //     setImage(e.target.files[0]);
   //   }
   // };
-
-  /**
-   * handleOnChange
-   * @description Triggers when the file input changes (ex: when a file is selected)
-   */
-
-  function handleOnChange(changeEvent: any) {
-    const reader = new FileReader();
-
-    reader.onload = function (onLoadEvent: any) {
-      setImageSrc(onLoadEvent.target.result);
-      setUploadData(undefined);
-    };
-
-    reader.readAsDataURL(changeEvent.target.files[0]);
-  }
-
-  const handleOnSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    console.log(form, "FORM");
-    const fileInput: any = Array.from(form.elements).find(
-      ({ name }: any) => name === "file"
-    );
-
-    const formData = new FormData();
-
-    for (const file of fileInput.files) {
-      formData.append("file", file);
-    }
-
-    formData.append("upload_preset", "my-uploads");
-
-    const data = await fetch(
-      "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    ).then((r) => r.json());
-
-    setImageSrc(data.secure_url);
-    setUploadData(data);
-  };
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -116,28 +75,6 @@ function NewPersonForm({
     const sessionUserEmail: string | null | undefined = session?.user?.email;
     console.log(sessionUserEmail, "session");
 
-    // if (!image) {
-    //   return;
-    // }
-    // const formData = new FormData();
-    // formData.append("image", image);
-
-    // formData.append("upload_preset", "my-uploads");
-
-    // try {
-    //   const response = await fetch(
-    //     "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
-    //     {
-    //       method: "POST",
-    //       body: formData,
-    //     }
-    //   );
-    //   const data = await response.json();
-    //   console.log("Response from server:", data);
-    // } catch (error) {
-    //   console.error("Error submitting form:", error);
-    // }
-
     await fetch("/api/people/people", {
       method: "POST",
       body: JSON.stringify({
@@ -146,16 +83,13 @@ function NewPersonForm({
         middleName,
         age,
         dob,
-        imageSrc,
+        imageSrcs,
         sessionUserEmail,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    // fetchData();
-    // setShowAddPersonFields(false);
   };
 
   const motionPropsRight = {
@@ -243,8 +177,8 @@ function NewPersonForm({
         </LabelInputContainer> */}
         <button type="submit">Submit New Person</button>
       </Form>
-
-      <form method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
+      <UploadFileInput imageSrcs={imageSrcs} setImageSrcs={setImageSrcs} />
+      {/* <form method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
         <p>
           <input type="file" name="file" />
         </p>
@@ -262,7 +196,7 @@ function NewPersonForm({
             <pre>{JSON.stringify(uploadData, null, 2)}</pre>
           </code>
         )}
-      </form>
+      </form> */}
     </FormContainer>
   );
 }

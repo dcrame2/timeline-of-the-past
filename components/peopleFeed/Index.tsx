@@ -184,7 +184,7 @@ function PeopleFeed({
           const { firstName, lastName } = person;
 
           return (
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               <IndividualPeopleContainer
                 key={`${index}-person`}
                 {...motionPropsUp}
