@@ -112,14 +112,18 @@ const Form = styled.form`
 // }
 
 // export default UploadFileInput;
-function UploadFileInput({
-  imageSrcs,
-  setImageSrcs,
-}: {
-  imageSrcs: string[];
-  setImageSrcs: any;
-}) {
+
+// function UploadFileInput({
+//     imageSrcs,
+//     setImageSrcs,
+//   }: {
+//     imageSrcs: string[];
+//     setImageSrcs: any;
+//   }) {
+function UploadFileInput() {
   const [uploadDatas, setUploadDatas] = useState<any[]>([]);
+
+  const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
   const handleOnChange = (changeEvent: any) => {
     const files = changeEvent.target.files;
@@ -176,26 +180,27 @@ function UploadFileInput({
       // Iterate over each selected file and append it to the FormData object
       for (let i = 0; i < fileInput.files.length; i++) {
         formData.append("file", fileInput.files[i]);
+
+        // Add the upload preset
+        formData.append("upload_preset", "my-uploads");
+
+        // Send the FormData to Cloudinary
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await response.json();
+        setUploadDatas(data.resources);
       }
     }
 
-    // Add the upload preset
-    formData.append("upload_preset", "my-uploads");
-
-    // Send the FormData to Cloudinary
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
     // Parse the response
-    const data = await response.json();
 
     // Update the state with the uploaded resources
-    setUploadDatas(data.resources);
   };
 
   return (

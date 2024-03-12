@@ -12,6 +12,7 @@ import { create } from "domain";
 import axios from "axios";
 import { variables } from "@/styles/Variables";
 import UploadFileInput from "../reusable/formFields/uploadFileInput/Index";
+import { useFileUpload } from "@/context/FileUploadContext";
 
 const FormContainer = styled(motion.div)`
   width: 100vw;
@@ -51,10 +52,10 @@ function NewPersonForm({
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
-  const [imageSrcs, setImageSrcs] = useState<string[]>([]);
-
   console.log(image, "IMAGE");
 
+  const { setImageSrcs, imageSrcs } = useFileUpload();
+  console.log(imageSrcs, "IMAGE SRCSSSSSSSS");
   // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
   //   if (e.target.files) {
   //     setImage(e.target.files[0]);
@@ -177,7 +178,7 @@ function NewPersonForm({
         </LabelInputContainer> */}
         <button type="submit">Submit New Person</button>
       </Form>
-      <UploadFileInput imageSrcs={imageSrcs} setImageSrcs={setImageSrcs} />
+      <UploadFileInput />
       {/* <form method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
         <p>
           <input type="file" name="file" />

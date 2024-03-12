@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import "@/styles/global.css";
+import { FileUploadProvider } from "@/context/FileUploadContext";
 
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
@@ -20,7 +21,9 @@ export default function App({
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <SessionProvider session={session}>
-      {getLayout(<Component {...pageProps} />)}
+      <FileUploadProvider>
+        {getLayout(<Component {...pageProps} />)}
+      </FileUploadProvider>
     </SessionProvider>
   );
 }

@@ -5,7 +5,11 @@ import Layout from "@/components/layout/dashboard/Index";
 import UploadFileInput from "@/components/reusable/formFields/uploadFileInput/Index";
 
 function MediaLibrary() {
-  return <Layout>{/* <UploadFileInput />s */}</Layout>;
+  return (
+    <Layout>
+      <UploadFileInput />
+    </Layout>
+  );
 }
 
 export default MediaLibrary;
