@@ -12,7 +12,6 @@ import { create } from "domain";
 import axios from "axios";
 import { variables } from "@/styles/Variables";
 import UploadFileInput from "../reusable/formFields/uploadFileInput/Index";
-import { useFileUpload } from "@/context/FileUploadContext";
 
 const FormContainer = styled(motion.div)`
   width: 100vw;
@@ -54,14 +53,6 @@ function NewPersonForm({
 
   console.log(image, "IMAGE");
 
-  const { setImageSrcs, imageSrcs } = useFileUpload();
-  console.log(imageSrcs, "IMAGE SRCSSSSSSSS");
-  // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files) {
-  //     setImage(e.target.files[0]);
-  //   }
-  // };
-
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const firstName = firstNameRef.current?.value;
@@ -84,7 +75,6 @@ function NewPersonForm({
         middleName,
         age,
         dob,
-        imageSrcs,
         sessionUserEmail,
       }),
       headers: {

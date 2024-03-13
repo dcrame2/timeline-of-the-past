@@ -198,6 +198,16 @@ function UploadFileInput() {
       }
     }
 
+    await fetch("/api/people/people", {
+      method: "POST",
+      body: JSON.stringify({
+        imageSrcs,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
     // Parse the response
 
     // Update the state with the uploaded resources
