@@ -1,10 +1,15 @@
+import { inputType } from "@/styles/Type";
 import { variables } from "@/styles/Variables";
 import React from "react";
 import styled from "styled-components";
 
 const FieldContainer = styled.div`
+  width: 100%;
   label {
     color: ${variables.black};
+  }
+  input {
+    ${inputType}
   }
 `;
 

@@ -8,25 +8,56 @@ import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
+import { variables } from "@/styles/Variables";
 
 const Container = styled.div`
-  height: 100vw;
+  /* height: 100vw; */
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  color: black;
+  /* background-color: ${variables.lightGrey}; */
+  background-color: ${variables.darkBlue};
+
   button.toggleForm {
   }
 `;
 
 const IntialSignInContainer = styled.div`
-  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  color: black;
+  /* flex-direction: row-reverse; */
 `;
+
+const FormInfoContainer = styled.div`
+  width: 40%;
+
+  padding: 48px;
+`;
+
+const FormInfoInnerContainer = styled.div`
+  background-color: ${variables.darkerLightGrey};
+  /* background-color: ${variables.lightBlue}; */
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-shadow: 0px 0px 50px -20px #ffffff;
+  -moz-box-shadow: 0px 0px 50px -20px #ffffff;
+  box-shadow: 0px 0px 50px -20px #ffffff;
+`;
+
 const MainImageContainer = styled.div`
   width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   img {
-    object-fit: cover;
-    width: 100%;
+    /* object-fit: cover; */
+    width: 50%;
     height: 100vh;
   }
 `;
@@ -110,37 +141,41 @@ export default function AuthForm() {
   return (
     <Container>
       <IntialSignInContainer>
-        {!toggleSignUpForm ? (
-          <SignUpForm
-            firstnameInputRef={firstnameInputRef}
-            lastnameInputRef={lastnameInputRef}
-            submitHandler={submitHandler}
-            emailInputRef={emailInputRef}
-            usernameInputRef={usernameInputRef}
-            passwordInputRef={passwordInputRef}
-            confirmPasswordRef={confirmPasswordRef}
-          />
-        ) : (
-          <SignInForm
-            identifierInputRef={identifierInputRef}
-            passwordInputRef={passwordInputRef}
-            submitHandler={submitHandler}
-          />
-        )}
+        <FormInfoContainer>
+          <FormInfoInnerContainer>
+            {!toggleSignUpForm ? (
+              <SignUpForm
+                firstnameInputRef={firstnameInputRef}
+                lastnameInputRef={lastnameInputRef}
+                submitHandler={submitHandler}
+                emailInputRef={emailInputRef}
+                usernameInputRef={usernameInputRef}
+                passwordInputRef={passwordInputRef}
+                confirmPasswordRef={confirmPasswordRef}
+              />
+            ) : (
+              <SignInForm
+                identifierInputRef={identifierInputRef}
+                passwordInputRef={passwordInputRef}
+                submitHandler={submitHandler}
+              />
+            )}
 
-        <ToggleFormButton
-          toggleSignUpForm={toggleSignUpForm}
-          onClick={toggleForm}
-        />
+            <ToggleFormButton
+              toggleSignUpForm={toggleSignUpForm}
+              onClick={toggleForm}
+            />
+          </FormInfoInnerContainer>
+        </FormInfoContainer>
+        <MainImageContainer>
+          <Image
+            src="/timeline.svg"
+            width={500}
+            height={500}
+            alt="Picture of the author"
+          />
+        </MainImageContainer>
       </IntialSignInContainer>
-      {/* <MainImageContainer>
-        <Image
-          src="/main_image.png"
-          width={500}
-          height={500}
-          alt="Picture of the author"
-        />
-      </MainImageContainer> */}
     </Container>
   );
 }

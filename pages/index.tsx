@@ -1,5 +1,15 @@
+import { h2styles, pBase } from "@/styles/Type";
 import Head from "next/head";
 import Link from "next/link";
+import styled from "styled-components";
+
+const Logo = styled.h1`
+  ${h2styles}
+`;
+
+const LinkStyled = styled(Link)`
+  ${pBase}
+`;
 
 export default function Home() {
   return (
@@ -11,8 +21,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Timeline That</h1>
-        <Link href="/auth/authenticate">Login or sign up</Link>
+        <Logo>Timeline That</Logo>
+        <LinkStyled href="/auth/authenticate">Login or sign up</LinkStyled>
       </main>
     </>
   );

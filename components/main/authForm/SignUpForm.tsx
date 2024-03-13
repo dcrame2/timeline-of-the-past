@@ -1,7 +1,13 @@
 import styled from "styled-components";
 import TextInput from "@/components/reusable/formFields/TextInput";
+import { buttonType, formStyles } from "@/styles/Type";
+const Form = styled.form`
+  ${formStyles}
 
-const Form = styled.form``;
+  button {
+    ${buttonType}
+  }
+`;
 
 interface signUpFormProps {
   submitHandler: (event: React.SyntheticEvent) => void;
@@ -27,40 +33,40 @@ export default function SignUpForm({
       <h2>Sign up</h2>
       <TextInput
         name="firstname"
-        label="First name"
+        placeholder="First name"
         required={true}
         ref={firstnameInputRef}
       />
       <TextInput
         name="lastname"
-        label="Last name"
+        placeholder="Last name"
         required={true}
         ref={lastnameInputRef}
       />
       <TextInput
         name="email"
-        label="Email"
+        placeholder="Email"
         required={true}
         ref={emailInputRef}
       />
 
       <TextInput
         name="username"
-        label="Username"
+        placeholder="Username"
         required={true}
         ref={usernameInputRef}
       />
       <TextInput
         type="password"
         name="password"
-        label="Password"
+        placeholder="Password"
         required={true}
         ref={passwordInputRef}
       />
       <TextInput
         type="password"
         name="confirmPassword"
-        label="Confirm Password"
+        placeholder="Confirm Password"
         required={true}
         ref={confirmPasswordRef}
       />
