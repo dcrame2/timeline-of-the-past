@@ -1,6 +1,8 @@
 import { variables } from "@/styles/Variables";
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useContext } from "react";
 import styled from "styled-components";
+import { getSession } from "next-auth/react";
+import { Context } from "@/pages/_app";
 
 const Form = styled.form`
   /* width: 100%; */
@@ -120,8 +122,17 @@ const Form = styled.form`
 //     imageSrcs: string[];
 //     setImageSrcs: any;
 //   }) {
+
+// Define the type for uploadDatas state
+type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
+
+// Define the type for setUploadDatas function
+type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
+
 function UploadFileInput() {
-  const [uploadDatas, setUploadDatas] = useState<any[]>([]);
+  //   const [uploadDatas, setUploadDatas] = useState<any[]>([]);
+  const [uploadDatas, setUploadDatas] =
+    useContext<[UploadDataState, SetUploadDataState]>(Context);
 
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
@@ -141,7 +152,7 @@ function UploadFileInput() {
         newImageSrcs.push(onLoadEvent.target.result);
         if (newImageSrcs.length === files.length) {
           setImageSrcs(newImageSrcs);
-          setUploadDatas([]);
+          //   setUploadDatas([]);
         }
       };
 
@@ -170,6 +181,7 @@ function UploadFileInput() {
 
   const handleOnSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const form = event.currentTarget;
     const formData = new FormData();
 
@@ -202,10 +214,15 @@ function UploadFileInput() {
       }
     }
 
+    // const session = await getSession();
+    // const sessionUserEmail: string | null | undefined = session?.user?.email;
+    // console.log(sessionUserEmail, "session");
+
     // await fetch("/api/people/people", {
     //   method: "POST",
     //   body: JSON.stringify({
-    //     imageSrcs,
+    //     uploadDatas,
+    //     sessionUserEmail,
     //   }),
     //   headers: {
     //     "Content-Type": "application/json",

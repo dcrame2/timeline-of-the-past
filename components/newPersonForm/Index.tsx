@@ -3,6 +3,7 @@ import React, {
   useState,
   ChangeEvent,
   FormEvent,
+  useContext,
 } from "react";
 import TextInput from "../reusable/formFields/TextInput";
 import { getSession } from "next-auth/react";
@@ -12,6 +13,7 @@ import { create } from "domain";
 import axios from "axios";
 import { variables } from "@/styles/Variables";
 import UploadFileInput from "../reusable/formFields/uploadFileInput/Index";
+import { Context } from "@/pages/_app";
 
 const FormContainer = styled(motion.div)`
   width: 100vw;
@@ -34,6 +36,12 @@ const LabelInputContainer = styled.div`
   display: flex;
 `;
 
+// Define the type for uploadDatas state
+type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
+
+// Define the type for setUploadDatas function
+type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
+
 function NewPersonForm({
   fetchData,
   setShowAddPersonFields,
@@ -50,6 +58,9 @@ function NewPersonForm({
 
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
+
+  const [uploadDatas, setUploadDatas] =
+    useContext<[UploadDataState, SetUploadDataState]>(Context);
 
   console.log(image, "IMAGE");
 
@@ -75,6 +86,7 @@ function NewPersonForm({
         middleName,
         age,
         dob,
+        uploadDatas,
         sessionUserEmail,
       }),
       headers: {
