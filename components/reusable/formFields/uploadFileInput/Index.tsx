@@ -125,6 +125,9 @@ function UploadFileInput() {
 
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
+  console.log(imageSrcs, "IMAGES SRCS CUH");
+  console.log(uploadDatas, "UPLOAD DATA CUSD");
+
   const handleOnChange = (changeEvent: any) => {
     const files = changeEvent.target.files;
     const newImageSrcs: string[] = [];
@@ -194,19 +197,20 @@ function UploadFileInput() {
         );
 
         const data = await response.json();
-        setUploadDatas(data.resources);
+        console.log(data, "WGAT US TGUS");
+        setUploadDatas((prevUploadDatas) => [...prevUploadDatas, data.url]);
       }
     }
 
-    await fetch("/api/people/people", {
-      method: "POST",
-      body: JSON.stringify({
-        imageSrcs,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    // await fetch("/api/people/people", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     imageSrcs,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
 
     // Parse the response
 
