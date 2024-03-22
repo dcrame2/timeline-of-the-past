@@ -17,13 +17,15 @@ interface TextInputProps {
   type?: "text" | "password" | "file";
   label?: string;
   id?: string;
-  name: string;
+  name?: string;
   required?: boolean;
   minLength?: number;
   maxLength?: number;
   placeholder?: string;
   className?: string;
   errorMessage?: string;
+  value?: string;
+  onChange?: any;
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -39,6 +41,8 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       placeholder,
       errorMessage,
       className,
+      value,
+      onChange,
     },
     ref
   ) => {
@@ -54,6 +58,8 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           maxLength={maxLength}
           placeholder={placeholder}
           ref={ref}
+          value={value}
+          onChange={onChange}
         />
         {errorMessage && <label>{errorMessage}</label>}
       </FieldContainer>

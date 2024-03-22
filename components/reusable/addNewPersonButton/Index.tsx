@@ -3,8 +3,9 @@ import { signOut } from "next-auth/react";
 import NewPersonForm from "@/components/newPersonForm/Index";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
+import Link from "next/link";
 
-const Button = styled(motion.button)`
+const StyledLink = styled(motion(Link))`
   padding: 12px;
   background-color: #7bb1dd;
   border-radius: 50%;
@@ -36,18 +37,12 @@ export default function AddNewPersonButton({
     setShowAddPersonFields(!showAddPersonFields);
   }
   return (
-    <>
-      <Button whileHover={{ scale: 1.1 }} onClick={addNewPersonHandler}>
-        <img src="/add_icon.png" alt="icon" />
-      </Button>
-      <AnimatePresence mode="wait">
-        {showAddPersonFields && (
-          <NewPersonForm
-            setShowAddPersonFields={setShowAddPersonFields}
-            fetchData={fetchData}
-          />
-        )}
-      </AnimatePresence>
-    </>
+    <StyledLink
+      href="/auth/new"
+      whileHover={{ scale: 1.1 }}
+      onClick={addNewPersonHandler}
+    >
+      <img src="/add_icon.png" alt="icon" />
+    </StyledLink>
   );
 }

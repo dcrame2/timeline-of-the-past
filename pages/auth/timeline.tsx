@@ -8,6 +8,7 @@ import PeopleFeed from "@/components/peopleFeed/Index";
 import styled from "styled-components";
 import TabNavigation from "@/components/layout/dashboard/tabNavigation/Index";
 import DashboardHeader from "@/components/layout/dashboard/dashboardHeader/Index";
+// import { fetchData } from "@/lib/fetchData";
 
 import Layout from "@/components/layout/dashboard/Index";
 
@@ -90,6 +91,8 @@ export default function Protected() {
       const userData = await response.json();
 
       setPeopleData(userData);
+
+      return userData;
       // Process userData as needed
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -99,6 +102,16 @@ export default function Protected() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchDataAndSetState = async () => {
+  //     const data = await fetchData();
+  //     if (data) {
+  //       setPeopleData(data);
+  //     }
+  //   };
+  //   fetchDataAndSetState();
+  // }, []);
   return (
     <Layout>
       <TimelineView>

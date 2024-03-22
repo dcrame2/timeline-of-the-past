@@ -14,21 +14,24 @@ import axios from "axios";
 import { variables } from "@/styles/Variables";
 import UploadFileInput from "../reusable/formFields/uploadFileInput/Index";
 import { Context } from "@/pages/_app";
+import { buttonType } from "@/styles/Type";
+import { useRouter } from "next/router";
 
 const FormContainer = styled(motion.div)`
-  width: 100vw;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 105;
   background-color: ${variables.lightGrey};
+  margin: 24px;
+  padding: 24px;
+  z-index: 105;
+  border-radius: 12px;
+  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
 `;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  button {
+    ${buttonType}
+  }
 `;
 
 const LabelInputContainer = styled.div`
@@ -63,6 +66,7 @@ function NewPersonForm({
     useContext<[UploadDataState, SetUploadDataState]>(Context);
 
   console.log(image, "IMAGE");
+  const router = useRouter();
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -93,6 +97,8 @@ function NewPersonForm({
         "Content-Type": "application/json",
       },
     });
+
+    router.push("/auth/timeline");
   };
 
   const motionPropsRight = {
@@ -157,49 +163,9 @@ function NewPersonForm({
             ref={dobRef}
           />
         </LabelInputContainer>
-
-        {/* TODO: Look into Middleware Multer for file upload / can start off with localhost and maybe move to cloudinary  */}
-        {/* <LabelInputContainer>
-          <p>
-            <input type="file" name="file" />
-          </p>
-
-          <img src={imageSrc} />
-
-          {imageSrc && !uploadData && (
-            <p>
-              <button>Upload Files</button>
-            </p>
-          )}
-
-          {uploadData && (
-            <code>
-              <pre>{JSON.stringify(uploadData, null, 2)}</pre>
-            </code>
-          )}
-        </LabelInputContainer> */}
         <button type="submit">Submit New Person</button>
       </Form>
       <UploadFileInput />
-      {/* <form method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
-        <p>
-          <input type="file" name="file" />
-        </p>
-
-        <img src={imageSrc} />
-
-        {imageSrc && !uploadData && (
-          <p>
-            <button>Upload Files</button>
-          </p>
-        )}
-
-        {uploadData && (
-          <code>
-            <pre>{JSON.stringify(uploadData, null, 2)}</pre>
-          </code>
-        )}
-      </form> */}
     </FormContainer>
   );
 }
