@@ -113,6 +113,8 @@ function PeopleFeed({
     null
   );
 
+  console.log(selectedPerson, "selectedPerson");
+
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const showEditScreenHandler = (person: PeopleProps, index: number) => {
