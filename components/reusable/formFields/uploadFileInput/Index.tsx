@@ -5,7 +5,6 @@ import { getSession } from "next-auth/react";
 import { Context } from "@/pages/_app";
 
 const Form = styled.form`
-  /* width: 100%; */
   max-height: 300px;
   height: 100%;
   background-color: ${variables.lightGrey};
@@ -45,84 +44,6 @@ const Form = styled.form`
   }
 `;
 
-// function UploadFileInput() {
-//   const [imageSrc, setImageSrc] = useState();
-//   const [uploadData, setUploadData] = useState();
-//   /**
-//    * handleOnChange
-//    * @description Triggers when the file input changes (ex: when a file is selected)
-//    */
-
-//   function handleOnChange(changeEvent: any) {
-//     const reader = new FileReader();
-
-//     reader.onload = function (onLoadEvent: any) {
-//       setImageSrc(onLoadEvent.target.result);
-//       setUploadData(undefined);
-//     };
-
-//     reader.readAsDataURL(changeEvent.target.files[0]);
-//   }
-
-//   const handleOnSubmit = async (event: FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-//     const form = event.currentTarget;
-//     console.log(form, "FORM");
-//     const fileInput: any = Array.from(form.elements).find(
-//       ({ name }: any) => name === "file"
-//     );
-
-//     const formData = new FormData();
-
-//     for (const file of fileInput.files) {
-//       formData.append("file", file);
-//     }
-
-//     formData.append("upload_preset", "my-uploads");
-
-//     const data = await fetch(
-//       "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
-//       {
-//         method: "POST",
-//         body: formData,
-//       }
-//     ).then((r) => r.json());
-
-//     setImageSrc(data.secure_url);
-//     setUploadData(data);
-//   };
-//   return (
-//     <Form method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
-//       <label htmlFor="file">Drag and Drop images here</label>
-//       <input multiple type="file" name="file" accept="image/*" />
-
-//       <img src={imageSrc} />
-
-//       {imageSrc && !uploadData && (
-//         <p>
-//           <button>Upload Files</button>
-//         </p>
-//       )}
-
-//       {/* {uploadData && (
-//         <code>
-//           <pre>{JSON.stringify(uploadData, null, 2)}</pre>
-//         </code>
-//       )} */}
-//     </Form>
-//   );
-// }
-
-// export default UploadFileInput;
-
-// function UploadFileInput({
-//     imageSrcs,
-//     setImageSrcs,
-//   }: {
-//     imageSrcs: string[];
-//     setImageSrcs: any;
-//   }) {
-
 // Define the type for uploadDatas state
 type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
 
@@ -160,25 +81,6 @@ function UploadFileInput() {
     }
   };
 
-  //   const handleOnSubmit = async (event: FormEvent<HTMLFormElement>) => {
-  //     event.preventDefault();
-  //     const form = event.currentTarget;
-  //     const formData = new FormData(form);
-
-  //     formData.append("upload_preset", "my-uploads");
-
-  //     const response = await fetch(
-  //       "https://api.cloudinary.com/v1_1/dultp5szy/image/upload",
-  //       {
-  //         method: "POST",
-  //         body: formData,
-  //       }
-  //     );
-  //     const data = await response.json();
-
-  //     setUploadDatas(data.resources);
-  //   };
-
   const handleOnSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -213,25 +115,6 @@ function UploadFileInput() {
         setUploadDatas((prevUploadDatas) => [...prevUploadDatas, data.url]);
       }
     }
-
-    // const session = await getSession();
-    // const sessionUserEmail: string | null | undefined = session?.user?.email;
-    // console.log(sessionUserEmail, "session");
-
-    // await fetch("/api/people/people", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     uploadDatas,
-    //     sessionUserEmail,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-
-    // Parse the response
-
-    // Update the state with the uploaded resources
   };
 
   return (
