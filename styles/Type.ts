@@ -121,7 +121,9 @@ export const pXSmall = css`
 
 export const buttonType = css`
   font-family: ${monsterrat};
+
   /* font-size: 2rem; */
+  padding: 0 12px;
   line-height: 2.4rem;
   font-weight: 300;
   border: none;
@@ -150,6 +152,7 @@ export const inputType = css`
   color: ${variables.black};
   background-color: ${variables.transparent};
   width: 100%;
+  margin-top: 4px;
   &::placeholder {
     color: ${variables.black};
     opacity: 0.7;

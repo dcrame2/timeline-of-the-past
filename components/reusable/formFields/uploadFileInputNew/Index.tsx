@@ -93,22 +93,23 @@ function UploadFileInputNew({ setUploadDatas, uploadDatas }: any) {
   };
 
   return (
-    <Form>
-      <label htmlFor="file">Drag and Drop images here</label>
-      <input
-        multiple
-        type="file"
-        name="file"
-        accept="image/*"
-        onChange={(e) => handleOnChange(e)}
-      />
+    <>
+      <Form>
+        <label htmlFor="file">Drag and Drop images here</label>
+        <input
+          multiple
+          type="file"
+          name="file"
+          accept="image/*"
+          onChange={(e) => handleOnChange(e)}
+        />
 
-      {isLoading && <p style={{ color: "#2e2424" }}>Loading...</p>}
-
+        {isLoading && <p style={{ color: "#2e2424" }}>Loading...</p>}
+      </Form>
       {uploadDatas?.map((src: string, index: number) => (
         <img key={index} src={src} alt={`Uploaded image ${index}`} />
       ))}
-    </Form>
+    </>
   );
 }
 

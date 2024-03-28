@@ -16,27 +16,74 @@ import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index"
 import { Context } from "@/pages/_app";
 import { buttonType } from "@/styles/Type";
 import { useRouter } from "next/router";
+import { inputType } from "@/styles/Type";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
   margin: 24px;
-  padding: 24px;
+  padding: 88px;
   z-index: 105;
   border-radius: 12px;
+  max-width: 1000px;
+  position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
 `;
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: row;
+  gap: 12px; */
+`;
+
+const FormInnerContainer = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  button {
-    ${buttonType}
-  }
+`;
+
+const NameContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  grid-column: 1 / span 2;
+  /* flex-direction: column; */
+`;
+
+const SocialMediaContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  grid-column: 1 / span 2;
+`;
+
+const DatesContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 40px;
+  grid-column: 1 / span 2;
+  /* flex-direction: column; */
 `;
 
 const LabelInputContainer = styled.div`
   /* justify-content: center; */
   display: flex;
+  width: 100%;
+  flex-direction: column;
+  label {
+    color: ${variables.black};
+  }
+  input,
+  select {
+    ${inputType}
+  }
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 20px;
+  display: flex;
+  gap: 20px;
+  button {
+    ${buttonType}
+  }
 `;
 
 // Define the type for uploadDatas state
@@ -46,26 +93,52 @@ type UploadDataState = string[]; // Assuming uploadDatas stores an array of stri
 type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
 function NewPersonForm() {
+  const motionPropsRight = {
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+    },
+    exit: {
+      opacity: 0,
+    },
+    transition: {
+      duration: 0.4,
+    },
+  };
+
   const firstNameRef = React.useRef<HTMLInputElement>(null);
   const lastNameRef = React.useRef<HTMLInputElement>(null);
-  const ageRef = React.useRef<HTMLInputElement>(null);
   const imagesRef = React.useRef<HTMLInputElement>(null);
   const middleNameRef = React.useRef<HTMLInputElement>(null);
   const dobRef = React.useRef<HTMLInputElement>(null);
+  const deathRef = React.useRef<HTMLInputElement>(null);
+  const facebookRef = React.useRef<HTMLInputElement>(null);
+  const linkedinRef = React.useRef<HTMLInputElement>(null);
+  const twitterRef = React.useRef<HTMLInputElement>(null);
 
   const [uploadDatas, setUploadDatas] = useState<UploadDataState>([]);
 
   const router = useRouter();
 
+  const [selectedAge, setSelectedAge] = useState<number | null>(null); // Track selected age
+  const [ageOptions, setAgeOptions] = useState<
+    { value: number; label: string }[]
+  >([]); // Age options
+
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const firstName = firstNameRef.current?.value;
     const lastName = lastNameRef.current?.value;
-    const age = ageRef.current?.value;
     const images = imagesRef.current?.files?.[0];
     const middleName = middleNameRef.current?.value;
     const dob = dobRef.current?.value;
-    console.log(firstName, lastName, age, images, middleName, dob);
+    const death = deathRef.current?.value;
+    const facebookLink = facebookRef.current?.value;
+    const linkedinLink = linkedinRef.current?.value;
+    const twitterLink = twitterRef.current?.value;
+    console.log(firstName, lastName, images, middleName, dob);
 
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
@@ -75,10 +148,13 @@ function NewPersonForm() {
       method: "POST",
       body: JSON.stringify({
         firstName,
-        lastName,
         middleName,
-        age,
+        lastName,
         dob,
+        death,
+        facebookLink,
+        linkedinLink,
+        twitterLink,
         uploadDatas,
         sessionUserEmail,
       }),
@@ -90,72 +166,125 @@ function NewPersonForm() {
     router.push("/auth/timeline");
   };
 
-  const motionPropsRight = {
-    initial: {
-      opacity: 0,
-      // x: "100%",
-    },
-    animate: {
-      // x: 0,
-      opacity: 1,
-    },
-    exit: {
-      // x: "100%",
-      opacity: 0,
-    },
-    transition: {
-      duration: 0.4,
-    },
+  const handleDateOfBirthChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedDate = new Date(event.target.value);
+
+    const today = new Date();
+    const diffYears = today.getFullYear() - selectedDate.getFullYear();
+    console.log(diffYears, "selectedData");
+    // Generate options for dropdown starting from the selected age
+    const ageOptions = Array.from({ length: diffYears + 1 }, (_, index) => ({
+      value: index,
+      label:
+        index === 0
+          ? `Born (Year: ${selectedDate.getFullYear()})`
+          : `Age ${index} (Year ${selectedDate.getFullYear() + index})`,
+    }));
+
+    setSelectedAge(null); // Reset selected age
+    setAgeOptions(ageOptions);
+  };
+
+  const handleAgeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedAge(parseInt(event.target.value));
   };
 
   return (
     <FormContainer {...motionPropsRight}>
       <Form method="post" onSubmit={submitNewPerson}>
-        <TextInput
-          name="firstName"
-          label="First Name"
-          placeholder="John"
-          type="text"
-          ref={firstNameRef}
-        />
-        <TextInput
-          name="middleName"
-          label="Middle Name"
-          placeholder="George"
-          type="text"
-          ref={middleNameRef}
-        />
-        <TextInput
-          name="lastName"
-          label="Last Name"
-          placeholder="Doe"
-          type="text"
-          ref={lastNameRef}
-        />
-        <TextInput
-          name="age"
-          label="Age"
-          placeholder="21"
-          type="text"
-          ref={ageRef}
-        />
-        <LabelInputContainer>
-          <label htmlFor="start">Date of Birth</label>
-
-          <input
-            type="date"
-            id="start"
-            name="trip-start"
-            min="1900-01-01"
-            max="2030-12-31"
-            ref={dobRef}
+        <FormInnerContainer>
+          <NameContainer>
+            <TextInput
+              name="firstName"
+              label="First Name"
+              placeholder="John"
+              type="text"
+              ref={firstNameRef}
+            />
+            <TextInput
+              name="middleName"
+              label="Middle Name"
+              placeholder="George"
+              type="text"
+              ref={middleNameRef}
+            />
+            <TextInput
+              name="lastName"
+              label="Last Name"
+              placeholder="Doe"
+              type="text"
+              ref={lastNameRef}
+            />
+          </NameContainer>
+          <DatesContainer>
+            <LabelInputContainer>
+              <label htmlFor="start">Date of Birth</label>
+              <input
+                type="date"
+                id="start"
+                name="trip-start"
+                min="1900-01-01"
+                max="2030-12-31"
+                ref={dobRef}
+                onChange={(e: any) => handleDateOfBirthChange(e)}
+              />
+            </LabelInputContainer>
+            <LabelInputContainer>
+              <label htmlFor="start">Death (Optional)</label>
+              <input
+                type="date"
+                id="start"
+                name="trip-start"
+                min="1900-01-01"
+                max="2030-12-31"
+                ref={deathRef}
+              />
+            </LabelInputContainer>
+          </DatesContainer>
+          <SocialMediaContainer>
+            <TextInput
+              name="facebook"
+              label="Facebook"
+              placeholder="http://"
+              type="text"
+              ref={facebookRef}
+            />
+            <TextInput
+              name="twitter"
+              label="Twitter"
+              placeholder="http://"
+              type="text"
+              ref={twitterRef}
+            />
+            <TextInput
+              name="linkedin"
+              label="LinkedIn"
+              placeholder="http://"
+              type="text"
+              ref={linkedinRef}
+            />
+          </SocialMediaContainer>
+          <LabelInputContainer>
+            <label htmlFor="age">Select Age</label>
+            <select id="age" onChange={handleAgeChange} value={selectedAge}>
+              {ageOptions.map((option, index) => (
+                <option key={index} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </LabelInputContainer>
+          <UploadFileInputNew
+            setUploadDatas={setUploadDatas}
+            uploadDatas={uploadDatas}
           />
-        </LabelInputContainer>
-        <UploadFileInputNew
-          setUploadDatas={setUploadDatas}
-          uploadDatas={uploadDatas}
-        />
-        <button type="submit">Submit New Person</button>
+          <ButtonContainer>
+            <button type="submit">Preview</button>
+            <button type="submit">Submit</button>
+          </ButtonContainer>
+        </FormInnerContainer>
       </Form>
     </FormContainer>
   );
