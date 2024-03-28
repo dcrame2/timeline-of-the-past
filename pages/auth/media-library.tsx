@@ -2,7 +2,7 @@ import React from "react";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
-import UploadFileInput from "@/components/reusable/formFields/uploadFileInput/Index";
+import UploadFileInput from "@/components/reusable/formFields/uploadFileInputNew/Index";
 
 function MediaLibrary() {
   return (

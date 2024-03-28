@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext, FormEvent, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
 import TextInput from "@/components/reusable/formFields/TextInput";
 import { buttonType } from "@/styles/Type";
-import UploadFileInput from "@/components/reusable/formFields/uploadFileInput/Index";
+import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
+import { useRouter } from "next/router";
 
 const PeopleScreen = styled(motion.div)`
   display: flex;
@@ -82,41 +83,52 @@ interface PeopleProps {
   uploadDatas?: string[] | undefined;
 }
 
+// Define the type for uploadDatas state
+type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
+
+// Define the type for setUploadDatas function
+type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
+
 function EditPeopleScreen({
-  showEditScreen,
-  showEditScreenHandler,
   person,
   selectedIndex,
-  setShowEditScreen,
-  fetchData,
+  setReceivedPersonData,
 }: {
-  showEditScreen: boolean;
-  showEditScreenHandler: (person: PeopleProps, index: number) => void;
   person: PeopleProps | null;
-  selectedIndex: number;
-  setShowEditScreen: any;
-  fetchData: any;
+  selectedIndex: any;
+  setReceivedPersonData: any;
 }) {
-  const [updatedPerson, setUpdatedPerson] = useState<PeopleProps>({
-    ...person,
-  });
+  const [updatedPerson, setUpdatedPerson] = useState<PeopleProps | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (person) {
+      setUpdatedPerson({ ...person });
+    }
+  }, [person]);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     propertyName: string
   ) => {
-    setUpdatedPerson((prevState) => ({
-      ...prevState,
-      [propertyName]: event.target.value,
-    }));
+    event.preventDefault();
+    if (updatedPerson) {
+      setUpdatedPerson((prevState) => ({
+        ...prevState,
+        [propertyName]: event.target.value,
+      }));
+    }
   };
 
-  const handleSave = async () => {
-    // onSave(updatedPerson);
+  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!updatedPerson) {
+      return; // Handle the case where updatedPerson is null
+    }
 
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
-    console.log(sessionUserEmail, "session");
 
     const response = await fetch("/api/people/update-people", {
       method: "POST",
@@ -129,65 +141,83 @@ function EditPeopleScreen({
         "Content-Type": "application/json",
       },
     });
-    console.log(response, "Response");
 
-    fetchData();
+    if (response.ok) {
+      router.push("/auth/timeline");
+      setReceivedPersonData(false);
+    } else {
+      console.error("Failed to save data");
+    }
   };
 
   return (
-    // <PeopleScreen {...motionPropsRight}>
-    <Form>
-      <TextInput
-        label="First Name:"
-        type="text"
-        value={updatedPerson.firstName}
-        onChange={(e: any) => handleInputChange(e, "firstName")}
-      />
-      <TextInput
-        label="Middle Name:"
-        type="text"
-        value={updatedPerson.middleName}
-        onChange={(e: any) => handleInputChange(e, "middleName")}
-      />
+    <>
+      {updatedPerson && ( // Render the form only when updatedPerson is not null
+        <Form onSubmit={(e) => handleSave(e)}>
+          <TextInput
+            label="First Name:"
+            type="text"
+            value={updatedPerson.firstName}
+            onChange={(e: any) => handleInputChange(e, "firstName")}
+          />
+          <TextInput
+            label="Middle Name:"
+            type="text"
+            value={updatedPerson.middleName}
+            onChange={(e: any) => handleInputChange(e, "middleName")}
+          />
 
-      <TextInput
-        label="Last Name:"
-        type="text"
-        value={updatedPerson.lastName}
-        onChange={(e: any) => handleInputChange(e, "lastName")}
-      />
+          <TextInput
+            label="Last Name:"
+            type="text"
+            value={updatedPerson.lastName}
+            onChange={(e: any) => handleInputChange(e, "lastName")}
+          />
 
-      <TextInput
-        label="Age:"
-        type="text"
-        value={updatedPerson.age}
-        onChange={(e: any) => handleInputChange(e, "age")}
-      />
+          <TextInput
+            label="Age:"
+            type="text"
+            value={updatedPerson.age}
+            onChange={(e: any) => handleInputChange(e, "age")}
+          />
 
-      <label>
-        Age:
-        <input
-          type="date"
-          value={updatedPerson.dob}
-          onChange={(e) => handleInputChange(e, "dob")}
-        />
-      </label>
-      <ImageGridContainer>
-        {person?.uploadDatas?.map((image: string) => {
-          return (
-            <ImageContainer>
-              <img src={image} />
-              <button>x</button>
-            </ImageContainer>
-          );
-        })}
-      </ImageGridContainer>
-      <UploadFileInput />
-      <button onClick={handleSave}>Save</button>
-      <button onClick={() => setShowEditScreen(!showEditScreen)}>Cancel</button>
-    </Form>
-    // </PeopleScreen>
+          <label>
+            Age:
+            <input
+              type="date"
+              value={updatedPerson.dob}
+              onChange={(e) => handleInputChange(e, "dob")}
+            />
+          </label>
+          <ImageGridContainer>
+            {person?.uploadDatas?.map((image: string) => {
+              return (
+                <ImageContainer>
+                  <img src={image} />
+                  <button>x</button>
+                </ImageContainer>
+              );
+            })}
+          </ImageGridContainer>
+          {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
+          <UploadFileInputEdit
+            onUpload={(newUploadDatas: any) =>
+              setUpdatedPerson((prevState) => ({
+                ...prevState,
+                uploadDatas: [
+                  ...(prevState?.uploadDatas || []), // Include existing uploadDatas if any
+                  ...newUploadDatas, // Add newly uploaded URLs
+                ],
+              }))
+            }
+          />
+
+          <button type="submit">Save</button>
+        </Form>
+      )}
+    </>
   );
 }
 
 export default EditPeopleScreen;
+// export default EditPeopleScreen;

@@ -21,27 +21,9 @@ const StyledLink = styled(motion(Link))`
   }
 `;
 
-interface AddNewPersonProps {
-  setShowAddPersonFields: React.Dispatch<React.SetStateAction<boolean>>;
-  showAddPersonFields: boolean;
-  fetchData?: () => void;
-}
-
-export default function AddNewPersonButton({
-  setShowAddPersonFields,
-  showAddPersonFields,
-  fetchData,
-}: AddNewPersonProps) {
-  function addNewPersonHandler() {
-    // set state here
-    setShowAddPersonFields(!showAddPersonFields);
-  }
+export default function AddNewPersonButton() {
   return (
-    <StyledLink
-      href="/auth/new"
-      whileHover={{ scale: 1.1 }}
-      onClick={addNewPersonHandler}
-    >
+    <StyledLink href="/auth/new" whileHover={{ scale: 1.1 }}>
       <img src="/add_icon.png" alt="icon" />
     </StyledLink>
   );

@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { create } from "domain";
 import axios from "axios";
 import { variables } from "@/styles/Variables";
-import UploadFileInput from "../reusable/formFields/uploadFileInput/Index";
+import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
 import { Context } from "@/pages/_app";
 import { buttonType } from "@/styles/Type";
 import { useRouter } from "next/router";
@@ -45,11 +45,7 @@ type UploadDataState = string[]; // Assuming uploadDatas stores an array of stri
 // Define the type for setUploadDatas function
 type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
-function NewPersonForm({
-  fetchData,
-  setShowAddPersonFields,
-  showAddPersonFields,
-}: any) {
+function NewPersonForm() {
   const firstNameRef = React.useRef<HTMLInputElement>(null);
   const lastNameRef = React.useRef<HTMLInputElement>(null);
   const ageRef = React.useRef<HTMLInputElement>(null);
@@ -57,15 +53,8 @@ function NewPersonForm({
   const middleNameRef = React.useRef<HTMLInputElement>(null);
   const dobRef = React.useRef<HTMLInputElement>(null);
 
-  const [image, setImage] = useState<File | null>(null);
+  const [uploadDatas, setUploadDatas] = useState<UploadDataState>([]);
 
-  const [imageSrc, setImageSrc] = useState();
-  const [uploadData, setUploadData] = useState();
-
-  const [uploadDatas, setUploadDatas] =
-    useContext<[UploadDataState, SetUploadDataState]>(Context);
-
-  console.log(image, "IMAGE");
   const router = useRouter();
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
@@ -157,15 +146,14 @@ function NewPersonForm({
             type="date"
             id="start"
             name="trip-start"
-            // value="2018-07-22"
             min="1900-01-01"
             max="2030-12-31"
             ref={dobRef}
           />
         </LabelInputContainer>
+        <UploadFileInputNew setUploadDatas={setUploadDatas} />
         <button type="submit">Submit New Person</button>
       </Form>
-      <UploadFileInput />
     </FormContainer>
   );
 }

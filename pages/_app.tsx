@@ -33,15 +33,15 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
-  const [uploadDatas, setUploadDatas] = useState<UploadDataState>([]);
+  // const [uploadDatas, setUploadDatas] = useState<UploadDataState>([]);
 
-  console.log(uploadDatas, "UPLOAD DATA ON APP");
+  // console.log(uploadDatas, "UPLOAD DATA ON APP");
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <SessionProvider session={session}>
-      <Context.Provider value={[uploadDatas, setUploadDatas]}>
-        {getLayout(<Component {...pageProps} />)}
-      </Context.Provider>
+      {/* <Context.Provider value={[uploadDatas, setUploadDatas]}> */}
+      {getLayout(<Component {...pageProps} />)}
+      {/* </Context.Provider> */}
     </SessionProvider>
   );
 }

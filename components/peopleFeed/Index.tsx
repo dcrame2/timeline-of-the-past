@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import EditPeopleScreen from "./editPeopleScreen/Index";
@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import AddNewPersonButton from "../reusable/addNewPersonButton/Index";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
+import { Context } from "@/pages/_app";
+import Router, { useRouter } from "next/router";
+import { fetchData } from "@/lib/fetchData";
 
 interface UserData {
   firstName?: string;
@@ -59,7 +62,7 @@ const CRUDBtns = styled.div`
   gap: 8px;
 `;
 
-const EditBtn = styled(motion.button)`
+const EditBtn = styled(motion(Link))`
   background-color: rgb(100, 100, 0, 0.4);
   opacity: 0.7;
   border: none;
@@ -95,6 +98,12 @@ interface PeopleProps {
   dob?: string;
 }
 
+// Define the type for uploadDatas state
+type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
+
+// Define the type for setUploadDatas function
+type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
+
 function PeopleFeed({
   peopleData,
   fetchData,
@@ -108,20 +117,27 @@ function PeopleFeed({
   setShowAddPersonFields: any;
   showAddPersonFields: any;
 }) {
-  const [showEditScreen, setShowEditScreen] = useState(false);
-  const [selectedPerson, setSelectedPerson] = useState<PeopleProps | null>(
-    null
-  );
+  const router = useRouter();
 
-  console.log(selectedPerson, "selectedPerson");
+  const [showEditScreen, setShowEditScreen] = useState(false);
+  // const [selectedPerson, setSelectedPerson] = useState<PeopleProps | null>(
+  //   null
+  // );
+
+  // console.log(selectedPerson, "selectedPerson");
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const showEditScreenHandler = (person: PeopleProps, index: number) => {
-    setShowEditScreen(!showEditScreen);
-    setSelectedPerson(person);
-    setSelectedIndex(index);
-  };
+  // const showEditScreenHandler = (person: PeopleProps, index: number) => {
+  //   setShowEditScreen(!showEditScreen);
+
+  //   setSelectedPerson(person);
+  //   setSelectedIndex(index);
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const deletePeopleHandler = async (person: PeopleProps, index: number) => {
     const session = await getSession();
@@ -165,65 +181,64 @@ function PeopleFeed({
 
   return (
     <PeopleFeedContainer>
+      {/* <Context.Provider value={[uploadDatas, setUploadDatas]}> */}
       <HeaderAddContainer>
         <h3>All Timelines</h3>
-        <AddNewPersonButton
-          setShowAddPersonFields={setShowAddPersonFields}
-          showAddPersonFields={showAddPersonFields}
-          fetchData={fetchData}
-        />
+
+        <AddNewPersonButton />
       </HeaderAddContainer>
 
       {peopleData && peopleData?.userData?.length === 0 && (
         <h6>No Timelines</h6>
       )}
 
-      {!showEditScreen ? (
-        <>
-          {peopleData &&
-            peopleData?.userData?.length !== undefined &&
-            peopleData?.userData?.map((person, index) => {
-              const { firstName, lastName } = person;
+      {/* {!showEditScreen ? ( */}
+      <>
+        {peopleData &&
+          peopleData?.userData?.length !== undefined &&
+          peopleData?.userData?.map((person, index) => {
+            const { firstName, lastName } = person;
 
-              return (
-                <AnimatePresence mode="wait">
-                  <IndividualPeopleContainer
-                    key={`${index}-person`}
-                    {...motionPropsUp}
-                  >
-                    <p>
-                      Name: {firstName} {lastName}
-                    </p>
-                    <CRUDBtns>
-                      <EditBtn
-                        whileHover={{ scale: 1.1 }}
-                        onClick={() => showEditScreenHandler(person, index)}
-                      >
-                        <img src="/edit_icon.png" alt="icon" />
-                      </EditBtn>
+            return (
+              <AnimatePresence mode="wait">
+                <IndividualPeopleContainer
+                  key={`${index}-person`}
+                  {...motionPropsUp}
+                >
+                  <p>
+                    Name: {firstName} {lastName}
+                  </p>
+                  <CRUDBtns>
+                    <EditBtn
+                      href="/auth/edit"
+                      whileHover={{ scale: 1.1 }}
+                      onClick={() => {
+                        router.push({
+                          pathname: "/auth/edit",
+                          query: {
+                            // showEditScreen,
+                            person: JSON.stringify(person), // Convert person object to string
+                            selectedIndex: index,
+                          },
+                        });
+                      }}
+                    >
+                      <img src="/edit_icon.png" alt="icon" />
+                    </EditBtn>
 
-                      <DeleteBtn
-                        whileHover={{ scale: 1.1 }}
-                        onClick={() => deletePeopleHandler(person, index)}
-                      >
-                        <img src="/trash_icon.png" alt="icon" />
-                      </DeleteBtn>
-                    </CRUDBtns>
-                  </IndividualPeopleContainer>
-                </AnimatePresence>
-              );
-            })}
-        </>
-      ) : (
-        <EditPeopleScreen
-          fetchData={fetchData}
-          setShowEditScreen={setShowEditScreen}
-          showEditScreenHandler={showEditScreenHandler}
-          showEditScreen={showEditScreen}
-          person={selectedPerson}
-          selectedIndex={selectedIndex}
-        />
-      )}
+                    <DeleteBtn
+                      whileHover={{ scale: 1.1 }}
+                      onClick={() => deletePeopleHandler(person, index)}
+                    >
+                      <img src="/trash_icon.png" alt="icon" />
+                    </DeleteBtn>
+                  </CRUDBtns>
+                </IndividualPeopleContainer>
+              </AnimatePresence>
+            );
+          })}
+      </>
+      {/* </Context.Provider> */}
     </PeopleFeedContainer>
   );
 }
