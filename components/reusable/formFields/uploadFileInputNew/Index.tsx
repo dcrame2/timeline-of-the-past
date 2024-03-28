@@ -51,14 +51,18 @@ type UploadDataState = string[]; // Assuming uploadDatas stores an array of stri
 // Define the type for setUploadDatas function
 type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
-function UploadFileInputNew({ setUploadDatas }: any) {
+function UploadFileInputNew({ setUploadDatas, uploadDatas }: any) {
   // const [uploadDatas, setUploadDatas] = useContext(Context);
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();
     const files = changeEvent.target.files;
     const newImageSrcs: string[] = [];
+
+    setIsLoading(true);
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -80,6 +84,7 @@ function UploadFileInputNew({ setUploadDatas }: any) {
               ...prevUploadDatas,
               ...uploadedUrls,
             ]);
+            setIsLoading(false);
           });
         }
       };
@@ -98,7 +103,9 @@ function UploadFileInputNew({ setUploadDatas }: any) {
         onChange={(e) => handleOnChange(e)}
       />
 
-      {imageSrcs?.map((src, index) => (
+      {isLoading && <p style={{ color: "#2e2424" }}>Loading...</p>}
+
+      {uploadDatas?.map((src: string, index: number) => (
         <img key={index} src={src} alt={`Uploaded image ${index}`} />
       ))}
     </Form>

@@ -151,7 +151,10 @@ function NewPersonForm() {
             ref={dobRef}
           />
         </LabelInputContainer>
-        <UploadFileInputNew setUploadDatas={setUploadDatas} />
+        <UploadFileInputNew
+          setUploadDatas={setUploadDatas}
+          uploadDatas={uploadDatas}
+        />
         <button type="submit">Submit New Person</button>
       </Form>
     </FormContainer>
