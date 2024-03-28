@@ -16,7 +16,7 @@ import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index"
 import { Context } from "@/pages/_app";
 import { buttonType } from "@/styles/Type";
 import { useRouter } from "next/router";
-import { inputType } from "@/styles/Type";
+import { inputType, pXSmall } from "@/styles/Type";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -38,29 +38,33 @@ const FormInnerContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  img {
+  /* img {
     width: 200px;
-  }
+  } */
 `;
 
 const NameContainer = styled.div`
   display: flex;
-  gap: 40px;
-  grid-column: 1 / span 2;
+  flex-direction: column;
+  gap: 12px;
+  /* grid-column: 1 / span 2; */
   /* flex-direction: column; */
 `;
 
 const SocialMediaContainer = styled.div`
   display: flex;
-  gap: 40px;
-  grid-column: 1 / span 2;
+  gap: 12px;
+  flex-direction: column;
+  grid-column: 1;
+  /* grid-column: 1 / span 2; */
 `;
 
 const DatesContainer = styled.div`
   display: flex;
   width: 100%;
-  gap: 40px;
-  grid-column: 1 / span 2;
+  gap: 12px;
+  flex-direction: column;
+  grid-column: 1;
   /* flex-direction: column; */
 `;
 
@@ -70,12 +74,18 @@ const LabelInputContainer = styled.div`
   width: 100%;
   flex-direction: column;
   label {
+    ${pXSmall}
     color: ${variables.black};
   }
   input,
   select {
     ${inputType}
   }
+`;
+
+const ImageUploadedContainer = styled.div`
+  grid-column: 2;
+  grid-row: 1;
 `;
 
 const ButtonContainer = styled.div`
@@ -282,21 +292,24 @@ function NewPersonForm() {
               ref={linkedinRef}
             />
           </SocialMediaContainer>
-          <LabelInputContainer>
-            <label htmlFor="age">Select Age</label>
-            <select id="age" onChange={handleAgeChange} value={selectedAge}>
-              {ageOptions.map((option, index) => (
-                <option key={index} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </LabelInputContainer>
-          <UploadFileInputNew
-            selectedAge={selectedAge}
-            setUploadDatas={setUploadDatas}
-            uploadDatas={uploadDatas}
-          />
+
+          <ImageUploadedContainer>
+            <LabelInputContainer>
+              <label htmlFor="age">Select Age to Upload Images For</label>
+              <select id="age" onChange={handleAgeChange} value={selectedAge}>
+                {ageOptions.map((option, index) => (
+                  <option key={index} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </LabelInputContainer>
+            <UploadFileInputNew
+              selectedAge={selectedAge}
+              setUploadDatas={setUploadDatas}
+              uploadDatas={uploadDatas}
+            />
+          </ImageUploadedContainer>
           <ButtonContainer>
             <button type="submit">Preview</button>
             <button type="submit">Save</button>

@@ -113,8 +113,8 @@ export const pSmall = css`
 
 export const pXSmall = css`
   font-family: ${monsterrat};
-  font-size: 1rem;
-  line-height: 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1rem;
   font-weight: 300;
   color: ${variables.black};
 `;
@@ -145,17 +145,19 @@ export const buttonType = css`
 
 export const inputType = css`
   font-family: ${monsterrat};
-  padding: 16px 12px;
+  padding: 10px 12px;
   /* min-width: 400px; */
   border: 1px solid ${variables.darkBlue};
   border-radius: 8px;
   color: ${variables.black};
-  background-color: ${variables.transparent};
+  background-color: ${variables.white};
   width: 100%;
   margin-top: 4px;
+  ${pXSmall}
   &::placeholder {
     color: ${variables.black};
     opacity: 0.7;
+    ${pXSmall}
   }
 `;
 

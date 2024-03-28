@@ -9,10 +9,12 @@ const Form = styled.div`
   max-height: 300px;
   height: 100%;
   background-color: ${variables.lightGrey};
-  margin: 24px;
+  /* margin: 24px; */
   border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
+  grid-column: 2;
+  padding: 30px 0;
   label {
     text-align: center;
     display: inline-block;
@@ -39,10 +41,38 @@ const Form = styled.div`
   P {
     text-align: center;
   }
+`;
 
+const ImageMainContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+`;
+
+const IsLoadingContainer = styled.div``;
+
+const ImageContainer = styled.div`
+  max-height: 50px;
+  max-width: 50px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   img {
-    width: 100px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
+`;
+
+const IndeividualImageContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  background-color: ${variables.darkerLightGrey};
+  border: 1px solid ${variables.darkBlue};
+  border-radius: 8px;
+  align-items: center;
+  gap: 24px;
 `;
 
 // Define the type for uploadDatas state
@@ -93,6 +123,7 @@ function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
 
   return (
     <>
+      {/* {selectedAge && ( */}
       <Form>
         <label htmlFor="file">Drag and Drop images here</label>
         <input
@@ -102,12 +133,25 @@ function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
           accept="image/*"
           onChange={(e) => handleOnChange(e)}
         />
-
-        {isLoading && <p style={{ color: "#2e2424" }}>Loading...</p>}
       </Form>
-      {uploadDatas[selectedAge]?.map((src: string, index: number) => (
-        <img key={index} src={src} alt={`Uploaded image ${index}`} />
-      ))}
+      {/* )} */}
+      <ImageMainContainer>
+        {imageSrcs?.map((src: string, index: number) => (
+          <IndeividualImageContainer>
+            <ImageContainer>
+              <img key={index} src={src} alt={`Uploaded image ${index}`} />
+            </ImageContainer>
+
+            {isLoading ? (
+              <IsLoadingContainer>
+                <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
+              </IsLoadingContainer>
+            ) : (
+              <p style={{ color: "#2e2424" }}>Image Uploaded ✅</p>
+            )}
+          </IndeividualImageContainer>
+        ))}
+      </ImageMainContainer>
     </>
   );
 }

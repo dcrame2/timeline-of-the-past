@@ -98,6 +98,14 @@ const LabelInputContainer = styled.div`
   select {
     ${inputType}
   }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
 `;
 
 const ButtonContainer = styled.div`
