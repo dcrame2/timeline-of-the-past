@@ -12,7 +12,7 @@ function EditTimeline() {
   const { person: personQuery, selectedIndex: selectedIndexQuery } = query;
 
   const [person, setPerson] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [receivedPersonData, setReceivedPersonData] = useState(false);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default EditTimeline;
 export async function getServerSideProps(context: NextPageContext) {
   //   const { fetchData, showEditScreen, person, selectedIndex, setUploadDatas } =
 
-  console.log(context, "Contexttttt");
+  // console.log(context, "Contexttttt");
   //     context.query;
   const session = await getSession({ req: context.req });
   console.log(session, "session");

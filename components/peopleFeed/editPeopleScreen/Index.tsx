@@ -196,6 +196,54 @@ function EditPeopleScreen({
     }
   }, [person]);
 
+  const handleRemoveImage = async (
+    imageUrlToDelete: string,
+    imageIndex: number
+  ) => {
+    // Create a copy of the updatedPerson
+    const newUpdatedPerson = { ...updatedPerson };
+
+    // Remove the image URL from uploadDatas array for the selectedAge
+    if (newUpdatedPerson.uploadDatas && selectedAge !== null) {
+      newUpdatedPerson.uploadDatas[selectedAge].splice(imageIndex, 1);
+    }
+
+    // Find the index of the image URL to delete within the uploadDatas array
+    // const imageIndex =
+    //   newUpdatedPerson?.uploadDatas[selectedAge]?.indexOf(imageUrlToDelete);
+
+    // // If the image URL is found in the uploadDatas array
+    // if (imageIndex !== -1) {
+    //   // Remove the image URL from uploadDatas array for the selectedAge
+    //   newUpdatedPerson?.uploadDatas[selectedAge].splice(imageIndex, 1);
+
+    try {
+      // Make a POST request to the deleteImage API route
+      const response = await fetch("/api/deleteImage/deleteImage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageUrlToDelete }),
+      });
+
+      if (response.ok) {
+        // Image deletion was successful
+        console.log("Image deleted successfully");
+      } else {
+        // Handle error response from the API route
+        console.error("Failed to delete image:", response.statusText);
+      }
+    } catch (error) {
+      // Handle any errors that occur during the fetch operation
+      console.error("Error deleting image:", error);
+    }
+    // }
+
+    // Update the updatedPerson state
+    setUpdatedPerson(newUpdatedPerson);
+  };
+
   const handleDateOfBirthChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -356,22 +404,7 @@ function EditPeopleScreen({
                   ))}
                 </select>
               </LabelInputContainer>
-              <ImageGridContainer>
-                {person &&
-                  person.uploadDatas &&
-                  selectedAge !== null &&
-                  Array.isArray(person.uploadDatas[selectedAge]) &&
-                  person.uploadDatas[selectedAge].map(
-                    (image: string, index: number) => {
-                      return (
-                        <ImageContainer>
-                          <img src={image} />
-                          <button>x</button>
-                        </ImageContainer>
-                      );
-                    }
-                  )}
-              </ImageGridContainer>
+
               {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
               <UploadFileInputEdit
                 selectedAge={selectedAge}
@@ -403,6 +436,26 @@ function EditPeopleScreen({
                   })
                 }
               />
+              <ImageGridContainer>
+                {person &&
+                  person.uploadDatas &&
+                  selectedAge !== null &&
+                  Array.isArray(person.uploadDatas[selectedAge]) &&
+                  person.uploadDatas[selectedAge].map(
+                    (image: string, index: number) => {
+                      return (
+                        <ImageContainer>
+                          <img src={image} />
+                          <button
+                            onClick={() => handleRemoveImage(image, index)}
+                          >
+                            x
+                          </button>
+                        </ImageContainer>
+                      );
+                    }
+                  )}
+              </ImageGridContainer>
               <ButtonContainer>
                 <button type="submit">Preview</button>
                 <button type="submit">Save</button>
