@@ -53,8 +53,10 @@ type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
 function UploadFileInputEdit({
   onUpload,
+  selectedAge,
 }: {
-  onUpload: (uploadedUrls: string[]) => void;
+  onUpload: (selectedAge: number, uploadedUrls: string[]) => void;
+  selectedAge: any;
 }) {
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
@@ -76,7 +78,7 @@ function UploadFileInputEdit({
           // Upload files to cloudinary
           uploadFilesToCloudinary(files).then((uploadedUrls: string[]) => {
             // Once all files are uploaded, call the callback function to update the parent component's state
-            onUpload(uploadedUrls);
+            onUpload(selectedAge, uploadedUrls); // Pass selectedAge along with uploadedUrls
           });
         }
       };

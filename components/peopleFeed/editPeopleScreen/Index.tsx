@@ -139,7 +139,7 @@ interface PeopleProps {
   twitterLink?: string;
   facebookLink?: string;
   linkedinLink?: string;
-  uploadDatas?: string[] | undefined;
+  uploadDatas?: { [key: number]: string[] };
 }
 
 // Define the type for uploadDatas state
@@ -159,12 +159,12 @@ function EditPeopleScreen({
 }) {
   const [updatedPerson, setUpdatedPerson] = useState<PeopleProps | null>(null);
   const router = useRouter();
-  const [selectedAge, setSelectedAge] = useState<
-    string | number | readonly string[] | undefined
-  >(0); // Track selected age
+  const [selectedAge, setSelectedAge] = useState<number>(0); // Track selected age
   const [ageOptions, setAgeOptions] = useState<
     { value: number; label: string }[]
   >([]); // Age options
+
+  console.log(updatedPerson, "updatedPerson");
 
   useEffect(() => {
     if (person) {
@@ -213,7 +213,7 @@ function EditPeopleScreen({
           : `Age ${index} (Year ${selectedDate.getFullYear() + index})`,
     }));
 
-    setSelectedAge(selectedAge !== null ? selectedAge : 0); // Reset selected age
+    setSelectedAge(selectedAge); // Reset selected age
     setAgeOptions(ageOptions);
   };
 
@@ -356,26 +356,51 @@ function EditPeopleScreen({
                   ))}
                 </select>
               </LabelInputContainer>
-              {/* <ImageGridContainer>
-            {person?.uploadDatas?.map((image: string) => {
-              return (
-                <ImageContainer>
-                  <img src={image} />
-                  <button>x</button>
-                </ImageContainer>
-              );
-            })}
-          </ImageGridContainer> */}
+              <ImageGridContainer>
+                {person &&
+                  person.uploadDatas &&
+                  selectedAge !== null &&
+                  Array.isArray(person.uploadDatas[selectedAge]) &&
+                  person.uploadDatas[selectedAge].map(
+                    (image: string, index: number) => {
+                      return (
+                        <ImageContainer>
+                          <img src={image} />
+                          <button>x</button>
+                        </ImageContainer>
+                      );
+                    }
+                  )}
+              </ImageGridContainer>
               {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
               <UploadFileInputEdit
-                onUpload={(newUploadDatas: any) =>
-                  setUpdatedPerson((prevState) => ({
-                    ...prevState,
-                    uploadDatas: [
-                      ...(prevState?.uploadDatas || []), // Include existing uploadDatas if any
-                      ...newUploadDatas, // Add newly uploaded URLs
-                    ],
-                  }))
+                selectedAge={selectedAge}
+                onUpload={(selectedAge: number, newUploadDatas: string[]) =>
+                  setUpdatedPerson((prevState) => {
+                    // Create a copy of the previous state
+                    const newState = { ...prevState };
+
+                    // Retrieve existing uploadDatas or initialize as an empty object
+                    const existingUploadDatas = newState.uploadDatas || {};
+
+                    // Retrieve existing uploadDatas for the selected age or initialize as an empty array
+                    const existingUploadDatasForAge =
+                      existingUploadDatas[selectedAge] || [];
+
+                    // Concatenate existing uploadDatas with the newUploadDatas
+                    const updatedUploadDatasForAge = [
+                      ...existingUploadDatasForAge,
+                      ...newUploadDatas,
+                    ];
+
+                    // Update the uploadDatas object with the updated array for the selected age
+                    newState.uploadDatas = {
+                      ...existingUploadDatas,
+                      [selectedAge]: updatedUploadDatasForAge,
+                    };
+
+                    return newState; // Return the updated state
+                  })
                 }
               />
               <ButtonContainer>
