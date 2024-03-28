@@ -34,10 +34,13 @@ const Form = styled.form`
   gap: 12px; */
 `;
 
-const FormInnerContainer = styled.form`
+const FormInnerContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  img {
+    width: 200px;
+  }
 `;
 
 const NameContainer = styled.div`
@@ -118,11 +121,16 @@ function NewPersonForm() {
   const linkedinRef = React.useRef<HTMLInputElement>(null);
   const twitterRef = React.useRef<HTMLInputElement>(null);
 
-  const [uploadDatas, setUploadDatas] = useState<UploadDataState>([]);
+  // const [uploadDatas, setUploadDatas] = useState<UploadDataState>([]);
+  const [uploadDatas, setUploadDatas] = useState<{ [key: number]: string[] }>(
+    {}
+  );
 
   const router = useRouter();
 
-  const [selectedAge, setSelectedAge] = useState<number | null>(null); // Track selected age
+  const [selectedAge, setSelectedAge] = useState<
+    string | number | readonly string[] | undefined
+  >(0); // Track selected age
   const [ageOptions, setAgeOptions] = useState<
     { value: number; label: string }[]
   >([]); // Age options
@@ -183,12 +191,20 @@ function NewPersonForm() {
           : `Age ${index} (Year ${selectedDate.getFullYear() + index})`,
     }));
 
-    setSelectedAge(null); // Reset selected age
+    setSelectedAge(selectedAge !== null ? selectedAge : 0); // Reset selected age
     setAgeOptions(ageOptions);
   };
 
   const handleAgeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedAge(parseInt(event.target.value));
+    const age = parseInt(event.target.value);
+    console.log(age, "AGE");
+    setSelectedAge(age);
+    if (!(age in uploadDatas)) {
+      setUploadDatas((prevUploadDatas) => ({
+        ...prevUploadDatas,
+        [age]: [],
+      }));
+    }
   };
 
   return (
@@ -277,12 +293,13 @@ function NewPersonForm() {
             </select>
           </LabelInputContainer>
           <UploadFileInputNew
+            selectedAge={selectedAge}
             setUploadDatas={setUploadDatas}
             uploadDatas={uploadDatas}
           />
           <ButtonContainer>
             <button type="submit">Preview</button>
-            <button type="submit">Submit</button>
+            <button type="submit">Save</button>
           </ButtonContainer>
         </FormInnerContainer>
       </Form>

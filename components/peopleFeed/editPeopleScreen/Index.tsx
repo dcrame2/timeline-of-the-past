@@ -7,16 +7,16 @@ import TextInput from "@/components/reusable/formFields/TextInput";
 import { buttonType } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
+import { inputType } from "@/styles/Type";
 
 const PeopleScreen = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 0 24px;
   background-color: ${variables.lightGrey};
   margin: 24px;
-  padding: 24px;
+  padding: 88px;
+  z-index: 105;
   border-radius: 12px;
+  max-width: 1000px;
+  position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
 `;
 
@@ -25,6 +25,36 @@ const Form = styled.form`
     ${buttonType}
     margin-bottom: 4px;
   }
+`;
+
+const FormInnerContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  img {
+    width: 200px;
+  }
+`;
+
+const NameContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  grid-column: 1 / span 2;
+  /* flex-direction: column; */
+`;
+
+const SocialMediaContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  grid-column: 1 / span 2;
+`;
+
+const DatesContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 40px;
+  grid-column: 1 / span 2;
+  /* flex-direction: column; */
 `;
 
 const ImageGridContainer = styled.div`
@@ -56,6 +86,31 @@ const ImageContainer = styled.div`
   }
 `;
 
+const LabelInputContainer = styled.div`
+  /* justify-content: center; */
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  label {
+    color: ${variables.black};
+  }
+  input,
+  select {
+    ${inputType}
+  }
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 20px;
+  display: flex;
+  gap: 20px;
+  button {
+    ${buttonType}
+  }
+`;
+
 const motionPropsRight = {
   initial: {
     opacity: 0,
@@ -80,6 +135,10 @@ interface PeopleProps {
   lastName?: string;
   age?: string;
   dob?: string;
+  death?: string;
+  twitterLink?: string;
+  facebookLink?: string;
+  linkedinLink?: string;
   uploadDatas?: string[] | undefined;
 }
 
@@ -100,12 +159,75 @@ function EditPeopleScreen({
 }) {
   const [updatedPerson, setUpdatedPerson] = useState<PeopleProps | null>(null);
   const router = useRouter();
+  const [selectedAge, setSelectedAge] = useState<
+    string | number | readonly string[] | undefined
+  >(0); // Track selected age
+  const [ageOptions, setAgeOptions] = useState<
+    { value: number; label: string }[]
+  >([]); // Age options
 
   useEffect(() => {
     if (person) {
       setUpdatedPerson({ ...person });
+
+      if (person && person.dob) {
+        // Parse the dob string into a Date object
+        const selectedDate = new Date(person.dob);
+        const today = new Date();
+        const diffYears = today.getFullYear() - selectedDate.getFullYear();
+
+        // Generate options for dropdown starting from the selected age
+        const initialAge =
+          selectedDate.getFullYear() !== today.getFullYear() ? diffYears : 0; // Set initial age based on the selected date
+        const ageOptions = Array.from(
+          { length: diffYears + 1 },
+          (_, index) => ({
+            value: index,
+            label:
+              index === 0
+                ? `Born (Year: ${selectedDate.getFullYear()})`
+                : `Age ${index} (Year ${selectedDate.getFullYear() + index})`,
+          })
+        );
+
+        setSelectedAge(initialAge); // Set initial selected age
+        setAgeOptions(ageOptions);
+      }
     }
   }, [person]);
+
+  const handleDateOfBirthChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedDate = new Date(event.target.value);
+
+    const today = new Date();
+    const diffYears = today.getFullYear() - selectedDate.getFullYear();
+    console.log(diffYears, "selectedData");
+    // Generate options for dropdown starting from the selected age
+    const ageOptions = Array.from({ length: diffYears + 1 }, (_, index) => ({
+      value: index,
+      label:
+        index === 0
+          ? `Born (Year: ${selectedDate.getFullYear()})`
+          : `Age ${index} (Year ${selectedDate.getFullYear() + index})`,
+    }));
+
+    setSelectedAge(selectedAge !== null ? selectedAge : 0); // Reset selected age
+    setAgeOptions(ageOptions);
+  };
+
+  const handleAgeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const age = parseInt(event.target.value);
+    console.log(age, "AGE");
+    setSelectedAge(age);
+    // if (!(age in uploadDatas)) {
+    //   setUploadDatas((prevUploadDatas) => ({
+    //     ...prevUploadDatas,
+    //     [age]: [],
+    //   }));
+    // }
+  };
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -153,43 +275,88 @@ function EditPeopleScreen({
   return (
     <>
       {updatedPerson && ( // Render the form only when updatedPerson is not null
-        <Form onSubmit={(e) => handleSave(e)}>
-          <TextInput
-            label="First Name:"
-            type="text"
-            value={updatedPerson.firstName}
-            onChange={(e: any) => handleInputChange(e, "firstName")}
-          />
-          <TextInput
-            label="Middle Name:"
-            type="text"
-            value={updatedPerson.middleName}
-            onChange={(e: any) => handleInputChange(e, "middleName")}
-          />
-
-          <TextInput
-            label="Last Name:"
-            type="text"
-            value={updatedPerson.lastName}
-            onChange={(e: any) => handleInputChange(e, "lastName")}
-          />
-
-          <TextInput
-            label="Age:"
-            type="text"
-            value={updatedPerson.age}
-            onChange={(e: any) => handleInputChange(e, "age")}
-          />
-
-          <label>
-            Age:
-            <input
-              type="date"
-              value={updatedPerson.dob}
-              onChange={(e) => handleInputChange(e, "dob")}
-            />
-          </label>
-          <ImageGridContainer>
+        <PeopleScreen>
+          <Form onSubmit={(e) => handleSave(e)}>
+            <FormInnerContainer>
+              <NameContainer>
+                <TextInput
+                  label="First Name:"
+                  type="text"
+                  value={updatedPerson.firstName}
+                  onChange={(e: any) => handleInputChange(e, "firstName")}
+                />
+                <TextInput
+                  label="Middle Name:"
+                  type="text"
+                  value={updatedPerson.middleName}
+                  onChange={(e: any) => handleInputChange(e, "middleName")}
+                />
+                <TextInput
+                  label="Last Name:"
+                  type="text"
+                  value={updatedPerson.lastName}
+                  onChange={(e: any) => handleInputChange(e, "lastName")}
+                />
+              </NameContainer>
+              <SocialMediaContainer>
+                <TextInput
+                  label="Twitter"
+                  type="text"
+                  value={updatedPerson.twitterLink}
+                  onChange={(e: any) => handleInputChange(e, "twitterLink")}
+                />
+                <TextInput
+                  label="Linkedin"
+                  type="text"
+                  value={updatedPerson.linkedinLink}
+                  onChange={(e: any) => handleInputChange(e, "linkedinLink")}
+                />
+                <TextInput
+                  label="Facebook"
+                  type="text"
+                  value={updatedPerson.facebookLink}
+                  onChange={(e: any) => handleInputChange(e, "facebookLink")}
+                />
+              </SocialMediaContainer>
+              <DatesContainer>
+                <LabelInputContainer>
+                  <label>
+                    Age:
+                    <input
+                      type="date"
+                      value={updatedPerson.dob}
+                      onChange={(e) => {
+                        handleInputChange(e, "dob");
+                        handleDateOfBirthChange(e);
+                      }}
+                    />
+                  </label>
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <label>
+                    Death:
+                    <input
+                      type="date"
+                      value={updatedPerson.death}
+                      onChange={(e) => {
+                        handleInputChange(e, "death");
+                        // handleDateOfBirthChange(e);
+                      }}
+                    />
+                  </label>
+                </LabelInputContainer>
+              </DatesContainer>
+              <LabelInputContainer>
+                <label htmlFor="age">Select Age</label>
+                <select id="age" onChange={handleAgeChange} value={selectedAge}>
+                  {ageOptions.map((option, index) => (
+                    <option key={index} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </LabelInputContainer>
+              {/* <ImageGridContainer>
             {person?.uploadDatas?.map((image: string) => {
               return (
                 <ImageContainer>
@@ -198,22 +365,26 @@ function EditPeopleScreen({
                 </ImageContainer>
               );
             })}
-          </ImageGridContainer>
-          {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
-          <UploadFileInputEdit
-            onUpload={(newUploadDatas: any) =>
-              setUpdatedPerson((prevState) => ({
-                ...prevState,
-                uploadDatas: [
-                  ...(prevState?.uploadDatas || []), // Include existing uploadDatas if any
-                  ...newUploadDatas, // Add newly uploaded URLs
-                ],
-              }))
-            }
-          />
-
-          <button type="submit">Save</button>
-        </Form>
+          </ImageGridContainer> */}
+              {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
+              <UploadFileInputEdit
+                onUpload={(newUploadDatas: any) =>
+                  setUpdatedPerson((prevState) => ({
+                    ...prevState,
+                    uploadDatas: [
+                      ...(prevState?.uploadDatas || []), // Include existing uploadDatas if any
+                      ...newUploadDatas, // Add newly uploaded URLs
+                    ],
+                  }))
+                }
+              />
+              <ButtonContainer>
+                <button type="submit">Preview</button>
+                <button type="submit">Save</button>
+              </ButtonContainer>
+            </FormInnerContainer>
+          </Form>
+        </PeopleScreen>
       )}
     </>
   );

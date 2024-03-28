@@ -51,10 +51,8 @@ type UploadDataState = string[]; // Assuming uploadDatas stores an array of stri
 // Define the type for setUploadDatas function
 type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
-function UploadFileInputNew({ setUploadDatas, uploadDatas }: any) {
-  // const [uploadDatas, setUploadDatas] = useContext(Context);
+function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOnChange = async (changeEvent: any) => {
@@ -77,13 +75,14 @@ function UploadFileInputNew({ setUploadDatas, uploadDatas }: any) {
           // Upload files to cloudinary
           uploadFilesToCloudinary(files).then((uploadedUrls: string[]) => {
             // Once all files are uploaded, update the state with the accumulated URLs
-
-            console.log(uploadedUrls, "YOOO");
-            // console.log(uploadDatas, "HIII");
-            setUploadDatas((prevUploadDatas: string[]) => [
-              ...prevUploadDatas,
-              ...uploadedUrls,
-            ]);
+            const updatedUploadDatas = {
+              ...uploadDatas,
+              [selectedAge]: [
+                ...(uploadDatas[selectedAge] || []),
+                ...uploadedUrls,
+              ],
+            };
+            setUploadDatas(updatedUploadDatas);
             setIsLoading(false);
           });
         }
@@ -106,7 +105,7 @@ function UploadFileInputNew({ setUploadDatas, uploadDatas }: any) {
 
         {isLoading && <p style={{ color: "#2e2424" }}>Loading...</p>}
       </Form>
-      {uploadDatas?.map((src: string, index: number) => (
+      {uploadDatas[selectedAge]?.map((src: string, index: number) => (
         <img key={index} src={src} alt={`Uploaded image ${index}`} />
       ))}
     </>
