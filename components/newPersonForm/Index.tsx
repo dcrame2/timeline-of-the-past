@@ -9,6 +9,7 @@ import { buttonType } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { inputType, pXSmall } from "@/styles/Type";
 import Image from "next/image";
+import slugifyNames from "@/lib/slugify";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -186,16 +187,18 @@ function NewPersonForm() {
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const firstName = firstNameRef.current?.value;
-    const lastName = lastNameRef.current?.value;
+    const firstName = firstNameRef.current?.value || "";
+    const lastName = lastNameRef.current?.value || "";
     const images = imagesRef.current?.files?.[0];
-    const middleName = middleNameRef.current?.value;
+    const middleName = middleNameRef.current?.value || "";
     const dob = dobRef.current?.value;
     const death = deathRef.current?.value;
     const facebookLink = facebookRef.current?.value;
     const linkedinLink = linkedinRef.current?.value;
     const twitterLink = twitterRef.current?.value;
     console.log(firstName, lastName, images, middleName, dob);
+
+    const slug = slugifyNames(firstName, middleName, lastName);
 
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
@@ -204,6 +207,7 @@ function NewPersonForm() {
     await fetch("/api/people/people", {
       method: "POST",
       body: JSON.stringify({
+        slug,
         firstName,
         middleName,
         lastName,

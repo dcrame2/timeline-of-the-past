@@ -2,26 +2,23 @@ import { connectToDatabase } from "@/lib/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { sessionUserEmail } = req.body;
-  console.log("GET ALL USERDATA");
-
   try {
     const client = await connectToDatabase();
     const db = client.db();
 
-    // Find the user based on their email (or any unique identifier)
-    const user = await db
-      .collection("users")
-      .findOne({ email: sessionUserEmail });
+    // Find all users
+    const usersCursor = db.collection("users").find({});
 
-    if (!user) {
+    // Convert the cursor to an array of users
+    const users = await usersCursor.toArray();
+
+    if (!users) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Extract the enteredFirstName and enteredLastName from the user object
-    const { userData } = user;
-
-    res.status(200).json({ userData });
+    // send the user data to client
+    res.status(200).json({ users });
+    // close mongodb connection
     client.close();
   } catch (error) {
     console.error("Error fetching user data:", error);

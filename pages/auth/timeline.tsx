@@ -65,8 +65,6 @@ export default function Protected() {
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
 
-  // console.log(peopleData, "PeopleData");
-
   const fetchData = async () => {
     try {
       const session = await getSession();
@@ -103,15 +101,6 @@ export default function Protected() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchDataAndSetState = async () => {
-  //     const data = await fetchData();
-  //     if (data) {
-  //       setPeopleData(data);
-  //     }
-  //   };
-  //   fetchDataAndSetState();
-  // }, []);
   return (
     <Layout>
       <TimelineView>

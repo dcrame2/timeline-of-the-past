@@ -1,7 +1,6 @@
 import { variables } from "@/styles/Variables";
-import React, { useState, FormEvent, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { getSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { uploadFilesToCloudinary } from "@/lib/uploadFilesToCloudinary";
 
@@ -55,7 +54,6 @@ const ImageMainContainer = styled(motion.div)`
 `;
 
 const IsLoadingContainer = styled(motion.div)``;
-const ImageUploadedContainer = styled(motion.div)``;
 
 const ImageContainer = styled.div`
   max-height: 40px;
@@ -96,30 +94,6 @@ const motionProps = {
     delay: 0.5,
   },
 };
-
-const MediaContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column: 1 / span 2;
-  gap: 10px;
-`;
-
-const ImageMediaContainer = styled.div`
-  flex: 1;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  text-align: center;
-
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-`;
 
 // Define the type for uploadDatas state
 type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
@@ -167,40 +141,33 @@ function UploadFileInputEdit({
   };
 
   return (
-    // <div>
-    <>
-      <Form>
-        <label htmlFor="file">Drag and Drop images here</label>
-        <input
-          multiple
-          type="file"
-          name="file"
-          accept="image/*"
-          onChange={(e) => handleOnChange(e)}
-        />
-        {isLoading && (
-          <ImageMainContainer>
-            <AnimatePresence mode="wait">
-              {imageSrcs?.map((src: string, index: number) => (
-                <IndividualImageContainer key={index} {...motionProps}>
-                  <ImageContainer>
-                    <img
-                      key={index}
-                      src={src}
-                      alt={`Uploaded image ${index}`}
-                    />
-                  </ImageContainer>
+    <Form>
+      <label htmlFor="file">Drag and Drop images here</label>
+      <input
+        multiple
+        type="file"
+        name="file"
+        accept="image/*"
+        onChange={(e) => handleOnChange(e)}
+      />
+      {isLoading && (
+        <ImageMainContainer>
+          <AnimatePresence mode="wait">
+            {imageSrcs?.map((src: string, index: number) => (
+              <IndividualImageContainer key={index} {...motionProps}>
+                <ImageContainer>
+                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
+                </ImageContainer>
 
-                  <IsLoadingContainer>
-                    <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
-                  </IsLoadingContainer>
-                </IndividualImageContainer>
-              ))}
-            </AnimatePresence>
-          </ImageMainContainer>
-        )}
-      </Form>
-    </>
+                <IsLoadingContainer>
+                  <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
+                </IsLoadingContainer>
+              </IndividualImageContainer>
+            ))}
+          </AnimatePresence>
+        </ImageMainContainer>
+      )}
+    </Form>
   );
 }
 

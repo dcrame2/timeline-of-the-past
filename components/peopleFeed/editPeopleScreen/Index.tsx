@@ -1,4 +1,4 @@
-import React, { useState, useContext, FormEvent, useEffect } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { getSession } from "next-auth/react";
@@ -40,7 +40,6 @@ const NameContainer = styled.div`
   display: flex;
   gap: 40px;
   grid-column: 1 / span 2;
-  /* flex-direction: column; */
 `;
 
 const SocialMediaContainer = styled.div`
@@ -54,7 +53,6 @@ const DatesContainer = styled.div`
   width: 100%;
   gap: 40px;
   grid-column: 1 / span 2;
-  /* flex-direction: column; */
 `;
 
 const ImageGridContainer = styled.div`
@@ -91,8 +89,6 @@ const ImageContainer = styled.div`
     justify-content: center;
   }
   img {
-    /* width: 100%;
-    height: 100%; */
     object-fit: contain;
   }
 `;
@@ -291,7 +287,7 @@ function EditPeopleScreen({
           : `Age ${index} (Year ${selectedDate.getFullYear() + index})`,
     }));
 
-    setSelectedAge(selectedAge); // Reset selected age
+    setSelectedAge(selectedAge);
     setAgeOptions(ageOptions);
   };
 
@@ -299,12 +295,6 @@ function EditPeopleScreen({
     const age = parseInt(event.target.value);
     console.log(age, "AGE");
     setSelectedAge(age);
-    // if (!(age in uploadDatas)) {
-    //   setUploadDatas((prevUploadDatas) => ({
-    //     ...prevUploadDatas,
-    //     [age]: [],
-    //   }));
-    // }
   };
 
   const handleInputChange = (
@@ -323,8 +313,9 @@ function EditPeopleScreen({
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Handle the case where updatedPerson is null
     if (!updatedPerson) {
-      return; // Handle the case where updatedPerson is null
+      return;
     }
 
     const session = await getSession();
@@ -352,7 +343,7 @@ function EditPeopleScreen({
 
   return (
     <>
-      {updatedPerson && ( // Render the form only when updatedPerson is not null
+      {updatedPerson && (
         <PeopleScreen>
           <Form onSubmit={(e) => handleSave(e)}>
             <FormInnerContainer>
@@ -440,7 +431,6 @@ function EditPeopleScreen({
                     ))}
                   </select>
                 </LabelInputContainer>
-
                 {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
                 <UploadFileInputEdit
                   selectedAge={selectedAge}
@@ -467,8 +457,8 @@ function EditPeopleScreen({
                         ...existingUploadDatas,
                         [selectedAge]: updatedUploadDatasForAge,
                       };
-
-                      return newState; // Return the updated state
+                      // Return the updated state
+                      return newState;
                     })
                   }
                 />
