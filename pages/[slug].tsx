@@ -28,50 +28,71 @@ type UploadDatasType = {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/slugs/get-slugs`);
-  const repo = await res.json();
-  // console.log(repo.users, "REPOOOO");
-  const { users } = repo;
-  console.log(users);
+  try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/slugs/get-slugs`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch slugs");
+    }
+    const repo = await res.json();
+    // console.log(repo.users, "REPOOOO");
+    const { users } = repo;
+    console.log(users);
 
-  let pathHolder: string[] = [];
+    let pathHolder: string[] = [];
 
-  const paths = users.map((user: any) => {
-    const { userData } = user;
+    const paths = users.map((user: any) => {
+      const { userData } = user;
 
-    userData.map((userInfo: any) => {
-      pathHolder.push(userInfo.slug);
+      userData.map((userInfo: any) => {
+        pathHolder.push(userInfo.slug);
+      });
+      return pathHolder;
     });
-    return pathHolder;
-  });
 
-  console.log(paths[0], "PATHSS");
+    console.log(paths[0], "PATHSS");
 
-  return {
-    paths: paths[0],
-    fallback: false,
-  };
+    return {
+      paths: paths[0],
+      fallback: false,
+    };
+  } catch (error) {
+    console.error("Error fetching slugs:", error);
+    return {
+      paths: [],
+      fallback: false,
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps<{ data: any }> = async (
   context
 ) => {
-  const { params } = context;
-  const currentPage = params?.slug;
-  console.log(currentPage, "currentPage");
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/slugs/get-slugs`);
-  const response = await res.json();
-  let data = {};
-  response.users.map((user: any) => {
-    const { userData } = user;
-    userData.map((userInfo: any) => {
-      if (userInfo.slug === `/${currentPage}`) {
-        data = userData.filter((user: any) => user.slug === `/${currentPage}`);
-      }
-      return;
+  try {
+    const { params } = context;
+    const currentPage = params?.slug;
+    console.log(currentPage, "currentPage");
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/slugs/get-slugs`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch slugs");
+    }
+    const response = await res.json();
+    let data = {};
+    response.users.map((user: any) => {
+      const { userData } = user;
+      userData.map((userInfo: any) => {
+        if (userInfo.slug === `/${currentPage}`) {
+          data = userData.filter(
+            (user: any) => user.slug === `/${currentPage}`
+          );
+        }
+        return;
+      });
     });
-  });
-  return { props: { data } };
+    return { props: { data } };
+  } catch (error) {
+    console.error("Error fetching slugs:", error);
+    return { props: { data: {} } };
+  }
 };
 
 export default function Page({
