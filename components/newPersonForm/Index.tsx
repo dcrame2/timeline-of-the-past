@@ -1,22 +1,14 @@
-import React, {
-  MouseEventHandler,
-  useState,
-  ChangeEvent,
-  FormEvent,
-  useContext,
-} from "react";
+import React, { useState, FormEvent } from "react";
 import TextInput from "../reusable/formFields/TextInput";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { create } from "domain";
-import axios from "axios";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
-import { Context } from "@/pages/_app";
 import { buttonType } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { inputType, pXSmall } from "@/styles/Type";
+import Image from "next/image";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -78,6 +70,14 @@ const LabelInputContainer = styled.div`
   select {
     ${inputType}
   }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
 `;
 
 const ImageUploadedContainer = styled.div`
@@ -108,18 +108,34 @@ const MediaContainer = styled.div`
 
 const ImageMediaContainer = styled.div`
   flex: 1;
-  background-color: red;
+  background-color: ${variables.lightGrey};
   border: 1px solid #ccc;
   text-align: center;
-
+  position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   img {
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
     object-fit: contain;
+  }
+  button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: ${variables.white};
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
@@ -155,21 +171,18 @@ function NewPersonForm() {
   const linkedinRef = React.useRef<HTMLInputElement>(null);
   const twitterRef = React.useRef<HTMLInputElement>(null);
 
-  // const [uploadDatas, setUploadDatas] = useState<UploadDataState>([]);
   const [uploadDatas, setUploadDatas] = useState<{ [key: number]: string[] }>(
     {}
   );
 
-  const [newUploadDatas, setNewUploadDatas] = useState<{
-    [key: number]: string[];
-  }>({});
-
   const router = useRouter();
 
-  const [selectedAge, setSelectedAge] = useState<number>(0); // Track selected age
+  const [selectedAge, setSelectedAge] = useState<number>(0);
   const [ageOptions, setAgeOptions] = useState<
     { value: number; label: string }[]
-  >([]); // Age options
+  >([]);
+
+  const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -376,11 +389,19 @@ function NewPersonForm() {
               selectedAge={selectedAge}
               setUploadDatas={setUploadDatas}
               uploadDatas={uploadDatas}
+              setImageSrcs={setImageSrcs}
+              imageSrcs={imageSrcs}
             />
             <MediaContainer>
               {uploadDatas[selectedAge]?.map((src: string, index: number) => (
                 <ImageMediaContainer>
-                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
+                  <Image
+                    width={100}
+                    height={100}
+                    key={index}
+                    src={src}
+                    alt={`Uploaded image ${index}`}
+                  />
                   <button onClick={(e) => handleRemoveImage(src, index, e)}>
                     x
                   </button>

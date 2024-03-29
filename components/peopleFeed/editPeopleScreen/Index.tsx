@@ -59,12 +59,21 @@ const DatesContainer = styled.div`
 
 const ImageGridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  grid-column: 1 / span 2;
+  gap: 10px;
 `;
 
 const ImageContainer = styled.div`
+  flex: 1;
+  background-color: ${variables.lightGrey};
+  border: 1px solid #ccc;
+  text-align: center;
   position: relative;
-  width: fit-content;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   button {
     position: absolute;
     top: 5px;
@@ -82,7 +91,9 @@ const ImageContainer = styled.div`
     justify-content: center;
   }
   img {
-    width: 200px;
+    /* width: 100%;
+    height: 100%; */
+    object-fit: contain;
   }
 `;
 
@@ -182,7 +193,9 @@ function EditPeopleScreen({
   selectedIndex: any;
   setReceivedPersonData: any;
 }) {
-  const [updatedPerson, setUpdatedPerson] = useState<PeopleProps | null>(null);
+  const [updatedPerson, setUpdatedPerson] = useState<PeopleProps>({
+    ...person,
+  });
   const router = useRouter();
   const [selectedAge, setSelectedAge] = useState<number>(0); // Track selected age
   const [ageOptions, setAgeOptions] = useState<
@@ -256,7 +269,6 @@ function EditPeopleScreen({
       // Handle any errors that occur during the fetch operation
       console.error("Error deleting image:", error);
     }
-    // }
 
     // Update the updatedPerson state
     setUpdatedPerson(newUpdatedPerson);
@@ -460,27 +472,28 @@ function EditPeopleScreen({
                     })
                   }
                 />
+                <ImageGridContainer>
+                  {person &&
+                    updatedPerson.uploadDatas &&
+                    selectedAge !== null &&
+                    Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
+                    updatedPerson.uploadDatas[selectedAge].map(
+                      (src: string, index: number) => {
+                        return (
+                          <ImageContainer>
+                            <img src={src} />
+                            <button
+                              onClick={(e) => handleRemoveImage(src, index, e)}
+                            >
+                              x
+                            </button>
+                          </ImageContainer>
+                        );
+                      }
+                    )}
+                </ImageGridContainer>
               </ImageUploadedContainer>
-              <ImageGridContainer>
-                {person &&
-                  person.uploadDatas &&
-                  selectedAge !== null &&
-                  Array.isArray(person.uploadDatas[selectedAge]) &&
-                  person.uploadDatas[selectedAge].map(
-                    (image: string, index: number) => {
-                      return (
-                        <ImageContainer>
-                          <img src={image} />
-                          <button
-                            onClick={(e) => handleRemoveImage(image, index, e)}
-                          >
-                            x
-                          </button>
-                        </ImageContainer>
-                      );
-                    }
-                  )}
-              </ImageGridContainer>
+
               <ButtonContainer>
                 <button type="submit">Preview</button>
                 <button type="submit">Save</button>
@@ -494,4 +507,3 @@ function EditPeopleScreen({
 }
 
 export default EditPeopleScreen;
-// export default EditPeopleScreen;

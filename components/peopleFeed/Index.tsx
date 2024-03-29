@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
-import EditPeopleScreen from "./editPeopleScreen/Index";
 import { motion, AnimatePresence } from "framer-motion";
 import AddNewPersonButton from "../reusable/addNewPersonButton/Index";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
-import { Context } from "@/pages/_app";
-import Router, { useRouter } from "next/router";
-import { fetchData } from "@/lib/fetchData";
+import { useRouter } from "next/router";
 
 interface UserData {
   firstName?: string;
@@ -20,6 +17,7 @@ interface PeopleDataProps {
 }
 
 const PeopleFeedContainer = styled.div`
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -119,26 +117,6 @@ function PeopleFeed({
 }) {
   const router = useRouter();
 
-  const [showEditScreen, setShowEditScreen] = useState(false);
-  // const [selectedPerson, setSelectedPerson] = useState<PeopleProps | null>(
-  //   null
-  // );
-
-  // console.log(selectedPerson, "selectedPerson");
-
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-
-  // const showEditScreenHandler = (person: PeopleProps, index: number) => {
-  //   setShowEditScreen(!showEditScreen);
-
-  //   setSelectedPerson(person);
-  //   setSelectedIndex(index);
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
   const deletePeopleHandler = async (person: PeopleProps, index: number) => {
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
@@ -181,18 +159,14 @@ function PeopleFeed({
 
   return (
     <PeopleFeedContainer>
-      {/* <Context.Provider value={[uploadDatas, setUploadDatas]}> */}
       <HeaderAddContainer>
         <h3>All Timelines</h3>
-
         <AddNewPersonButton />
       </HeaderAddContainer>
 
       {peopleData && peopleData?.userData?.length === 0 && (
         <h6>No Timelines</h6>
       )}
-
-      {/* {!showEditScreen ? ( */}
       <>
         {peopleData &&
           peopleData?.userData?.length !== undefined &&
@@ -216,7 +190,6 @@ function PeopleFeed({
                         router.push({
                           pathname: "/auth/edit",
                           query: {
-                            // showEditScreen,
                             person: JSON.stringify(person), // Convert person object to string
                             selectedIndex: index,
                           },
@@ -238,7 +211,6 @@ function PeopleFeed({
             );
           })}
       </>
-      {/* </Context.Provider> */}
     </PeopleFeedContainer>
   );
 }

@@ -94,6 +94,10 @@ const ImageMediaContainer = styled.div`
   }
 `;
 
+interface IndividualImageContainerProps {
+  isLoading?: any;
+}
+
 const IndividualImageContainer = styled(motion.div)`
   display: flex;
   padding: 4px;
@@ -125,8 +129,13 @@ type UploadDataState = string[]; // Assuming uploadDatas stores an array of stri
 // Define the type for setUploadDatas function
 type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
-function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
-  const [imageSrcs, setImageSrcs] = useState<string[]>([]);
+function UploadFileInputNew({
+  selectedAge,
+  uploadDatas,
+  setUploadDatas,
+  setImageSrcs,
+  imageSrcs,
+}: any) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOnChange = async (changeEvent: any) => {
@@ -176,27 +185,20 @@ function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
           accept="image/*"
           onChange={(e) => handleOnChange(e)}
         />
-        <ImageMainContainer>
-          {/* <AnimatePresence mode="wait"> */}
-          {imageSrcs?.map((src: string, index: number) => (
-            <IndividualImageContainer key={index} {...motionProps}>
-              <ImageContainer>
-                <img key={index} src={src} alt={`Uploaded image ${index}`} />
-              </ImageContainer>
-
-              {isLoading ? (
+        {isLoading && (
+          <ImageMainContainer>
+            {imageSrcs?.map((src: string, index: number) => (
+              <IndividualImageContainer key={index} {...motionProps}>
+                <ImageContainer>
+                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
+                </ImageContainer>
                 <IsLoadingContainer>
                   <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
                 </IsLoadingContainer>
-              ) : (
-                <ImageUploadedContainer>
-                  <p style={{ color: "#2e2424" }}>Image Uploaded</p>
-                </ImageUploadedContainer>
-              )}
-            </IndividualImageContainer>
-          ))}
-          {/* </AnimatePresence> */}
-        </ImageMainContainer>
+              </IndividualImageContainer>
+            ))}
+          </ImageMainContainer>
+        )}
       </Form>
     </>
   );
