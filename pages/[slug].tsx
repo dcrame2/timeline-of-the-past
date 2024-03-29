@@ -3,21 +3,26 @@ import type {
   GetStaticProps,
   GetStaticPaths,
 } from "next";
-
-type AllData = object[];
-type Data = {
-  slug?: string;
-  firstName?: string;
-  lastName?: string;
-  middleName?: string;
-  death?: string;
-  dob?: string;
-  facebookLink?: string;
-  twitterLink?: string;
-  linkedinLink?: string;
-  uploadDatas?: UploadDatasType;
-};
-
+import ThemeOne from "@/themes/themeOne/Index";
+interface Person {
+  data: [
+    {
+      slug?: string;
+      firstName?: string;
+      middleName?: string;
+      lastName?: string;
+      dob?: string;
+      death?: string;
+      facebookLink?: string;
+      linkedinLink?: string;
+      twitterLink?: string;
+      uploadDatas?: {
+        [key: number]: string[]; // Assuming the keys are numbers and values are string arrays
+      };
+      color?: string;
+    }
+  ];
+}
 type UploadDatasType = {
   age: string[];
 };
@@ -73,9 +78,5 @@ export default function Page({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   console.log(data, "DATA ON CLIENT");
-  return (
-    <p style={{ color: "black" }}>
-      {data[0]?.firstName} {data[0]?.middleName} {data[0]?.lastName}
-    </p>
-  );
+  return <ThemeOne data={data} />;
 }

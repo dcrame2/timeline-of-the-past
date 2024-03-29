@@ -94,7 +94,6 @@ const ImageContainer = styled.div`
 `;
 
 const LabelInputContainer = styled.div`
-  /* justify-content: center; */
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -112,6 +111,11 @@ const LabelInputContainer = styled.div`
 
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
+  }
+
+  input[type="color"] {
+    padding: 0px 10px;
+    height: 100%;
   }
 `;
 
@@ -167,6 +171,7 @@ interface PeopleProps {
   lastName?: string;
   age?: string;
   dob?: string;
+  color?: string;
   death?: string;
   twitterLink?: string;
   facebookLink?: string;
@@ -394,8 +399,20 @@ function EditPeopleScreen({
                       />
                     </label>
                   </LabelInputContainer>
+                  <LabelInputContainer>
+                    <label>
+                      Theme Color:
+                      <input
+                        type="color"
+                        value={updatedPerson.color}
+                        onChange={(e) => {
+                          handleInputChange(e, "color");
+                        }}
+                      />
+                    </label>
+                  </LabelInputContainer>
                 </DatesContainer>
-                <SocialMediaContainer>
+                {/* <SocialMediaContainer>
                   <TextInput
                     label="Twitter"
                     type="text"
@@ -414,7 +431,7 @@ function EditPeopleScreen({
                     value={updatedPerson.facebookLink}
                     onChange={(e: any) => handleInputChange(e, "facebookLink")}
                   />
-                </SocialMediaContainer>
+                </SocialMediaContainer> */}
               </MainFormContainer>
               <ImageUploadedContainer>
                 <LabelInputContainer>

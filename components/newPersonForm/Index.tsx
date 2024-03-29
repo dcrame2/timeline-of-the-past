@@ -79,6 +79,10 @@ const LabelInputContainer = styled.div`
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
   }
+  input[type="color"] {
+    padding: 0px 10px;
+    height: 100%;
+  }
 `;
 
 const ImageUploadedContainer = styled.div`
@@ -169,6 +173,7 @@ function NewPersonForm() {
   const facebookRef = React.useRef<HTMLInputElement>(null);
   const linkedinRef = React.useRef<HTMLInputElement>(null);
   const twitterRef = React.useRef<HTMLInputElement>(null);
+  const colorRef = React.useRef<HTMLInputElement>(null);
 
   const [uploadDatas, setUploadDatas] = useState<{ [key: number]: string[] }>(
     {}
@@ -189,11 +194,12 @@ function NewPersonForm() {
     const lastName = lastNameRef.current?.value || "";
     const images = imagesRef.current?.files?.[0];
     const middleName = middleNameRef.current?.value || "";
-    const dob = dobRef.current?.value;
-    const death = deathRef.current?.value;
-    const facebookLink = facebookRef.current?.value;
-    const linkedinLink = linkedinRef.current?.value;
-    const twitterLink = twitterRef.current?.value;
+    const dob = dobRef.current?.value || "";
+    const death = deathRef.current?.value || "";
+    const facebookLink = facebookRef.current?.value || "";
+    const linkedinLink = linkedinRef.current?.value || "";
+    const twitterLink = twitterRef.current?.value || "";
+    const themeColor = colorRef.current?.value || "#ff0000";
     console.log(firstName, lastName, images, middleName, dob);
 
     const slug = slugifyNames(firstName, middleName, lastName);
@@ -211,6 +217,7 @@ function NewPersonForm() {
         lastName,
         dob,
         death,
+        themeColor,
         facebookLink,
         linkedinLink,
         twitterLink,
@@ -293,7 +300,6 @@ function NewPersonForm() {
       // Handle any errors that occur during the fetch operation
       console.error("Error deleting image:", error);
     }
-    // }
 
     // Update the updatedPerson state
     setUploadDatas(newUpdatedPerson);
@@ -351,8 +357,18 @@ function NewPersonForm() {
                   ref={deathRef}
                 />
               </LabelInputContainer>
+              <LabelInputContainer>
+                <label htmlFor="themeColor">Theme Color</label>
+                <input
+                  type="color"
+                  id="themeColor"
+                  name="themeColor"
+                  ref={colorRef}
+                />
+              </LabelInputContainer>
             </DatesContainer>
-            <SocialMediaContainer>
+
+            {/* <SocialMediaContainer>
               <TextInput
                 name="facebook"
                 label="Facebook"
@@ -374,7 +390,7 @@ function NewPersonForm() {
                 type="text"
                 ref={linkedinRef}
               />
-            </SocialMediaContainer>
+            </SocialMediaContainer> */}
           </MainFormContainer>
           <ImageUploadedContainer>
             <LabelInputContainer>
