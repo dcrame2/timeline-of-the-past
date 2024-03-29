@@ -28,19 +28,12 @@ const FormContainer = styled(motion.div)`
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
 `;
-const Form = styled.form`
-  /* display: flex;
-  flex-direction: row;
-  gap: 12px; */
-`;
+const Form = styled.form``;
 
 const FormInnerContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  /* img {
-    width: 200px;
-  } */
 `;
 
 const MainFormContainer = styled.div`
@@ -74,7 +67,6 @@ const DatesContainer = styled.div`
 `;
 
 const LabelInputContainer = styled.div`
-  /* justify-content: center; */
   display: flex;
   width: 100%;
   flex-direction: column;

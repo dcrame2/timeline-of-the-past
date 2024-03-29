@@ -3,14 +3,12 @@ import React, { useState, FormEvent, useContext } from "react";
 import styled from "styled-components";
 import { getSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { uploadFilesToCloudinary } from "@/lib/uploadFilesToCloudinary";
 
 const Form = styled.div`
-  max-height: 300px;
   height: 100%;
   background-color: ${variables.lightGrey};
-  margin: 24px;
+  padding: 30px 0;
   border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
@@ -202,15 +200,9 @@ function UploadFileInputEdit({
             ))}
           </AnimatePresence>
         </ImageMainContainer>
-
-        {/* {imageSrcs?.map((src, index) => (
-        <img key={index} src={src} alt={`Uploaded image ${index}`} />
-      ))} */}
       </Form>
-
       <MediaContainer>
         {imageSrcs?.map((src: string, index: number) => (
-          // <IndividualMediaContainer>
           <ImageMediaContainer>
             <img key={index} src={src} alt={`Uploaded image ${index}`} />
           </ImageMediaContainer>

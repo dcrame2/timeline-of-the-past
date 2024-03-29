@@ -8,10 +8,8 @@ import { pXSmall } from "@/styles/Type";
 import { AnimatePresence, motion } from "framer-motion";
 
 const Form = styled.div`
-  /* max-height: 300px; */
   height: 100%;
   background-color: ${variables.lightGrey};
-  /* margin: 24px; */
   border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
@@ -35,12 +33,10 @@ const Form = styled.div`
     cursor: pointer;
     height: 100%;
   }
-
   button {
     position: relative;
     z-index: 1;
   }
-
   p {
     text-align: center;
     ${pXSmall}
@@ -171,7 +167,6 @@ function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
 
   return (
     <>
-      {/* {selectedAge && ( */}
       <Form>
         <label htmlFor="file">Drag and Drop images here</label>
         <input
@@ -203,16 +198,13 @@ function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
           </AnimatePresence>
         </ImageMainContainer>
       </Form>
-
       <MediaContainer>
         {imageSrcs?.map((src: string, index: number) => (
-          // <IndividualMediaContainer>
           <ImageMediaContainer>
             <img key={index} src={src} alt={`Uploaded image ${index}`} />
           </ImageMediaContainer>
         ))}
       </MediaContainer>
-      {/* )} */}
     </>
   );
 }
