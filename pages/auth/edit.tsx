@@ -16,9 +16,22 @@ function EditTimeline() {
   const [receivedPersonData, setReceivedPersonData] = useState(false);
 
   useEffect(() => {
+    // if (personQuery) {
+    //   try {
+    //     const parsedPerson = JSON.parse(personQuery);
+    //     setPerson(parsedPerson);
+    //     setReceivedPersonData(true);
+    //   } catch (error) {
+    //     console.error("Error parsing person:", error);
+    //   }
+    // }
     if (personQuery) {
       try {
-        const parsedPerson = JSON.parse(personQuery);
+        // Ensure personQuery is always a string
+        const queryString = Array.isArray(personQuery)
+          ? personQuery[0]
+          : personQuery;
+        const parsedPerson = JSON.parse(queryString);
         setPerson(parsedPerson);
         setReceivedPersonData(true);
       } catch (error) {
