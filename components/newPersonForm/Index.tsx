@@ -199,7 +199,7 @@ function NewPersonForm() {
     const facebookLink = facebookRef.current?.value || "";
     const linkedinLink = linkedinRef.current?.value || "";
     const twitterLink = twitterRef.current?.value || "";
-    const themeColor = colorRef.current?.value || "#ff0000";
+    const color = colorRef.current?.value || "#ff0000";
     console.log(firstName, lastName, images, middleName, dob);
 
     const slug = slugifyNames(firstName, middleName, lastName);
@@ -217,7 +217,7 @@ function NewPersonForm() {
         lastName,
         dob,
         death,
-        themeColor,
+        color,
         facebookLink,
         linkedinLink,
         twitterLink,
@@ -358,13 +358,8 @@ function NewPersonForm() {
                 />
               </LabelInputContainer>
               <LabelInputContainer>
-                <label htmlFor="themeColor">Theme Color</label>
-                <input
-                  type="color"
-                  id="themeColor"
-                  name="themeColor"
-                  ref={colorRef}
-                />
+                <label htmlFor="color">Theme Color</label>
+                <input type="color" id="color" name="color" ref={colorRef} />
               </LabelInputContainer>
             </DatesContainer>
 
