@@ -99,6 +99,30 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const MediaContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column: 1 / span 2;
+  gap: 10px;
+`;
+
+const ImageMediaContainer = styled.div`
+  flex: 1;
+  background-color: red;
+  border: 1px solid #ccc;
+  text-align: center;
+
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
 // Define the type for uploadDatas state
 type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
 
@@ -136,11 +160,13 @@ function NewPersonForm() {
     {}
   );
 
+  const [newUploadDatas, setNewUploadDatas] = useState<{
+    [key: number]: string[];
+  }>({});
+
   const router = useRouter();
 
-  const [selectedAge, setSelectedAge] = useState<
-    string | number | readonly string[] | undefined
-  >(0); // Track selected age
+  const [selectedAge, setSelectedAge] = useState<number>(0); // Track selected age
   const [ageOptions, setAgeOptions] = useState<
     { value: number; label: string }[]
   >([]); // Age options
@@ -215,6 +241,47 @@ function NewPersonForm() {
         [age]: [],
       }));
     }
+  };
+
+  const handleRemoveImage = async (
+    imageUrlToDelete: string,
+    imageIndex: number,
+    e: any
+  ) => {
+    e.preventDefault();
+    // Create a copy of the updatedPerson
+    const newUpdatedPerson = { ...uploadDatas };
+
+    // Remove the image URL from uploadDatas array for the selectedAge
+    if (uploadDatas && selectedAge !== null) {
+      uploadDatas[selectedAge].splice(imageIndex, 1);
+    }
+
+    try {
+      // Make a POST request to the deleteImage API route
+      const response = await fetch("/api/deleteImage/deleteImage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageUrlToDelete }),
+      });
+
+      if (response.ok) {
+        // Image deletion was successful
+        console.log("Image deleted successfully");
+      } else {
+        // Handle error response from the API route
+        console.error("Failed to delete image:", response.statusText);
+      }
+    } catch (error) {
+      // Handle any errors that occur during the fetch operation
+      console.error("Error deleting image:", error);
+    }
+    // }
+
+    // Update the updatedPerson state
+    setUploadDatas(newUpdatedPerson);
   };
 
   return (
@@ -310,7 +377,18 @@ function NewPersonForm() {
               setUploadDatas={setUploadDatas}
               uploadDatas={uploadDatas}
             />
+            <MediaContainer>
+              {uploadDatas[selectedAge]?.map((src: string, index: number) => (
+                <ImageMediaContainer>
+                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
+                  <button onClick={(e) => handleRemoveImage(src, index, e)}>
+                    x
+                  </button>
+                </ImageMediaContainer>
+              ))}
+            </MediaContainer>
           </ImageUploadedContainer>
+
           <ButtonContainer>
             <button type="submit">Preview</button>
             <button type="submit">Save</button>

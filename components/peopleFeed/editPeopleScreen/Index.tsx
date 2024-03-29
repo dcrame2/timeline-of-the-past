@@ -226,6 +226,7 @@ function EditPeopleScreen({
     imageIndex: number,
     e: any
   ) => {
+    e.preventDefault();
     // Create a copy of the updatedPerson
     const newUpdatedPerson = { ...updatedPerson };
 

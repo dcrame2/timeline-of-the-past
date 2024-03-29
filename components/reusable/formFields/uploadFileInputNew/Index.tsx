@@ -177,34 +177,27 @@ function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
           onChange={(e) => handleOnChange(e)}
         />
         <ImageMainContainer>
-          <AnimatePresence mode="wait">
-            {imageSrcs?.map((src: string, index: number) => (
-              <IndividualImageContainer key={index} {...motionProps}>
-                <ImageContainer>
-                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
-                </ImageContainer>
+          {/* <AnimatePresence mode="wait"> */}
+          {imageSrcs?.map((src: string, index: number) => (
+            <IndividualImageContainer key={index} {...motionProps}>
+              <ImageContainer>
+                <img key={index} src={src} alt={`Uploaded image ${index}`} />
+              </ImageContainer>
 
-                {isLoading ? (
-                  <IsLoadingContainer>
-                    <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
-                  </IsLoadingContainer>
-                ) : (
-                  <ImageUploadedContainer>
-                    <p style={{ color: "#2e2424" }}>Image Uploaded</p>
-                  </ImageUploadedContainer>
-                )}
-              </IndividualImageContainer>
-            ))}
-          </AnimatePresence>
+              {isLoading ? (
+                <IsLoadingContainer>
+                  <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
+                </IsLoadingContainer>
+              ) : (
+                <ImageUploadedContainer>
+                  <p style={{ color: "#2e2424" }}>Image Uploaded</p>
+                </ImageUploadedContainer>
+              )}
+            </IndividualImageContainer>
+          ))}
+          {/* </AnimatePresence> */}
         </ImageMainContainer>
       </Form>
-      <MediaContainer>
-        {imageSrcs?.map((src: string, index: number) => (
-          <ImageMediaContainer>
-            <img key={index} src={src} alt={`Uploaded image ${index}`} />
-          </ImageMediaContainer>
-        ))}
-      </MediaContainer>
     </>
   );
 }
