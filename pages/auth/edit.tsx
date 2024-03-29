@@ -25,6 +25,9 @@ function EditTimeline() {
     //     console.error("Error parsing person:", error);
     //   }
     // }
+    // if (selectedIndexQuery) {
+    //   setSelectedIndex(selectedIndexQuery);
+    // }
     if (personQuery) {
       try {
         // Ensure personQuery is always a string
@@ -38,8 +41,17 @@ function EditTimeline() {
         console.error("Error parsing person:", error);
       }
     }
+
     if (selectedIndexQuery) {
-      setSelectedIndex(selectedIndexQuery);
+      try {
+        // Ensure selectedIndexQuery is always a number before setting it to the state
+        const indexValue = Array.isArray(selectedIndexQuery)
+          ? parseInt(selectedIndexQuery[0])
+          : parseInt(selectedIndexQuery);
+        setSelectedIndex(indexValue);
+      } catch (error) {
+        console.error("Error parsing selectedIndex:", error);
+      }
     }
   }, [personQuery, selectedIndexQuery]);
 
