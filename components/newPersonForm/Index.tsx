@@ -118,8 +118,6 @@ const ImageMediaContainer = styled.div`
   align-items: center;
   justify-content: center;
   img {
-    /* width: 100%;
-    height: 100%; */
     object-fit: contain;
   }
   button {

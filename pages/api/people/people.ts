@@ -2,10 +2,6 @@ import { connectToDatabase } from "@/lib/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  //   if (!session) {
-  //     return res.status(401).json({ message: "Unauthorized" });
-  //   }
-
   if (req.method === "POST") {
     const data = req.body;
 
@@ -35,34 +31,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         }
       );
-
-      // const userWithUserData = await db
-      //   .collection("users")
-      //   .findOne({ _id: user._id, userData: { $exists: true } });
-
-      // if (userWithUserData) {
-      //   // 'userData' field does not exist, handle accordingly (e.g., create 'userData' array)
-      //   // For example, you could set 'userData' to an empty array and then push the data
-      //   await db.collection("users").updateOne(
-      //     { _id: user._id },
-      //     {
-      //       $set: {
-      //         userData: [data], // Initialize 'userData' with the new data
-      //       },
-      //     }
-      //   );
-      //   // 'userData' field exists, proceed with the update
-      // } else {
-      //   await db.collection("users").updateOne(
-      //     { _id: user._id },
-      //     {
-      //       $push: {
-      //         userData: data,
-      //       },
-      //     }
-      //   );
-      // }
-
       res.status(200).json({ message: "Data updated successfully" });
       client.close();
     } catch (error) {

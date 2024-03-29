@@ -13,7 +13,6 @@ const StyledLink = styled(motion(Link))`
   box-shadow: rgba(56, 59, 61, 0.2) 0px 4px 8px;
   cursor: pointer;
   display: flex;
-  /* gap: 12px; */
   align-items: center;
   border: none;
   img {

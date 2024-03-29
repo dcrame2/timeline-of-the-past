@@ -5,7 +5,7 @@ async function uploadFilesToCloudinary(files: any) {
     const file = files[i];
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "my-uploads"); // Replace 'my-uploads' with your Cloudinary upload preset
+    formData.append("upload_preset", "my-uploads");
 
     try {
       const response = await fetch(

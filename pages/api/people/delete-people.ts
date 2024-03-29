@@ -2,13 +2,9 @@ import { connectToDatabase } from "@/lib/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  //   if (!session) {
-  //     return res.status(401).json({ message: "Unauthorized" });
-  //   }
-
   if (req.method === "POST") {
     const data = req.body;
-    const { person, sessionUserEmail, index } = data;
+    const { sessionUserEmail, index } = data;
     console.log("DELETE INDIVIDUAL TIMELINE");
 
     try {
