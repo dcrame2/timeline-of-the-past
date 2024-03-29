@@ -43,29 +43,34 @@ const FormInnerContainer = styled.div`
   } */
 `;
 
-const NameContainer = styled.div`
+const MainFormContainer = styled.div`
+  grid-column: 1 / span 2;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid ${variables.lightBlue};
+`;
+
+const NameContainer = styled.div`
+  display: flex;
   gap: 12px;
-  /* grid-column: 1 / span 2; */
-  /* flex-direction: column; */
+  grid-column: 1 / span 2;
 `;
 
 const SocialMediaContainer = styled.div`
   display: flex;
   gap: 12px;
-  flex-direction: column;
-  grid-column: 1;
-  /* grid-column: 1 / span 2; */
+
+  grid-column: 1 / span 2;
 `;
 
 const DatesContainer = styled.div`
   display: flex;
   width: 100%;
   gap: 12px;
-  flex-direction: column;
-  grid-column: 1;
-  /* flex-direction: column; */
+
+  grid-column: 1 / span 2;
 `;
 
 const LabelInputContainer = styled.div`
@@ -84,8 +89,11 @@ const LabelInputContainer = styled.div`
 `;
 
 const ImageUploadedContainer = styled.div`
-  grid-column: 2;
-  grid-row: 1;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  grid-column: 1 / span 2;
 `;
 
 const ButtonContainer = styled.div`
@@ -221,78 +229,79 @@ function NewPersonForm() {
     <FormContainer {...motionPropsRight}>
       <Form method="post" onSubmit={submitNewPerson}>
         <FormInnerContainer>
-          <NameContainer>
-            <TextInput
-              name="firstName"
-              label="First Name"
-              placeholder="John"
-              type="text"
-              ref={firstNameRef}
-            />
-            <TextInput
-              name="middleName"
-              label="Middle Name"
-              placeholder="George"
-              type="text"
-              ref={middleNameRef}
-            />
-            <TextInput
-              name="lastName"
-              label="Last Name"
-              placeholder="Doe"
-              type="text"
-              ref={lastNameRef}
-            />
-          </NameContainer>
-          <DatesContainer>
-            <LabelInputContainer>
-              <label htmlFor="start">Date of Birth</label>
-              <input
-                type="date"
-                id="start"
-                name="trip-start"
-                min="1900-01-01"
-                max="2030-12-31"
-                ref={dobRef}
-                onChange={(e: any) => handleDateOfBirthChange(e)}
+          <MainFormContainer>
+            <NameContainer>
+              <TextInput
+                name="firstName"
+                label="First Name"
+                placeholder="John"
+                type="text"
+                ref={firstNameRef}
               />
-            </LabelInputContainer>
-            <LabelInputContainer>
-              <label htmlFor="start">Death (Optional)</label>
-              <input
-                type="date"
-                id="start"
-                name="trip-start"
-                min="1900-01-01"
-                max="2030-12-31"
-                ref={deathRef}
+              <TextInput
+                name="middleName"
+                label="Middle Name"
+                placeholder="George"
+                type="text"
+                ref={middleNameRef}
               />
-            </LabelInputContainer>
-          </DatesContainer>
-          <SocialMediaContainer>
-            <TextInput
-              name="facebook"
-              label="Facebook"
-              placeholder="http://"
-              type="text"
-              ref={facebookRef}
-            />
-            <TextInput
-              name="twitter"
-              label="Twitter"
-              placeholder="http://"
-              type="text"
-              ref={twitterRef}
-            />
-            <TextInput
-              name="linkedin"
-              label="LinkedIn"
-              placeholder="http://"
-              type="text"
-              ref={linkedinRef}
-            />
-          </SocialMediaContainer>
-
+              <TextInput
+                name="lastName"
+                label="Last Name"
+                placeholder="Doe"
+                type="text"
+                ref={lastNameRef}
+              />
+            </NameContainer>
+            <DatesContainer>
+              <LabelInputContainer>
+                <label htmlFor="start">Date of Birth</label>
+                <input
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max="2030-12-31"
+                  ref={dobRef}
+                  onChange={(e: any) => handleDateOfBirthChange(e)}
+                />
+              </LabelInputContainer>
+              <LabelInputContainer>
+                <label htmlFor="start">Death (Optional)</label>
+                <input
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max="2030-12-31"
+                  ref={deathRef}
+                />
+              </LabelInputContainer>
+            </DatesContainer>
+            <SocialMediaContainer>
+              <TextInput
+                name="facebook"
+                label="Facebook"
+                placeholder="http://"
+                type="text"
+                ref={facebookRef}
+              />
+              <TextInput
+                name="twitter"
+                label="Twitter"
+                placeholder="http://"
+                type="text"
+                ref={twitterRef}
+              />
+              <TextInput
+                name="linkedin"
+                label="LinkedIn"
+                placeholder="http://"
+                type="text"
+                ref={linkedinRef}
+              />
+            </SocialMediaContainer>
+          </MainFormContainer>
           <ImageUploadedContainer>
             <LabelInputContainer>
               <label htmlFor="age">Select Age to Upload Images For</label>

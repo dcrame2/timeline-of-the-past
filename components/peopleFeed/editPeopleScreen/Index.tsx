@@ -206,7 +206,8 @@ function EditPeopleScreen({
 
   const handleRemoveImage = async (
     imageUrlToDelete: string,
-    imageIndex: number
+    imageIndex: number,
+    e: any
   ) => {
     // Create a copy of the updatedPerson
     const newUpdatedPerson = { ...updatedPerson };
@@ -215,15 +216,6 @@ function EditPeopleScreen({
     if (newUpdatedPerson.uploadDatas && selectedAge !== null) {
       newUpdatedPerson.uploadDatas[selectedAge].splice(imageIndex, 1);
     }
-
-    // Find the index of the image URL to delete within the uploadDatas array
-    // const imageIndex =
-    //   newUpdatedPerson?.uploadDatas[selectedAge]?.indexOf(imageUrlToDelete);
-
-    // // If the image URL is found in the uploadDatas array
-    // if (imageIndex !== -1) {
-    //   // Remove the image URL from uploadDatas array for the selectedAge
-    //   newUpdatedPerson?.uploadDatas[selectedAge].splice(imageIndex, 1);
 
     try {
       // Make a POST request to the deleteImage API route
@@ -455,7 +447,7 @@ function EditPeopleScreen({
                         <ImageContainer>
                           <img src={image} />
                           <button
-                            onClick={() => handleRemoveImage(image, index)}
+                            onClick={(e) => handleRemoveImage(image, index, e)}
                           >
                             x
                           </button>

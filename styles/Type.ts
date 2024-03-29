@@ -146,7 +146,6 @@ export const buttonType = css`
 export const inputType = css`
   font-family: ${monsterrat};
   padding: 10px 12px;
-  /* min-width: 400px; */
   border: 1px solid ${variables.darkBlue};
   border-radius: 8px;
   color: ${variables.black};

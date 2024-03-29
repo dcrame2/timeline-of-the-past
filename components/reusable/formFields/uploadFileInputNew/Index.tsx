@@ -4,17 +4,20 @@ import styled from "styled-components";
 import { getSession } from "next-auth/react";
 import { Context } from "@/pages/_app";
 import { uploadFilesToCloudinary } from "@/lib/uploadFilesToCloudinary";
+import { pXSmall } from "@/styles/Type";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Form = styled.div`
-  max-height: 300px;
+  /* max-height: 300px; */
   height: 100%;
   background-color: ${variables.lightGrey};
   /* margin: 24px; */
   border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
-  grid-column: 2;
+  grid-column: 1 / span 2;
   padding: 30px 0;
+
   label {
     text-align: center;
     display: inline-block;
@@ -38,22 +41,28 @@ const Form = styled.div`
     z-index: 1;
   }
 
-  P {
+  p {
     text-align: center;
+    ${pXSmall}
   }
 `;
 
-const ImageMainContainer = styled.div`
+const ImageMainContainer = styled(motion.div)`
   display: flex;
   gap: 8px;
-  flex-direction: column;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 4px;
 `;
 
-const IsLoadingContainer = styled.div``;
+const IsLoadingContainer = styled(motion.div)``;
+const ImageUploadedContainer = styled(motion.div)``;
 
 const ImageContainer = styled.div`
-  max-height: 50px;
-  max-width: 50px;
+  max-height: 40px;
+  max-width: 40px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -61,13 +70,37 @@ const ImageContainer = styled.div`
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 `;
 
-const IndeividualImageContainer = styled.div`
+const MediaContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column: 1 / span 2;
+  gap: 10px;
+`;
+
+const ImageMediaContainer = styled.div`
+  flex: 1;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  text-align: center;
+
+  overflow: hidden;
   display: flex;
-  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
+const IndividualImageContainer = styled(motion.div)`
+  display: flex;
+  padding: 4px;
   background-color: ${variables.darkerLightGrey};
   border: 1px solid ${variables.darkBlue};
   border-radius: 8px;
@@ -75,6 +108,21 @@ const IndeividualImageContainer = styled.div`
   gap: 24px;
 `;
 
+const motionProps = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+  },
+  exit: {
+    opacity: 0,
+  },
+  transition: {
+    duration: 0.4,
+    delay: 0.5,
+  },
+};
 // Define the type for uploadDatas state
 type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
 
@@ -133,25 +181,38 @@ function UploadFileInputNew({ selectedAge, uploadDatas, setUploadDatas }: any) {
           accept="image/*"
           onChange={(e) => handleOnChange(e)}
         />
-      </Form>
-      {/* )} */}
-      <ImageMainContainer>
-        {imageSrcs?.map((src: string, index: number) => (
-          <IndeividualImageContainer>
-            <ImageContainer>
-              <img key={index} src={src} alt={`Uploaded image ${index}`} />
-            </ImageContainer>
+        <ImageMainContainer>
+          <AnimatePresence mode="wait">
+            {imageSrcs?.map((src: string, index: number) => (
+              <IndividualImageContainer key={index} {...motionProps}>
+                <ImageContainer>
+                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
+                </ImageContainer>
 
-            {isLoading ? (
-              <IsLoadingContainer>
-                <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
-              </IsLoadingContainer>
-            ) : (
-              <p style={{ color: "#2e2424" }}>Image Uploaded ✅</p>
-            )}
-          </IndeividualImageContainer>
+                {isLoading ? (
+                  <IsLoadingContainer>
+                    <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
+                  </IsLoadingContainer>
+                ) : (
+                  <ImageUploadedContainer>
+                    <p style={{ color: "#2e2424" }}>Image Uploaded</p>
+                  </ImageUploadedContainer>
+                )}
+              </IndividualImageContainer>
+            ))}
+          </AnimatePresence>
+        </ImageMainContainer>
+      </Form>
+
+      <MediaContainer>
+        {imageSrcs?.map((src: string, index: number) => (
+          // <IndividualMediaContainer>
+          <ImageMediaContainer>
+            <img key={index} src={src} alt={`Uploaded image ${index}`} />
+          </ImageMediaContainer>
         ))}
-      </ImageMainContainer>
+      </MediaContainer>
+      {/* )} */}
     </>
   );
 }
