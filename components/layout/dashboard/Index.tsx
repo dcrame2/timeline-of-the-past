@@ -9,7 +9,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 224px 1fr 1fr;
   grid-template-rows: 75px 1fr; /* Define two rows, the first one will auto size to fit content */
-  height: 100vh; /* Ensure the container takes up the full viewport height */
+  height: 100dvh; /* Ensure the container takes up the full viewport height */
 
   @media ${MediaQueries.mobile} {
     grid-template-columns: 1fr;

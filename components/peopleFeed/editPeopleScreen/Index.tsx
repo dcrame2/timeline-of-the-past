@@ -8,6 +8,7 @@ import { buttonType } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
 import { inputType } from "@/styles/Type";
+import { MediaQueries } from "@/styles/Utilities";
 
 const PeopleScreen = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -18,6 +19,9 @@ const PeopleScreen = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  @media ${MediaQueries.mobile} {
+    padding: 88px 24px;
+  }
 `;
 
 const Form = styled.form`
@@ -40,6 +44,10 @@ const NameContainer = styled.div`
   display: flex;
   gap: 40px;
   grid-column: 1 / span 2;
+  @media ${MediaQueries.mobile} {
+    flex-direction: column;
+    gap: 12px;
+  }
 `;
 
 const SocialMediaContainer = styled.div`
@@ -53,6 +61,10 @@ const DatesContainer = styled.div`
   width: 100%;
   gap: 40px;
   grid-column: 1 / span 2;
+  @media ${MediaQueries.mobile} {
+    flex-direction: column;
+    gap: 12px;
+  }
 `;
 
 const ImageGridContainer = styled.div`
@@ -145,6 +157,9 @@ const MainFormContainer = styled.div`
   gap: 20px;
   padding-bottom: 30px;
   border-bottom: 2px solid ${variables.lightBlue};
+  @media ${MediaQueries.mobile} {
+    gap: 12px;
+  }
 `;
 
 const motionPropsRight = {

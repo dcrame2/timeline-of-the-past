@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import ProfileMenu from "./profileMenu/Index";
 import { variables } from "@/styles/Variables";
+import { MediaQueries } from "@/styles/Utilities";
 
 const Container = styled.div`
   /* padding: 20px; */
@@ -30,6 +31,9 @@ const ProfileBtn = styled(motion.button)`
   position: absolute;
   right: 0;
   /* margin-right: 24px; */
+  @media ${MediaQueries.tablet} {
+    right: 20px;
+  }
   img {
     width: 30px;
   }

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import AuthSignOutButton from "@/components/reusable/authSIgnOutButton/Index";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
+import { MediaQueries } from "@/styles/Utilities";
 
 const ProfileContainer = styled(motion.div)`
   padding: 12px 12px 12px 48px;
@@ -13,6 +14,9 @@ const ProfileContainer = styled(motion.div)`
   position: absolute;
   right: 0;
   top: 60px;
+  @media ${MediaQueries.tablet} {
+    right: 20px;
+  }
   ul {
     list-style-type: none;
     display: flex;

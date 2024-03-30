@@ -13,9 +13,7 @@ import { MediaQueries } from "@/styles/Utilities";
 import { Container } from "@/styles/Utilities";
 
 const AuthContainer = styled.div`
-  /* height: 100vw; */
   width: 100%;
-  /* background-color: ${variables.lightGrey}; */
   background-color: ${variables.darkBlue};
 
   button.toggleForm {
@@ -31,15 +29,14 @@ const IntialSignInContainer = styled.div`
 
 const FormInfoContainer = styled.div`
   width: 40%;
-  /* padding: 48px; */
   padding-top: 48px;
   padding-bottom: 48px;
   @media ${MediaQueries.tablet} {
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
   }
   @media ${MediaQueries.mobile} {
-    height: 100vh;
+    height: 100dvh;
   }
 `;
 

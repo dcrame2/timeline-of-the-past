@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { inputType, pXSmall } from "@/styles/Type";
 import Image from "next/image";
 import slugifyNames from "@/lib/slugify";
+import { MediaQueries } from "@/styles/Utilities";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -20,6 +21,9 @@ const FormContainer = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  @media ${MediaQueries.mobile} {
+    padding: 88px 24px;
+  }
 `;
 const Form = styled.form``;
 
@@ -36,12 +40,18 @@ const MainFormContainer = styled.div`
   gap: 20px;
   padding-bottom: 30px;
   border-bottom: 2px solid ${variables.lightBlue};
+  @media ${MediaQueries.mobile} {
+    gap: 12px;
+  }
 `;
 
 const NameContainer = styled.div`
   display: flex;
   gap: 12px;
   grid-column: 1 / span 2;
+  @media ${MediaQueries.mobile} {
+    flex-direction: column;
+  }
 `;
 
 const SocialMediaContainer = styled.div`
@@ -55,8 +65,12 @@ const DatesContainer = styled.div`
   display: flex;
   width: 100%;
   gap: 12px;
-
   grid-column: 1 / span 2;
+
+  @media ${MediaQueries.mobile} {
+    flex-direction: column;
+    gap: 12px;
+  }
 `;
 
 const LabelInputContainer = styled.div`
