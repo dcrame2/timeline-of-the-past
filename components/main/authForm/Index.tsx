@@ -9,8 +9,10 @@ import SignInForm from "./SignInForm";
 import Image from "next/image";
 import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
+import { MediaQueries } from "@/styles/Utilities";
+import { Container } from "@/styles/Utilities";
 
-const Container = styled.div`
+const AuthContainer = styled.div`
   /* height: 100vw; */
   width: 100%;
   /* background-color: ${variables.lightGrey}; */
@@ -24,18 +26,25 @@ const IntialSignInContainer = styled.div`
   display: flex;
   justify-content: space-between;
   color: black;
-  /* flex-direction: row-reverse; */
+  ${Container}
 `;
 
 const FormInfoContainer = styled.div`
   width: 40%;
-
-  padding: 48px;
+  /* padding: 48px; */
+  padding-top: 48px;
+  padding-bottom: 48px;
+  @media ${MediaQueries.tablet} {
+    width: 100%;
+    height: 100vh;
+  }
+  @media ${MediaQueries.mobile} {
+    height: 100vh;
+  }
 `;
 
 const FormInfoInnerContainer = styled.div`
   background-color: ${variables.darkerLightGrey};
-  /* background-color: ${variables.lightBlue}; */
   border-radius: 12px;
   width: 100%;
   height: 100%;
@@ -54,9 +63,11 @@ const MainImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media ${MediaQueries.tablet} {
+    display: none;
+  }
 
   img {
-    /* object-fit: cover; */
     width: 50%;
     height: 100vh;
   }
@@ -139,7 +150,7 @@ export default function AuthForm() {
   };
 
   return (
-    <Container>
+    <AuthContainer>
       <IntialSignInContainer>
         <FormInfoContainer>
           <FormInfoInnerContainer>
@@ -169,13 +180,13 @@ export default function AuthForm() {
         </FormInfoContainer>
         <MainImageContainer>
           <Image
-            src="/timeline.svg"
+            src="/hourglass.svg"
             width={500}
             height={500}
             alt="Picture of the author"
           />
         </MainImageContainer>
       </IntialSignInContainer>
-    </Container>
+    </AuthContainer>
   );
 }
