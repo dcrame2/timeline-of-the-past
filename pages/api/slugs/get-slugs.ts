@@ -7,10 +7,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const db = client.db();
 
     // Find all users
-    const usersCursor = db.collection("users").find({});
+    const usersCursor = await db.collection("users").find({});
 
     // Convert the cursor to an array of users
     const users = await usersCursor.toArray();
+    console.log(users, "usersCursor");
 
     if (!users) {
       return res.status(404).json({ message: "User not found" });
