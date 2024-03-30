@@ -10,7 +10,9 @@ const ProfileContainer = styled(motion.div)`
   border-radius: 12px;
   background-color: ${variables.lightGrey};
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-
+  position: absolute;
+  right: 0;
+  top: 60px;
   ul {
     list-style-type: none;
     display: flex;
@@ -34,14 +36,11 @@ function ProfileMenu() {
   const motionPropsIn = {
     initial: {
       opacity: 0,
-      //   y: "100%",
     },
     animate: {
-      //   y: 0,
       opacity: 1,
     },
     exit: {
-      //   y: "100%",
       opacity: 0,
     },
     transition: {

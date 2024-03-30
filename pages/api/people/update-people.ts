@@ -5,12 +5,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const data = req.body;
     const { updatedPerson, sessionUserEmail, selectedIndex } = data;
-    // console.log(
-    //   updatedPerson,
-    //   sessionUserEmail,
-    //   selectedIndex,
-    //   "sessionUserEmail"
-    // );
 
     try {
       const client = await connectToDatabase();

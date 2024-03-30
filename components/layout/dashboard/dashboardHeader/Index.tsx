@@ -15,18 +15,20 @@ const Container = styled.div`
   top: 0;
   right: 0;
   left: 0;
+  max-width: 1285px;
   /* background-color: ${variables.darkerLightGrey}; */
 `;
 
-const BusinessName = styled.p`
-  color: steelblue;
-  font-weight: 600;
-  font-size: 20px;
+const Logo = styled.img`
+  width: 200px;
+  position: fixed;
 `;
 
 const ProfileBtn = styled(motion.button)`
   background-color: transparent;
   border: none;
+  position: absolute;
+  right: 0;
   /* margin-right: 24px; */
   img {
     width: 30px;
@@ -48,7 +50,7 @@ function DashboardHeader() {
   };
   return (
     <Container>
-      <BusinessName>Timeline That</BusinessName>
+      <Logo src="/timeline_that_logo.png" alt="Timeline That Logo" />
 
       <ProfileMenuContainer>
         <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>

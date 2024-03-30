@@ -1,14 +1,29 @@
-import { h2styles, pBase } from "@/styles/Type";
+import { h2styles, pBase, buttonType } from "@/styles/Type";
 import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
+import Hero from "@/mainWebsite/hero/Index";
+import { Container, MediaQueries } from "@/styles/Utilities";
+import Examples from "@/mainWebsite/examples/Index";
 
-const Logo = styled.h1`
-  ${h2styles}
+const LayoutContainer = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  ${Container}
+  /* padding-top: 20px; */
+  align-items: center;
+`;
+
+const Logo = styled.img`
+  width: 200px;
+  @media ${MediaQueries.tablet} {
+    width: 150px;
+  }
 `;
 
 const LinkStyled = styled(Link)`
-  ${pBase}
+  ${buttonType}
+  width: unset;
 `;
 
 export default function Home() {
@@ -21,8 +36,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Logo>Timeline That</Logo>
-        <LinkStyled href="/auth/authenticate">Login or sign up</LinkStyled>
+        <LayoutContainer>
+          <Logo src="/timeline_that_logo.png" alt="Timeline That Logo" />
+          <LinkStyled href="/auth/authenticate">Login or sign up</LinkStyled>
+        </LayoutContainer>
+        <Hero />
+        <Examples />
       </main>
     </>
   );

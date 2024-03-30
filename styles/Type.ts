@@ -19,31 +19,31 @@ export const h1styles = css`
   }
 
   @media ${MediaQueries.mobile} {
-    font-size: 3rem;
+    font-size: 2.2rem;
     line-height: 3.2rem;
   }
 `;
 
 export const h2styles = css`
   font-family: ${monsterrat};
-  font-size: 5.4rem;
-  line-height: 5.5rem;
+  font-size: 3.4rem;
+  line-height: 3.5rem;
   color: ${variables.black};
 
   @media ${MediaQueries.tablet} {
-    font-size: 3.5rem;
-    line-height: 3.7rem;
+    font-size: 2.2rem;
+    line-height: 2.4rem;
   }
 
   @media ${MediaQueries.mobile} {
-    font-size: 2.9rem;
-    line-height: 3rem;
+    font-size: 1.8rem;
+    line-height: 1.3rem;
   }
 `;
 
 export const h3styles = css`
   font-family: ${monsterrat};
-  font-size: 5.2rem;
+  font-size: 2.2rem;
   line-height: 6.3rem;
   font-weight: 300;
   color: ${variables.black};
@@ -100,6 +100,10 @@ export const pBase = css`
   @media ${MediaQueries.tablet} {
     font-size: 1.3rem;
     line-height: 1.4rem;
+  }
+  @media ${MediaQueries.mobile} {
+    font-size: 0.9rem;
+    line-height: 1.1rem;
   }
 `;
 

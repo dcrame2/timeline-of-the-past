@@ -348,7 +348,7 @@ function EditPeopleScreen({
 
   return (
     <>
-      {updatedPerson && (
+      {person && (
         <PeopleScreen>
           <Form onSubmit={(e) => handleSave(e)}>
             <FormInnerContainer>
