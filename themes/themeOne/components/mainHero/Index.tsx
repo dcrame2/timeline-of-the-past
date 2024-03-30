@@ -41,7 +41,7 @@ interface Person {
       firstName?: string;
       middleName?: string;
       lastName?: string;
-      dob: string;
+      dob?: any;
       death?: string;
       facebookLink?: string;
       linkedinLink?: string;
