@@ -1,6 +1,8 @@
 import React from "react";
 import MainHero from "./components/mainHero/Index";
 import ImagesWithTitles from "./components/imagesWithTitles/Index";
+import Footer from "./components/footer/Index";
+import Navigation from "./components/navigation/Index";
 
 type DataProps = [];
 
@@ -28,8 +30,10 @@ type PersonType = Person[];
 function ThemeOne({ data }: Person) {
   return (
     <>
+      <Navigation data={data} />
       <MainHero data={data} />
       <ImagesWithTitles data={data} />
+      <Footer data={data} />
     </>
   );
 }

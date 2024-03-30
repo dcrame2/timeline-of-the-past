@@ -61,7 +61,7 @@ const IndividualPeopleContainer = styled(motion.div)`
   color: ${variables.black};
   align-items: center;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-
+  /* z-index: 1; */
   a {
     ${linkStyles}
   }
@@ -71,6 +71,8 @@ const CRUDBtns = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
+  z-index: 1;
+  position: relative;
 `;
 
 const EditBtn = styled(motion(Link))`
@@ -83,6 +85,8 @@ const EditBtn = styled(motion(Link))`
   padding: 6px;
   border-radius: 8px;
   cursor: pointer;
+  z-index: 1;
+  position: relative;
   img {
     width: 16px;
   }
@@ -98,6 +102,8 @@ const DeleteBtn = styled(motion.button)`
   padding: 6px;
   border-radius: 8px;
   cursor: pointer;
+  z-index: 1;
+  position: relative;
   img {
     width: 16px;
   }
@@ -155,14 +161,14 @@ function PeopleFeed({
   const motionPropsUp = {
     initial: {
       opacity: 0,
-      y: "100%",
+      // y: "100%",
     },
     animate: {
-      y: 0,
+      // y: 0,
       opacity: 1,
     },
     exit: {
-      y: "100%",
+      // y: "100%",
       opacity: 0,
     },
     transition: {
@@ -187,48 +193,48 @@ function PeopleFeed({
             const { firstName, middleName, lastName, slug } = person;
 
             return (
-              <AnimatePresence mode="wait">
-                <IndividualPeopleContainer
-                  key={`${index}-person`}
-                  {...motionPropsUp}
-                >
-                  <MainInfo>
-                    <p>
-                      {firstName} {middleName} {lastName}
-                    </p>
-                    <Link
-                      target="_blank"
-                      href={`https://timelinethat.com${slug}`}
-                    >
-                      https://timelinethat.com{slug}
-                    </Link>
-                  </MainInfo>
-                  <CRUDBtns>
-                    <EditBtn
-                      href="/auth/edit"
-                      whileHover={{ scale: 1.1 }}
-                      onClick={() => {
-                        router.push({
-                          pathname: "/auth/edit",
-                          query: {
-                            person: JSON.stringify(person), // Convert person object to string
-                            selectedIndex: index,
-                          },
-                        });
-                      }}
-                    >
-                      <img src="/edit_icon.png" alt="icon" />
-                    </EditBtn>
+              // <AnimatePresence mode="wait">
+              <IndividualPeopleContainer
+                key={`${index}-person`}
+                {...motionPropsUp}
+              >
+                <MainInfo>
+                  <p>
+                    {firstName} {middleName} {lastName}
+                  </p>
+                  <Link
+                    target="_blank"
+                    href={`https://timelinethat.com${slug}`}
+                  >
+                    https://timelinethat.com{slug}
+                  </Link>
+                </MainInfo>
+                <CRUDBtns>
+                  <EditBtn
+                    href="/auth/edit"
+                    whileHover={{ scale: 1.1 }}
+                    onClick={() => {
+                      router.push({
+                        pathname: "/auth/edit",
+                        query: {
+                          person: JSON.stringify(person), // Convert person object to string
+                          selectedIndex: index,
+                        },
+                      });
+                    }}
+                  >
+                    <img src="/edit_icon.png" alt="icon" />
+                  </EditBtn>
 
-                    <DeleteBtn
-                      whileHover={{ scale: 1.1 }}
-                      onClick={() => deletePeopleHandler(person, index)}
-                    >
-                      <img src="/trash_icon.png" alt="icon" />
-                    </DeleteBtn>
-                  </CRUDBtns>
-                </IndividualPeopleContainer>
-              </AnimatePresence>
+                  <DeleteBtn
+                    whileHover={{ scale: 1.1 }}
+                    onClick={() => deletePeopleHandler(person, index)}
+                  >
+                    <img src="/trash_icon.png" alt="icon" />
+                  </DeleteBtn>
+                </CRUDBtns>
+              </IndividualPeopleContainer>
+              // </AnimatePresence>
             );
           })}
       </>
