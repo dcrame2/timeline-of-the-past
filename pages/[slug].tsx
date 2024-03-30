@@ -2,6 +2,7 @@ import type {
   InferGetStaticPropsType,
   GetStaticProps,
   GetStaticPaths,
+  GetServerSideProps,
 } from "next";
 import ThemeOne from "@/themes/themeOne/Index";
 interface Person {
@@ -27,44 +28,44 @@ type UploadDatasType = {
   age: string[];
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/slugs/get-slugs`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch slugs");
-    }
-    const repo = await res.json();
-    // console.log(repo.users, "REPOOOO");
-    const { users } = repo;
-    console.log(users);
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   try {
+//     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/slugs/get-slugs`);
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch slugs");
+//     }
+//     const repo = await res.json();
+//     // console.log(repo.users, "REPOOOO");
+//     const { users } = repo;
+//     console.log(users);
 
-    let pathHolder: string[] = [];
+//     let pathHolder: string[] = [];
 
-    const paths = users.map((user: any) => {
-      const { userData } = user;
+//     const paths = users.map((user: any) => {
+//       const { userData } = user;
 
-      userData.map((userInfo: any) => {
-        pathHolder.push(userInfo.slug);
-      });
-      return pathHolder;
-    });
+//       userData.map((userInfo: any) => {
+//         pathHolder.push(userInfo.slug);
+//       });
+//       return pathHolder;
+//     });
 
-    console.log(paths[0], "PATHSS");
+//     console.log(paths[0], "PATHSS");
 
-    return {
-      paths: paths[0],
-      fallback: false,
-    };
-  } catch (error) {
-    console.error("Error fetching slugs:", error);
-    return {
-      paths: [],
-      fallback: false,
-    };
-  }
-};
+//     return {
+//       paths: paths[0],
+//       fallback: false,
+//     };
+//   } catch (error) {
+//     console.error("Error fetching slugs:", error);
+//     return {
+//       paths: [],
+//       fallback: false,
+//     };
+//   }
+// };
 
-export const getStaticProps: GetStaticProps<{ data: any }> = async (
+export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
   context
 ) => {
   try {
@@ -95,9 +96,7 @@ export const getStaticProps: GetStaticProps<{ data: any }> = async (
   }
 };
 
-export default function Page({
-  data,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Page({ data }: { data: any }) {
   console.log(data, "DATA ON CLIENT");
   return <ThemeOne data={data} />;
 }
