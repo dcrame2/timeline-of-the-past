@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
 import TextInput from "@/components/reusable/formFields/TextInput";
-import { buttonType } from "@/styles/Type";
+import { buttonType, linkStyles } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
 import { inputType } from "@/styles/Type";
 import { MediaQueries } from "@/styles/Utilities";
+import Link from "next/link";
 
 const PeopleScreen = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -37,6 +38,13 @@ const FormInnerContainer = styled.div`
   gap: 12px;
   img {
     width: 200px;
+  }
+`;
+
+const LinkContainer = styled.div`
+  color: ${variables.black};
+  a {
+    ${linkStyles}
   }
 `;
 
@@ -192,6 +200,7 @@ interface PeopleProps {
   facebookLink?: string;
   linkedinLink?: string;
   uploadDatas?: { [key: number]: string[] };
+  slug?: string;
 }
 
 // Define the type for uploadDatas state
@@ -367,6 +376,15 @@ function EditPeopleScreen({
         <PeopleScreen>
           <Form onSubmit={(e) => handleSave(e)}>
             <FormInnerContainer>
+              <LinkContainer>
+                {`URL: `}
+                <Link
+                  target="_blank"
+                  href={`https://timelinethat.com${person.slug}`}
+                >
+                  https://timelinethat.com{person.slug}
+                </Link>
+              </LinkContainer>
               <MainFormContainer>
                 <NameContainer>
                   <TextInput

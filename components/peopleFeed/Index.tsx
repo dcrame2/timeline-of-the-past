@@ -6,10 +6,13 @@ import AddNewPersonButton from "../reusable/addNewPersonButton/Index";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { linkStyles, pXSmall } from "@/styles/Type";
 
 interface UserData {
   firstName?: string;
+  middleName?: string;
   lastName?: string;
+  slug?: string;
 }
 
 interface PeopleDataProps {
@@ -36,6 +39,12 @@ const PeopleFeedContainer = styled.div`
   }
 `;
 
+const MainInfo = styled.div`
+  /* display: flex; */
+  /* flex-direction: column; */
+  gap: 4px;
+`;
+
 const HeaderAddContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -52,6 +61,10 @@ const IndividualPeopleContainer = styled(motion.div)`
   color: ${variables.black};
   align-items: center;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+
+  a {
+    ${linkStyles}
+  }
 `;
 
 const CRUDBtns = styled.div`
@@ -171,7 +184,7 @@ function PeopleFeed({
         {peopleData &&
           peopleData?.userData?.length !== undefined &&
           peopleData?.userData?.map((person, index) => {
-            const { firstName, lastName } = person;
+            const { firstName, middleName, lastName, slug } = person;
 
             return (
               <AnimatePresence mode="wait">
@@ -179,9 +192,17 @@ function PeopleFeed({
                   key={`${index}-person`}
                   {...motionPropsUp}
                 >
-                  <p>
-                    Name: {firstName} {lastName}
-                  </p>
+                  <MainInfo>
+                    <p>
+                      {firstName} {middleName} {lastName}
+                    </p>
+                    <Link
+                      target="_blank"
+                      href={`https://timelinethat.com${slug}`}
+                    >
+                      https://timelinethat.com{slug}
+                    </Link>
+                  </MainInfo>
                   <CRUDBtns>
                     <EditBtn
                       href="/auth/edit"

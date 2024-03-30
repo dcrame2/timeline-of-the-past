@@ -118,14 +118,14 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const MediaContainer = styled.div`
+const ImageGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-column: 1 / span 2;
   gap: 10px;
 `;
 
-const ImageMediaContainer = styled.div`
+const ImageContainer = styled.div`
   flex: 1;
   background-color: ${variables.lightGrey};
   border: 1px solid #ccc;
@@ -137,6 +137,7 @@ const ImageMediaContainer = styled.div`
   justify-content: center;
   img {
     object-fit: contain;
+    width: 200px;
   }
   button {
     position: absolute;
@@ -419,22 +420,16 @@ function NewPersonForm() {
               setImageSrcs={setImageSrcs}
               imageSrcs={imageSrcs}
             />
-            <MediaContainer>
+            <ImageGridContainer>
               {uploadDatas[selectedAge]?.map((src: string, index: number) => (
-                <ImageMediaContainer>
-                  <Image
-                    width={100}
-                    height={100}
-                    key={index}
-                    src={src}
-                    alt={`Uploaded image ${index}`}
-                  />
+                <ImageContainer>
+                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
                   <button onClick={(e) => handleRemoveImage(src, index, e)}>
                     x
                   </button>
-                </ImageMediaContainer>
+                </ImageContainer>
               ))}
-            </MediaContainer>
+            </ImageGridContainer>
           </ImageUploadedContainer>
 
           <ButtonContainer>

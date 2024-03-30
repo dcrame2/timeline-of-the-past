@@ -169,3 +169,21 @@ export const formStyles = css`
   justify-content: center;
   flex-direction: column;
 `;
+
+export const Container = css`
+  margin: 0 auto;
+  max-width: ${variables.maxWidth};
+
+  padding-right: 64px;
+  padding-left: 64px;
+
+  @media (max-width: ${variables.customSmallTablet}) {
+    padding-right: 44px;
+    paddig-left: 44px;
+  }
+
+  @media (max-width: ${variables.mobileWidth}) {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+`;

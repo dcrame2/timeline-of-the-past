@@ -176,3 +176,13 @@ export const formStyles = css`
     padding: 48px 24px 0 24px;
   }
 `;
+
+export const linkStyles = css`
+  ${pXSmall}
+  color: ${variables.lightBlue};
+  transition: color ease-in 0.3s;
+  &:hover {
+    transition: color ease-in 0.3s;
+    color: ${variables.lightLightBlue};
+  }
+`;
