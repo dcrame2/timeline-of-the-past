@@ -73,6 +73,24 @@ const CRUDBtns = styled.div`
   gap: 8px;
   z-index: 1;
   position: relative;
+  align-items: center;
+`;
+
+const ExternalBtn = styled(motion(Link))`
+  background-color: rgb(0, 0, 100, 0.4);
+  opacity: 0.7;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1;
+  position: relative;
+  img {
+    width: 16px;
+  }
 `;
 
 const EditBtn = styled(motion(Link))`
@@ -202,14 +220,22 @@ function PeopleFeed({
                   <p>
                     {firstName} {middleName} {lastName}
                   </p>
-                  <Link
+                  {/* <Link
                     target="_blank"
                     href={`https://timelinethat.com${slug}`}
                   >
                     https://timelinethat.com{slug}
-                  </Link>
+                  </Link> */}
                 </MainInfo>
                 <CRUDBtns>
+                  <ExternalBtn
+                    target="_blank"
+                    href={`https://timelinethat.com${slug}`}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <img src="/external-link.svg" alt="" />
+                  </ExternalBtn>
+
                   <EditBtn
                     href="/auth/edit"
                     whileHover={{ scale: 1.1 }}
@@ -225,7 +251,6 @@ function PeopleFeed({
                   >
                     <img src="/edit_icon.png" alt="icon" />
                   </EditBtn>
-
                   <DeleteBtn
                     whileHover={{ scale: 1.1 }}
                     onClick={() => deletePeopleHandler(person, index)}
