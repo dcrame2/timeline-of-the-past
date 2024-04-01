@@ -228,6 +228,7 @@ function EditPeopleScreen({
     { value: number; label: string }[]
   >([]); // Age options
   const [font, setFont] = useState(updatedPerson.font);
+  const maxDate = new Date().toISOString().split("T")[0];
 
   console.log(updatedPerson, "updatedPerson");
 
@@ -451,6 +452,8 @@ function EditPeopleScreen({
                       Age:
                       <input
                         type="date"
+                        min="1900-01-01"
+                        max={maxDate}
                         value={updatedPerson.dob}
                         onChange={(e) => {
                           handleInputChange(e, "dob");
@@ -484,13 +487,14 @@ function EditPeopleScreen({
                     </label>
                   </LabelInputContainer>
                   <LabelInputContainer>
-                    <label htmlFor="font-family">Select Font Family:</label>
+                    <label htmlFor="font-family">Theme Font:</label>
                     <select
                       id="font-family"
                       value={font}
                       onChange={(e) => {
                         handleSelectChange(e, "font");
                       }}
+                      style={{ fontFamily: font }}
                     >
                       <option value="">Select Font</option>
                       {fontOptions.map((option, index) => (

@@ -410,7 +410,7 @@ function NewPersonForm() {
                 <input type="color" id="color" name="color" ref={colorRef} />
               </LabelInputContainer>
               <LabelInputContainer>
-                <label htmlFor="font-family">Select Font Family:</label>
+                <label htmlFor="font-family">Theme Font:</label>
                 <select
                   id="font-family"
                   value={font}
