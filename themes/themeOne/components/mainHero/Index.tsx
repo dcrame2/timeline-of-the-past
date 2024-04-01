@@ -4,12 +4,13 @@ import styled from "styled-components";
 import formatDate from "@/lib/formatDate";
 import { pXSmall } from "@/styles/Type";
 import { variables } from "../../styles/Variables";
+import { motion } from "framer-motion";
 
 const MainHeroContainer = styled.div`
   background-color: ${({ color }) => color};
 `;
 
-const MainHeroInnerContainer = styled.div`
+const MainHeroInnerContainer = styled(motion.div)`
   height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -83,7 +84,12 @@ function MainHero({ data }: Person) {
 
   return (
     <MainHeroContainer color={color}>
-      <MainHeroInnerContainer>
+      <MainHeroInnerContainer
+        initial={{ opacity: 0, scale: 0 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: `0.8` }}
+        viewport={{ once: true }}
+      >
         <p>The Life of</p>
         <h1>
           {firstName} {middleName} {lastName}

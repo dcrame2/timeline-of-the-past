@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { pLarge } from "../../styles/Type";
 import { Container, MediaQueries } from "@/styles/Utilities";
 import formatDate from "@/lib/formatDate";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 
 const ImagesWithTitlesContainer = styled.div`
   margin-top: 88px;
@@ -28,7 +29,7 @@ const IndividualInnerContainer = styled.div`
   gap: 20px;
 `;
 
-const ImagesContainer = styled.div`
+const ImagesContainer = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 
@@ -70,13 +71,36 @@ function ImagesWithTitles({ data }: Person) {
   const { uploadDatas, color, dob }: any = data[0];
   console.log(uploadDatas, "uploadDatas");
 
+  const motionPropsFadeIn = {
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+    },
+    exit: {
+      opacity: 0,
+    },
+    transition: {
+      duration: 0.4,
+    },
+  };
+
   return (
     <ImagesWithTitlesContainer>
-      {Object.keys(uploadDatas).map((key) => (
+      {/* <AnimatePresence> */}
+      {Object.keys(uploadDatas).map((key, index) => (
         <IndividualAgeContainer color={color} key={key}>
           <IndividualInnerContainer>
             <h3>{key === "0" ? `Born: ${formatDate(dob)}` : `Age ${key}`}</h3>
-            <ImagesContainer>
+
+            <ImagesContainer
+              key={`key-${index}`}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: `0.6` }}
+              viewport={{ once: true }}
+            >
               {uploadDatas[key].map((src: string, index: number) => (
                 <img
                   key={index}
@@ -89,6 +113,7 @@ function ImagesWithTitles({ data }: Person) {
           </IndividualInnerContainer>
         </IndividualAgeContainer>
       ))}
+      {/* </AnimatePresence> */}
     </ImagesWithTitlesContainer>
   );
 }
