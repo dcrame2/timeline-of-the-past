@@ -5,6 +5,7 @@ import type {
   GetServerSideProps,
 } from "next";
 import ThemeOne from "@/themes/themeOne/Index";
+
 interface Person {
   data: [
     {

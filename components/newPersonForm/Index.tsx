@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, ChangeEvent } from "react";
 import TextInput from "../reusable/formFields/TextInput";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
@@ -194,6 +194,8 @@ function NewPersonForm() {
     {}
   );
 
+  const maxDate = new Date().toISOString().split("T")[0];
+
   const router = useRouter();
 
   const [selectedAge, setSelectedAge] = useState<number>(0);
@@ -202,6 +204,8 @@ function NewPersonForm() {
   >([]);
 
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
+
+  const [font, setFont] = useState("Arial, sans-serif");
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -233,6 +237,7 @@ function NewPersonForm() {
         dob,
         death,
         color,
+        font,
         facebookLink,
         linkedinLink,
         twitterLink,
@@ -280,6 +285,11 @@ function NewPersonForm() {
     }
   };
 
+  const handleFontChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value;
+    setFont(selectedValue);
+  };
+
   const handleRemoveImage = async (
     imageUrlToDelete: string,
     imageIndex: number,
@@ -320,6 +330,29 @@ function NewPersonForm() {
     setUploadDatas(newUpdatedPerson);
   };
 
+  const fontOptions = [
+    { label: "Arial", value: "Arial, sans-serif" },
+    { label: "Verdana", value: "Verdana, sans-serif" },
+    { label: "Georgia", value: "Georgia, serif" },
+    { label: "Times New Roman", value: "Times New Roman, serif" },
+    { label: "Courier New", value: "Courier New, monospace" },
+    { label: "Tahoma", value: "Tahoma, sans-serif" },
+    { label: "Helvetica", value: "Helvetica, sans-serif" },
+    { label: "Palatino", value: "Palatino, serif" },
+    { label: "Garamond", value: "Garamond, serif" },
+    { label: "Book Antiqua", value: "Book Antiqua, serif" },
+    { label: "Arial Black", value: "Arial Black, sans-serif" },
+    { label: "Comic Sans MS", value: "Comic Sans MS, cursive" },
+    { label: "Impact", value: "Impact, fantasy" },
+    { label: "Lucida Sans Unicode", value: "Lucida Sans Unicode, sans-serif" },
+    { label: "Lucida Console", value: "Lucida Console, monospace" },
+    { label: "Trebuchet MS", value: "Trebuchet MS, sans-serif" },
+    { label: "Geneva", value: "Geneva, sans-serif" },
+    { label: "Copperplate", value: "Copperplate, fantasy" },
+    { label: "Brush Script MT", value: "Brush Script MT, cursive" },
+    { label: "Optima", value: "Optima, sans-serif" },
+  ];
+
   return (
     <FormContainer {...motionPropsRight}>
       <Form method="post" onSubmit={submitNewPerson}>
@@ -356,7 +389,7 @@ function NewPersonForm() {
                   id="start"
                   name="trip-start"
                   min="1900-01-01"
-                  max="2030-12-31"
+                  max={maxDate}
                   ref={dobRef}
                   onChange={(e: any) => handleDateOfBirthChange(e)}
                 />
@@ -375,6 +408,28 @@ function NewPersonForm() {
               <LabelInputContainer>
                 <label htmlFor="color">Theme Color</label>
                 <input type="color" id="color" name="color" ref={colorRef} />
+              </LabelInputContainer>
+              <LabelInputContainer>
+                <label htmlFor="font-family">Select Font Family:</label>
+                <select
+                  id="font-family"
+                  value={font}
+                  onChange={handleFontChange}
+                  style={{ fontFamily: font }}
+                >
+                  <option value="">Select Font</option>
+                  {fontOptions.map((option, index) => (
+                    <option
+                      style={{ fontFamily: option.value }}
+                      key={index}
+                      value={option.value}
+                    >
+                      <span style={{ fontFamily: option.value }}>
+                        {option.label}
+                      </span>
+                    </option>
+                  ))}
+                </select>
               </LabelInputContainer>
             </DatesContainer>
 

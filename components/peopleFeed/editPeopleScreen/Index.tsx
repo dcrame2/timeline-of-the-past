@@ -201,6 +201,7 @@ interface PeopleProps {
   linkedinLink?: string;
   uploadDatas?: { [key: number]: string[] };
   slug?: string;
+  font?: string;
 }
 
 // Define the type for uploadDatas state
@@ -226,8 +227,32 @@ function EditPeopleScreen({
   const [ageOptions, setAgeOptions] = useState<
     { value: number; label: string }[]
   >([]); // Age options
+  const [font, setFont] = useState(updatedPerson.font);
 
   console.log(updatedPerson, "updatedPerson");
+
+  const fontOptions = [
+    { label: "Arial", value: "Arial, sans-serif" },
+    { label: "Verdana", value: "Verdana, sans-serif" },
+    { label: "Georgia", value: "Georgia, serif" },
+    { label: "Times New Roman", value: "Times New Roman, serif" },
+    { label: "Courier New", value: "Courier New, monospace" },
+    { label: "Tahoma", value: "Tahoma, sans-serif" },
+    { label: "Helvetica", value: "Helvetica, sans-serif" },
+    { label: "Palatino", value: "Palatino, serif" },
+    { label: "Garamond", value: "Garamond, serif" },
+    { label: "Book Antiqua", value: "Book Antiqua, serif" },
+    { label: "Arial Black", value: "Arial Black, sans-serif" },
+    { label: "Comic Sans MS", value: "Comic Sans MS, cursive" },
+    { label: "Impact", value: "Impact, fantasy" },
+    { label: "Lucida Sans Unicode", value: "Lucida Sans Unicode, sans-serif" },
+    { label: "Lucida Console", value: "Lucida Console, monospace" },
+    { label: "Trebuchet MS", value: "Trebuchet MS, sans-serif" },
+    { label: "Geneva", value: "Geneva, sans-serif" },
+    { label: "Copperplate", value: "Copperplate, fantasy" },
+    { label: "Brush Script MT", value: "Brush Script MT, cursive" },
+    { label: "Optima", value: "Optima, sans-serif" },
+  ];
 
   useEffect(() => {
     if (person) {
@@ -339,6 +364,20 @@ function EditPeopleScreen({
     }
   };
 
+  const handleSelectChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    propertyName: string
+  ) => {
+    event.preventDefault();
+    if (updatedPerson) {
+      setUpdatedPerson((prevState) => ({
+        ...prevState,
+        [propertyName]: event.target.value,
+      }));
+    }
+    setFont(event.target.value);
+  };
+
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -443,6 +482,23 @@ function EditPeopleScreen({
                         }}
                       />
                     </label>
+                  </LabelInputContainer>
+                  <LabelInputContainer>
+                    <label htmlFor="font-family">Select Font Family:</label>
+                    <select
+                      id="font-family"
+                      value={font}
+                      onChange={(e) => {
+                        handleSelectChange(e, "font");
+                      }}
+                    >
+                      <option value="">Select Font</option>
+                      {fontOptions.map((option, index) => (
+                        <option key={index} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </LabelInputContainer>
                 </DatesContainer>
                 {/* <SocialMediaContainer>

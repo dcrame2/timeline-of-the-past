@@ -7,7 +7,7 @@ const monsterrat = `Montserrat, sans-serif`;
 const openSans = "Open Sans, sans-serif";
 
 export const h1styles = css`
-  font-family: ${monsterrat};
+  /* font-family: inherit; */
 
   font-size: 8rem;
   line-height: 9.4rem;
@@ -25,7 +25,7 @@ export const h1styles = css`
 `;
 
 export const h2styles = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   font-size: 5.4rem;
   line-height: 5.5rem;
   color: ${variables.black};
@@ -42,7 +42,7 @@ export const h2styles = css`
 `;
 
 export const h3styles = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   font-size: 5.2rem;
   line-height: 6.3rem;
   font-weight: 300;
@@ -60,7 +60,7 @@ export const h3styles = css`
 `;
 
 export const h4styles = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   font-size: 2rem;
   line-height: 3.4rem;
   font-weight: 300;
@@ -78,7 +78,7 @@ export const h4styles = css`
 `;
 
 export const pLarge = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   font-size: 2.4rem;
   line-height: 3.2rem;
   font-weight: 300;
@@ -91,7 +91,7 @@ export const pLarge = css`
 `;
 
 export const pBase = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   font-size: 1.5rem;
   line-height: 1.7rem;
   font-weight: 300;
@@ -104,7 +104,7 @@ export const pBase = css`
 `;
 
 export const pSmall = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   font-size: 1.1rem;
   line-height: 1.3rem;
   font-weight: 300;
@@ -112,7 +112,7 @@ export const pSmall = css`
 `;
 
 export const pXSmall = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   font-size: 0.9rem;
   line-height: 1rem;
   font-weight: 300;
@@ -120,7 +120,7 @@ export const pXSmall = css`
 `;
 
 export const buttonType = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
 
   /* font-size: 2rem; */
   padding: 0 12px;
@@ -144,7 +144,7 @@ export const buttonType = css`
 `;
 
 export const inputType = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat}; */
   padding: 10px 12px;
   border: 1px solid ${variables.darkBlue};
   border-radius: 8px;
