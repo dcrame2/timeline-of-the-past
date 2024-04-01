@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
-import { buttonType } from "@/styles/Type";
+import { buttonType, h2styles } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { inputType, pXSmall } from "@/styles/Type";
 import Image from "next/image";
@@ -125,6 +125,11 @@ const ImageGridContainer = styled.div`
   gap: 10px;
 `;
 
+const ImageWithCaption = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ImageContainer = styled.div`
   flex: 1;
   background-color: ${variables.lightGrey};
@@ -135,6 +140,8 @@ const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 250px;
+  ${h2styles}
   img {
     object-fit: contain;
     width: 200px;
@@ -155,6 +162,11 @@ const ImageContainer = styled.div`
     align-items: center;
     justify-content: center;
   }
+`;
+
+const CaptionInput = styled.input`
+  width: 100%;
+  margin-top: 5px;
 `;
 
 // Define the type for uploadDatas state
@@ -189,6 +201,7 @@ function NewPersonForm() {
   const linkedinRef = React.useRef<HTMLInputElement>(null);
   const twitterRef = React.useRef<HTMLInputElement>(null);
   const colorRef = React.useRef<HTMLInputElement>(null);
+  const captionRef = React.useRef<HTMLInputElement>(null);
 
   const [uploadDatas, setUploadDatas] = useState<{ [key: number]: string[] }>(
     {}
@@ -219,6 +232,7 @@ function NewPersonForm() {
     const linkedinLink = linkedinRef.current?.value || "";
     const twitterLink = twitterRef.current?.value || "";
     const color = colorRef.current?.value || "#ff0000";
+    // const caption = captionRef.current?.value | "";
     console.log(firstName, lastName, images, middleName, dob);
 
     const slug = slugifyNames(firstName, middleName, lastName);
@@ -328,6 +342,14 @@ function NewPersonForm() {
 
     // Update the updatedPerson state
     setUploadDatas(newUpdatedPerson);
+  };
+
+  const handleCaptionChange = (index: number, caption: string) => {
+    setUploadDatas((prevUploadDatas: any) => {
+      const updatedUploadDatas = { ...prevUploadDatas };
+      updatedUploadDatas[selectedAge][index].caption = caption;
+      return updatedUploadDatas;
+    });
   };
 
   const fontOptions = [
@@ -477,12 +499,41 @@ function NewPersonForm() {
             />
             <ImageGridContainer>
               {uploadDatas[selectedAge]?.map((src: string, index: number) => (
-                <ImageContainer>
-                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
-                  <button onClick={(e) => handleRemoveImage(src, index, e)}>
-                    x
-                  </button>
-                </ImageContainer>
+                <ImageWithCaption>
+                  <ImageContainer>
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`Uploaded image ${index}`}
+                    />
+                    <button onClick={(e) => handleRemoveImage(src, index, e)}>
+                      x
+                    </button>
+                  </ImageContainer>
+                  <TextInput
+                    type="text"
+                    placeholder="Enter caption..."
+                    ref={captionRef}
+                    onChange={handleCaptionChange}
+                    // onChange={handleCaptionChange}
+                  />
+                </ImageWithCaption>
+              ))}
+              {[
+                ...Array(
+                  Math.max(0, 4 - (uploadDatas[selectedAge]?.length || 0))
+                ),
+              ].map((_, index) => (
+                <ImageWithCaption>
+                  <ImageContainer key={index}>{index + 1}</ImageContainer>
+                  <TextInput
+                    type="text"
+                    placeholder="Enter caption..."
+                    ref={captionRef}
+                    onChange={handleCaptionChange}
+                    // onChange={handleCaptionChange}
+                  />
+                </ImageWithCaption>
               ))}
             </ImageGridContainer>
           </ImageUploadedContainer>
