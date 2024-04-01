@@ -424,9 +424,9 @@ function NewPersonForm() {
                       key={index}
                       value={option.value}
                     >
-                      <span style={{ fontFamily: option.value }}>
-                        {option.label}
-                      </span>
+                      {/* <span style={{ fontFamily: option.value }}> */}
+                      {option.label}
+                      {/* </span> */}
                     </option>
                   ))}
                 </select>

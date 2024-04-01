@@ -106,14 +106,27 @@ function UploadFileInputNew({
   imageSrcs,
 }: any) {
   const [isLoading, setIsLoading] = useState(false);
+  console.log(uploadDatas, "uploadDatas uploadDatas");
+  console.log(
+    uploadDatas[selectedAge]?.length,
+    "uploadDatas with selectedAgeg"
+  );
 
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();
     const files = changeEvent.target.files;
     const newImageSrcs: string[] = [];
 
-    setIsLoading(true);
+    const totalUploadedImages = (uploadDatas[selectedAge] ?? []).length;
 
+    // Ensure that the number of uploaded images plus newly uploaded images does not exceed the maximum limit
+    if (totalUploadedImages + files.length > 4) {
+      alert(`You can only upload a maximum of 4 images.`);
+      return;
+    }
+
+    setIsLoading(true);
+    // if ((uploadDatas[selectedAge] ?? []).length < 4) {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
@@ -141,6 +154,11 @@ function UploadFileInputNew({
       reader.readAsDataURL(file);
     }
   };
+  // else {
+  //   alert(`You can only upload a maximum of 4 images.`);
+  //   return;
+  // }
+  // };
 
   return (
     <Form>

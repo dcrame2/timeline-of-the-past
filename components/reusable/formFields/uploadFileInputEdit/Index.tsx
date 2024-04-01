@@ -104,9 +104,11 @@ type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 function UploadFileInputEdit({
   onUpload,
   selectedAge,
+  updatedPerson,
 }: {
   onUpload: (selectedAge: number, uploadedUrls: string[]) => void;
   selectedAge: any;
+  updatedPerson: any;
 }) {
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -115,6 +117,14 @@ function UploadFileInputEdit({
     changeEvent.preventDefault();
     const files = changeEvent.target.files;
     const newImageSrcs: string[] = [];
+
+    const totalUploadedImages = updatedPerson.uploadDatas[selectedAge].length;
+
+    // Ensure that the number of uploaded images plus newly uploaded images does not exceed the maximum limit
+    if (totalUploadedImages + files.length > 4) {
+      alert(`You can only upload a maximum of 4 images.`);
+      return;
+    }
 
     setIsLoading(true);
 

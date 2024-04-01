@@ -544,6 +544,7 @@ function EditPeopleScreen({
                 {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
                 <UploadFileInputEdit
                   selectedAge={selectedAge}
+                  updatedPerson={updatedPerson}
                   onUpload={(selectedAge: number, newUploadDatas: string[]) =>
                     setUpdatedPerson((prevState) => {
                       // Create a copy of the previous state
