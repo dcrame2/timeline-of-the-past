@@ -7,19 +7,23 @@ import Link from "next/link";
 
 const HeroContainer = styled.div`
   width: 100%;
+  height: 100%;
   background-color: ${variables.darkBlue};
-  background-image: url("hourglass.svg");
+  background-image: url("time-clock-hero.jpg");
   background-position: center center;
   background-repeat: no-repeat;
-  /* background-attachment: fixed; */
-
-  background-size: 30%;
-
-  @media ${MediaQueries.tablet} {
-    background-size: 30%;
-  }
-  @media ${MediaQueries.mobile} {
-    background-size: 50%;
+  z-index: 2;
+  background-size: cover;
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Adjust opacity as needed */
+    z-index: 1; /* Ensure it's above the background image */
   }
 `;
 
@@ -33,9 +37,15 @@ const HeroInnerContainer = styled.div`
   padding-top: 200px;
   padding-bottom: 200px;
   text-align: center;
+  position: relative;
+  z-index: 2;
   @media ${MediaQueries.tablet} {
     padding-top: 180px;
     padding-bottom: 180px;
+  }
+  @media ${MediaQueries.tablet} {
+    padding-top: 120px;
+    padding-bottom: 120px;
   }
   h1 {
     ${h1styles}
