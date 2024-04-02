@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Hero from "@/mainWebsite/hero/Index";
 import { Container, MediaQueries } from "@/styles/Utilities";
 import Examples from "@/mainWebsite/examples/Index";
+import Video from "@/mainWebsite/video/Index";
 
 const LayoutContainer = styled.nav`
   display: flex;
@@ -64,6 +65,7 @@ export default function Home() {
         </LayoutContainer>
         <Hero />
         <Examples />
+        <Video />
       </main>
     </>
   );
