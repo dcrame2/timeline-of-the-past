@@ -40,13 +40,16 @@ type PersonType = Person[];
 
 function ThemeOne({ data }: Person) {
   const { font } = data[0];
+  console.log(data, "DATA");
   return (
-    <div style={{ fontFamily: `${font} !important` }}>
-      <Navigation data={data} />
-      <MainHero data={data} />
-      <ImagesWithTitles data={data} />
-      <Footer data={data} />
-    </div>
+    <>
+      <div style={{ fontFamily: `${font} !important` }}>
+        <Navigation data={data} />
+        <MainHero data={data} />
+        <ImagesWithTitles data={data} />
+        <Footer data={data} />
+      </div>
+    </>
   );
 }
 

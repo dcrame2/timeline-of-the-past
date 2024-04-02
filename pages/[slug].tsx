@@ -81,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
     let data = {};
     response.users.map((user: any) => {
       const { userData } = user;
-      userData.map((userInfo: any) => {
+      userData?.map((userInfo: any) => {
         if (userInfo.slug === `/${currentPage}`) {
           data = userData.filter(
             (user: any) => user.slug === `/${currentPage}`
