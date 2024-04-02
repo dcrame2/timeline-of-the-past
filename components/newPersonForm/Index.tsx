@@ -510,13 +510,13 @@ function NewPersonForm() {
                       x
                     </button>
                   </ImageContainer>
-                  <TextInput
+                  {/* <TextInput
                     type="text"
                     placeholder="Enter caption..."
                     ref={captionRef}
                     onChange={handleCaptionChange}
                     // onChange={handleCaptionChange}
-                  />
+                  /> */}
                 </ImageWithCaption>
               ))}
               {[
@@ -526,13 +526,13 @@ function NewPersonForm() {
               ].map((_, index) => (
                 <ImageWithCaption>
                   <ImageContainer key={index}>{index + 1}</ImageContainer>
-                  <TextInput
+                  {/* <TextInput
                     type="text"
                     placeholder="Enter caption..."
                     ref={captionRef}
                     onChange={handleCaptionChange}
                     // onChange={handleCaptionChange}
-                  />
+                  /> */}
                 </ImageWithCaption>
               ))}
             </ImageGridContainer>
