@@ -95,7 +95,17 @@ function MainHero({ data }: Person) {
           {firstName} {middleName} {lastName}
         </h1>
         <p>Born: {formatDate(dob)}</p>
-        <p className="countdown">Birthday in: {countdownTimer}</p>
+        {countdownTimer && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: `0.8` }}
+            viewport={{ once: true }}
+            className="countdown"
+          >
+            Birthday in: {countdownTimer}
+          </motion.p>
+        )}
       </MainHeroInnerContainer>
     </MainHeroContainer>
   );

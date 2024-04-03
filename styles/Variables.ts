@@ -21,6 +21,8 @@ export const variables = {
   lightBlue: "#0D3350",
   darkBlue: "#05253A",
   lightLightBlue: "#45B9FF",
+  lightOrange: "#cc6d3d",
+  darkOrange: "#b74803",
   transparent: "transparent",
 
   black: "#060606",

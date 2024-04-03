@@ -243,7 +243,7 @@ function PeopleFeed({
                       router.push({
                         pathname: "/auth/edit",
                         query: {
-                          person: JSON.stringify(person), // Convert person object to string
+                          person: JSON.stringify(person),
                           selectedIndex: index,
                         },
                       });

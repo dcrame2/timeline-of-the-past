@@ -4,10 +4,11 @@ import { Container, MediaQueries } from "@/styles/Utilities";
 import { variables } from "@/styles/Variables";
 import { buttonType, h1styles, pBase } from "@/styles/Type";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const HeroContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   background-color: ${variables.darkBlue};
   background-image: url("time-clock-hero.jpg");
   background-position: center center;
@@ -15,6 +16,9 @@ const HeroContainer = styled.div`
   z-index: 2;
   background-size: cover;
   position: relative;
+  align-items: center;
+  display: flex;
+  justify-content: center;
   &:before {
     content: "";
     position: absolute;
@@ -22,7 +26,7 @@ const HeroContainer = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); /* Adjust opacity as needed */
+    background-color: rgba(13, 51, 80, 0.75); /* Adjust opacity as needed */
     z-index: 1; /* Ensure it's above the background image */
   }
 `;
@@ -34,8 +38,8 @@ const HeroInnerContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: auto;
-  padding-top: 200px;
-  padding-bottom: 200px;
+  /* padding-top: 200px;
+  padding-bottom: 200px; */
   text-align: center;
   position: relative;
   z-index: 2;
@@ -50,6 +54,18 @@ const HeroInnerContainer = styled.div`
   h1 {
     ${h1styles}
     color: ${variables.white};
+    display: flex;
+    align-items: cener;
+    justify-content: center;
+    span {
+      margin-left: 30px;
+      @media ${MediaQueries.tablet} {
+        margin-left: 20px;
+      }
+      @media ${MediaQueries.mobile} {
+        margin-left: 10px;
+      }
+    }
   }
   p {
     ${pBase}
@@ -57,7 +73,36 @@ const HeroInnerContainer = styled.div`
   }
 `;
 
-const LinkStyled = styled(Link)`
+const ImageContainer = styled.div`
+  display: flex;
+  align-items: cener;
+  justify-content: center;
+  max-width: 130px;
+  @media ${MediaQueries.tablet} {
+    max-width: 100px;
+  }
+  @media ${MediaQueries.tablet} {
+    max-width: 30px;
+  }
+  img {
+    width: 100%;
+  }
+`;
+
+const HrImage = styled.img`
+  width: 100%;
+  max-width: 130px;
+  margin: 0 -10px;
+  @media ${MediaQueries.tablet} {
+    max-width: 70px;
+  }
+  @media ${MediaQueries.mobile} {
+    max-width: 30px;
+    margin: 0 0;
+  }
+`;
+
+const LinkStyled = styled(motion(Link))`
   ${buttonType}
   width: unset;
   margin-top: 12px;
@@ -67,9 +112,35 @@ function Hero() {
   return (
     <HeroContainer>
       <HeroInnerContainer>
-        <h1>TIMELINE THAT</h1>
-        <p>Make History Yours: Create Stunning Timelines</p>
-        <LinkStyled href="/auth/authenticate">Login or sign up</LinkStyled>
+        <motion.h1
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: `0.8` }}
+          viewport={{ once: true }}
+        >
+          T
+          <HrImage src="hourglass.svg" />
+          MELINE
+          <span>THAT</span>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: `0.8`, delay: 0.5 }}
+          viewport={{ once: true }}
+        >
+          {/* Make History Yours:  */}
+          Create Your Own Stunning Timelines
+        </motion.p>
+        <LinkStyled
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: `0.8`, delay: 1.2 }}
+          viewport={{ once: true }}
+          href="/auth/authenticate"
+        >
+          Login or Sign Up
+        </LinkStyled>
       </HeroInnerContainer>
     </HeroContainer>
   );

@@ -29,9 +29,23 @@ const IndividualInnerContainer = styled.div`
   gap: 20px;
 `;
 
-const ImagesContainer = styled(motion.div)`
+interface ImagesContainerProps {
+  children: React.ReactNode;
+}
+
+const ImagesContainer = styled(motion.div)<ImagesContainerProps>`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  justify-items: center; /* Center items horizontally */
+  align-content: center;
+  ${(props) => {
+    const itemCount = React.Children.count(props.children);
+    if (itemCount <= 4) {
+      return `
+        grid-template-columns: repeat(${itemCount}, 1fr);
+      `;
+    }
+  }}
 
   gap: 10px;
   @media ${MediaQueries.tablet} {
@@ -103,7 +117,7 @@ function ImagesWithTitles({ data }: Person) {
             >
               {uploadDatas[key].map((src: string, index: number) => (
                 <img
-                  key={index}
+                  key={`key-${index + 1}`}
                   src={src}
                   alt={`Image ${index}`}
                   // style={{ maxWidth: "100px", margin: "5px" }}

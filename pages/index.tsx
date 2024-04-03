@@ -1,4 +1,4 @@
-import { h2styles, pBase, buttonType } from "@/styles/Type";
+import { h2styles, pBase, buttonType, linkStyles } from "@/styles/Type";
 import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import Hero from "@/mainWebsite/hero/Index";
 import { Container, MediaQueries } from "@/styles/Utilities";
 import Examples from "@/mainWebsite/examples/Index";
 import Video from "@/mainWebsite/video/Index";
+import { variables } from "@/styles/Variables";
 
 const LayoutContainer = styled.nav`
   display: flex;
@@ -13,6 +14,10 @@ const LayoutContainer = styled.nav`
   ${Container}
   /* padding-top: 20px; */
   align-items: center;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+  background-color: ${variables.white};
 `;
 
 const Logo = styled.img`
@@ -20,11 +25,40 @@ const Logo = styled.img`
   @media ${MediaQueries.tablet} {
     width: 150px;
   }
+  @media ${MediaQueries.mobile} {
+    width: 120px;
+  }
 `;
 
 const LinkStyled = styled(Link)`
   ${buttonType}
   width: unset;
+  @media ${MediaQueries.mobile} {
+    font-size: 14px;
+  }
+`;
+
+const FooterContainer = styled.footer`
+  background-color: ${variables.lightBlue};
+`;
+
+const FooterInnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  ${Container}
+`;
+
+const LinkStyledLink = styled(Link)`
+  /* ${buttonType} */
+  ${linkStyles}
+  width: unset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export default function Home() {
@@ -61,11 +95,22 @@ export default function Home() {
       <main>
         <LayoutContainer>
           <Logo src="/timeline_that_logo.png" alt="Timeline That Logo" />
-          <LinkStyled href="/auth/authenticate">Login or sign up</LinkStyled>
+          <LinkStyled href="/auth/authenticate">Login or Sign Up</LinkStyled>
         </LayoutContainer>
         <Hero />
         <Examples />
         <Video />
+        <FooterContainer>
+          <FooterInnerContainer>
+            <LinkStyledLink target="_blank" href="/">
+              <Logo
+                src="/timeline_that_logo_white.svg"
+                alt="Timeline That Logo"
+              />
+              https://timelinethat.com
+            </LinkStyledLink>
+          </FooterInnerContainer>
+        </FooterContainer>
       </main>
     </>
   );

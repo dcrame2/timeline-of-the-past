@@ -134,14 +134,14 @@ export const buttonType = css`
   border-radius: 8px;
   /* text-transform: uppercase; */
   color: ${variables.white};
-  background-color: ${variables.lightLightBlue};
+  background-color: ${variables.darkOrange};
   width: 100%;
   transition: color ease-in 0.3s, background-color ease-in 0.3s;
-  border: 2px solid ${variables.lightLightBlue};
+  border: 2px solid ${variables.darkOrange};
   &:hover {
     background-color: ${variables.white};
-    color: ${variables.lightLightBlue};
-    border-color: 2px solid ${variables.lightLightBlue};
+    color: ${variables.lightOrange};
+    border-color: 2px solid ${variables.lightOrange};
     transition: color ease-in 0.3s, background-color ease-in 0.3s,
       border-color ease-in 0.3s;
   }
