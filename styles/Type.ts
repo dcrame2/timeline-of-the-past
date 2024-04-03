@@ -125,27 +125,54 @@ export const pXSmall = css`
 
 export const buttonType = css`
   font-family: ${monsterrat};
-
-  /* font-size: 2rem; */
   padding: 0 12px;
   line-height: 2.4rem;
   font-weight: 300;
   border: none;
   border-radius: 8px;
-  /* text-transform: uppercase; */
+
   color: ${variables.white};
   background-color: ${variables.darkOrange};
   width: 100%;
-  transition: color ease-in 0.3s, background-color ease-in 0.3s;
-  border: 2px solid ${variables.darkOrange};
+  transition: color ease-in 0.3s, background-color ease-in 0.3s,
+    border-color ease-in 0.3s;
+  /* border: 2px solid ${variables.darkOrange}; */
+  border-color: ${variables.darkOrange};
+  border-style: solid;
+  border-width: 2px;
   &:hover {
-    background-color: ${variables.white};
-    color: ${variables.lightOrange};
+    background-color: ${variables.lightOrange};
+    color: ${variables.white};
+    border-style: solid;
+    border-width: 2px;
     border-color: 2px solid ${variables.lightOrange};
     transition: color ease-in 0.3s, background-color ease-in 0.3s,
       border-color ease-in 0.3s;
   }
 `;
+
+// export const buttonType = css`
+//   font-family: ${monsterrat};
+
+//   padding: 0 12px;
+//   line-height: 2.4rem;
+//   font-weight: 300;
+//   border: none;
+//   border-radius: 8px;
+
+//   color: ${variables.white};
+//   background-color: ${variables.darkOrange};
+//   width: 100%;
+//   transition: color ease-in 0.3s, background-color ease-in 0.3s;
+//   border: 2px solid ${variables.darkOrange};
+//   &:hover {
+//     background-color: ${variables.white};
+//     color: ${variables.lightOrange};
+//     border-color: 2px solid ${variables.lightOrange};
+//     transition: color ease-in 0.3s, background-color ease-in 0.3s,
+//       border-color ease-in 0.3s;
+//   }
+// `;
 
 export const inputType = css`
   font-family: ${monsterrat};
@@ -183,6 +210,6 @@ export const linkStyles = css`
   transition: color ease-in 0.3s;
   &:hover {
     transition: color ease-in 0.3s;
-    color: ${variables.lightLightBlue};
+    color: ${variables.lightOrange};
   }
 `;

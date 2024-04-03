@@ -17,6 +17,8 @@ const LayoutContainer = styled.nav`
   position: absolute;
   width: 100%;
   z-index: 5;
+  padding-bottom: 8px;
+  padding-top: 8px;
   background-color: ${variables.white};
 `;
 
@@ -94,7 +96,7 @@ export default function Home() {
       </Head>
       <main>
         <LayoutContainer>
-          <Logo src="/timeline_that_logo.png" alt="Timeline That Logo" />
+          <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
           <LinkStyled href="/auth/authenticate">Login or Sign Up</LinkStyled>
         </LayoutContainer>
         <Hero />

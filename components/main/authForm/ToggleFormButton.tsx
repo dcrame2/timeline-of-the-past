@@ -1,7 +1,9 @@
+import { linkStyles } from "@/styles/Type";
 import styled from "styled-components";
 
 const Prompt = styled.p`
   button {
+    ${linkStyles}
     background-color: unset;
     border: unset;
     font-size: inherit;

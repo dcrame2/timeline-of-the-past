@@ -115,7 +115,7 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: `0.8` }}
+          transition={{ duration: `0.5` }}
           viewport={{ once: true }}
         >
           T
@@ -126,7 +126,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: `0.8`, delay: 0.5 }}
+          transition={{ duration: `0.5`, delay: 0.3 }}
           viewport={{ once: true }}
         >
           {/* Make History Yours:  */}
@@ -135,7 +135,7 @@ function Hero() {
         <LinkStyled
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: `0.8`, delay: 1.2 }}
+          transition={{ duration: `0.5`, delay: 0.8 }}
           viewport={{ once: true }}
           href="/auth/authenticate"
         >

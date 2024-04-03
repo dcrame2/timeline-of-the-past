@@ -38,6 +38,12 @@ const FormInfoContainer = styled.div`
   @media ${MediaQueries.mobile} {
     height: 100dvh;
   }
+  img {
+    width: 300px;
+    @media ${MediaQueries.mobile} {
+      width: 200px;
+    }
+  }
 `;
 
 const FormInfoInnerContainer = styled.div`
@@ -151,6 +157,7 @@ export default function AuthForm() {
       <IntialSignInContainer>
         <FormInfoContainer>
           <FormInfoInnerContainer>
+            <img src="/timeline_that_logo_blue.svg" alt="" />
             {!toggleSignUpForm ? (
               <SignUpForm
                 firstnameInputRef={firstnameInputRef}
