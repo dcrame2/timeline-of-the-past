@@ -7,6 +7,7 @@ import { Container, MediaQueries } from "@/styles/Utilities";
 import Examples from "@/mainWebsite/examples/Index";
 import Video from "@/mainWebsite/video/Index";
 import { variables } from "@/styles/Variables";
+import Testimonials from "@/mainWebsite/testimonials/Index";
 
 const LayoutContainer = styled.nav`
   display: flex;
@@ -102,6 +103,7 @@ export default function Home() {
         <Hero />
         <Examples />
         <Video />
+        <Testimonials />
         <FooterContainer>
           <FooterInnerContainer>
             <LinkStyledLink target="_blank" href="/">

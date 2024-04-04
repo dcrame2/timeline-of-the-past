@@ -17,7 +17,7 @@ export const variables = {
   // colors
   lightGrey: "#fbfcfc",
   darkerLightGrey: "#f5f7f7",
-
+  veryLightBlue: "#A3b4c8",
   lightBlue: "#0D3350",
   darkBlue: "#05253A",
   lightLightBlue: "#45B9FF",
