@@ -223,7 +223,7 @@ const ArrowSvg = styled.svg`
 
 const data = {
   heading: "Reviews",
-  subheading: `Testimonials from CHANGE customers`,
+  subheading: `Hear from indiviuals who have created their own timelines with Timeline That`,
   testimonials: [
     {
       name: "Delilah Mae Davis",
@@ -279,7 +279,7 @@ export default function Testimonials() {
           >
             {data.heading}
           </h2>
-          {/* <h3>{data.subheading}</h3> */}
+          <h3>{data.subheading}</h3>
         </div>
         <div className="carousel-wrapper">
           <button
