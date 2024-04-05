@@ -8,6 +8,8 @@ import PeopleFeed from "@/components/peopleFeed/Index";
 import styled from "styled-components";
 import TabNavigation from "@/components/layout/dashboard/tabNavigation/Index";
 import DashboardHeader from "@/components/layout/dashboard/dashboardHeader/Index";
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 // import { fetchData } from "@/lib/fetchData";
 
 import Layout from "@/components/layout/dashboard/Index";
@@ -38,22 +40,6 @@ export default function Protected() {
       "dashboard dashboard dashboard";
   `;
 
-  const DashboardHeaderContainer = styled.div`
-    grid-area: header;
-    /* background-color: white; */
-    /* border-bottom: 5px solid steelblue; */
-    z-index: 101;
-    padding: 20px;
-    position: fixed;
-    width: 100%;
-  `;
-
-  const NavContainer = styled.div`
-    margin: 24px;
-    display: flex;
-    justify-content: space-between;
-  `;
-
   const InfoContainer = styled.div`
     grid-area: dashboard;
     h1 {
@@ -65,6 +51,8 @@ export default function Protected() {
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
 
+  const session = useSession();
+  console.log(session);
   const fetchData = async () => {
     try {
       const session = await getSession();
@@ -72,7 +60,7 @@ export default function Protected() {
         return; // No session, no need to fetch data
       }
       const sessionUserEmail = session?.user?.email;
-      console.log(session, "sessionsss BETTTT");
+      // console.log(session, "sessionsss BETTTT");
 
       const response = await fetch("/api/people/get-people", {
         method: "POST",
@@ -101,11 +89,16 @@ export default function Protected() {
     fetchData();
   }, []);
 
+  console.log(session);
+
   return (
     <Layout>
       <TimelineView>
         <InfoContainer>
-          <h1>Hi, Dylan!</h1>
+          <h1>
+            Welcome, {session?.data?.user.firstName}{" "}
+            {session?.data?.user.lastName}!
+          </h1>
           <PeopleFeed
             setShowAddPersonFields={setShowAddPersonFields}
             showAddPersonFields={showAddPersonFields}

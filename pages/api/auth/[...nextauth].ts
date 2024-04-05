@@ -12,11 +12,15 @@ type Credentials = {
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   providers: [
     // ...add more providers here
     CredentialsProvider({
       // @ts-ignore
-      async authorize(credentials: Credentials) {
+      async authorize(credentials, req) {
         const client = await connectToDatabase();
 
         const usersCollection = client.db().collection("users");
@@ -24,10 +28,10 @@ export const authOptions: NextAuthOptions = {
         let user;
 
         const userViaEmail = await usersCollection.findOne({
-          email: credentials.identifier,
+          email: credentials!.identifier,
         });
         const userViaUsername = await usersCollection.findOne({
-          username: credentials.identifier,
+          username: credentials!.identifier,
         });
 
         user = userViaEmail || userViaUsername;
@@ -38,7 +42,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         const isValid = await verifyPassword(
-          credentials.password,
+          credentials!.password,
           user.password
         );
 
@@ -48,18 +52,41 @@ export const authOptions: NextAuthOptions = {
 
         client.close();
 
-        return {
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          username: user.username,
-          redirect: {
-            destination: "/auth/timeline",
-          },
-        };
+        const returnedUser = { user: { ...user } };
+        console.log(returnedUser, "USASAA");
+        // return {
+        //   email: user.email,
+        //   firstName: user.firstName,
+        //   lastName: user.lastName,
+        //   username: user.username,
+        //   redirect: {
+        //     destination: "/auth/timeline",
+        //   },
+        // };
+        return Promise.resolve(returnedUser);
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user, trigger, session }) {
+      console.log(user, "Session top things");
+      console.log(token, "TOKEN top things");
+      if (user) {
+        token.user = user.user;
+      }
+
+      return token;
+    },
+    //TODO: password is being returned in session, we may want to remove that
+    async session({ session, token }) {
+      console.log(session, "Session things");
+      console.log(token, "TOKEN things");
+      if (token && token.user) {
+        session.user = token.user;
+      }
+      return session;
+    },
+  },
 };
 
 export default NextAuth(authOptions);

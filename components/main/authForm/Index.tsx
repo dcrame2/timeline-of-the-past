@@ -128,6 +128,7 @@ export default function AuthForm() {
             enteredFirstname,
             enteredLastname
           );
+          setToggleSignUpForm((prevState) => !prevState);
         } catch (error) {
           let message = "Unknown Error";
           if (error instanceof Error) message = error.message;
