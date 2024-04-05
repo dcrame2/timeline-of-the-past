@@ -28,6 +28,7 @@ const IntialSignInContainer = styled.div`
   justify-content: space-between;
   color: black;
   ${Container}
+  height: 100dvh;
 `;
 
 const FormInfoContainer = styled.div`

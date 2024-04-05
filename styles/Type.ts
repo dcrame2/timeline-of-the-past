@@ -200,7 +200,7 @@ export const formStyles = css`
   justify-content: center;
   flex-direction: column;
   @media ${MediaQueries.mobile} {
-    padding: 48px 24px 0 24px;
+    padding: 0px 24px 0 24px;
   }
 `;
 
