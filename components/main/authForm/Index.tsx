@@ -41,6 +41,8 @@ const FormInfoContainer = styled.div`
   }
   @media ${MediaQueries.mobile} {
     height: 100dvh;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
   img {
     width: 300px;

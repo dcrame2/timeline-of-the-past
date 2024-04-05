@@ -201,6 +201,7 @@ export const formStyles = css`
   flex-direction: column;
   @media ${MediaQueries.mobile} {
     padding: 0px 24px 0 24px;
+    gap: 10px;
   }
 `;
 
