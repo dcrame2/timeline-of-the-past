@@ -18,6 +18,9 @@ const AuthContainer = styled.div`
 
   button.toggleForm {
   }
+  @media ${MediaQueries.mobile} {
+    height: 100dvh;
+  }
 `;
 
 const IntialSignInContainer = styled.div`
