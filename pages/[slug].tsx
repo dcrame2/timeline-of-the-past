@@ -5,6 +5,7 @@ import type {
   GetServerSideProps,
 } from "next";
 import ThemeOne from "@/themes/themeOne/Index";
+import ThemeTwo from "@/themes/themeTwo/Index";
 
 interface Person {
   data: [
@@ -98,6 +99,25 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
 };
 
 export default function Page({ data }: { data: any }) {
+  const { theme } = data[0]; // Assuming userData is an array with one element
+  console.log(theme, "THEME");
   console.log(data, "DATA ON CLIENT");
-  return <ThemeOne data={data} />;
+  let themeComponent;
+
+  switch (theme) {
+    case 1:
+      themeComponent = <ThemeOne data={data} />;
+      break;
+    case 2:
+      themeComponent = <ThemeTwo data={data} />;
+      break;
+    case 3:
+      themeComponent = <ThemeOne data={data} />;
+      break;
+    default:
+      themeComponent = null; // Handle default case if theme is not 1, 2, or 3
+      break;
+  }
+
+  return themeComponent;
 }

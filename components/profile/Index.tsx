@@ -24,22 +24,47 @@ const ProfileContainer = styled.div`
   }
 `;
 
+const Form = styled.form`
+  button {
+    margin-bottom: 4px;
+  }
+`;
+
 function ProfileComponent({ session }: any) {
   return (
     <ProfileContainer>
-      {" "}
-      <TextInput
-        label="First Name:"
-        type="text"
-        value={session?.user.firstName}
-        // onChange={(e: any) => handleInputChange(e, "firstName")}
-      />
-      <TextInput
-        label="Last Name:"
-        type="text"
-        value={session?.user.lastName}
-        // onChange={(e: any) => handleInputChange(e, "firstName")}
-      />
+      <Form>
+        <TextInput
+          label="First Name:"
+          type="text"
+          value={session?.user.firstName}
+          // onChange={(e: any) => handleInputChange(e, "firstName")}
+        />
+        <TextInput
+          label="Last Name:"
+          type="text"
+          value={session?.user.lastName}
+          // onChange={(e: any) => handleInputChange(e, "firstName")}
+        />
+        <TextInput
+          label="Username:"
+          type="text"
+          value={session?.user.username}
+          // onChange={(e: any) => handleInputChange(e, "firstName")}
+        />
+        <TextInput
+          label="Email:"
+          type="email"
+          value={session?.user.email}
+          // onChange={(e: any) => handleInputChange(e, "firstName")}
+        />
+        <TextInput
+          label="Password"
+          type="password"
+          value={session?.user.password}
+          // onChange={(e: any) => handleInputChange(e, "firstName")}
+        />
+      </Form>
     </ProfileContainer>
   );
 }

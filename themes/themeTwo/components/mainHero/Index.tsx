@@ -11,7 +11,7 @@ const MainHeroContainer = styled.div`
 `;
 
 const MainHeroInnerContainer = styled(motion.div)`
-  height: 100dvh;
+  height: 50dvh;
   display: flex;
   flex-direction: column;
   align-items: center;

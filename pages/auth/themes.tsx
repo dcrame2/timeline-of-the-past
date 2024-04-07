@@ -2,11 +2,12 @@ import React from "react";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
+import AllThemes from "@/components/allThemes/Index";
 
 function Themes() {
   return (
     <Layout>
-      <div>Themes</div>
+      <AllThemes />
     </Layout>
   );
 }

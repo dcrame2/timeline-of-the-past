@@ -11,11 +11,12 @@ import { inputType, pXSmall } from "@/styles/Type";
 import Image from "next/image";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
+import { themeData } from "@/themes/themeData";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
   margin: 24px;
-  padding: 88px;
+  padding: 88px 24px 24px;
   z-index: 105;
   border-radius: 12px;
   max-width: 1000px;
@@ -219,6 +220,7 @@ function NewPersonForm() {
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
 
   const [font, setFont] = useState("Arial, sans-serif");
+  const [theme, setTheme] = useState(1);
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -252,6 +254,7 @@ function NewPersonForm() {
         death,
         color,
         font,
+        theme,
         facebookLink,
         linkedinLink,
         twitterLink,
@@ -302,6 +305,11 @@ function NewPersonForm() {
   const handleFontChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     setFont(selectedValue);
+  };
+
+  const handleThemeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = +event.target.value;
+    setTheme(selectedValue);
   };
 
   const handleRemoveImage = async (
@@ -446,9 +454,18 @@ function NewPersonForm() {
                       key={index}
                       value={option.value}
                     >
-                      {/* <span style={{ fontFamily: option.value }}> */}
                       {option.label}
-                      {/* </span> */}
+                    </option>
+                  ))}
+                </select>
+              </LabelInputContainer>
+              <LabelInputContainer>
+                <label htmlFor="themes">Theme:</label>
+                <select id="themes" value={theme} onChange={handleThemeChange}>
+                  <option value="">Select Theme</option>
+                  {themeData.map((option, index) => (
+                    <option key={index} value={option.value}>
+                      {option.name}
                     </option>
                   ))}
                 </select>

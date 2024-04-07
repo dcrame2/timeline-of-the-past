@@ -15,7 +15,7 @@ const FieldContainer = styled.div`
 `;
 
 interface TextInputProps {
-  type?: "text" | "password" | "file";
+  type?: "text" | "password" | "file" | "email";
   label?: string;
   id?: string;
   name?: string;

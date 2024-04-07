@@ -6,7 +6,6 @@ import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
 
 const Container = styled.div`
-  /* padding: 20px; */
   display: flex;
   justify-content: space-between;
   grid-column: 1 / span 3;
@@ -17,7 +16,9 @@ const Container = styled.div`
   right: 0;
   left: 0;
   max-width: 1285px;
-  /* background-color: ${variables.darkerLightGrey}; */
+  z-index: 120;
+  height: 75px;
+  background-color: ${variables.darkerLightGrey};
 `;
 
 const Logo = styled.img`
@@ -30,7 +31,6 @@ const ProfileBtn = styled(motion.button)`
   border: none;
   position: absolute;
   right: 0;
-  /* margin-right: 24px; */
   @media ${MediaQueries.tablet} {
     right: 20px;
   }

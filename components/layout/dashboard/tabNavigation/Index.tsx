@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
 import { MediaQueries } from "@/styles/Utilities";
+import { useRouter } from "next/router";
 
 const NavContainer = styled.div`
   padding: 100px 24px 24px 24px;
@@ -56,25 +57,16 @@ const NavContainer = styled.div`
   }
 `;
 
-function TabNavigation({
-  setShowAddPersonFields,
-  showAddPersonFields,
-  fetchData,
-}: any) {
-  const [activeTab, setActiveTab] = useState<string>();
-
-  const handleTabClick = (tabName: string) => {
-    console.log("Clicked tab:", tabName);
-    setActiveTab(tabName);
-  };
+function TabNavigation() {
+  const router = useRouter();
+  const initialActiveTab = router.pathname;
 
   return (
     <NavContainer>
       <ul>
         <motion.li
           whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
-          className="active"
-          onClick={() => handleTabClick("timeline")}
+          className={initialActiveTab === "/auth/timeline" ? "active" : ""}
         >
           <Link href="/auth/timeline">
             <img src="/timeline_icon.png" alt="icon" />
@@ -82,7 +74,7 @@ function TabNavigation({
           </Link>
         </motion.li>
         <motion.li
-          onClick={() => handleTabClick("media-library")}
+          className={initialActiveTab === "/auth/media-library" ? "active" : ""}
           whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
         >
           <Link href="/auth/media-library">
@@ -92,8 +84,8 @@ function TabNavigation({
         </motion.li>
 
         <motion.li
-          onClick={() => handleTabClick("themes")}
           whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
+          className={initialActiveTab === "/auth/themes" ? "active" : ""}
         >
           <Link href="/auth/themes">
             <img src="/subscription_icon.png" alt="icon" />

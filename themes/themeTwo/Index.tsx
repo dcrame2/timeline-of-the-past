@@ -39,7 +39,7 @@ interface Person {
 }
 type PersonType = Person[];
 
-function ThemeOne({ data }: Person) {
+function ThemeTwo({ data }: Person) {
   const { font } = data[0];
   console.log(data, "DATA");
   return (
@@ -54,4 +54,4 @@ function ThemeOne({ data }: Person) {
   );
 }
 
-export default ThemeOne;
+export default ThemeTwo;

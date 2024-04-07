@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
 import TextInput from "@/components/reusable/formFields/TextInput";
-import { buttonType, linkStyles } from "@/styles/Type";
+import { buttonType, linkStyles, h2styles } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
 import { inputType } from "@/styles/Type";
 import { MediaQueries } from "@/styles/Utilities";
 import Link from "next/link";
+import { themeData } from "@/themes/themeData";
 
 const PeopleScreen = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -82,6 +83,11 @@ const ImageGridContainer = styled.div`
   gap: 10px;
 `;
 
+const ImageWithCaption = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ImageContainer = styled.div`
   flex: 1;
   background-color: ${variables.lightGrey};
@@ -92,6 +98,8 @@ const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 250px;
+  ${h2styles}
   button {
     position: absolute;
     top: 5px;
@@ -110,6 +118,7 @@ const ImageContainer = styled.div`
   }
   img {
     object-fit: contain;
+    width: 200px;
   }
 `;
 
@@ -202,6 +211,7 @@ interface PeopleProps {
   uploadDatas?: { [key: number]: string[] };
   slug?: string;
   font?: string;
+  theme?: number;
 }
 
 // Define the type for uploadDatas state
@@ -228,6 +238,7 @@ function EditPeopleScreen({
     { value: number; label: string }[]
   >([]); // Age options
   const [font, setFont] = useState(updatedPerson.font);
+  const [theme, setTheme] = useState(updatedPerson.theme);
   const maxDate = new Date().toISOString().split("T")[0];
 
   console.log(updatedPerson, "updatedPerson");
@@ -379,6 +390,20 @@ function EditPeopleScreen({
     setFont(event.target.value);
   };
 
+  const handleThemeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    propertyName: string
+  ) => {
+    event.preventDefault();
+    if (updatedPerson) {
+      setUpdatedPerson((prevState) => ({
+        ...prevState,
+        [propertyName]: +event.target.value,
+      }));
+    }
+    setTheme(+event.target.value);
+  };
+
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -504,6 +529,23 @@ function EditPeopleScreen({
                       ))}
                     </select>
                   </LabelInputContainer>
+                  <LabelInputContainer>
+                    <label htmlFor="themes">Theme:</label>
+                    <select
+                      id="themes"
+                      value={theme}
+                      onChange={(e) => {
+                        handleThemeChange(e, "theme");
+                      }}
+                    >
+                      <option value="">Select Theme</option>
+                      {themeData.map((option, index) => (
+                        <option key={index} value={option.value}>
+                          {option.name}
+                        </option>
+                      ))}
+                    </select>
+                  </LabelInputContainer>
                 </DatesContainer>
                 {/* <SocialMediaContainer>
                   <TextInput
@@ -581,17 +623,39 @@ function EditPeopleScreen({
                     updatedPerson.uploadDatas[selectedAge].map(
                       (src: string, index: number) => {
                         return (
-                          <ImageContainer>
-                            <img src={src} />
-                            <button
-                              onClick={(e) => handleRemoveImage(src, index, e)}
-                            >
-                              x
-                            </button>
-                          </ImageContainer>
+                          <ImageWithCaption>
+                            <ImageContainer>
+                              <img src={src} />
+                              <button
+                                onClick={(e) =>
+                                  handleRemoveImage(src, index, e)
+                                }
+                              >
+                                x
+                              </button>
+                            </ImageContainer>
+                          </ImageWithCaption>
                         );
                       }
                     )}
+                  {person &&
+                    updatedPerson.uploadDatas &&
+                    selectedAge !== null &&
+                    // Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
+                    [
+                      ...Array(
+                        Math.max(
+                          0,
+                          4 -
+                            (updatedPerson?.uploadDatas[selectedAge]?.length ||
+                              0)
+                        )
+                      ),
+                    ].map((_, index) => (
+                      <ImageWithCaption>
+                        <ImageContainer key={index}>{index + 1}</ImageContainer>
+                      </ImageWithCaption>
+                    ))}
                 </ImageGridContainer>
               </ImageUploadedContainer>
 
