@@ -395,6 +395,7 @@ function NewPersonForm() {
                 placeholder="John"
                 type="text"
                 ref={firstNameRef}
+                required
               />
               <TextInput
                 name="middleName"
@@ -409,6 +410,7 @@ function NewPersonForm() {
                 placeholder="Doe"
                 type="text"
                 ref={lastNameRef}
+                required
               />
             </NameContainer>
             <DatesContainer>
@@ -422,6 +424,7 @@ function NewPersonForm() {
                   max={maxDate}
                   ref={dobRef}
                   onChange={(e: any) => handleDateOfBirthChange(e)}
+                  required
                 />
               </LabelInputContainer>
               <LabelInputContainer>
@@ -447,7 +450,6 @@ function NewPersonForm() {
                   onChange={handleFontChange}
                   style={{ fontFamily: font }}
                 >
-                  <option value="">Select Font</option>
                   {fontOptions.map((option, index) => (
                     <option
                       style={{ fontFamily: option.value }}
@@ -462,7 +464,6 @@ function NewPersonForm() {
               <LabelInputContainer>
                 <label htmlFor="themes">Theme:</label>
                 <select id="themes" value={theme} onChange={handleThemeChange}>
-                  <option value="">Select Theme</option>
                   {themeData.map((option, index) => (
                     <option key={index} value={option.value}>
                       {option.name}

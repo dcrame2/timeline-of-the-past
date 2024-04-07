@@ -3,12 +3,12 @@ import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import UploadFileInputNew from "@/components/reusable/formFields/uploadFileInputNew/Index";
+import MediaLibraryComponent from "@/components/mediaLibraryComponent/Index";
 
 function MediaLibrary() {
   return (
     <Layout>
-      Media Library
-      {/* <UploadFileInputNew /> */}
+      <MediaLibraryComponent />
     </Layout>
   );
 }

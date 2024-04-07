@@ -457,6 +457,7 @@ function EditPeopleScreen({
                     type="text"
                     value={updatedPerson.firstName}
                     onChange={(e: any) => handleInputChange(e, "firstName")}
+                    required
                   />
                   <TextInput
                     label="Middle Name:"
@@ -469,6 +470,7 @@ function EditPeopleScreen({
                     type="text"
                     value={updatedPerson.lastName}
                     onChange={(e: any) => handleInputChange(e, "lastName")}
+                    required
                   />
                 </NameContainer>
                 <DatesContainer>
@@ -484,6 +486,7 @@ function EditPeopleScreen({
                           handleInputChange(e, "dob");
                           handleDateOfBirthChange(e);
                         }}
+                        required
                       />
                     </label>
                   </LabelInputContainer>
@@ -521,7 +524,6 @@ function EditPeopleScreen({
                       }}
                       style={{ fontFamily: font }}
                     >
-                      <option value="">Select Font</option>
                       {fontOptions.map((option, index) => (
                         <option key={index} value={option.value}>
                           {option.label}
@@ -538,7 +540,6 @@ function EditPeopleScreen({
                         handleThemeChange(e, "theme");
                       }}
                     >
-                      <option value="">Select Theme</option>
                       {themeData.map((option, index) => (
                         <option key={index} value={option.value}>
                           {option.name}

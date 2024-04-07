@@ -1,0 +1,115 @@
+import React, { useEffect, useState } from "react";
+import { fetchData } from "@/lib/fetchData";
+import styled from "styled-components";
+import { variables } from "@/styles/Variables";
+import { MediaQueries } from "@/styles/Utilities";
+import { pBase } from "@/styles/Type";
+
+const MediaLibraryContainer = styled.div``;
+
+const MediaLibraryInnerContainer = styled.div``;
+
+const TextContainer = styled.div`
+  gap: 20px;
+  @media ${MediaQueries.tablet} {
+    gap: 12px;
+  }
+  @media ${MediaQueries.mobile} {
+    gap: 8px;
+  }
+  h1 {
+    ${pBase}
+    margin: 24px;
+  }
+  p {
+    ${pBase}
+    max-width: 1000px;
+  }
+`;
+
+const AllMediaLibrary = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+  background-color: ${variables.lightGrey};
+  margin: 24px;
+  padding: 24px;
+  z-index: 105;
+  border-radius: 12px;
+  max-width: 1000px;
+  position: relative;
+  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  @media ${MediaQueries.mobile} {
+    padding: 88px 24px;
+  }
+  @media ${MediaQueries.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${MediaQueries.mobile} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  img {
+    /* max-width: 200px; */
+    width: 100%;
+    object-fit: cover;
+  }
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+`;
+
+function MediaLibraryComponent() {
+  const [mediaLibrary, setMediaLibrary] = useState([]);
+
+  useEffect(() => {
+    const fetchDataAndProcess = async () => {
+      try {
+        const data = await fetchData();
+        const { userData } = data;
+
+        // Define a function to flatten uploadDatas arrays
+        const flattenUploadDatas = (userData: any) => {
+          return Object.values(userData.uploadDatas).reduce(
+            (acc: string[], arr: any) => acc.concat(arr),
+            []
+          );
+        };
+
+        // Concatenate all uploadDatas arrays into a single array
+        const images = userData.reduce(
+          (accumulator: any, user: any) =>
+            accumulator.concat(flattenUploadDatas(user)),
+          []
+        );
+
+        setMediaLibrary(images);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchDataAndProcess();
+  }, []);
+
+  return (
+    <MediaLibraryContainer>
+      <MediaLibraryInnerContainer>
+        <TextContainer>
+          <h1>Media Library</h1>
+        </TextContainer>
+        <AllMediaLibrary>
+          {mediaLibrary.map((imageUrl, index) => (
+            <ImageContainer>
+              <img key={index} src={imageUrl} alt={`Image ${index}`} />
+            </ImageContainer>
+          ))}
+        </AllMediaLibrary>
+      </MediaLibraryInnerContainer>
+    </MediaLibraryContainer>
+  );
+}
+
+export default MediaLibraryComponent;

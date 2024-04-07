@@ -13,20 +13,39 @@ const ImagesWithTitlesContainer = styled.div`
   gap: 80px;
 `;
 
-const IndividualAgeContainer = styled.div`
+interface IndividualAgeContainerProps {
+  reverseRow?: boolean;
+  color?: string;
+}
+
+const IndividualAgeContainer = styled.div<IndividualAgeContainerProps>`
   h3 {
     ${pLarge}
     color:  ${({ color }) => color};
   }
+
+  ${({ reverseRow }) =>
+    reverseRow &&
+    `
+    ${IndividualInnerContainer} {
+      flex-direction: row-reverse;
+      @media ${MediaQueries.tablet} {
+    flex-direction: column;
+  }
+    }
+  `}
 `;
 
 const IndividualInnerContainer = styled.div`
   ${Container}
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 20px;
+  @media ${MediaQueries.tablet} {
+    flex-direction: column;
+  }
 `;
 
 interface ImagesContainerProps {
@@ -35,29 +54,26 @@ interface ImagesContainerProps {
 
 const ImagesContainer = styled(motion.div)<ImagesContainerProps>`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   justify-items: center; /* Center items horizontally */
   align-content: center;
-  ${(props) => {
-    const itemCount = React.Children.count(props.children);
-    if (itemCount <= 4) {
-      return `
-        grid-template-columns: repeat(${itemCount}, 1fr);
-      `;
-    }
-  }}
 
   gap: 10px;
   @media ${MediaQueries.tablet} {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media ${MediaQueries.mobile} {
+  /* @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(1, 1fr);
-  }
+  } */
+`;
+
+const ImageWrapper = styled.div`
+  display: flex;
 
   img {
-    max-width: 300px;
+    max-width: 200px;
     width: 100%;
+    object-fit: cover;
   }
 `;
 
@@ -105,7 +121,11 @@ function ImagesWithTitles({ data }: Person) {
     <ImagesWithTitlesContainer>
       {/* <AnimatePresence> */}
       {Object.keys(uploadDatas).map((key, index) => (
-        <IndividualAgeContainer color={color} key={key}>
+        <IndividualAgeContainer
+          color={color}
+          key={key}
+          reverseRow={index % 2 !== 0}
+        >
           <IndividualInnerContainer>
             <h3>{key === "0" ? `Born: ${formatDate(dob)}` : `Age ${key}`}</h3>
 
@@ -117,12 +137,14 @@ function ImagesWithTitles({ data }: Person) {
               viewport={{ once: true }}
             >
               {uploadDatas[key].map((src: string, index: number) => (
-                <img
-                  key={`key-${index + 1}`}
-                  src={src}
-                  alt={`Image ${index}`}
-                  // style={{ maxWidth: "100px", margin: "5px" }}
-                />
+                <ImageWrapper key={index}>
+                  <img
+                    key={`key-${index + 1}`}
+                    src={src}
+                    alt={`Image ${index}`}
+                    // style={{ maxWidth: "100px", margin: "5px" }}
+                  />
+                </ImageWrapper>
               ))}
             </ImagesContainer>
           </IndividualInnerContainer>
