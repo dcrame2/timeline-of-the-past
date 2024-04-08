@@ -654,7 +654,7 @@ function EditPeopleScreen({
             </ImageUploadedContainer>
 
             <ButtonContainer>
-              <button type="submit">Preview</button>
+              {/* <button type="submit">Preview</button> */}
               <button type="submit">Save</button>
             </ButtonContainer>
           </FormInnerContainer>
