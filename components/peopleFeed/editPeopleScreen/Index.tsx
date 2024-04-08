@@ -160,6 +160,10 @@ const LabelInputContainer = styled.div`
     appearance: none;
   }
 
+  input[type="date"] {
+    width: 100%;
+  }
+
   input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
   }
