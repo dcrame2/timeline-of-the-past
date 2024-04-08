@@ -48,6 +48,11 @@ const PeopleFeedInnerContainer = styled.div`
   display: flex;
   gap: 12px;
   flex-direction: column;
+  /* height: 100%; */
+  padding-bottom: 12px;
+  max-height: 550px;
+
+  overflow-y: scroll;
 `;
 
 const HourGlassContainer = styled.div`

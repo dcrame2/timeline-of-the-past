@@ -29,10 +29,16 @@ const FormContainer = styled(motion.div)`
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   @media ${MediaQueries.mobile} {
-    padding: 88px 24px;
+    padding: 88px 24px 24px;
   }
 `;
-const Form = styled.form``;
+const Form = styled.form`
+  max-height: 550px;
+  overflow-y: scroll;
+  @media ${MediaQueries.mobile} {
+    max-height: 90%;
+  }
+`;
 
 const FormInnerContainer = styled.div`
   display: grid;

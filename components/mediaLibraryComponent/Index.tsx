@@ -38,10 +38,14 @@ const MediaContainer = styled.div`
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
+  max-height: 650px;
+  overflow-y: auto;
+
   @media ${MediaQueries.mobile} {
     padding: 24px 24px;
+    /* max-height: 90%; */
   }
 `;
 
