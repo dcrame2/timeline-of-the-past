@@ -10,17 +10,19 @@ import { variables } from "@/styles/Variables";
 import Testimonials from "@/mainWebsite/testimonials/Index";
 
 const LayoutContainer = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  ${Container}
-  /* padding-top: 20px; */
-  align-items: center;
   position: absolute;
   width: 100%;
   z-index: 5;
   padding-bottom: 8px;
   padding-top: 8px;
   background-color: ${variables.white};
+`;
+
+const LayoutInnerContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  ${Container}
+  align-items: center;
 `;
 
 const Logo = styled.img`
@@ -97,8 +99,10 @@ export default function Home() {
       </Head>
       <main>
         <LayoutContainer>
-          <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
-          <LinkStyled href="/auth/authenticate">Login or Sign Up</LinkStyled>
+          <LayoutInnerContainer>
+            <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
+            <LinkStyled href="/auth/authenticate">Login or Sign Up</LinkStyled>
+          </LayoutInnerContainer>
         </LayoutContainer>
         <Hero />
         <Examples />
