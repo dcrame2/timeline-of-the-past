@@ -106,6 +106,7 @@ const LabelInputContainer = styled.div`
 
   input[type="date"] {
     width: 100%;
+    -webkit-appearance: none;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {
