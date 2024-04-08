@@ -50,7 +50,7 @@ function Navigation({ data }: Person) {
     <Nav color={color}>
       <NavInnerContainer>
         <Link target="_blank" href="/">
-          <Logo src="/timeline_that_logo.png" alt="Timeline That Logo" />
+          <Logo src="/timeline_that_logo_white.svg" alt="Timeline That Logo" />
         </Link>
       </NavInnerContainer>
     </Nav>

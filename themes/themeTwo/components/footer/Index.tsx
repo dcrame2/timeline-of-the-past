@@ -62,7 +62,7 @@ function Footer({ data }: Person) {
     <FooterContainer color={color}>
       <FooterInnerContainer>
         <LinkStyled target="_blank" href="/">
-          <Logo src="/timeline_that_logo.png" alt="Timeline That Logo" />
+          <Logo src="/timeline_that_logo_white.svg" alt="Timeline That Logo" />
           https://timelinethat.com
         </LinkStyled>
       </FooterInnerContainer>
