@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
 import TextInput from "@/components/reusable/formFields/TextInput";
-import { buttonType, linkStyles, h2styles } from "@/styles/Type";
+import { buttonType, linkStyles, h2styles, pXSmall } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
 import { inputType } from "@/styles/Type";
@@ -21,6 +21,9 @@ const PeopleScreen = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  @media ${MediaQueries.tablet} {
+    padding: 88px 24px 24px;
+  }
   @media ${MediaQueries.mobile} {
     padding: 88px 24px;
   }
@@ -28,7 +31,7 @@ const PeopleScreen = styled(motion.div)`
 
 const Form = styled.form`
   button {
-    ${buttonType}
+    /* ${buttonType} */
     margin-bottom: 4px;
   }
 `;
@@ -37,9 +40,9 @@ const FormInnerContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  img {
+  /* img {
     width: 200px;
-  }
+  } */
 `;
 
 const LinkContainer = styled.div`
@@ -51,7 +54,7 @@ const LinkContainer = styled.div`
 
 const NameContainer = styled.div`
   display: flex;
-  gap: 40px;
+  gap: 12px;
   grid-column: 1 / span 2;
   @media ${MediaQueries.mobile} {
     flex-direction: column;
@@ -68,7 +71,7 @@ const SocialMediaContainer = styled.div`
 const DatesContainer = styled.div`
   display: flex;
   width: 100%;
-  gap: 40px;
+  gap: 12px;
   grid-column: 1 / span 2;
   @media ${MediaQueries.mobile} {
     flex-direction: column;
@@ -81,6 +84,12 @@ const ImageGridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-column: 1 / span 2;
   gap: 10px;
+  @media ${MediaQueries.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${MediaQueries.mobile} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const ImageWithCaption = styled.div`
@@ -96,7 +105,7 @@ const ImageContainer = styled.div`
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   min-height: 250px;
   ${h2styles}
@@ -117,9 +126,35 @@ const ImageContainer = styled.div`
     justify-content: center;
   }
   img {
-    object-fit: contain;
-    width: 200px;
+    max-width: 200px;
+    width: 100%;
+    object-fit: cover;
   }
+`;
+
+const ThemeInfoContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  grid-column: 1 / span 2;
+  padding-bottom: 30px;
+  border-bottom: 2px solid ${variables.lightBlue};
+  @media ${MediaQueries.mobile} {
+    flex-direction: column;
+  }
+`;
+
+const NumberContainer = styled.div`
+  flex: 1;
+  background-color: ${variables.lightGrey};
+  border: 1px solid #ccc;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  ${h2styles}
 `;
 
 const LabelInputContainer = styled.div`
@@ -127,6 +162,7 @@ const LabelInputContainer = styled.div`
   width: 100%;
   flex-direction: column;
   label {
+    ${pXSmall}
     color: ${variables.black};
   }
   input,
@@ -145,6 +181,7 @@ const LabelInputContainer = styled.div`
   input[type="color"] {
     padding: 0px 10px;
     height: 100%;
+    min-height: 42px;
   }
 `;
 
@@ -451,71 +488,20 @@ function EditPeopleScreen({
                 </Link>
               </LinkContainer>
               <MainFormContainer>
-                <NameContainer>
-                  <TextInput
-                    label="First Name:"
-                    type="text"
-                    value={updatedPerson.firstName}
-                    onChange={(e: any) => handleInputChange(e, "firstName")}
-                    required
-                  />
-                  <TextInput
-                    label="Middle Name:"
-                    type="text"
-                    value={updatedPerson.middleName}
-                    onChange={(e: any) => handleInputChange(e, "middleName")}
-                  />
-                  <TextInput
-                    label="Last Name:"
-                    type="text"
-                    value={updatedPerson.lastName}
-                    onChange={(e: any) => handleInputChange(e, "lastName")}
-                    required
-                  />
-                </NameContainer>
-                <DatesContainer>
+                <ThemeInfoContainer>
                   <LabelInputContainer>
-                    <label>
-                      Age:
-                      <input
-                        type="date"
-                        min="1900-01-01"
-                        max={maxDate}
-                        value={updatedPerson.dob}
-                        onChange={(e) => {
-                          handleInputChange(e, "dob");
-                          handleDateOfBirthChange(e);
-                        }}
-                        required
-                      />
-                    </label>
+                    <label htmlFor="color">Theme Color</label>
+                    <input
+                      type="color"
+                      id="color"
+                      value={updatedPerson.color}
+                      onChange={(e) => {
+                        handleInputChange(e, "color");
+                      }}
+                    />
                   </LabelInputContainer>
                   <LabelInputContainer>
-                    <label>
-                      Death:
-                      <input
-                        type="date"
-                        value={updatedPerson.death}
-                        onChange={(e) => {
-                          handleInputChange(e, "death");
-                        }}
-                      />
-                    </label>
-                  </LabelInputContainer>
-                  <LabelInputContainer>
-                    <label>
-                      Theme Color:
-                      <input
-                        type="color"
-                        value={updatedPerson.color}
-                        onChange={(e) => {
-                          handleInputChange(e, "color");
-                        }}
-                      />
-                    </label>
-                  </LabelInputContainer>
-                  <LabelInputContainer>
-                    <label htmlFor="font-family">Theme Font:</label>
+                    <label htmlFor="font-family">Theme Font</label>
                     <select
                       id="font-family"
                       value={font}
@@ -532,7 +518,7 @@ function EditPeopleScreen({
                     </select>
                   </LabelInputContainer>
                   <LabelInputContainer>
-                    <label htmlFor="themes">Theme:</label>
+                    <label htmlFor="themes">Theme</label>
                     <select
                       id="themes"
                       value={theme}
@@ -547,27 +533,59 @@ function EditPeopleScreen({
                       ))}
                     </select>
                   </LabelInputContainer>
+                </ThemeInfoContainer>
+                <NameContainer>
+                  <TextInput
+                    label="First Name*"
+                    type="text"
+                    value={updatedPerson.firstName}
+                    onChange={(e: any) => handleInputChange(e, "firstName")}
+                    required
+                  />
+                  <TextInput
+                    label="Middle Name"
+                    type="text"
+                    value={updatedPerson.middleName}
+                    onChange={(e: any) => handleInputChange(e, "middleName")}
+                  />
+                  <TextInput
+                    label="Last Name*"
+                    type="text"
+                    value={updatedPerson.lastName}
+                    onChange={(e: any) => handleInputChange(e, "lastName")}
+                    required
+                  />
+                </NameContainer>
+                <DatesContainer>
+                  <LabelInputContainer>
+                    <label>
+                      Date of Birth*
+                      <input
+                        type="date"
+                        min="1900-01-01"
+                        max={maxDate}
+                        value={updatedPerson.dob}
+                        onChange={(e) => {
+                          handleInputChange(e, "dob");
+                          handleDateOfBirthChange(e);
+                        }}
+                        required
+                      />
+                    </label>
+                  </LabelInputContainer>
+                  <LabelInputContainer>
+                    <label>
+                      Death (Optional)
+                      <input
+                        type="date"
+                        value={updatedPerson.death}
+                        onChange={(e) => {
+                          handleInputChange(e, "death");
+                        }}
+                      />
+                    </label>
+                  </LabelInputContainer>
                 </DatesContainer>
-                {/* <SocialMediaContainer>
-                  <TextInput
-                    label="Twitter"
-                    type="text"
-                    value={updatedPerson.twitterLink}
-                    onChange={(e: any) => handleInputChange(e, "twitterLink")}
-                  />
-                  <TextInput
-                    label="Linkedin"
-                    type="text"
-                    value={updatedPerson.linkedinLink}
-                    onChange={(e: any) => handleInputChange(e, "linkedinLink")}
-                  />
-                  <TextInput
-                    label="Facebook"
-                    type="text"
-                    value={updatedPerson.facebookLink}
-                    onChange={(e: any) => handleInputChange(e, "facebookLink")}
-                  />
-                </SocialMediaContainer> */}
               </MainFormContainer>
               <ImageUploadedContainer>
                 <LabelInputContainer>
@@ -654,7 +672,9 @@ function EditPeopleScreen({
                       ),
                     ].map((_, index) => (
                       <ImageWithCaption>
-                        <ImageContainer key={index}>{index + 1}</ImageContainer>
+                        <NumberContainer key={index}>
+                          {index + 1}
+                        </NumberContainer>
                       </ImageWithCaption>
                     ))}
                 </ImageGridContainer>

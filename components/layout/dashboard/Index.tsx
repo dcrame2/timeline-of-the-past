@@ -11,7 +11,7 @@ const Container = styled.div`
   grid-template-rows: 75px 1fr; /* Define two rows, the first one will auto size to fit content */
   height: 100dvh; /* Ensure the container takes up the full viewport height */
 
-  @media ${MediaQueries.mobile} {
+  @media ${MediaQueries.tablet} {
     grid-template-columns: 1fr;
     grid-template-rows: 75px 1fr 75px;
   }
@@ -37,7 +37,7 @@ const ContentSection = styled.div`
   grid-column: 2 / span 3;
   grid-row: 2;
   /* height: 100vh; */
-  @media ${MediaQueries.mobile} {
+  @media ${MediaQueries.tablet} {
     /* grid-row: unset; */
     grid-column: unset;
   }

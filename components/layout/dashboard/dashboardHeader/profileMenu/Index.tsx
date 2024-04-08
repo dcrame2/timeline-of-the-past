@@ -7,7 +7,7 @@ import Link from "next/link";
 import { MediaQueries } from "@/styles/Utilities";
 
 const ProfileContainer = styled(motion.div)`
-  padding: 12px 12px 12px 48px;
+  padding: 12px;
   border-radius: 12px;
   background-color: ${variables.lightGrey};
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
@@ -23,7 +23,8 @@ const ProfileContainer = styled(motion.div)`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    align-items: flex-end;
+    /* align-items: flex-end; */
+
     li {
       padding: 12px;
       color: ${variables.black};
@@ -33,6 +34,18 @@ const ProfileContainer = styled(motion.div)`
       display: flex;
       gap: 12px;
       align-items: center;
+      a {
+        /* padding: 12px; */
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      &.hide-on-desktop {
+        display: none;
+        @media ${MediaQueries.tablet} {
+          display: block;
+        }
+      }
     }
   }
 `;
@@ -55,15 +68,41 @@ function ProfileMenu() {
   return (
     <ProfileContainer {...motionPropsIn}>
       <ul>
-        <li>
-          <Link href="/auth/profile">Profile</Link>
+        <li className="hide-on-desktop">
+          <Link href="/auth/timeline">
+            <img src="/timeline_icon.png" alt="icon" />
+            Timeline
+          </Link>
+        </li>
+        <li className="hide-on-desktop">
+          <Link href="/auth/media-library">
+            <img src="/media_icon.png" alt="icon" />
+            Media Library
+          </Link>
+        </li>
+        <li className="hide-on-desktop">
+          <Link href="/auth/themes">
+            <img src="/subscription_icon.png" alt="icon" />
+            Themes
+          </Link>
         </li>
         <li>
-          <Link href="/auth/subscription">Subscription</Link>
+          <Link href="/auth/profile">
+            {" "}
+            <img src="/profile_icon.png" alt="icon" />
+            Profile
+          </Link>
         </li>
         <li>
+          <Link href="/auth/subscription">
+            {" "}
+            <img src="/subscription_icon.png" alt="icon" />
+            Subscription
+          </Link>
+        </li>
+        {/* <li>
           <Link href="/auth/settings">Settings</Link>
-        </li>
+        </li> */}
         <AuthSignOutButton />
       </ul>
     </ProfileContainer>

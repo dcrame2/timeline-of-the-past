@@ -9,18 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-lottie": "^1.2.10",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.0.3",
     "cloudinary-build-url": "^0.2.4",
     "formidable": "^3.5.1",
     "framer-motion": "^11.0.8",
+    "lottie-react": "^2.4.0",
     "mongodb": "^6.3.0",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "path": "^0.12.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-lottie": "^1.2.4",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {

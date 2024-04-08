@@ -13,6 +13,12 @@ import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
 
+const H1Element = styled.h1`
+  font-size: 30px;
+  margin: 24px;
+  color: #060606;
+`;
+
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
   margin: 24px;
@@ -46,6 +52,17 @@ const MainFormContainer = styled.div`
   }
 `;
 
+const ThemeInfoContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  grid-column: 1 / span 2;
+  padding-bottom: 30px;
+  border-bottom: 2px solid ${variables.lightBlue};
+  @media ${MediaQueries.mobile} {
+    flex-direction: column;
+  }
+`;
+
 const NameContainer = styled.div`
   display: flex;
   gap: 12px;
@@ -53,13 +70,6 @@ const NameContainer = styled.div`
   @media ${MediaQueries.mobile} {
     flex-direction: column;
   }
-`;
-
-const SocialMediaContainer = styled.div`
-  display: flex;
-  gap: 12px;
-
-  grid-column: 1 / span 2;
 `;
 
 const DatesContainer = styled.div`
@@ -97,6 +107,7 @@ const LabelInputContainer = styled.div`
   input[type="color"] {
     padding: 0px 10px;
     height: 100%;
+    min-height: 42px;
   }
 `;
 
@@ -124,6 +135,12 @@ const ImageGridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-column: 1 / span 2;
   gap: 10px;
+  @media ${MediaQueries.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${MediaQueries.mobile} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const ImageWithCaption = styled.div`
@@ -143,6 +160,9 @@ const ImageContainer = styled.div`
   justify-content: center;
   min-height: 250px;
   ${h2styles}
+  @media ${MediaQueries.mobile} {
+    min-height: 200px;
+  }
   img {
     object-fit: contain;
     width: 200px;
@@ -384,185 +404,170 @@ function NewPersonForm() {
   ];
 
   return (
-    <FormContainer {...motionPropsRight}>
-      <Form method="post" onSubmit={submitNewPerson}>
-        <FormInnerContainer>
-          <MainFormContainer>
-            <NameContainer>
-              <TextInput
-                name="firstName"
-                label="First Name"
-                placeholder="John"
-                type="text"
-                ref={firstNameRef}
-                required
-              />
-              <TextInput
-                name="middleName"
-                label="Middle Name"
-                placeholder="George"
-                type="text"
-                ref={middleNameRef}
-              />
-              <TextInput
-                name="lastName"
-                label="Last Name"
-                placeholder="Doe"
-                type="text"
-                ref={lastNameRef}
-                required
-              />
-            </NameContainer>
-            <DatesContainer>
-              <LabelInputContainer>
-                <label htmlFor="start">Date of Birth</label>
-                <input
-                  type="date"
-                  id="start"
-                  name="trip-start"
-                  min="1900-01-01"
-                  max={maxDate}
-                  ref={dobRef}
-                  onChange={(e: any) => handleDateOfBirthChange(e)}
+    <>
+      <H1Element>Create a new Timeline</H1Element>
+      <FormContainer {...motionPropsRight}>
+        <Form method="post" onSubmit={submitNewPerson}>
+          <FormInnerContainer>
+            <MainFormContainer>
+              <ThemeInfoContainer>
+                <LabelInputContainer>
+                  <label htmlFor="color">Theme Color</label>
+                  <input type="color" id="color" name="color" ref={colorRef} />
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <label htmlFor="font-family">Theme Font</label>
+                  <select
+                    id="font-family"
+                    value={font}
+                    onChange={handleFontChange}
+                    style={{ fontFamily: font }}
+                  >
+                    {fontOptions.map((option, index) => (
+                      <option
+                        style={{ fontFamily: option.value }}
+                        key={index}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <label htmlFor="themes">Theme</label>
+                  <select
+                    id="themes"
+                    value={theme}
+                    onChange={handleThemeChange}
+                  >
+                    {themeData.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
+                </LabelInputContainer>
+              </ThemeInfoContainer>
+              <NameContainer>
+                <TextInput
+                  name="firstName"
+                  label="First Name*"
+                  placeholder="John"
+                  type="text"
+                  ref={firstNameRef}
                   required
                 />
-              </LabelInputContainer>
-              <LabelInputContainer>
-                <label htmlFor="start">Death (Optional)</label>
-                <input
-                  type="date"
-                  id="start"
-                  name="trip-start"
-                  min="1900-01-01"
-                  max="2030-12-31"
-                  ref={deathRef}
+                <TextInput
+                  name="middleName"
+                  label="Middle Name"
+                  placeholder="George"
+                  type="text"
+                  ref={middleNameRef}
                 />
-              </LabelInputContainer>
+                <TextInput
+                  name="lastName"
+                  label="Last Name*"
+                  placeholder="Doe"
+                  type="text"
+                  ref={lastNameRef}
+                  required
+                />
+              </NameContainer>
+              <DatesContainer>
+                <LabelInputContainer>
+                  <label htmlFor="start">Date of Birth*</label>
+                  <input
+                    type="date"
+                    id="start"
+                    name="trip-start"
+                    min="1900-01-01"
+                    max={maxDate}
+                    ref={dobRef}
+                    onChange={(e: any) => handleDateOfBirthChange(e)}
+                    required
+                  />
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <label htmlFor="start">Death (Optional)</label>
+                  <input
+                    type="date"
+                    id="start"
+                    name="trip-start"
+                    min="1900-01-01"
+                    max="2030-12-31"
+                    ref={deathRef}
+                  />
+                </LabelInputContainer>
+              </DatesContainer>
+            </MainFormContainer>
+            <ImageUploadedContainer>
               <LabelInputContainer>
-                <label htmlFor="color">Theme Color</label>
-                <input type="color" id="color" name="color" ref={colorRef} />
-              </LabelInputContainer>
-              <LabelInputContainer>
-                <label htmlFor="font-family">Theme Font:</label>
-                <select
-                  id="font-family"
-                  value={font}
-                  onChange={handleFontChange}
-                  style={{ fontFamily: font }}
-                >
-                  {fontOptions.map((option, index) => (
-                    <option
-                      style={{ fontFamily: option.value }}
-                      key={index}
-                      value={option.value}
-                    >
+                <label htmlFor="age">Select Age to Upload Images For</label>
+                <select id="age" onChange={handleAgeChange} value={selectedAge}>
+                  {ageOptions.map((option, index) => (
+                    <option key={index} value={option.value}>
                       {option.label}
                     </option>
                   ))}
                 </select>
               </LabelInputContainer>
-              <LabelInputContainer>
-                <label htmlFor="themes">Theme:</label>
-                <select id="themes" value={theme} onChange={handleThemeChange}>
-                  {themeData.map((option, index) => (
-                    <option key={index} value={option.value}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </LabelInputContainer>
-            </DatesContainer>
-
-            {/* <SocialMediaContainer>
-              <TextInput
-                name="facebook"
-                label="Facebook"
-                placeholder="http://"
-                type="text"
-                ref={facebookRef}
+              <UploadFileInputNew
+                selectedAge={selectedAge}
+                setUploadDatas={setUploadDatas}
+                uploadDatas={uploadDatas}
+                setImageSrcs={setImageSrcs}
+                imageSrcs={imageSrcs}
               />
-              <TextInput
-                name="twitter"
-                label="Twitter"
-                placeholder="http://"
-                type="text"
-                ref={twitterRef}
-              />
-              <TextInput
-                name="linkedin"
-                label="LinkedIn"
-                placeholder="http://"
-                type="text"
-                ref={linkedinRef}
-              />
-            </SocialMediaContainer> */}
-          </MainFormContainer>
-          <ImageUploadedContainer>
-            <LabelInputContainer>
-              <label htmlFor="age">Select Age to Upload Images For</label>
-              <select id="age" onChange={handleAgeChange} value={selectedAge}>
-                {ageOptions.map((option, index) => (
-                  <option key={index} value={option.value}>
-                    {option.label}
-                  </option>
+              <ImageGridContainer>
+                {uploadDatas[selectedAge]?.map((src: string, index: number) => (
+                  <ImageWithCaption>
+                    <ImageContainer>
+                      <img
+                        key={index}
+                        src={src}
+                        alt={`Uploaded image ${index}`}
+                      />
+                      <button onClick={(e) => handleRemoveImage(src, index, e)}>
+                        x
+                      </button>
+                    </ImageContainer>
+                    {/* <TextInput
+                    type="text"
+                    placeholder="Enter caption..."
+                    ref={captionRef}
+                    onChange={handleCaptionChange}
+                    // onChange={handleCaptionChange}
+                  /> */}
+                  </ImageWithCaption>
                 ))}
-              </select>
-            </LabelInputContainer>
-            <UploadFileInputNew
-              selectedAge={selectedAge}
-              setUploadDatas={setUploadDatas}
-              uploadDatas={uploadDatas}
-              setImageSrcs={setImageSrcs}
-              imageSrcs={imageSrcs}
-            />
-            <ImageGridContainer>
-              {uploadDatas[selectedAge]?.map((src: string, index: number) => (
-                <ImageWithCaption>
-                  <ImageContainer>
-                    <img
-                      key={index}
-                      src={src}
-                      alt={`Uploaded image ${index}`}
-                    />
-                    <button onClick={(e) => handleRemoveImage(src, index, e)}>
-                      x
-                    </button>
-                  </ImageContainer>
-                  {/* <TextInput
+                {[
+                  ...Array(
+                    Math.max(0, 4 - (uploadDatas[selectedAge]?.length || 0))
+                  ),
+                ].map((_, index) => (
+                  <ImageWithCaption>
+                    <ImageContainer key={index}>{index + 1}</ImageContainer>
+                    {/* <TextInput
                     type="text"
                     placeholder="Enter caption..."
                     ref={captionRef}
                     onChange={handleCaptionChange}
                     // onChange={handleCaptionChange}
                   /> */}
-                </ImageWithCaption>
-              ))}
-              {[
-                ...Array(
-                  Math.max(0, 4 - (uploadDatas[selectedAge]?.length || 0))
-                ),
-              ].map((_, index) => (
-                <ImageWithCaption>
-                  <ImageContainer key={index}>{index + 1}</ImageContainer>
-                  {/* <TextInput
-                    type="text"
-                    placeholder="Enter caption..."
-                    ref={captionRef}
-                    onChange={handleCaptionChange}
-                    // onChange={handleCaptionChange}
-                  /> */}
-                </ImageWithCaption>
-              ))}
-            </ImageGridContainer>
-          </ImageUploadedContainer>
+                  </ImageWithCaption>
+                ))}
+              </ImageGridContainer>
+            </ImageUploadedContainer>
 
-          <ButtonContainer>
-            <button type="submit">Preview</button>
-            <button type="submit">Save</button>
-          </ButtonContainer>
-        </FormInnerContainer>
-      </Form>
-    </FormContainer>
+            <ButtonContainer>
+              {/* <button type="submit">Preview</button> */}
+              <button type="submit">Save</button>
+            </ButtonContainer>
+          </FormInnerContainer>
+        </Form>
+      </FormContainer>
+    </>
   );
 }
 

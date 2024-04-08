@@ -7,6 +7,8 @@ import { variables } from "@/styles/Variables";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { linkStyles, pXSmall } from "@/styles/Type";
+import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
+import { MediaQueries } from "@/styles/Utilities";
 
 interface UserData {
   firstName?: string;
@@ -30,6 +32,9 @@ const PeopleFeedContainer = styled.div`
   padding: 24px;
   border-radius: 12px;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  @media ${MediaQueries.mobile} {
+    padding: 12px;
+  }
   h3 {
     font-size: 20px;
     color: ${variables.black};
@@ -37,6 +42,18 @@ const PeopleFeedContainer = styled.div`
   h6 {
     color: ${variables.black};
   }
+`;
+
+const PeopleFeedInnerContainer = styled.div`
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+`;
+
+const HourGlassContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const MainInfo = styled.div`
@@ -61,7 +78,7 @@ const IndividualPeopleContainer = styled(motion.div)`
   color: ${variables.black};
   align-items: center;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-  /* z-index: 1; */
+  gap: 12px;
   a {
     ${linkStyles}
   }
@@ -142,15 +159,12 @@ type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 function PeopleFeed({
   peopleData,
   fetchData,
-  setShowAddPersonFields,
-  showAddPersonFields,
-  setPeopleData,
+  isLoading,
 }: {
   peopleData: PeopleDataProps;
-  setPeopleData: any;
+
   fetchData: () => void;
-  setShowAddPersonFields: any;
-  showAddPersonFields: any;
+  isLoading: boolean;
 }) {
   const router = useRouter();
 
@@ -200,69 +214,79 @@ function PeopleFeed({
         <h3>All Timelines</h3>
         <AddNewPersonButton />
       </HeaderAddContainer>
+      <PeopleFeedInnerContainer>
+        {isLoading ? (
+          <HourGlassContainer>
+            {" "}
+            <HourGlassLottieLoading />
+          </HourGlassContainer>
+        ) : (
+          <>
+            {peopleData && peopleData?.userData?.length === 0 && (
+              <h6>No Timelines</h6>
+            )}
+            <>
+              {peopleData &&
+                peopleData?.userData?.length !== undefined &&
+                peopleData?.userData?.map((person, index) => {
+                  const { firstName, middleName, lastName, slug } = person;
 
-      {peopleData && peopleData?.userData?.length === 0 && (
-        <h6>No Timelines</h6>
-      )}
-      <>
-        {peopleData &&
-          peopleData?.userData?.length !== undefined &&
-          peopleData?.userData?.map((person, index) => {
-            const { firstName, middleName, lastName, slug } = person;
-
-            return (
-              // <AnimatePresence mode="wait">
-              <IndividualPeopleContainer
-                key={`${index}-person`}
-                {...motionPropsUp}
-              >
-                <MainInfo>
-                  <p>
-                    {firstName} {middleName} {lastName}
-                  </p>
-                  {/* <Link
+                  return (
+                    // <AnimatePresence mode="wait">
+                    <IndividualPeopleContainer
+                      key={`${index}-person`}
+                      {...motionPropsUp}
+                    >
+                      <MainInfo>
+                        <p>
+                          {firstName} {middleName} {lastName}
+                        </p>
+                        {/* <Link
                     target="_blank"
                     href={`https://timelinethat.com${slug}`}
                   >
                     https://timelinethat.com{slug}
                   </Link> */}
-                </MainInfo>
-                <CRUDBtns>
-                  <ExternalBtn
-                    target="_blank"
-                    href={`https://timelinethat.com${slug}`}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <img src="/external-link.svg" alt="" />
-                  </ExternalBtn>
+                      </MainInfo>
+                      <CRUDBtns>
+                        <ExternalBtn
+                          target="_blank"
+                          href={`https://timelinethat.com${slug}`}
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <img src="/external-link.svg" alt="" />
+                        </ExternalBtn>
 
-                  <EditBtn
-                    href="/auth/edit"
-                    whileHover={{ scale: 1.1 }}
-                    onClick={() => {
-                      router.push({
-                        pathname: "/auth/edit",
-                        query: {
-                          person: JSON.stringify(person),
-                          selectedIndex: index,
-                        },
-                      });
-                    }}
-                  >
-                    <img src="/edit_icon.png" alt="icon" />
-                  </EditBtn>
-                  <DeleteBtn
-                    whileHover={{ scale: 1.1 }}
-                    onClick={() => deletePeopleHandler(person, index)}
-                  >
-                    <img src="/trash_icon.png" alt="icon" />
-                  </DeleteBtn>
-                </CRUDBtns>
-              </IndividualPeopleContainer>
-              // </AnimatePresence>
-            );
-          })}
-      </>
+                        <EditBtn
+                          href="/auth/edit"
+                          whileHover={{ scale: 1.1 }}
+                          onClick={() => {
+                            router.push({
+                              pathname: "/auth/edit",
+                              query: {
+                                person: JSON.stringify(person),
+                                selectedIndex: index,
+                              },
+                            });
+                          }}
+                        >
+                          <img src="/edit_icon.png" alt="icon" />
+                        </EditBtn>
+                        <DeleteBtn
+                          whileHover={{ scale: 1.1 }}
+                          onClick={() => deletePeopleHandler(person, index)}
+                        >
+                          <img src="/trash_icon.png" alt="icon" />
+                        </DeleteBtn>
+                      </CRUDBtns>
+                    </IndividualPeopleContainer>
+                    // </AnimatePresence>
+                  );
+                })}
+            </>
+          </>
+        )}
+      </PeopleFeedInnerContainer>
     </PeopleFeedContainer>
   );
 }

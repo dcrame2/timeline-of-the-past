@@ -29,8 +29,8 @@ const NavContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    @media ${MediaQueries.mobile} {
-      flex-direction: row;
+    @media ${MediaQueries.tablet} {
+      display: none;
     }
     li {
       color: ${variables.black};

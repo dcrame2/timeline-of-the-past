@@ -43,7 +43,7 @@ const ExampleCardsContainer = styled.div`
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   @media ${MediaQueries.mobile} {
-    padding: 88px 24px;
+    padding: 24px 24px;
   }
   @media ${MediaQueries.tablet} {
     grid-template-columns: repeat(2, 1fr);

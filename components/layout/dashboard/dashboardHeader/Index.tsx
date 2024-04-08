@@ -54,7 +54,7 @@ function DashboardHeader() {
   };
   return (
     <Container>
-      <Logo src="/timeline_that_logo.png" alt="Timeline That Logo" />
+      <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
 
       <ProfileMenuContainer>
         <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>

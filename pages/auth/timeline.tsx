@@ -50,7 +50,7 @@ export default function Protected() {
   `;
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
-
+  const [isLoading, setIsLoading] = useState(true);
   const session = useSession();
   console.log(session);
   const fetchData = async () => {
@@ -77,11 +77,12 @@ export default function Protected() {
       const userData = await response.json();
 
       setPeopleData(userData);
-
+      setIsLoading(false);
       return userData;
       // Process userData as needed
     } catch (error) {
       console.error("Error fetching user data:", error);
+      setIsLoading(false);
     }
   };
 
@@ -100,11 +101,9 @@ export default function Protected() {
             {session?.data?.user.lastName}!
           </h1>
           <PeopleFeed
-            setShowAddPersonFields={setShowAddPersonFields}
-            showAddPersonFields={showAddPersonFields}
             fetchData={fetchData}
-            setPeopleData={setPeopleData}
             peopleData={peopleData}
+            isLoading={isLoading}
           />
         </InfoContainer>
       </TimelineView>
