@@ -4,8 +4,36 @@ import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import NewPersonForm from "@/components/newPersonForm/Index";
 import EditPeopleScreen from "@/components/peopleFeed/editPeopleScreen/Index";
+import HourGlassLottieLoading from "@/components/reusable/hourglassLottieLoading/Index";
+import { motion } from "framer-motion";
+import { variables } from "@/styles/Variables";
+import { MediaQueries } from "@/styles/Utilities";
 
 import { useRouter } from "next/router";
+import styled from "styled-components";
+
+const HourGlassContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PeopleScreen = styled(motion.div)`
+  background-color: ${variables.lightGrey};
+  margin: 24px;
+  padding: 88px;
+  z-index: 105;
+  border-radius: 12px;
+  max-width: 1000px;
+  position: relative;
+  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  @media ${MediaQueries.tablet} {
+    padding: 88px 24px 24px;
+  }
+  @media ${MediaQueries.mobile} {
+    padding: 88px 24px;
+  }
+`;
 function EditTimeline() {
   const router = useRouter();
   const { query } = router;
@@ -57,15 +85,19 @@ function EditTimeline() {
 
   return (
     <Layout>
-      {receivedPersonData ? (
-        <EditPeopleScreen
-          setReceivedPersonData={setReceivedPersonData}
-          person={person}
-          selectedIndex={selectedIndex}
-        />
-      ) : (
-        <p>Loading...</p>
-      )}
+      <PeopleScreen>
+        {receivedPersonData ? (
+          <EditPeopleScreen
+            setReceivedPersonData={setReceivedPersonData}
+            person={person}
+            selectedIndex={selectedIndex}
+          />
+        ) : (
+          <HourGlassContainer>
+            <HourGlassLottieLoading />
+          </HourGlassContainer>
+        )}
+      </PeopleScreen>
     </Layout>
   );
 }

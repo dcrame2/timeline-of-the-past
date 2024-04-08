@@ -12,23 +12,6 @@ import { MediaQueries } from "@/styles/Utilities";
 import Link from "next/link";
 import { themeData } from "@/themes/themeData";
 
-const PeopleScreen = styled(motion.div)`
-  background-color: ${variables.lightGrey};
-  margin: 24px;
-  padding: 88px;
-  z-index: 105;
-  border-radius: 12px;
-  max-width: 1000px;
-  position: relative;
-  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-  @media ${MediaQueries.tablet} {
-    padding: 88px 24px 24px;
-  }
-  @media ${MediaQueries.mobile} {
-    padding: 88px 24px;
-  }
-`;
-
 const Form = styled.form`
   button {
     /* ${buttonType} */
@@ -475,218 +458,207 @@ function EditPeopleScreen({
   return (
     <>
       {person && (
-        <PeopleScreen>
-          <Form onSubmit={(e) => handleSave(e)}>
-            <FormInnerContainer>
-              <LinkContainer>
-                {`URL: `}
-                <Link
-                  target="_blank"
-                  href={`https://timelinethat.com${person.slug}`}
-                >
-                  https://timelinethat.com{person.slug}
-                </Link>
-              </LinkContainer>
-              <MainFormContainer>
-                <ThemeInfoContainer>
-                  <LabelInputContainer>
-                    <label htmlFor="color">Theme Color</label>
-                    <input
-                      type="color"
-                      id="color"
-                      value={updatedPerson.color}
-                      onChange={(e) => {
-                        handleInputChange(e, "color");
-                      }}
-                    />
-                  </LabelInputContainer>
-                  <LabelInputContainer>
-                    <label htmlFor="font-family">Theme Font</label>
-                    <select
-                      id="font-family"
-                      value={font}
-                      onChange={(e) => {
-                        handleSelectChange(e, "font");
-                      }}
-                      style={{ fontFamily: font }}
-                    >
-                      {fontOptions.map((option, index) => (
-                        <option key={index} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </LabelInputContainer>
-                  <LabelInputContainer>
-                    <label htmlFor="themes">Theme</label>
-                    <select
-                      id="themes"
-                      value={theme}
-                      onChange={(e) => {
-                        handleThemeChange(e, "theme");
-                      }}
-                    >
-                      {themeData.map((option, index) => (
-                        <option key={index} value={option.value}>
-                          {option.name}
-                        </option>
-                      ))}
-                    </select>
-                  </LabelInputContainer>
-                </ThemeInfoContainer>
-                <NameContainer>
-                  <TextInput
-                    label="First Name*"
-                    type="text"
-                    value={updatedPerson.firstName}
-                    onChange={(e: any) => handleInputChange(e, "firstName")}
-                    required
-                  />
-                  <TextInput
-                    label="Middle Name"
-                    type="text"
-                    value={updatedPerson.middleName}
-                    onChange={(e: any) => handleInputChange(e, "middleName")}
-                  />
-                  <TextInput
-                    label="Last Name*"
-                    type="text"
-                    value={updatedPerson.lastName}
-                    onChange={(e: any) => handleInputChange(e, "lastName")}
-                    required
-                  />
-                </NameContainer>
-                <DatesContainer>
-                  <LabelInputContainer>
-                    <label>
-                      Date of Birth*
-                      <input
-                        type="date"
-                        min="1900-01-01"
-                        max={maxDate}
-                        value={updatedPerson.dob}
-                        onChange={(e) => {
-                          handleInputChange(e, "dob");
-                          handleDateOfBirthChange(e);
-                        }}
-                        required
-                      />
-                    </label>
-                  </LabelInputContainer>
-                  <LabelInputContainer>
-                    <label>
-                      Death (Optional)
-                      <input
-                        type="date"
-                        value={updatedPerson.death}
-                        onChange={(e) => {
-                          handleInputChange(e, "death");
-                        }}
-                      />
-                    </label>
-                  </LabelInputContainer>
-                </DatesContainer>
-              </MainFormContainer>
-              <ImageUploadedContainer>
+        <Form onSubmit={(e) => handleSave(e)}>
+          <FormInnerContainer>
+            <LinkContainer>
+              {`URL: `}
+              <Link
+                target="_blank"
+                href={`https://timelinethat.com${person.slug}`}
+              >
+                https://timelinethat.com{person.slug}
+              </Link>
+            </LinkContainer>
+            <MainFormContainer>
+              <ThemeInfoContainer>
                 <LabelInputContainer>
-                  <label htmlFor="age">Select Age</label>
+                  <label htmlFor="color">Theme Color</label>
+                  <input
+                    type="color"
+                    id="color"
+                    value={updatedPerson.color}
+                    onChange={(e) => {
+                      handleInputChange(e, "color");
+                    }}
+                  />
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <label htmlFor="font-family">Theme Font</label>
                   <select
-                    id="age"
-                    onChange={handleAgeChange}
-                    value={selectedAge}
+                    id="font-family"
+                    value={font}
+                    onChange={(e) => {
+                      handleSelectChange(e, "font");
+                    }}
+                    style={{ fontFamily: font }}
                   >
-                    {ageOptions.map((option, index) => (
+                    {fontOptions.map((option, index) => (
                       <option key={index} value={option.value}>
                         {option.label}
                       </option>
                     ))}
                   </select>
                 </LabelInputContainer>
-                {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
-                <UploadFileInputEdit
-                  selectedAge={selectedAge}
-                  updatedPerson={updatedPerson}
-                  onUpload={(selectedAge: number, newUploadDatas: string[]) =>
-                    setUpdatedPerson((prevState) => {
-                      // Create a copy of the previous state
-                      const newState = { ...prevState };
-
-                      // Retrieve existing uploadDatas or initialize as an empty object
-                      const existingUploadDatas = newState.uploadDatas || {};
-
-                      // Retrieve existing uploadDatas for the selected age or initialize as an empty array
-                      const existingUploadDatasForAge =
-                        existingUploadDatas[selectedAge] || [];
-
-                      // Concatenate existing uploadDatas with the newUploadDatas
-                      const updatedUploadDatasForAge = [
-                        ...existingUploadDatasForAge,
-                        ...newUploadDatas,
-                      ];
-
-                      // Update the uploadDatas object with the updated array for the selected age
-                      newState.uploadDatas = {
-                        ...existingUploadDatas,
-                        [selectedAge]: updatedUploadDatasForAge,
-                      };
-                      // Return the updated state
-                      return newState;
-                    })
-                  }
-                />
-                <ImageGridContainer>
-                  {person &&
-                    updatedPerson.uploadDatas &&
-                    selectedAge !== null &&
-                    Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
-                    updatedPerson.uploadDatas[selectedAge].map(
-                      (src: string, index: number) => {
-                        return (
-                          <ImageWithCaption>
-                            <ImageContainer>
-                              <img src={src} />
-                              <button
-                                onClick={(e) =>
-                                  handleRemoveImage(src, index, e)
-                                }
-                              >
-                                x
-                              </button>
-                            </ImageContainer>
-                          </ImageWithCaption>
-                        );
-                      }
-                    )}
-                  {person &&
-                    updatedPerson.uploadDatas &&
-                    selectedAge !== null &&
-                    // Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
-                    [
-                      ...Array(
-                        Math.max(
-                          0,
-                          4 -
-                            (updatedPerson?.uploadDatas[selectedAge]?.length ||
-                              0)
-                        )
-                      ),
-                    ].map((_, index) => (
-                      <ImageWithCaption>
-                        <NumberContainer key={index}>
-                          {index + 1}
-                        </NumberContainer>
-                      </ImageWithCaption>
+                <LabelInputContainer>
+                  <label htmlFor="themes">Theme</label>
+                  <select
+                    id="themes"
+                    value={theme}
+                    onChange={(e) => {
+                      handleThemeChange(e, "theme");
+                    }}
+                  >
+                    {themeData.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.name}
+                      </option>
                     ))}
-                </ImageGridContainer>
-              </ImageUploadedContainer>
+                  </select>
+                </LabelInputContainer>
+              </ThemeInfoContainer>
+              <NameContainer>
+                <TextInput
+                  label="First Name*"
+                  type="text"
+                  value={updatedPerson.firstName}
+                  onChange={(e: any) => handleInputChange(e, "firstName")}
+                  required
+                />
+                <TextInput
+                  label="Middle Name"
+                  type="text"
+                  value={updatedPerson.middleName}
+                  onChange={(e: any) => handleInputChange(e, "middleName")}
+                />
+                <TextInput
+                  label="Last Name*"
+                  type="text"
+                  value={updatedPerson.lastName}
+                  onChange={(e: any) => handleInputChange(e, "lastName")}
+                  required
+                />
+              </NameContainer>
+              <DatesContainer>
+                <LabelInputContainer>
+                  <label>
+                    Date of Birth*
+                    <input
+                      type="date"
+                      min="1900-01-01"
+                      max={maxDate}
+                      value={updatedPerson.dob}
+                      onChange={(e) => {
+                        handleInputChange(e, "dob");
+                        handleDateOfBirthChange(e);
+                      }}
+                      required
+                    />
+                  </label>
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <label>
+                    Death (Optional)
+                    <input
+                      type="date"
+                      value={updatedPerson.death}
+                      onChange={(e) => {
+                        handleInputChange(e, "death");
+                      }}
+                    />
+                  </label>
+                </LabelInputContainer>
+              </DatesContainer>
+            </MainFormContainer>
+            <ImageUploadedContainer>
+              <LabelInputContainer>
+                <label htmlFor="age">Select Age</label>
+                <select id="age" onChange={handleAgeChange} value={selectedAge}>
+                  {ageOptions.map((option, index) => (
+                    <option key={index} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </LabelInputContainer>
+              {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
+              <UploadFileInputEdit
+                selectedAge={selectedAge}
+                updatedPerson={updatedPerson}
+                onUpload={(selectedAge: number, newUploadDatas: string[]) =>
+                  setUpdatedPerson((prevState) => {
+                    // Create a copy of the previous state
+                    const newState = { ...prevState };
 
-              <ButtonContainer>
-                <button type="submit">Preview</button>
-                <button type="submit">Save</button>
-              </ButtonContainer>
-            </FormInnerContainer>
-          </Form>
-        </PeopleScreen>
+                    // Retrieve existing uploadDatas or initialize as an empty object
+                    const existingUploadDatas = newState.uploadDatas || {};
+
+                    // Retrieve existing uploadDatas for the selected age or initialize as an empty array
+                    const existingUploadDatasForAge =
+                      existingUploadDatas[selectedAge] || [];
+
+                    // Concatenate existing uploadDatas with the newUploadDatas
+                    const updatedUploadDatasForAge = [
+                      ...existingUploadDatasForAge,
+                      ...newUploadDatas,
+                    ];
+
+                    // Update the uploadDatas object with the updated array for the selected age
+                    newState.uploadDatas = {
+                      ...existingUploadDatas,
+                      [selectedAge]: updatedUploadDatasForAge,
+                    };
+                    // Return the updated state
+                    return newState;
+                  })
+                }
+              />
+              <ImageGridContainer>
+                {person &&
+                  updatedPerson.uploadDatas &&
+                  selectedAge !== null &&
+                  Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
+                  updatedPerson.uploadDatas[selectedAge].map(
+                    (src: string, index: number) => {
+                      return (
+                        <ImageWithCaption>
+                          <ImageContainer>
+                            <img src={src} />
+                            <button
+                              onClick={(e) => handleRemoveImage(src, index, e)}
+                            >
+                              x
+                            </button>
+                          </ImageContainer>
+                        </ImageWithCaption>
+                      );
+                    }
+                  )}
+                {person &&
+                  updatedPerson.uploadDatas &&
+                  selectedAge !== null &&
+                  // Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
+                  [
+                    ...Array(
+                      Math.max(
+                        0,
+                        4 -
+                          (updatedPerson?.uploadDatas[selectedAge]?.length || 0)
+                      )
+                    ),
+                  ].map((_, index) => (
+                    <ImageWithCaption>
+                      <NumberContainer key={index}>{index + 1}</NumberContainer>
+                    </ImageWithCaption>
+                  ))}
+              </ImageGridContainer>
+            </ImageUploadedContainer>
+
+            <ButtonContainer>
+              <button type="submit">Preview</button>
+              <button type="submit">Save</button>
+            </ButtonContainer>
+          </FormInnerContainer>
+        </Form>
       )}
     </>
   );
