@@ -91,6 +91,13 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
         return;
       });
     });
+
+    // If data is empty or invalid slug, return notFound
+    if (!data || Object.keys(data).length === 0) {
+      return {
+        notFound: true,
+      };
+    }
     return { props: { data } };
   } catch (error) {
     console.error("Error fetching slugs:", error);

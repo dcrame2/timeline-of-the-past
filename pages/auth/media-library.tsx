@@ -20,7 +20,7 @@ export async function getServerSideProps(context: NextPageContext) {
   console.log(session, "session");
   if (!session) {
     return {
-      redirect: { destination: "/auth", permanent: false },
+      redirect: { destination: "/auth/authenticate", permanent: false },
     };
   }
 
