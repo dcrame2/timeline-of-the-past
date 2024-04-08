@@ -11,6 +11,7 @@ import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
 import { Container } from "@/styles/Utilities";
+import { h2styles } from "@/styles/Type";
 
 const AuthContainer = styled.div`
   width: 100%;
@@ -70,15 +71,23 @@ const FormInfoInnerContainer = styled.div`
 const MainImageContainer = styled.div`
   width: 60%;
   display: flex;
+  padding-top: 48px;
+  padding-bottom: 48px;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   @media ${MediaQueries.tablet} {
     display: none;
   }
+  h1 {
+    ${h2styles}
+    text-align: center;
+    color: ${variables.white};
+  }
 
   img {
-    width: 50%;
-    height: 100vh;
+    /* width: 50%; */
+    /* height: 100vh; */
   }
 `;
 
@@ -190,6 +199,7 @@ export default function AuthForm() {
           </FormInfoInnerContainer>
         </FormInfoContainer>
         <MainImageContainer>
+          <h1>Create Your Own Stunning Timelines</h1>
           <Image
             src="/hourglass.svg"
             width={500}

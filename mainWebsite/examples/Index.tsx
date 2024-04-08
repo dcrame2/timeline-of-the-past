@@ -120,8 +120,8 @@ function Examples() {
         <TextContainer>
           <h2>Check out examples</h2>
           <p>
-            Build your own timelines, whether its your own, your childs, Elon
-            Musk or the Chicago Cubs
+            Build your own timelines, whether its your own, your childs, your
+            pet(s) or a team
           </p>
         </TextContainer>
         <ExampleCardsContainer>
