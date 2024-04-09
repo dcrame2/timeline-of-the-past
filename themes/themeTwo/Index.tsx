@@ -3,6 +3,7 @@ import MainHero from "./components/mainHero/Index";
 import ImagesWithTitles from "./components/imagesWithTitles/Index";
 import Footer from "./components/footer/Index";
 import Navigation from "./components/navigation/Index";
+import Carousel from "./components/carousel/Index";
 
 import { createGlobalStyle } from "styled-components";
 
@@ -47,7 +48,8 @@ function ThemeTwo({ data }: Person) {
       <div style={{ fontFamily: `${font} !important` }}>
         <Navigation data={data} />
         <MainHero data={data} />
-        <ImagesWithTitles data={data} />
+        <Carousel data={data} />
+        {/* <ImagesWithTitles data={data} /> */}
         <Footer data={data} />
       </div>
     </>

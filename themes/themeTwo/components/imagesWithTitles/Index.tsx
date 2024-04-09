@@ -142,7 +142,6 @@ function ImagesWithTitles({ data }: Person) {
                     key={`key-${index + 1}`}
                     src={src}
                     alt={`Image ${index}`}
-                    // style={{ maxWidth: "100px", margin: "5px" }}
                   />
                 </ImageWrapper>
               ))}
