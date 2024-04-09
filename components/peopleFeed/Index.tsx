@@ -222,22 +222,16 @@ function PeopleFeed({
       <PeopleFeedInnerContainer>
         {isLoading ? (
           <HourGlassContainer>
-            {" "}
             <HourGlassLottieLoading />
           </HourGlassContainer>
         ) : (
           <>
-            {peopleData && peopleData?.userData?.length === 0 && (
-              <h6>No Timelines</h6>
-            )}
-            <>
-              {peopleData &&
-                peopleData?.userData?.length !== undefined &&
-                peopleData?.userData?.map((person, index) => {
+            {peopleData && peopleData?.userData?.length !== undefined ? (
+              <>
+                {peopleData?.userData?.map((person, index) => {
                   const { firstName, middleName, lastName, slug } = person;
 
                   return (
-                    // <AnimatePresence mode="wait">
                     <IndividualPeopleContainer
                       key={`${index}-person`}
                       {...motionPropsUp}
@@ -246,12 +240,6 @@ function PeopleFeed({
                         <p>
                           {firstName} {middleName} {lastName}
                         </p>
-                        {/* <Link
-                    target="_blank"
-                    href={`https://timelinethat.com${slug}`}
-                  >
-                    https://timelinethat.com{slug}
-                  </Link> */}
                       </MainInfo>
                       <CRUDBtns>
                         <ExternalBtn
@@ -285,10 +273,12 @@ function PeopleFeed({
                         </DeleteBtn>
                       </CRUDBtns>
                     </IndividualPeopleContainer>
-                    // </AnimatePresence>
                   );
                 })}
-            </>
+              </>
+            ) : (
+              <>{peopleData && <h6>No Timelines</h6>}</>
+            )}
           </>
         )}
       </PeopleFeedInnerContainer>

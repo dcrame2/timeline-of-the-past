@@ -3,10 +3,12 @@ import { fetchData } from "@/lib/fetchData";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
-import { pBase } from "@/styles/Type";
+import { pBase, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 
-const MediaLibraryContainer = styled.div``;
+const MediaLibraryContainer = styled.div`
+  height: 100%;
+`;
 
 const MediaLibraryInnerContainer = styled.div``;
 
@@ -38,22 +40,24 @@ const MediaContainer = styled.div`
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   display: flex;
-  /* align-items: center; */
-  justify-content: center;
   max-height: 650px;
   overflow-y: auto;
 
   @media ${MediaQueries.mobile} {
     padding: 24px 24px;
-    /* max-height: 90%; */
   }
+`;
+
+const HourGlassContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;
 
 const AllMediaLibrary = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  margin-top: 20px;
 
   @media ${MediaQueries.tablet} {
     grid-template-columns: repeat(2, 1fr);
@@ -66,6 +70,10 @@ const AllMediaLibrary = styled.div`
     /* max-width: 200px; */
     width: 100%;
     object-fit: cover;
+  }
+  p {
+    ${pXSmall}
+    text-align: center;
   }
 `;
 
@@ -117,7 +125,9 @@ function MediaLibraryComponent() {
         </TextContainer>
         <MediaContainer>
           {isLoading ? (
-            <HourGlassLottieLoading />
+            <HourGlassContainer>
+              <HourGlassLottieLoading />
+            </HourGlassContainer>
           ) : (
             <AllMediaLibrary>
               {mediaLibrary.length !== 0 ? (
