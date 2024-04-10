@@ -117,7 +117,7 @@ function UploadFileInputNew({
     const files = changeEvent.target.files;
     const newImageSrcs: string[] = [];
 
-    const totalUploadedImages = (uploadDatas[selectedAge] ?? []).length;
+    const totalUploadedImages = (uploadDatas[selectedAge]?.images ?? []).length;
 
     // Ensure that the number of uploaded images plus newly uploaded images does not exceed the maximum limit
     if (totalUploadedImages + files.length > 4) {
@@ -126,7 +126,7 @@ function UploadFileInputNew({
     }
 
     setIsLoading(true);
-    // if ((uploadDatas[selectedAge] ?? []).length < 4) {
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
@@ -141,10 +141,13 @@ function UploadFileInputNew({
             // Once all files are uploaded, update the state with the accumulated URLs
             const updatedUploadDatas = {
               ...uploadDatas,
-              [selectedAge]: [
-                ...(uploadDatas[selectedAge] || []),
-                ...uploadedUrls,
-              ],
+              [selectedAge]: {
+                ...uploadDatas[selectedAge],
+                images: [
+                  ...(uploadDatas[selectedAge]?.images || []),
+                  ...uploadedUrls,
+                ],
+              },
             };
             setUploadDatas(updatedUploadDatas);
             setIsLoading(false);

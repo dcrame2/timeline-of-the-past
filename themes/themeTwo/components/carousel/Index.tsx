@@ -292,7 +292,7 @@ export default function Carousel({ data }: Person) {
           // transition={{ duration: `0.6` }}
           // viewport={{ once: true }}
           >
-            {uploadDatas[keys[activeIndex]].map(
+            {uploadDatas[keys[activeIndex]].images.map(
               (src: string, index: number) => {
                 return (
                   <img

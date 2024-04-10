@@ -239,7 +239,7 @@ interface PeopleProps {
   twitterLink?: string;
   facebookLink?: string;
   linkedinLink?: string;
-  uploadDatas?: { [key: number]: string[] };
+  uploadDatas?: { [key: number]: { images: string[]; ageText: string } };
   slug?: string;
   font?: string;
   theme?: number;
@@ -330,15 +330,21 @@ function EditPeopleScreen({
   const handleRemoveImage = async (
     imageUrlToDelete: string,
     imageIndex: number,
-    e: any
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     // Create a copy of the updatedPerson
     const newUpdatedPerson = { ...updatedPerson };
 
-    // Remove the image URL from uploadDatas array for the selectedAge
-    if (newUpdatedPerson.uploadDatas && selectedAge !== null) {
-      newUpdatedPerson.uploadDatas[selectedAge].splice(imageIndex, 1);
+    // Check if the selectedAge is valid
+    if (selectedAge !== null) {
+      // Remove the image URL from uploadDatas array for the selectedAge
+      if (
+        newUpdatedPerson.uploadDatas &&
+        newUpdatedPerson.uploadDatas[selectedAge]?.images
+      ) {
+        newUpdatedPerson.uploadDatas[selectedAge].images.splice(imageIndex, 1);
+      }
     }
 
     try {
@@ -366,7 +372,6 @@ function EditPeopleScreen({
     // Update the updatedPerson state
     setUpdatedPerson(newUpdatedPerson);
   };
-
   const handleDateOfBirthChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -405,6 +410,19 @@ function EditPeopleScreen({
         [propertyName]: event.target.value,
       }));
     }
+  };
+
+  const handleAgeTextChange = (selectedAge: any, newText: string) => {
+    setUpdatedPerson((prevState) => {
+      const newState = { ...prevState };
+      // Ensure that newState.uploadDatas is initialized as an object if it's undefined
+      newState.uploadDatas = newState.uploadDatas || {};
+      newState.uploadDatas[selectedAge] = {
+        ...newState.uploadDatas[selectedAge],
+        ageText: newText,
+      };
+      return newState;
+    });
   };
 
   const handleSelectChange = (
@@ -587,6 +605,19 @@ function EditPeopleScreen({
                   ))}
                 </select>
               </LabelInputContainer>
+
+              <LabelInputContainer>
+                <label htmlFor="ageText">Edit Paragraph about the Age</label>
+                <textarea
+                  id="ageText"
+                  value={
+                    updatedPerson?.uploadDatas?.[selectedAge]?.ageText || ""
+                  }
+                  onChange={(e) =>
+                    handleAgeTextChange(selectedAge, e.target.value)
+                  }
+                ></textarea>
+              </LabelInputContainer>
               {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
               <UploadFileInputEdit
                 selectedAge={selectedAge}
@@ -599,21 +630,26 @@ function EditPeopleScreen({
                     // Retrieve existing uploadDatas or initialize as an empty object
                     const existingUploadDatas = newState.uploadDatas || {};
 
-                    // Retrieve existing uploadDatas for the selected age or initialize as an empty array
-                    const existingUploadDatasForAge =
-                      existingUploadDatas[selectedAge] || [];
+                    // Retrieve existing uploadDatas for the selected age or initialize as an empty object
+                    const existingUploadDatasForAge = existingUploadDatas[
+                      selectedAge
+                    ] || { images: [], ageText: "" };
 
                     // Concatenate existing uploadDatas with the newUploadDatas
-                    const updatedUploadDatasForAge = [
-                      ...existingUploadDatasForAge,
-                      ...newUploadDatas,
-                    ];
+                    const updatedUploadDatasForAge = {
+                      images: [
+                        ...existingUploadDatasForAge.images,
+                        ...newUploadDatas,
+                      ],
+                      ageText: existingUploadDatasForAge.ageText, // Retain existing ageText
+                    };
 
                     // Update the uploadDatas object with the updated array for the selected age
                     newState.uploadDatas = {
                       ...existingUploadDatas,
                       [selectedAge]: updatedUploadDatasForAge,
                     };
+
                     // Return the updated state
                     return newState;
                   })
@@ -623,13 +659,12 @@ function EditPeopleScreen({
                 {person &&
                   updatedPerson.uploadDatas &&
                   selectedAge !== null &&
-                  Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
-                  updatedPerson.uploadDatas[selectedAge].map(
+                  updatedPerson.uploadDatas[selectedAge]?.images?.map(
                     (src: string, index: number) => {
                       return (
-                        <ImageWithCaption>
+                        <ImageWithCaption key={index}>
                           <ImageContainer>
-                            <img src={src} />
+                            <img src={src} alt={`Uploaded image ${index}`} />
                             <button
                               onClick={(e) => handleRemoveImage(src, index, e)}
                             >
@@ -649,7 +684,8 @@ function EditPeopleScreen({
                       Math.max(
                         0,
                         4 -
-                          (updatedPerson?.uploadDatas[selectedAge]?.length || 0)
+                          (updatedPerson?.uploadDatas[selectedAge]?.images
+                            ?.length || 0)
                       )
                     ),
                   ].map((_, index) => (

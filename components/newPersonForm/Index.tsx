@@ -242,13 +242,16 @@ function NewPersonForm() {
   const colorRef = React.useRef<HTMLInputElement>(null);
   const captionRef = React.useRef<HTMLInputElement>(null);
 
-  const [uploadDatas, setUploadDatas] = useState<{ [key: number]: string[] }>(
-    {}
-  );
-
+  const [uploadDatas, setUploadDatas] = useState<{
+    [key: number]: { images: string[]; ageText: string };
+  }>({});
   const maxDate = new Date().toISOString().split("T")[0];
 
   const router = useRouter();
+
+  const [ageText, setAgeText] = useState("");
+
+  console.log(ageText, "AGETEXT");
 
   const [selectedAge, setSelectedAge] = useState<number>(0);
   const [ageOptions, setAgeOptions] = useState<
@@ -281,6 +284,18 @@ function NewPersonForm() {
     const sessionUserEmail: string | null | undefined = session?.user?.email;
     console.log(sessionUserEmail, "session");
 
+    // // Check if selectedAge is not empty and ageText is not empty
+    // if (selectedAge && ageText) {
+    //   // Update uploadDatas with new ageText
+    //   setUploadDatas({
+    //     ...uploadDatas,
+    //     [selectedAge]: {
+    //       ...uploadDatas[selectedAge],
+    //       ageText: ageText,
+    //     },
+    //   });
+    // }
+
     await fetch("/api/people/people", {
       method: "POST",
       body: JSON.stringify({
@@ -305,6 +320,23 @@ function NewPersonForm() {
     });
 
     router.push("/auth/timeline");
+  };
+
+  // Handler for age text input change
+  const handleAgeTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+
+    setAgeText(newText);
+
+    setUploadDatas((prevUploadDatas) => ({
+      ...prevUploadDatas,
+      [selectedAge]: {
+        ...prevUploadDatas[selectedAge],
+        ageText: newText,
+        // Retain existing images for the selected age
+        images: prevUploadDatas[selectedAge]?.images || [],
+      },
+    }));
   };
 
   const handleDateOfBirthChange = (
@@ -332,11 +364,25 @@ function NewPersonForm() {
     const age = parseInt(event.target.value);
     console.log(age, "AGE");
     setSelectedAge(age);
+    setAgeText(""); // Reset ageText to empty string when age is changed
+    // Check if age exists in uploadDatas
     if (!(age in uploadDatas)) {
+      // If not, initialize it with an empty array for images and empty string for ageText
       setUploadDatas((prevUploadDatas) => ({
         ...prevUploadDatas,
-        [age]: [],
+        [age]: { images: [], ageText: "" },
       }));
+    } else {
+      // If age exists, update ageText to empty string if it's not already set
+      if (!uploadDatas[age].ageText) {
+        setUploadDatas((prevUploadDatas) => ({
+          ...prevUploadDatas,
+          [age]: {
+            ...prevUploadDatas[age],
+            ageText: "",
+          },
+        }));
+      }
     }
   };
 
@@ -356,38 +402,42 @@ function NewPersonForm() {
     e: any
   ) => {
     e.preventDefault();
-    // Create a copy of the updatedPerson
-    const newUpdatedPerson = { ...uploadDatas };
 
-    // Remove the image URL from uploadDatas array for the selectedAge
-    if (uploadDatas && selectedAge !== null) {
-      uploadDatas[selectedAge].splice(imageIndex, 1);
-    }
+    // Check if selectedAge is not empty
+    if (selectedAge !== null) {
+      // Create a copy of the uploadDatas object
+      const updatedUploadDatas = { ...uploadDatas };
 
-    try {
-      // Make a POST request to the deleteImage API route
-      const response = await fetch("/api/deleteImage/deleteImage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ imageUrlToDelete }),
-      });
-
-      if (response.ok) {
-        // Image deletion was successful
-        console.log("Image deleted successfully");
-      } else {
-        // Handle error response from the API route
-        console.error("Failed to delete image:", response.statusText);
+      // Remove the image URL from the images array for the selectedAge
+      if (updatedUploadDatas[selectedAge]) {
+        updatedUploadDatas[selectedAge].images.splice(imageIndex, 1);
       }
-    } catch (error) {
-      // Handle any errors that occur during the fetch operation
-      console.error("Error deleting image:", error);
-    }
 
-    // Update the updatedPerson state
-    setUploadDatas(newUpdatedPerson);
+      try {
+        // Make a POST request to the deleteImage API route
+        const response = await fetch("/api/deleteImage/deleteImage", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ imageUrlToDelete }),
+        });
+
+        if (response.ok) {
+          // Image deletion was successful
+          console.log("Image deleted successfully");
+        } else {
+          // Handle error response from the API route
+          console.error("Failed to delete image:", response.statusText);
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch operation
+        console.error("Error deleting image:", error);
+      }
+
+      // Update the uploadDatas state with the modified object
+      setUploadDatas(updatedUploadDatas);
+    }
   };
 
   const handleCaptionChange = (index: number, caption: string) => {
@@ -530,6 +580,15 @@ function NewPersonForm() {
                   ))}
                 </select>
               </LabelInputContainer>
+
+              <LabelInputContainer>
+                <label htmlFor="ageText">Enter Paragraph about the Age</label>
+                <textarea
+                  id="ageText"
+                  value={uploadDatas[selectedAge]?.ageText || ageText}
+                  onChange={handleAgeTextChange}
+                ></textarea>
+              </LabelInputContainer>
               <UploadFileInputNew
                 selectedAge={selectedAge}
                 setUploadDatas={setUploadDatas}
@@ -538,30 +597,37 @@ function NewPersonForm() {
                 imageSrcs={imageSrcs}
               />
               <ImageGridContainer>
-                {uploadDatas[selectedAge]?.map((src: string, index: number) => (
-                  <ImageWithCaption>
-                    <ImageContainer>
-                      <img
-                        key={index}
-                        src={src}
-                        alt={`Uploaded image ${index}`}
-                      />
-                      <button onClick={(e) => handleRemoveImage(src, index, e)}>
-                        x
-                      </button>
-                    </ImageContainer>
-                    {/* <TextInput
+                {uploadDatas[selectedAge]?.images?.map(
+                  (src: string, index: number) => (
+                    <ImageWithCaption>
+                      <ImageContainer>
+                        <img
+                          key={index}
+                          src={src}
+                          alt={`Uploaded image ${index}`}
+                        />
+                        <button
+                          onClick={(e) => handleRemoveImage(src, index, e)}
+                        >
+                          x
+                        </button>
+                      </ImageContainer>
+                      {/* <TextInput
                     type="text"
                     placeholder="Enter caption..."
                     ref={captionRef}
                     onChange={handleCaptionChange}
                     // onChange={handleCaptionChange}
                   /> */}
-                  </ImageWithCaption>
-                ))}
+                    </ImageWithCaption>
+                  )
+                )}
                 {[
                   ...Array(
-                    Math.max(0, 4 - (uploadDatas[selectedAge]?.length || 0))
+                    Math.max(
+                      0,
+                      4 - (uploadDatas[selectedAge]?.images?.length || 0)
+                    )
                   ),
                 ].map((_, index) => (
                   <ImageWithCaption>

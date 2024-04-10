@@ -136,7 +136,7 @@ function ImagesWithTitles({ data }: Person) {
               transition={{ duration: `0.6` }}
               viewport={{ once: true }}
             >
-              {uploadDatas[key].map((src: string, index: number) => (
+              {uploadDatas[key].images?.map((src: string, index: number) => (
                 <ImageWrapper key={index}>
                   <img
                     key={`key-${index + 1}`}

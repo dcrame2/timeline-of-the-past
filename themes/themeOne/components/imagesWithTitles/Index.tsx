@@ -4,6 +4,7 @@ import { pLarge } from "../../styles/Type";
 import { Container, MediaQueries } from "@/styles/Utilities";
 import formatDate from "@/lib/formatDate";
 import { AnimatePresence, motion, useInView } from "framer-motion";
+import { pXSmall } from "@/styles/Type";
 
 const ImagesWithTitlesContainer = styled.div`
   margin-top: 88px;
@@ -27,6 +28,9 @@ const IndividualInnerContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
+  p {
+    ${pXSmall}
+  }
 `;
 
 interface ImagesContainerProps {
@@ -108,7 +112,7 @@ function ImagesWithTitles({ data }: Person) {
         <IndividualAgeContainer color={color} key={key}>
           <IndividualInnerContainer>
             <h3>{key === "0" ? `Born: ${formatDate(dob)}` : `Age ${key}`}</h3>
-
+            <p>{uploadDatas[key].ageText}</p>
             <ImagesContainer
               key={`key-${index}`}
               initial={{ opacity: 0 }}
@@ -116,7 +120,7 @@ function ImagesWithTitles({ data }: Person) {
               transition={{ duration: `0.6` }}
               viewport={{ once: true }}
             >
-              {uploadDatas[key].map((src: string, index: number) => (
+              {uploadDatas[key].images?.map((src: string, index: number) => (
                 <img
                   key={`key-${index + 1}`}
                   src={src}
