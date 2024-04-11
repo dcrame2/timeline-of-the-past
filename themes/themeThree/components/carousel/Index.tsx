@@ -45,7 +45,9 @@ const InnerContainer = styled.div`
   color: ${variables.white};
 
   @media ${MediaQueries.tablet} {
+    flex-direction: column;
     gap: 42px;
+    height: fit-content;
   }
 
   @media ${MediaQueries.mobile} {
@@ -58,6 +60,10 @@ const InnerContainer = styled.div`
     width: 30%;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 20px;
+    @media ${MediaQueries.tablet} {
+      width: 100%;
+    }
+
     h2 {
       color: inherit !important;
       ${h2styles}

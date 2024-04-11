@@ -67,7 +67,9 @@ function TabNavigation() {
         <motion.li
           whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
           className={
-            initialActiveTab === "/auth/timeline" || "/auth/new" || "/auth/edit"
+            initialActiveTab === "/auth/timeline" ||
+            initialActiveTab === "/auth/new" ||
+            initialActiveTab === "/auth/edit"
               ? "active"
               : ""
           }

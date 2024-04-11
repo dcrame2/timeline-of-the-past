@@ -95,6 +95,7 @@ export const pBase = css`
   font-size: 1.5rem;
   line-height: 1.7rem;
   font-weight: 300;
+  text-align: center;
   /* color: ${variables.black}; */
 
   @media ${MediaQueries.tablet} {
@@ -109,10 +110,12 @@ export const pSmall = css`
   line-height: 1.3rem;
   font-weight: 300;
   color: ${variables.black};
+  text-align: center;
 `;
 
 export const pXSmall = css`
   /* font-family: ${monsterrat}; */
+  text-align: center;
   font-size: 0.9rem;
   line-height: 1rem;
   font-weight: 300;

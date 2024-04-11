@@ -28,8 +28,11 @@ const IndividualInnerContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
+  text-align: center;
   p {
+    max-width: 650px;
     ${pXSmall}
+    text-align: center;
   }
 `;
 
