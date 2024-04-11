@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { pLarge } from "../../styles/Type";
 import { Container, MediaQueries } from "@/styles/Utilities";
 import formatDate from "@/lib/formatDate";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { pXSmall } from "@/styles/Type";
 
 const ImagesWithTitlesContainer = styled.div`
@@ -40,7 +40,7 @@ interface ImagesContainerProps {
 const ImagesContainer = styled(motion.div)<ImagesContainerProps>`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  justify-items: center; /* Center items horizontally */
+  justify-items: center;
   align-content: center;
   ${(props) => {
     const itemCount = React.Children.count(props.children);
@@ -78,7 +78,7 @@ interface Person {
       linkedinLink?: string;
       twitterLink?: string;
       uploadDatas?: {
-        [key: string]: string[] | undefined; // Assuming the keys are numbers and values are string arrays
+        [key: string]: string[] | undefined;
       };
       color?: string;
       theme?: string;
@@ -88,26 +88,9 @@ interface Person {
 
 function ImagesWithTitles({ data }: Person) {
   const { uploadDatas, color, dob }: any = data[0];
-  console.log(uploadDatas, "uploadDatas");
-
-  const motionPropsFadeIn = {
-    initial: {
-      opacity: 0,
-    },
-    animate: {
-      opacity: 1,
-    },
-    exit: {
-      opacity: 0,
-    },
-    transition: {
-      duration: 0.4,
-    },
-  };
 
   return (
     <ImagesWithTitlesContainer>
-      {/* <AnimatePresence> */}
       {Object.keys(uploadDatas).map((key, index) => (
         <IndividualAgeContainer color={color} key={key}>
           <IndividualInnerContainer>
@@ -125,14 +108,12 @@ function ImagesWithTitles({ data }: Person) {
                   key={`key-${index + 1}`}
                   src={src}
                   alt={`Image ${index}`}
-                  // style={{ maxWidth: "100px", margin: "5px" }}
                 />
               ))}
             </ImagesContainer>
           </IndividualInnerContainer>
         </IndividualAgeContainer>
       ))}
-      {/* </AnimatePresence> */}
     </ImagesWithTitlesContainer>
   );
 }

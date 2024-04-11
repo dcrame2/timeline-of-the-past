@@ -91,20 +91,21 @@ function MediaLibraryComponent() {
         const data = await fetchData();
         const { userData } = data;
 
-        // Define a function to flatten uploadDatas arrays
-        const flattenUploadDatas = (userData: any) => {
-          return Object.values(userData?.uploadDatas).reduce(
-            (acc: string[], arr: any) => acc.concat(arr),
-            []
-          );
-        };
-
-        // Concatenate all uploadDatas arrays into a single array
-        const images = userData.reduce(
-          (accumulator: any, user: any) =>
-            accumulator.concat(flattenUploadDatas(user)),
-          []
-        );
+        // Extract and flatten images from uploadDatas arrays
+        const images = userData.reduce((accumulator: any, user: any) => {
+          // Check if user.uploadDatas exists and is an object
+          if (user.uploadDatas && typeof user.uploadDatas === "object") {
+            // Extract and concatenate all images arrays from uploadDatas
+            const userImages = Object.values(user.uploadDatas).flatMap(
+              (data: any) => data.images || []
+            );
+            return accumulator.concat(userImages);
+          } else {
+            // Log a warning if uploadDatas is missing or not an object
+            console.warn("User object does not contain uploadDatas:", user);
+            return accumulator;
+          }
+        }, []);
 
         setMediaLibrary(images);
         setIsLoading(false);
@@ -133,8 +134,8 @@ function MediaLibraryComponent() {
               {mediaLibrary.length !== 0 ? (
                 <>
                   {mediaLibrary?.map((imageUrl, index) => (
-                    <ImageContainer>
-                      <img key={index} src={imageUrl} alt={`Image ${index}`} />
+                    <ImageContainer key={`${imageUrl}-${index}`}>
+                      <img src={imageUrl} alt={`Image ${index}`} />
                     </ImageContainer>
                   ))}
                 </>

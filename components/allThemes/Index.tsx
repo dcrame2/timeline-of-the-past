@@ -92,7 +92,7 @@ function AllThemes() {
           {themeData.map((example) => {
             const { url, img, name } = example;
             return (
-              <IndividualCard target="_blank" href={url}>
+              <IndividualCard key={name} target="_blank" href={url}>
                 <ImageContainer>
                   <MotionImage
                     src={img.src}

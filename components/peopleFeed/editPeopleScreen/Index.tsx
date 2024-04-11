@@ -861,8 +861,8 @@ function EditPeopleScreen({
                       )
                     ),
                   ].map((_, index) => (
-                    <ImageWithCaption>
-                      <NumberContainer key={index}>{index + 1}</NumberContainer>
+                    <ImageWithCaption key={index + 300}>
+                      <NumberContainer>{index + 1}</NumberContainer>
                     </ImageWithCaption>
                   ))}
               </ImageGridContainer>

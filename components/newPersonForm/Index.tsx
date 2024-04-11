@@ -222,7 +222,7 @@ const MainImageUploadContainer = styled.div`
   border-radius: 50%;
   border: 2px dashed steelblue;
   position: relative;
-
+  transition: background-color ease-in 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -239,7 +239,11 @@ const MainImageUploadContainer = styled.div`
   }
 
   img {
-    width: 30px;
+    width: 20px;
+  }
+  &:hover {
+    transition: background-color ease-in 0.3s;
+    background-color: ${variables.veryLightBlue};
   }
 `;
 
@@ -275,6 +279,15 @@ const SingleImage = styled.img`
   object-fit: cover;
   /* opacity: 0; */
   z-index: 2;
+`;
+
+const MainContainerForImage = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  p {
+    ${pXSmall}
+  }
 `;
 
 // Define the type for uploadDatas state
@@ -319,8 +332,6 @@ function NewPersonForm() {
   const router = useRouter();
 
   const [ageText, setAgeText] = useState("");
-
-  console.log(ageText, "AGETEXT");
 
   const [selectedAge, setSelectedAge] = useState<number>(0);
   const [ageOptions, setAgeOptions] = useState<
@@ -597,32 +608,35 @@ function NewPersonForm() {
         <Form method="post" onSubmit={submitNewPerson}>
           <FormInnerContainer>
             <MainFormContainer>
-              <MainImageUploadContainer>
-                {!mainImage ? (
-                  <label htmlFor="file">
-                    <img src="/main_image_icon.svg" alt="Upload icon"></img>
-                    <input
-                      id="file"
-                      type="file"
-                      name="file"
-                      accept="image/*"
-                      onChange={(e) => handleOnChange(e)}
-                    />
-                  </label>
-                ) : (
-                  <SingleImageContainer>
-                    <button
-                      onClick={(e) => handleSingleRemoveImage(mainImage, e)}
-                    >
-                      x
-                    </button>
-                    <SingleImage
-                      src={mainImage}
-                      alt="Uploaded image"
-                    ></SingleImage>
-                  </SingleImageContainer>
-                )}
-              </MainImageUploadContainer>
+              <MainContainerForImage>
+                <p>Main Image</p>
+                <MainImageUploadContainer>
+                  {!mainImage ? (
+                    <label htmlFor="file">
+                      <img src="/main_image_icon.svg" alt="Upload icon"></img>
+                      <input
+                        id="file"
+                        type="file"
+                        name="file"
+                        accept="image/*"
+                        onChange={(e) => handleOnChange(e)}
+                      />
+                    </label>
+                  ) : (
+                    <SingleImageContainer>
+                      <button
+                        onClick={(e) => handleSingleRemoveImage(mainImage, e)}
+                      >
+                        x
+                      </button>
+                      <SingleImage
+                        src={mainImage}
+                        alt="Uploaded image"
+                      ></SingleImage>
+                    </SingleImageContainer>
+                  )}
+                </MainImageUploadContainer>
+              </MainContainerForImage>
               <ThemeInfoContainer>
                 <LabelInputContainer>
                   <label htmlFor="color">Theme Color</label>
@@ -745,13 +759,9 @@ function NewPersonForm() {
               <ImageGridContainer>
                 {uploadDatas[selectedAge]?.images?.map(
                   (src: string, index: number) => (
-                    <ImageWithCaption>
+                    <ImageWithCaption key={index}>
                       <ImageContainer>
-                        <img
-                          key={index}
-                          src={src}
-                          alt={`Uploaded image ${index}`}
-                        />
+                        <img src={src} alt={`Uploaded image ${index}`} />
                         <button
                           onClick={(e) => handleRemoveImage(src, index, e)}
                         >
@@ -776,8 +786,8 @@ function NewPersonForm() {
                     )
                   ),
                 ].map((_, index) => (
-                  <ImageWithCaption>
-                    <ImageContainer key={index}>{index + 1}</ImageContainer>
+                  <ImageWithCaption key={index + 100}>
+                    <ImageContainer>{index + 1}</ImageContainer>
                     {/* <TextInput
                     type="text"
                     placeholder="Enter caption..."

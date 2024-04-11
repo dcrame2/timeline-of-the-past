@@ -108,8 +108,8 @@ export const getServerSideProps: GetServerSideProps<{ data: any }> = async (
 
 export default function Page({ data }: { data: any }) {
   const { theme } = data[0]; // Assuming userData is an array with one element
-  console.log(theme, "THEME");
-  console.log(data, "DATA ON CLIENT");
+  // console.log(theme, "THEME");
+  // console.log(data, "DATA ON CLIENT");
   let themeComponent;
 
   switch (theme) {

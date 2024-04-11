@@ -41,7 +41,7 @@ type PersonType = Person[];
 
 function ThemeOne({ data }: Person) {
   const { font } = data[0];
-  console.log(data, "DATA");
+
   return (
     <>
       <div style={{ fontFamily: `${font} !important` }}>

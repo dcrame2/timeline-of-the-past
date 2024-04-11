@@ -27,7 +27,6 @@ const Logo = styled.img`
 `;
 
 const LinkStyled = styled(Link)`
-  /* ${buttonType} */
   ${linkStyles}
   width: unset;
   display: flex;

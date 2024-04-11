@@ -106,11 +106,6 @@ function UploadFileInputNew({
   imageSrcs,
 }: any) {
   const [isLoading, setIsLoading] = useState(false);
-  console.log(uploadDatas, "uploadDatas uploadDatas");
-  console.log(
-    uploadDatas[selectedAge]?.length,
-    "uploadDatas with selectedAgeg"
-  );
 
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();

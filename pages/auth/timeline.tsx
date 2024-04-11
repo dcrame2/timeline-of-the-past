@@ -14,40 +14,40 @@ import { useSession } from "next-auth/react";
 
 import Layout from "@/components/layout/dashboard/Index";
 
+const TimelineViewContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "dashboard dashboard dashboard"
+    "dashboard dashboard dashboard"
+    "dashboard dashboard dashboard";
+`;
+
+const InfoContainer = styled.div`
+  grid-area: dashboard;
+  h1 {
+    font-size: 30px;
+    margin: 24px;
+    color: #060606;
+  }
+`;
+
+interface UserData {
+  firstName?: string;
+  lastName?: string;
+}
+
+interface PeopleDataProps {
+  userData?: UserData[];
+}
+
 export default function Protected() {
   const [showAddPersonFields, setShowAddPersonFields] =
     useState<boolean>(false);
-
-  interface UserData {
-    firstName?: string;
-    lastName?: string;
-  }
-
-  interface PeopleDataProps {
-    userData?: UserData[];
-  }
-
-  const TimelineView = styled.div`
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 0px 0px;
-    grid-template-areas:
-      "dashboard dashboard dashboard"
-      "dashboard dashboard dashboard"
-      "dashboard dashboard dashboard";
-  `;
-
-  const InfoContainer = styled.div`
-    grid-area: dashboard;
-    h1 {
-      font-size: 30px;
-      margin: 24px;
-      color: #060606;
-    }
-  `;
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -94,7 +94,7 @@ export default function Protected() {
 
   return (
     <Layout>
-      <TimelineView>
+      <TimelineViewContainer>
         <InfoContainer>
           <h1>
             Hello, {session?.data?.user.firstName}{" "}
@@ -106,7 +106,7 @@ export default function Protected() {
             isLoading={isLoading}
           />
         </InfoContainer>
-      </TimelineView>
+      </TimelineViewContainer>
     </Layout>
   );
 }
