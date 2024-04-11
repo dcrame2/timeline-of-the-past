@@ -11,6 +11,7 @@ import { inputType } from "@/styles/Type";
 import { MediaQueries } from "@/styles/Utilities";
 import Link from "next/link";
 import { themeData } from "@/themes/themeData";
+import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 
 const Form = styled.form`
   button {
@@ -148,7 +149,8 @@ const LabelInputContainer = styled.div`
     ${pXSmall}
     color: ${variables.black};
   }
-  input {
+  input,
+  textarea {
     ${inputType}
   }
   select {
@@ -158,6 +160,10 @@ const LabelInputContainer = styled.div`
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
+  }
+
+  textarea {
+    min-height: 100px;
   }
 
   input[type="date"] {
@@ -210,6 +216,68 @@ const MainFormContainer = styled.div`
   }
 `;
 
+const MainImageUploadContainer = styled.div`
+  height: 75px;
+  width: 75px;
+  background-color: ${variables.lightGrey};
+  border-radius: 50%;
+  border: 2px dashed steelblue;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Position the input element */
+  input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer; /* Ensure cursor changes to pointer on hover */
+  }
+
+  img {
+    width: 30px;
+  }
+`;
+
+const SingleImageContainer = styled.div`
+  /* position: relative; */
+  /* overflow: hidden; */
+  button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: ${variables.white};
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    z-index: 5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const SingleImage = styled.img`
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  object-fit: cover;
+  /* opacity: 0; */
+  z-index: 2;
+`;
+
 const motionPropsRight = {
   initial: {
     opacity: 0,
@@ -229,6 +297,7 @@ const motionPropsRight = {
 };
 
 interface PeopleProps {
+  mainImage?: string;
   firstName?: string;
   middleName?: string;
   lastName?: string;
@@ -484,6 +553,77 @@ function EditPeopleScreen({
     }
   };
 
+  const handleSingleRemoveImage = async (
+    imageUrlToDelete: string,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    // Check if selectedAge is not empty
+    if (selectedAge !== null) {
+      try {
+        // Make a POST request to the deleteImage API route
+        const response = await fetch("/api/deleteImage/deleteImage", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ imageUrlToDelete }),
+        });
+
+        if (response.ok) {
+          // Image deletion was successful
+          console.log("Image deleted successfully");
+          // Reset mainImage state to null
+          const updatedPersonCopy = { ...updatedPerson };
+          // Update the mainImage property to null
+          updatedPersonCopy.mainImage = "";
+          // Update the state with the modified object
+          setUpdatedPerson(updatedPersonCopy);
+        } else {
+          // Handle error response from the API route
+          console.error("Failed to delete image:", response.statusText);
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch operation
+        console.error("Error deleting image:", error);
+      }
+    }
+  };
+
+  const handleOnChange = async (changeEvent: any) => {
+    changeEvent.preventDefault();
+    const file = changeEvent.target.files[0];
+
+    // Ensure that only one file is selected
+    if (!file) {
+      alert(`Please select an image.`);
+      return;
+    }
+
+    // setIsLoading(true);
+
+    const reader = new FileReader();
+
+    reader.onload = async (onLoadEvent: any) => {
+      onLoadEvent.preventDefault();
+      // setSingleImageSrc(onLoadEvent.target.result);
+      const imageDataUrl = onLoadEvent.target.result;
+
+      // Upload file to Cloudinary
+      const uploadedUrl = await uploadFileToCloudinary(file);
+
+      // Once file is uploaded, update the state with the URL
+      const updatedPersonCopy = { ...updatedPerson };
+      // Update the mainImage property with the uploaded URL
+      updatedPersonCopy.mainImage = uploadedUrl;
+      // Update the state with the modified object
+      setUpdatedPerson(updatedPersonCopy);
+      // setIsLoading(false);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   return (
     <>
       {person && (
@@ -499,6 +639,37 @@ function EditPeopleScreen({
               </Link>
             </LinkContainer>
             <MainFormContainer>
+              <MainImageUploadContainer>
+                {!updatedPerson.mainImage ? (
+                  <label htmlFor="file">
+                    <img src="/main_image_icon.svg" alt="Upload icon"></img>
+                    <input
+                      id="file"
+                      type="file"
+                      name="file"
+                      accept="image/*"
+                      onChange={(e) => handleOnChange(e)}
+                    />
+                  </label>
+                ) : (
+                  <SingleImageContainer>
+                    <button
+                      onClick={(e) =>
+                        handleSingleRemoveImage(
+                          updatedPerson.mainImage ?? "",
+                          e
+                        )
+                      }
+                    >
+                      x
+                    </button>
+                    <SingleImage
+                      src={updatedPerson.mainImage}
+                      alt="Uploaded image"
+                    ></SingleImage>
+                  </SingleImageContainer>
+                )}
+              </MainImageUploadContainer>
               <ThemeInfoContainer>
                 <LabelInputContainer>
                   <label htmlFor="color">Theme Color</label>
@@ -609,6 +780,7 @@ function EditPeopleScreen({
               <LabelInputContainer>
                 <label htmlFor="ageText">Edit Paragraph about the Age</label>
                 <textarea
+                  placeholder="Write about this year..."
                   id="ageText"
                   value={
                     updatedPerson?.uploadDatas?.[selectedAge]?.ageText || ""

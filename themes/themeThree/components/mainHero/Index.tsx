@@ -7,11 +7,11 @@ import { variables } from "../../styles/Variables";
 import { motion } from "framer-motion";
 
 const MainHeroContainer = styled.div`
-  background-color: ${({ color }) => color};
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const MainHeroInnerContainer = styled(motion.div)`
-  height: 100dvh;
+  height: 50dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,18 +35,6 @@ const MainHeroInnerContainer = styled(motion.div)`
   }
 `;
 
-const ImageContainer = styled.div`
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  overflow: hidden;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
 interface Person {
   data: [
     {
@@ -64,13 +52,12 @@ interface Person {
       };
       color?: string;
       theme?: string;
-      mainImage?: string;
     }
   ];
 }
 
 function MainHero({ data }: Person) {
-  const { firstName, middleName, lastName, color, dob, mainImage } = data[0];
+  const { firstName, middleName, lastName, color, dob } = data[0];
   const [countdownTimer, setCountdownTimer] = useState("");
 
   useEffect(() => {
@@ -104,11 +91,6 @@ function MainHero({ data }: Person) {
         transition={{ duration: `0.8` }}
         viewport={{ once: true }}
       >
-        {mainImage && (
-          <ImageContainer>
-            <img src={mainImage} />
-          </ImageContainer>
-        )}
         <p>The Life of</p>
         <h1>
           {firstName} {middleName} {lastName}

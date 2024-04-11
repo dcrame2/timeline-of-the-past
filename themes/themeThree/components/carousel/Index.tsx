@@ -9,23 +9,38 @@ import { useInView } from "framer-motion";
 import formatDate from "@/lib/formatDate";
 import { motion } from "framer-motion";
 
-const ModuleContainer = styled.section`
+interface ModuleContainer {
+  backgroundImage?: string;
+}
+
+const ModuleContainer = styled.section<ModuleContainer>`
   position: relative;
   background-color: ${variables.white};
-
   z-index: 2;
-
-  background-size: 50%;
+  background-size: cover; /* Ensure the background image covers the container */
+  background-image: url(${(props) => props.backgroundImage});
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Adjust opacity as needed */
+    z-index: 1; /* Ensure it's above the background image */
+  }
 `;
 
 const InnerContainer = styled.div`
   ${Container}
-  padding-top: 80px;
-  padding-bottom: 80px;
+  height: 100dvh;
+  /* padding-top: 80px;
+  padding-bottom: 80px; */
   position: relative;
-  z-index: 3;
+  z-index: 10; /* Increase the z-index */
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 50px;
   color: ${variables.white};
 
@@ -40,7 +55,9 @@ const InnerContainer = styled.div`
 
   .heading-container {
     text-align: center;
-
+    width: 30%;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
     h2 {
       color: inherit !important;
       ${h2styles}
@@ -48,7 +65,7 @@ const InnerContainer = styled.div`
       margin-bottom: 10px;
     }
     h3 {
-      color: ${({ color }) => color} !important;
+      /* color: ${({ color }) => color} !important; */
       ${pLarge}
     }
     p {
@@ -195,23 +212,33 @@ const InnerContainer = styled.div`
   }
 `;
 
+const MainPhotoContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
 interface ImagesContainerProps {
   children: React.ReactNode;
 }
 
 const ImagesContainer = styled(motion.div)<ImagesContainerProps>`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   justify-items: center; /* Center items horizontally */
   align-content: center;
-  ${(props) => {
-    const itemCount = React.Children.count(props.children);
-    if (itemCount <= 4) {
-      return `
-        grid-template-columns: repeat(${itemCount}, 1fr);
-      `;
-    }
-  }}
 
   gap: 10px;
   @media ${MediaQueries.tablet} {
@@ -222,7 +249,7 @@ const ImagesContainer = styled(motion.div)<ImagesContainerProps>`
   }
 
   img {
-    max-width: 300px;
+    max-width: 200px;
     width: 100%;
   }
 `;
@@ -278,51 +305,34 @@ export default function Carousel({ data }: Person) {
   };
 
   return (
-    <ModuleContainer>
-      <InnerContainer color={color}>
-        <div ref={ref} className="heading-container">
-          <h3>
-            {keys[activeIndex] === "0"
-              ? `Born: ${formatDate(dob)}`
-              : `Age ${keys[activeIndex]}`}
-          </h3>
-          <p>{uploadDatas[keys[activeIndex]].ageText}</p>
-        </div>
-        <div className="carousel-wrapper">
-          <ImagesContainer
-          // key={`key-${activeIndex}`}
-          // initial={{ opacity: 0 }}
-          // whileInView={{ opacity: 1 }}
-          // transition={{ duration: `0.6` }}
-          // viewport={{ once: true }}
-          >
-            {uploadDatas[keys[activeIndex]].images.map(
-              (src: string, index: number) => {
-                return (
-                  <img
-                    key={`key-${index + 1}`}
-                    src={src}
-                    alt={`Image ${index}`}
-                  />
-                );
-              }
-            )}
-          </ImagesContainer>
-        </div>
-        <ul className="indicators">
-          {keys.map((key, index) => (
-            <li
-              key={index}
-              className={activeIndex === index ? "active" : ""}
-              onMouseEnter={() => handleKeyHover(index)}
-            >
-              <button aria-label={`Go to Age ${key}`}>
-                {key === "0" ? "Born" : `Age ${key}`}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </InnerContainer>
-    </ModuleContainer>
+    <>
+      {keys.map((key, index) => (
+        <ModuleContainer
+          key={`module-${index}`}
+          backgroundImage={uploadDatas[key].images[0]}
+        >
+          <InnerContainer color={color}>
+            <div ref={ref} className="heading-container">
+              <h3>{key === "0" ? `Born: ${formatDate(dob)}` : `Age ${key}`}</h3>
+              <p>{uploadDatas[key].ageText}</p>
+            </div>
+
+            <div className="carousel-wrapper">
+              <ImagesContainer>
+                {uploadDatas[key].images
+                  .slice(1)
+                  .map((src: string, imgIndex: number) => (
+                    <img
+                      key={`img-${imgIndex}`}
+                      src={src}
+                      alt={`Image ${imgIndex}`}
+                    />
+                  ))}
+              </ImagesContainer>
+            </div>
+          </InnerContainer>
+        </ModuleContainer>
+      ))}
+    </>
   );
 }

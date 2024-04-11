@@ -13,6 +13,8 @@ import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
 
+import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
+
 const H1Element = styled.h1`
   font-size: 30px;
   margin: 24px;
@@ -98,7 +100,8 @@ const LabelInputContainer = styled.div`
     ${pXSmall}
     color: ${variables.black};
   }
-  input {
+  input,
+  textarea {
     ${inputType}
   }
   select {
@@ -108,6 +111,10 @@ const LabelInputContainer = styled.div`
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
+  }
+
+  textarea {
+    min-height: 100px;
   }
 
   input[type="date"] {
@@ -208,6 +215,68 @@ const CaptionInput = styled.input`
   margin-top: 5px;
 `;
 
+const MainImageUploadContainer = styled.div`
+  height: 75px;
+  width: 75px;
+  background-color: ${variables.lightGrey};
+  border-radius: 50%;
+  border: 2px dashed steelblue;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Position the input element */
+  input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer; /* Ensure cursor changes to pointer on hover */
+  }
+
+  img {
+    width: 30px;
+  }
+`;
+
+const SingleImageContainer = styled.div`
+  /* position: relative; */
+  /* overflow: hidden; */
+  button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: ${variables.white};
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    z-index: 5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const SingleImage = styled.img`
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  object-fit: cover;
+  /* opacity: 0; */
+  z-index: 2;
+`;
+
 // Define the type for uploadDatas state
 type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
 
@@ -259,9 +328,12 @@ function NewPersonForm() {
   >([]);
 
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
+  const [singleImageSrc, setSingleImageSrc] = useState();
 
   const [font, setFont] = useState("Arial, sans-serif");
   const [theme, setTheme] = useState(1);
+
+  const [mainImage, setMainImage] = useState<string | null>(null);
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -284,21 +356,10 @@ function NewPersonForm() {
     const sessionUserEmail: string | null | undefined = session?.user?.email;
     console.log(sessionUserEmail, "session");
 
-    // // Check if selectedAge is not empty and ageText is not empty
-    // if (selectedAge && ageText) {
-    //   // Update uploadDatas with new ageText
-    //   setUploadDatas({
-    //     ...uploadDatas,
-    //     [selectedAge]: {
-    //       ...uploadDatas[selectedAge],
-    //       ageText: ageText,
-    //     },
-    //   });
-    // }
-
     await fetch("/api/people/people", {
       method: "POST",
       body: JSON.stringify({
+        mainImage,
         slug,
         firstName,
         middleName,
@@ -333,7 +394,6 @@ function NewPersonForm() {
       [selectedAge]: {
         ...prevUploadDatas[selectedAge],
         ageText: newText,
-        // Retain existing images for the selected age
         images: prevUploadDatas[selectedAge]?.images || [],
       },
     }));
@@ -402,17 +462,14 @@ function NewPersonForm() {
     e: any
   ) => {
     e.preventDefault();
-
     // Check if selectedAge is not empty
     if (selectedAge !== null) {
       // Create a copy of the uploadDatas object
       const updatedUploadDatas = { ...uploadDatas };
-
       // Remove the image URL from the images array for the selectedAge
       if (updatedUploadDatas[selectedAge]) {
         updatedUploadDatas[selectedAge].images.splice(imageIndex, 1);
       }
-
       try {
         // Make a POST request to the deleteImage API route
         const response = await fetch("/api/deleteImage/deleteImage", {
@@ -434,9 +491,41 @@ function NewPersonForm() {
         // Handle any errors that occur during the fetch operation
         console.error("Error deleting image:", error);
       }
-
       // Update the uploadDatas state with the modified object
       setUploadDatas(updatedUploadDatas);
+    }
+  };
+
+  const handleSingleRemoveImage = async (
+    imageUrlToDelete: string,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    // Check if selectedAge is not empty
+    if (selectedAge !== null) {
+      try {
+        // Make a POST request to the deleteImage API route
+        const response = await fetch("/api/deleteImage/deleteImage", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ imageUrlToDelete }),
+        });
+
+        if (response.ok) {
+          // Image deletion was successful
+          console.log("Image deleted successfully");
+          // Reset mainImage state to null
+          setMainImage(null);
+        } else {
+          // Handle error response from the API route
+          console.error("Failed to delete image:", response.statusText);
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch operation
+        console.error("Error deleting image:", error);
+      }
     }
   };
 
@@ -471,6 +560,36 @@ function NewPersonForm() {
     { label: "Optima", value: "Optima, sans-serif" },
   ];
 
+  const handleOnChange = async (changeEvent: any) => {
+    changeEvent.preventDefault();
+    const file = changeEvent.target.files[0];
+
+    // Ensure that only one file is selected
+    if (!file) {
+      alert(`Please select an image.`);
+      return;
+    }
+
+    // setIsLoading(true);
+
+    const reader = new FileReader();
+
+    reader.onload = async (onLoadEvent: any) => {
+      onLoadEvent.preventDefault();
+      setSingleImageSrc(onLoadEvent.target.result);
+      const imageDataUrl = onLoadEvent.target.result;
+
+      // Upload file to Cloudinary
+      const uploadedUrl = await uploadFileToCloudinary(file);
+
+      // Once file is uploaded, update the state with the URL
+      setMainImage(uploadedUrl);
+      // setIsLoading(false);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   return (
     <>
       <H1Element>Create a new Timeline</H1Element>
@@ -478,6 +597,32 @@ function NewPersonForm() {
         <Form method="post" onSubmit={submitNewPerson}>
           <FormInnerContainer>
             <MainFormContainer>
+              <MainImageUploadContainer>
+                {!mainImage ? (
+                  <label htmlFor="file">
+                    <img src="/main_image_icon.svg" alt="Upload icon"></img>
+                    <input
+                      id="file"
+                      type="file"
+                      name="file"
+                      accept="image/*"
+                      onChange={(e) => handleOnChange(e)}
+                    />
+                  </label>
+                ) : (
+                  <SingleImageContainer>
+                    <button
+                      onClick={(e) => handleSingleRemoveImage(mainImage, e)}
+                    >
+                      x
+                    </button>
+                    <SingleImage
+                      src={mainImage}
+                      alt="Uploaded image"
+                    ></SingleImage>
+                  </SingleImageContainer>
+                )}
+              </MainImageUploadContainer>
               <ThemeInfoContainer>
                 <LabelInputContainer>
                   <label htmlFor="color">Theme Color</label>
@@ -582,9 +727,10 @@ function NewPersonForm() {
               </LabelInputContainer>
 
               <LabelInputContainer>
-                <label htmlFor="ageText">Enter Paragraph about the Age</label>
+                <label htmlFor="ageText">Enter Paragraph about this year</label>
                 <textarea
                   id="ageText"
+                  placeholder="Write about this year..."
                   value={uploadDatas[selectedAge]?.ageText || ageText}
                   onChange={handleAgeTextChange}
                 ></textarea>
