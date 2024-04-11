@@ -5,13 +5,14 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
-import { buttonType, h2styles } from "@/styles/Type";
+import { buttonType, h2styles, linkStyles } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { inputType, pXSmall } from "@/styles/Type";
 import Image from "next/image";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
+import Link from "next/link";
 
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 
@@ -142,6 +143,8 @@ const ImageUploadedContainer = styled.div`
   flex-direction: column;
   gap: 12px;
   grid-column: 1 / span 2;
+  padding: 12px;
+  background-color: ${variables.darkerLightGrey};
 `;
 
 const ButtonContainer = styled.div`
@@ -149,9 +152,24 @@ const ButtonContainer = styled.div`
   right: 40px;
   top: 20px;
   display: flex;
+  width: fit-content;
+  justify-content: space-between;
   gap: 20px;
   button {
     ${buttonType}
+  }
+`;
+
+const BackButtonContainer = styled.div`
+  position: absolute;
+  left: 40px;
+  top: 20px;
+  display: flex;
+  width: fit-content;
+  justify-content: space-between;
+  gap: 20px;
+  a {
+    ${linkStyles}
   }
 `;
 
@@ -741,7 +759,9 @@ function NewPersonForm() {
               </LabelInputContainer>
 
               <LabelInputContainer>
-                <label htmlFor="ageText">Enter Paragraph about this year</label>
+                <label htmlFor="ageText">
+                  Enter Paragraph about this year {selectedAge}
+                </label>
                 <textarea
                   id="ageText"
                   placeholder="Write about this year..."
@@ -801,9 +821,11 @@ function NewPersonForm() {
             </ImageUploadedContainer>
 
             <ButtonContainer>
-              {/* <button type="submit">Preview</button> */}
               <button type="submit">Save</button>
             </ButtonContainer>
+            <BackButtonContainer>
+              <Link href="/auth/timeline">Back</Link>
+            </BackButtonContainer>
           </FormInnerContainer>
         </Form>
       </FormContainer>

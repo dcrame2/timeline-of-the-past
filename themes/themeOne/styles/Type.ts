@@ -10,7 +10,7 @@ export const h1styles = css`
   /* font-family: inherit; */
 
   font-size: 8rem;
-  line-height: 9.4rem;
+  line-height: 9rem;
   color: ${variables.white};
 
   @media ${MediaQueries.tablet} {

@@ -196,6 +196,19 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const BackButtonContainer = styled.div`
+  position: absolute;
+  left: 40px;
+  top: 20px;
+  display: flex;
+  width: fit-content;
+  justify-content: space-between;
+  gap: 20px;
+  a {
+    ${linkStyles}
+  }
+`;
+
 const ImageUploadedContainer = styled.div`
   margin-top: 20px;
   display: flex;
@@ -800,26 +813,26 @@ function EditPeopleScreen({
                     const newState = { ...prevState };
 
                     // Retrieve existing uploadDatas or initialize as an empty object
-                    const existingUploadDatas = newState.uploadDatas || {};
+                    const existingUploadDatas = newState?.uploadDatas || {};
 
                     // Retrieve existing uploadDatas for the selected age or initialize as an empty object
                     const existingUploadDatasForAge = existingUploadDatas[
                       selectedAge
                     ] || { images: [], ageText: "" };
 
-                    // Concatenate existing uploadDatas with the newUploadDatas
-                    const updatedUploadDatasForAge = {
-                      images: [
-                        ...existingUploadDatasForAge.images,
-                        ...newUploadDatas,
-                      ],
-                      ageText: existingUploadDatasForAge.ageText, // Retain existing ageText
-                    };
+                    // Update images for the selected age
+                    const updatedImages = [
+                      ...(existingUploadDatasForAge.images || []),
+                      ...newUploadDatas,
+                    ];
 
-                    // Update the uploadDatas object with the updated array for the selected age
+                    // Update the uploadDatas object with the updated images for the selected age
                     newState.uploadDatas = {
                       ...existingUploadDatas,
-                      [selectedAge]: updatedUploadDatasForAge,
+                      [selectedAge]: {
+                        ...existingUploadDatas[selectedAge],
+                        images: updatedImages,
+                      },
                     };
 
                     // Return the updated state
@@ -872,6 +885,9 @@ function EditPeopleScreen({
               {/* <button type="submit">Preview</button> */}
               <button type="submit">Save</button>
             </ButtonContainer>
+            <BackButtonContainer>
+              <Link href="/auth/timeline">Back</Link>
+            </BackButtonContainer>
           </FormInnerContainer>
         </Form>
       )}

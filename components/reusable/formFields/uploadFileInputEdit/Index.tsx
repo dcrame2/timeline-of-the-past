@@ -118,7 +118,8 @@ function UploadFileInputEdit({
     const files = changeEvent.target.files;
     const newImageSrcs: string[] = [];
 
-    const totalUploadedImages = updatedPerson.uploadDatas[selectedAge].length;
+    const totalUploadedImages =
+      updatedPerson.uploadDatas[selectedAge]?.images?.length;
 
     // Ensure that the number of uploaded images plus newly uploaded images does not exceed the maximum limit
     if (totalUploadedImages + files.length > 4) {

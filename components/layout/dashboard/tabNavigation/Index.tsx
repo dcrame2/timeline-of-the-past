@@ -66,7 +66,11 @@ function TabNavigation() {
       <ul>
         <motion.li
           whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
-          className={initialActiveTab === "/auth/timeline" ? "active" : ""}
+          className={
+            initialActiveTab === "/auth/timeline" || "/auth/new" || "/auth/edit"
+              ? "active"
+              : ""
+          }
         >
           <Link href="/auth/timeline">
             <img src="/timeline_icon.png" alt="icon" />
