@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { uploadFilesToCloudinary } from "@/lib/uploadFilesToCloudinary";
 import { pXSmall } from "@/styles/Type";
 import { motion } from "framer-motion";
+import { MediaQueries } from "@/styles/Utilities";
 
 const Form = styled.div`
   height: 100%;
@@ -11,8 +12,18 @@ const Form = styled.div`
   border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
-  grid-column: 1 / span 2;
-  padding: 30px 0;
+  align-items: center;
+  justify-content: center;
+  /* grid-column: 1 / span 2; */
+  padding: 30px 30px;
+  transition: background-color ease-in 0.3s;
+  @media ${MediaQueries.mobile} {
+    min-height: 200px;
+  }
+  &:hover {
+    transition: background-color ease-in 0.3s;
+    background-color: ${variables.veryLightBlue};
+  }
 
   label {
     text-align: center;
@@ -29,7 +40,6 @@ const Form = styled.div`
     width: 100%;
     height: 100%;
     cursor: pointer;
-    height: 100%;
   }
   button {
     position: relative;
@@ -160,7 +170,7 @@ function UploadFileInputNew({
 
   return (
     <Form>
-      <label htmlFor="file">Drag and Drop images here</label>
+      <label htmlFor="file">Add Specific Age Image(s) </label>
       <input
         multiple
         type="file"
@@ -168,6 +178,7 @@ function UploadFileInputNew({
         accept="image/*"
         onChange={(e) => handleOnChange(e)}
       />
+
       {isLoading && (
         <ImageMainContainer>
           {imageSrcs?.map((src: string, index: number) => (

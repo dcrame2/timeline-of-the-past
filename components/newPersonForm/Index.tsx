@@ -31,6 +31,11 @@ const FormContainer = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  h2 {
+    color: ${variables.black};
+    grid-column: 1 / span 2;
+    letter-spacing: 1.5px;
+  }
   @media ${MediaQueries.mobile} {
     padding: 88px 24px 24px;
   }
@@ -45,14 +50,18 @@ const Form = styled.form`
 
 const FormInnerContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: 0.5fr 1fr;
+  gap: 24px;
+  @media ${MediaQueries.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const MainFormContainer = styled.div`
   grid-column: 1 / span 2;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
   padding-bottom: 30px;
   border-bottom: 2px solid ${variables.lightBlue};
@@ -61,14 +70,21 @@ const MainFormContainer = styled.div`
   }
 `;
 
+const MainFieldContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
 const ThemeInfoContainer = styled.div`
   display: flex;
   gap: 12px;
   grid-column: 1 / span 2;
-  padding-bottom: 30px;
-  border-bottom: 2px solid ${variables.lightBlue};
+  /* padding-bottom: 30px;
+  border-bottom: 2px solid ${variables.lightBlue}; */
   @media ${MediaQueries.mobile} {
     flex-direction: column;
+    grid-column: unset;
   }
 `;
 
@@ -133,18 +149,21 @@ const LabelInputContainer = styled.div`
   input[type="color"] {
     padding: 0px 10px;
     height: 100%;
-    min-height: 42px;
+    min-height: 40px;
+    @media ${MediaQueries.mobile} {
+      height: 0;
+    }
   }
 `;
 
 const ImageUploadedContainer = styled.div`
-  margin-top: 20px;
+  /* margin-top: 20px; */
   display: flex;
   flex-direction: column;
   gap: 12px;
-  grid-column: 1 / span 2;
-  padding: 12px;
-  background-color: ${variables.darkerLightGrey};
+  grid-column: 1;
+  /* padding: 12px; */
+  /* background-color: ${variables.darkerLightGrey}; */
 `;
 
 const ButtonContainer = styled.div`
@@ -202,8 +221,8 @@ const ImageContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 250px;
-  ${h2styles}
-  @media ${MediaQueries.mobile} {
+  flex-direction: column-reverse;
+  ${h2styles} @media ${MediaQueries.mobile} {
     min-height: 200px;
   }
   img {
@@ -228,24 +247,34 @@ const ImageContainer = styled.div`
   }
 `;
 
+const ImageIcon = styled.img`
+  width: 20px !important;
+`;
+
 const CaptionInput = styled.input`
   width: 100%;
   margin-top: 5px;
 `;
 
+const Line = styled.hr`
+  grid-column: 1 / span 2;
+  height: 5px;
+  background-color: ${variables.black};
+`;
+
 const MainImageUploadContainer = styled.div`
-  height: 75px;
-  width: 75px;
+  height: 100%;
   background-color: ${variables.lightGrey};
-  border-radius: 50%;
+  border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
   transition: background-color ease-in 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* Position the input element */
+  @media ${MediaQueries.mobile} {
+    min-height: 200px;
+  }
   input[type="file"] {
     position: absolute;
     top: 0;
@@ -275,7 +304,7 @@ const SingleImageContainer = styled.div`
     background-color: ${variables.white};
     color: black;
     border: none;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     width: 20px;
     height: 20px;
     font-size: 12px;
@@ -288,7 +317,7 @@ const SingleImageContainer = styled.div`
 `;
 
 const SingleImage = styled.img`
-  border-radius: 50%;
+  /* border-radius: 50%; */
   position: absolute;
   top: 0;
   left: 0;
@@ -303,6 +332,7 @@ const MainContainerForImage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+
   p {
     ${pXSmall}
   }
@@ -625,36 +655,38 @@ function NewPersonForm() {
       <FormContainer {...motionPropsRight}>
         <Form method="post" onSubmit={submitNewPerson}>
           <FormInnerContainer>
-            <MainFormContainer>
-              <MainContainerForImage>
-                <p>Main Image</p>
-                <MainImageUploadContainer>
-                  {!mainImage ? (
-                    <label htmlFor="file">
-                      <img src="/main_image_icon.svg" alt="Upload icon"></img>
-                      <input
-                        id="file"
-                        type="file"
-                        name="file"
-                        accept="image/*"
-                        onChange={(e) => handleOnChange(e)}
-                      />
-                    </label>
-                  ) : (
-                    <SingleImageContainer>
-                      <button
-                        onClick={(e) => handleSingleRemoveImage(mainImage, e)}
-                      >
-                        x
-                      </button>
-                      <SingleImage
-                        src={mainImage}
-                        alt="Uploaded image"
-                      ></SingleImage>
-                    </SingleImageContainer>
-                  )}
-                </MainImageUploadContainer>
-              </MainContainerForImage>
+            <h2>MAIN INFORMATION</h2>
+            <MainContainerForImage>
+              <p>Main Image</p>
+              <MainImageUploadContainer>
+                {!mainImage ? (
+                  <label htmlFor="file">
+                    Add Main Image
+                    {/* <img src="/main_image_icon.svg" alt="Upload icon"></img> */}
+                    <input
+                      id="file"
+                      type="file"
+                      name="file"
+                      accept="image/*"
+                      onChange={(e) => handleOnChange(e)}
+                    />
+                  </label>
+                ) : (
+                  <SingleImageContainer>
+                    <button
+                      onClick={(e) => handleSingleRemoveImage(mainImage, e)}
+                    >
+                      x
+                    </button>
+                    <SingleImage
+                      src={mainImage}
+                      alt="Uploaded image"
+                    ></SingleImage>
+                  </SingleImageContainer>
+                )}
+              </MainImageUploadContainer>
+            </MainContainerForImage>
+            <MainFieldContainer>
               <ThemeInfoContainer>
                 <LabelInputContainer>
                   <label htmlFor="color">Theme Color</label>
@@ -745,10 +777,13 @@ function NewPersonForm() {
                   />
                 </LabelInputContainer>
               </DatesContainer>
-            </MainFormContainer>
+            </MainFieldContainer>
+            <Line />
+            {/* </MainFormContainer> */}
+            <h2>SPECIFIC AGE INFORMATION</h2>
             <ImageUploadedContainer>
               <LabelInputContainer>
-                <label htmlFor="age">Select Age to Upload Images For</label>
+                <label htmlFor="age">Select Year/Age</label>
                 <select id="age" onChange={handleAgeChange} value={selectedAge}>
                   {ageOptions.map((option, index) => (
                     <option key={index} value={option.value}>
@@ -769,45 +804,25 @@ function NewPersonForm() {
                   onChange={handleAgeTextChange}
                 ></textarea>
               </LabelInputContainer>
-              <UploadFileInputNew
-                selectedAge={selectedAge}
-                setUploadDatas={setUploadDatas}
-                uploadDatas={uploadDatas}
-                setImageSrcs={setImageSrcs}
-                imageSrcs={imageSrcs}
-              />
-              <ImageGridContainer>
-                {uploadDatas[selectedAge]?.images?.map(
-                  (src: string, index: number) => (
-                    <ImageWithCaption key={index}>
-                      <ImageContainer>
-                        <img src={src} alt={`Uploaded image ${index}`} />
-                        <button
-                          onClick={(e) => handleRemoveImage(src, index, e)}
-                        >
-                          x
-                        </button>
-                      </ImageContainer>
-                      {/* <TextInput
-                    type="text"
-                    placeholder="Enter caption..."
-                    ref={captionRef}
-                    onChange={handleCaptionChange}
-                    // onChange={handleCaptionChange}
-                  /> */}
-                    </ImageWithCaption>
-                  )
-                )}
-                {[
-                  ...Array(
-                    Math.max(
-                      0,
-                      4 - (uploadDatas[selectedAge]?.images?.length || 0)
-                    )
-                  ),
-                ].map((_, index) => (
-                  <ImageWithCaption key={index + 100}>
-                    <ImageContainer>{index + 1}</ImageContainer>
+            </ImageUploadedContainer>
+            <UploadFileInputNew
+              selectedAge={selectedAge}
+              setUploadDatas={setUploadDatas}
+              uploadDatas={uploadDatas}
+              setImageSrcs={setImageSrcs}
+              imageSrcs={imageSrcs}
+            />
+
+            <ImageGridContainer>
+              {uploadDatas[selectedAge]?.images?.map(
+                (src: string, index: number) => (
+                  <ImageWithCaption key={index}>
+                    <ImageContainer>
+                      <img src={src} alt={`Uploaded image ${index}`} />
+                      <button onClick={(e) => handleRemoveImage(src, index, e)}>
+                        x
+                      </button>
+                    </ImageContainer>
                     {/* <TextInput
                     type="text"
                     placeholder="Enter caption..."
@@ -816,9 +831,34 @@ function NewPersonForm() {
                     // onChange={handleCaptionChange}
                   /> */}
                   </ImageWithCaption>
-                ))}
-              </ImageGridContainer>
-            </ImageUploadedContainer>
+                )
+              )}
+              {[
+                ...Array(
+                  Math.max(
+                    0,
+                    4 - (uploadDatas[selectedAge]?.images?.length || 0)
+                  )
+                ),
+              ].map((_, index) => (
+                <ImageWithCaption key={index + 100}>
+                  <ImageContainer>
+                    <ImageIcon
+                      src="/main_image_icon.svg"
+                      alt="Upload icon"
+                    ></ImageIcon>
+                    {/* {index + 1} */}
+                  </ImageContainer>
+                  {/* <TextInput
+                    type="text"
+                    placeholder="Enter caption..."
+                    ref={captionRef}
+                    onChange={handleCaptionChange}
+                    // onChange={handleCaptionChange}
+                  /> */}
+                </ImageWithCaption>
+              ))}
+            </ImageGridContainer>
 
             <ButtonContainer>
               <button type="submit">Save</button>
