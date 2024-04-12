@@ -136,6 +136,7 @@ const LabelInputContainer = styled.div`
 
   input[type="date"] {
     width: 100%;
+    min-height: 40px;
     -webkit-appearance: none;
   }
 
