@@ -760,6 +760,7 @@ function NewPersonForm() {
                     id="start"
                     name="trip-start"
                     min="1900-01-01"
+                    placeholder="mm/dd/yyyy"
                     max={maxDate}
                     ref={dobRef}
                     onChange={(e: any) => handleDateOfBirthChange(e)}

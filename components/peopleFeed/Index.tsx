@@ -251,17 +251,23 @@ function PeopleFeed({
                         </ExternalBtn>
 
                         <EditBtn
-                          href="/auth/edit"
-                          whileHover={{ scale: 1.1 }}
-                          onClick={() => {
-                            router.push({
-                              pathname: "/auth/edit",
-                              query: {
-                                person: JSON.stringify(person),
-                                selectedIndex: index,
-                              },
-                            });
+                          href={{
+                            pathname: "/auth/edit",
+                            query: {
+                              person: JSON.stringify(person),
+                              selectedIndex: index,
+                            },
                           }}
+                          whileHover={{ scale: 1.1 }}
+                          // onClick={() => {
+                          //   router.push({
+                          //     pathname: "/auth/edit",
+                          //     query: {
+                          //       person: JSON.stringify(person),
+                          //       selectedIndex: index,
+                          //     },
+                          //   });
+                          // }}
                         >
                           <img src="/edit_icon.png" alt="icon" />
                         </EditBtn>
