@@ -14,7 +14,6 @@ const Form = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  /* grid-column: 1 / span 2; */
   padding: 30px 30px;
   transition: background-color ease-in 0.3s;
   @media ${MediaQueries.mobile} {
@@ -121,7 +120,6 @@ function UploadFileInputNew({
     changeEvent.preventDefault();
     const files = changeEvent.target.files;
     const newImageSrcs: string[] = [];
-
     const totalUploadedImages = (uploadDatas[selectedAge]?.images ?? []).length;
 
     // Ensure that the number of uploaded images plus newly uploaded images does not exceed the maximum limit
@@ -162,11 +160,6 @@ function UploadFileInputNew({
       reader.readAsDataURL(file);
     }
   };
-  // else {
-  //   alert(`You can only upload a maximum of 4 images.`);
-  //   return;
-  // }
-  // };
 
   return (
     <Form>
@@ -178,7 +171,6 @@ function UploadFileInputNew({
         accept="image/*"
         onChange={(e) => handleOnChange(e)}
       />
-
       {isLoading && (
         <ImageMainContainer>
           {imageSrcs?.map((src: string, index: number) => (

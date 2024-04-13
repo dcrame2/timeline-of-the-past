@@ -277,7 +277,6 @@ const SingleImageContainer = styled.div`
     background-color: ${variables.white};
     color: black;
     border: none;
-    /* border-radius: 50%; */
     width: 20px;
     height: 20px;
     font-size: 12px;
@@ -290,7 +289,6 @@ const SingleImageContainer = styled.div`
 `;
 
 const SingleImage = styled.img`
-  /* border-radius: 50%; */
   position: absolute;
   top: 0;
   left: 0;
@@ -383,10 +381,7 @@ function EditPeopleScreen({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    // Create a copy of the updatedPerson
     const newUpdatedPerson = { ...updatedPerson };
-
-    // Check if the selectedAge is valid
     if (selectedAge !== null) {
       // Remove the image URL from uploadDatas array for the selectedAge
       if (
@@ -506,7 +501,6 @@ function EditPeopleScreen({
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Handle the case where updatedPerson is null
     if (!updatedPerson) {
       return;
     }
@@ -539,7 +533,7 @@ function EditPeopleScreen({
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    // Check if selectedAge is not empty
+
     if (selectedAge !== null) {
       try {
         // Make a POST request to the deleteImage API route

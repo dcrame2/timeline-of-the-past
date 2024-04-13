@@ -14,7 +14,6 @@ const Form = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  /* grid-column: 1 / span 2; */
   padding: 30px 30px;
   transition: background-color ease-in 0.3s;
   @media ${MediaQueries.mobile} {
