@@ -608,7 +608,7 @@ function NewPersonForm() {
 
   return (
     <>
-      <H1Element>Create a new Timeline</H1Element>
+      <H1Element>Create a Timeline</H1Element>
       <FormContainer {...motionPropsRight}>
         <Form method="post" onSubmit={submitNewPerson}>
           <FormInnerContainer>
