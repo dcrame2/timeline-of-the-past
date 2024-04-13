@@ -40,7 +40,7 @@ const FormContainer = styled(motion.div)`
   }
   @media ${MediaQueries.mobile} {
     padding: 88px 24px 24px;
-    height: 80vh;
+    height: 80dvh;
   }
 `;
 const Form = styled.form`
