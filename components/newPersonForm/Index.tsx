@@ -13,6 +13,7 @@ import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
 import Link from "next/link";
+import { fontOptions } from "@/lib/fonts";
 
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 
@@ -58,18 +59,6 @@ const FormInnerContainer = styled.div`
   }
 `;
 
-const MainFormContainer = styled.div`
-  grid-column: 1 / span 2;
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  padding-bottom: 30px;
-  border-bottom: 2px solid ${variables.lightBlue};
-  @media ${MediaQueries.mobile} {
-    gap: 12px;
-  }
-`;
-
 const MainFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,8 +69,6 @@ const ThemeInfoContainer = styled.div`
   display: flex;
   gap: 12px;
   grid-column: 1 / span 2;
-  /* padding-bottom: 30px;
-  border-bottom: 2px solid ${variables.lightBlue}; */
   @media ${MediaQueries.mobile} {
     flex-direction: column;
     grid-column: unset;
@@ -131,7 +118,7 @@ const LabelInputContainer = styled.div`
   }
 
   textarea {
-    min-height: 100px;
+    min-height: 150px;
   }
 
   input[type="date"] {
@@ -158,13 +145,10 @@ const LabelInputContainer = styled.div`
 `;
 
 const ImageUploadedContainer = styled.div`
-  /* margin-top: 20px; */
   display: flex;
   flex-direction: column;
   gap: 12px;
   grid-column: 1;
-  /* padding: 12px; */
-  /* background-color: ${variables.darkerLightGrey}; */
 `;
 
 const ButtonContainer = styled.div`
@@ -296,8 +280,6 @@ const MainImageUploadContainer = styled.div`
 `;
 
 const SingleImageContainer = styled.div`
-  /* position: relative; */
-  /* overflow: hidden; */
   button {
     position: absolute;
     top: 5px;
@@ -305,7 +287,6 @@ const SingleImageContainer = styled.div`
     background-color: ${variables.white};
     color: black;
     border: none;
-    /* border-radius: 50%; */
     width: 20px;
     height: 20px;
     font-size: 12px;
@@ -318,14 +299,12 @@ const SingleImageContainer = styled.div`
 `;
 
 const SingleImage = styled.img`
-  /* border-radius: 50%; */
   position: absolute;
   top: 0;
   left: 0;
   width: 100% !important;
   height: 100%;
   object-fit: cover;
-  /* opacity: 0; */
   z-index: 2;
 `;
 
@@ -339,11 +318,7 @@ const MainContainerForImage = styled.div`
   }
 `;
 
-// Define the type for uploadDatas state
-type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
-
-// Define the type for setUploadDatas function
-type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
+type UploadDataState = string[];
 
 function NewPersonForm() {
   const motionPropsRight = {
@@ -443,7 +418,6 @@ function NewPersonForm() {
     router.push("/auth/timeline");
   };
 
-  // Handler for age text input change
   const handleAgeTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
 
@@ -597,29 +571,6 @@ function NewPersonForm() {
     });
   };
 
-  const fontOptions = [
-    { label: "Arial", value: "Arial, sans-serif" },
-    { label: "Verdana", value: "Verdana, sans-serif" },
-    { label: "Georgia", value: "Georgia, serif" },
-    { label: "Times New Roman", value: "Times New Roman, serif" },
-    { label: "Courier New", value: "Courier New, monospace" },
-    { label: "Tahoma", value: "Tahoma, sans-serif" },
-    { label: "Helvetica", value: "Helvetica, sans-serif" },
-    { label: "Palatino", value: "Palatino, serif" },
-    { label: "Garamond", value: "Garamond, serif" },
-    { label: "Book Antiqua", value: "Book Antiqua, serif" },
-    { label: "Arial Black", value: "Arial Black, sans-serif" },
-    { label: "Comic Sans MS", value: "Comic Sans MS, cursive" },
-    { label: "Impact", value: "Impact, fantasy" },
-    { label: "Lucida Sans Unicode", value: "Lucida Sans Unicode, sans-serif" },
-    { label: "Lucida Console", value: "Lucida Console, monospace" },
-    { label: "Trebuchet MS", value: "Trebuchet MS, sans-serif" },
-    { label: "Geneva", value: "Geneva, sans-serif" },
-    { label: "Copperplate", value: "Copperplate, fantasy" },
-    { label: "Brush Script MT", value: "Brush Script MT, cursive" },
-    { label: "Optima", value: "Optima, sans-serif" },
-  ];
-
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();
     const file = changeEvent.target.files[0];
@@ -663,7 +614,6 @@ function NewPersonForm() {
                 {!mainImage ? (
                   <label htmlFor="file">
                     Add Main Image
-                    {/* <img src="/main_image_icon.svg" alt="Upload icon"></img> */}
                     <input
                       id="file"
                       type="file"
@@ -781,7 +731,6 @@ function NewPersonForm() {
               </DatesContainer>
             </MainFieldContainer>
             <Line />
-            {/* </MainFormContainer> */}
             <h2>SPECIFIC AGE INFORMATION</h2>
             <ImageUploadedContainer>
               <LabelInputContainer>
@@ -814,7 +763,6 @@ function NewPersonForm() {
               setImageSrcs={setImageSrcs}
               imageSrcs={imageSrcs}
             />
-
             <ImageGridContainer>
               {uploadDatas[selectedAge]?.images?.map(
                 (src: string, index: number) => (

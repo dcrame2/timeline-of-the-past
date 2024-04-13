@@ -3,14 +3,28 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { uploadFilesToCloudinary } from "@/lib/uploadFilesToCloudinary";
+import { MediaQueries } from "@/styles/Utilities";
+import { pXSmall } from "@/styles/Type";
 
 const Form = styled.div`
   height: 100%;
   background-color: ${variables.lightGrey};
-  padding: 30px 0;
   border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
+  align-items: center;
+  justify-content: center;
+  /* grid-column: 1 / span 2; */
+  padding: 30px 30px;
+  transition: background-color ease-in 0.3s;
+  @media ${MediaQueries.mobile} {
+    min-height: 200px;
+  }
+  &:hover {
+    transition: background-color ease-in 0.3s;
+    background-color: ${variables.veryLightBlue};
+  }
+
   label {
     text-align: center;
     display: inline-block;
@@ -26,23 +40,16 @@ const Form = styled.div`
     width: 100%;
     height: 100%;
     cursor: pointer;
-    height: 100%;
   }
-
   button {
     position: relative;
     z-index: 1;
   }
-
-  P {
+  p {
     text-align: center;
-  }
-
-  img {
-    width: 100px;
+    ${pXSmall}
   }
 `;
-
 const ImageMainContainer = styled(motion.div)`
   display: flex;
   gap: 8px;

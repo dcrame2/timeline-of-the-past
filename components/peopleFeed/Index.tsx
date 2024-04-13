@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import AddNewPersonButton from "../reusable/addNewPersonButton/Index";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { linkStyles, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { MediaQueries } from "@/styles/Utilities";
@@ -48,10 +47,8 @@ const PeopleFeedInnerContainer = styled.div`
   display: flex;
   gap: 12px;
   flex-direction: column;
-  /* height: 100%; */
   padding-bottom: 12px;
   max-height: 550px;
-
   overflow-y: scroll;
 `;
 
@@ -62,8 +59,6 @@ const HourGlassContainer = styled.div`
 `;
 
 const MainInfo = styled.div`
-  /* display: flex; */
-  /* flex-direction: column; */
   gap: 4px;
 `;
 
@@ -171,8 +166,6 @@ function PeopleFeed({
   fetchData: () => void;
   isLoading: boolean;
 }) {
-  const router = useRouter();
-
   const deletePeopleHandler = async (person: PeopleProps, index: number) => {
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
@@ -198,14 +191,11 @@ function PeopleFeed({
   const motionPropsUp = {
     initial: {
       opacity: 0,
-      // y: "100%",
     },
     animate: {
-      // y: 0,
       opacity: 1,
     },
     exit: {
-      // y: "100%",
       opacity: 0,
     },
     transition: {
@@ -259,15 +249,6 @@ function PeopleFeed({
                             },
                           }}
                           whileHover={{ scale: 1.1 }}
-                          // onClick={() => {
-                          //   router.push({
-                          //     pathname: "/auth/edit",
-                          //     query: {
-                          //       person: JSON.stringify(person),
-                          //       selectedIndex: index,
-                          //     },
-                          //   });
-                          // }}
                         >
                           <img src="/edit_icon.png" alt="icon" />
                         </EditBtn>

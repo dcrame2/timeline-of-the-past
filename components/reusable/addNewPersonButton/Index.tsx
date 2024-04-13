@@ -1,7 +1,5 @@
 import React from "react";
-import { signOut } from "next-auth/react";
-import NewPersonForm from "@/components/newPersonForm/Index";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import Link from "next/link";
 

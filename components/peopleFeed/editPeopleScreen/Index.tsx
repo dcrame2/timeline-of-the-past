@@ -1,6 +1,5 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
 import TextInput from "@/components/reusable/formFields/TextInput";
@@ -12,25 +11,27 @@ import { MediaQueries } from "@/styles/Utilities";
 import Link from "next/link";
 import { themeData } from "@/themes/themeData";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
+import { fontOptions } from "@/lib/fonts";
 
 const Form = styled.form`
   button {
-    /* ${buttonType} */
     margin-bottom: 4px;
   }
 `;
 
 const FormInnerContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  /* img {
-    width: 200px;
-  } */
+  grid-template-columns: 0.5fr 1fr;
+  gap: 24px;
+  @media ${MediaQueries.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const LinkContainer = styled.div`
   color: ${variables.black};
+  grid-column: 1 / span 2;
   a {
     ${linkStyles}
   }
@@ -44,12 +45,6 @@ const NameContainer = styled.div`
     flex-direction: column;
     gap: 12px;
   }
-`;
-
-const SocialMediaContainer = styled.div`
-  display: flex;
-  gap: 40px;
-  grid-column: 1 / span 2;
 `;
 
 const DatesContainer = styled.div`
@@ -82,14 +77,12 @@ const ImageWithCaption = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  /* flex: 1; */
   background-color: ${variables.lightGrey};
   border: 1px solid #ccc;
   text-align: center;
   position: relative;
   overflow: hidden;
   display: flex;
-  /* align-items: center; */
   justify-content: center;
   min-height: 250px;
   ${h2styles}
@@ -100,7 +93,7 @@ const ImageContainer = styled.div`
     background-color: ${variables.white};
     color: black;
     border: none;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     width: 20px;
     height: 20px;
     font-size: 12px;
@@ -110,9 +103,8 @@ const ImageContainer = styled.div`
     justify-content: center;
   }
   img {
-    /* max-width: 200px; */
     width: 100%;
-    object-fit: cover;
+    /* object-fit: cover; */
   }
 `;
 
@@ -120,10 +112,9 @@ const ThemeInfoContainer = styled.div`
   display: flex;
   gap: 12px;
   grid-column: 1 / span 2;
-  padding-bottom: 30px;
-  border-bottom: 2px solid ${variables.lightBlue};
   @media ${MediaQueries.mobile} {
     flex-direction: column;
+    grid-column: unset;
   }
 `;
 
@@ -139,6 +130,16 @@ const NumberContainer = styled.div`
   justify-content: center;
   min-height: 250px;
   ${h2styles}
+`;
+
+const MainContainerForImage = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  p {
+    ${pXSmall}
+  }
 `;
 
 const LabelInputContainer = styled.div`
@@ -163,11 +164,13 @@ const LabelInputContainer = styled.div`
   }
 
   textarea {
-    min-height: 100px;
+    min-height: 150px;
   }
 
   input[type="date"] {
     width: 100%;
+    min-height: 40px;
+    -webkit-appearance: none;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {
@@ -181,7 +184,10 @@ const LabelInputContainer = styled.div`
   input[type="color"] {
     padding: 0px 10px;
     height: 100%;
-    min-height: 42px;
+    min-height: 40px;
+    @media ${MediaQueries.mobile} {
+      height: 0;
+    }
   }
 `;
 
@@ -194,6 +200,10 @@ const ButtonContainer = styled.div`
   button {
     ${buttonType}
   }
+`;
+
+const ImageIcon = styled.img`
+  width: 20px !important;
 `;
 
 const BackButtonContainer = styled.div`
@@ -210,38 +220,36 @@ const BackButtonContainer = styled.div`
 `;
 
 const ImageUploadedContainer = styled.div`
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  grid-column: 1 / span 2;
 `;
 
-const MainFormContainer = styled.div`
-  grid-column: 1 / span 2;
+const MainFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding-bottom: 30px;
-  border-bottom: 2px solid ${variables.lightBlue};
-  @media ${MediaQueries.mobile} {
-    gap: 12px;
-  }
+  gap: 24px;
+`;
+
+const Line = styled.hr`
+  grid-column: 1 / span 2;
+  height: 5px;
+  background-color: ${variables.black};
 `;
 
 const MainImageUploadContainer = styled.div`
-  height: 75px;
-  width: 75px;
+  height: 100%;
   background-color: ${variables.lightGrey};
-  border-radius: 50%;
+  border-radius: 12px;
   border: 2px dashed steelblue;
   position: relative;
-
+  transition: background-color ease-in 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* Position the input element */
+  @media ${MediaQueries.mobile} {
+    min-height: 200px;
+  }
   input[type="file"] {
     position: absolute;
     top: 0;
@@ -253,13 +261,15 @@ const MainImageUploadContainer = styled.div`
   }
 
   img {
-    width: 30px;
+    width: 20px;
+  }
+  &:hover {
+    transition: background-color ease-in 0.3s;
+    background-color: ${variables.veryLightBlue};
   }
 `;
 
 const SingleImageContainer = styled.div`
-  /* position: relative; */
-  /* overflow: hidden; */
   button {
     position: absolute;
     top: 5px;
@@ -267,7 +277,7 @@ const SingleImageContainer = styled.div`
     background-color: ${variables.white};
     color: black;
     border: none;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     width: 20px;
     height: 20px;
     font-size: 12px;
@@ -280,34 +290,15 @@ const SingleImageContainer = styled.div`
 `;
 
 const SingleImage = styled.img`
-  border-radius: 50%;
+  /* border-radius: 50%; */
   position: absolute;
   top: 0;
   left: 0;
   width: 100% !important;
   height: 100%;
   object-fit: cover;
-  /* opacity: 0; */
   z-index: 2;
 `;
-
-const motionPropsRight = {
-  initial: {
-    opacity: 0,
-    x: "100%",
-  },
-  animate: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: {
-    x: "100%",
-    opacity: 0,
-  },
-  transition: {
-    duration: 0.4,
-  },
-};
 
 interface PeopleProps {
   mainImage?: string;
@@ -346,38 +337,15 @@ function EditPeopleScreen({
     ...person,
   });
   const router = useRouter();
-  const [selectedAge, setSelectedAge] = useState<number>(0); // Track selected age
+  const [selectedAge, setSelectedAge] = useState<number>(0);
   const [ageOptions, setAgeOptions] = useState<
     { value: number; label: string }[]
-  >([]); // Age options
+  >([]);
   const [font, setFont] = useState(updatedPerson.font);
   const [theme, setTheme] = useState(updatedPerson.theme);
   const maxDate = new Date().toISOString().split("T")[0];
 
   console.log(updatedPerson, "updatedPerson");
-
-  const fontOptions = [
-    { label: "Arial", value: "Arial, sans-serif" },
-    { label: "Verdana", value: "Verdana, sans-serif" },
-    { label: "Georgia", value: "Georgia, serif" },
-    { label: "Times New Roman", value: "Times New Roman, serif" },
-    { label: "Courier New", value: "Courier New, monospace" },
-    { label: "Tahoma", value: "Tahoma, sans-serif" },
-    { label: "Helvetica", value: "Helvetica, sans-serif" },
-    { label: "Palatino", value: "Palatino, serif" },
-    { label: "Garamond", value: "Garamond, serif" },
-    { label: "Book Antiqua", value: "Book Antiqua, serif" },
-    { label: "Arial Black", value: "Arial Black, sans-serif" },
-    { label: "Comic Sans MS", value: "Comic Sans MS, cursive" },
-    { label: "Impact", value: "Impact, fantasy" },
-    { label: "Lucida Sans Unicode", value: "Lucida Sans Unicode, sans-serif" },
-    { label: "Lucida Console", value: "Lucida Console, monospace" },
-    { label: "Trebuchet MS", value: "Trebuchet MS, sans-serif" },
-    { label: "Geneva", value: "Geneva, sans-serif" },
-    { label: "Copperplate", value: "Copperplate, fantasy" },
-    { label: "Brush Script MT", value: "Brush Script MT, cursive" },
-    { label: "Optima", value: "Optima, sans-serif" },
-  ];
 
   useEffect(() => {
     if (person) {
@@ -637,6 +605,42 @@ function EditPeopleScreen({
     reader.readAsDataURL(file);
   };
 
+  const handleUpload = (
+    selectedAge: number,
+    newUploadDatas: string[],
+    prevState: any
+  ) => {
+    // Create a copy of the previous state
+    const newState = { ...prevState };
+
+    // Retrieve existing uploadDatas or initialize as an empty object
+    const existingUploadDatas = newState?.uploadDatas || {};
+
+    // Retrieve existing uploadDatas for the selected age or initialize as an empty object
+    const existingUploadDatasForAge = existingUploadDatas[selectedAge] || {
+      images: [],
+      ageText: "",
+    };
+
+    // Update images for the selected age
+    const updatedImages = [
+      ...(existingUploadDatasForAge.images || []),
+      ...newUploadDatas,
+    ];
+
+    // Update the uploadDatas object with the updated images for the selected age
+    newState.uploadDatas = {
+      ...existingUploadDatas,
+      [selectedAge]: {
+        ...existingUploadDatas[selectedAge],
+        images: updatedImages,
+      },
+    };
+
+    // Return the updated state
+    return newState;
+  };
+
   return (
     <>
       {person && (
@@ -651,11 +655,13 @@ function EditPeopleScreen({
                 https://timelinethat.com{person.slug}
               </Link>
             </LinkContainer>
-            <MainFormContainer>
+            <h2>MAIN INFORMATION</h2>
+            <MainContainerForImage>
+              <p>Main Image</p>
               <MainImageUploadContainer>
                 {!updatedPerson.mainImage ? (
                   <label htmlFor="file">
-                    <img src="/main_image_icon.svg" alt="Upload icon"></img>
+                    Add Main Image
                     <input
                       id="file"
                       type="file"
@@ -683,6 +689,8 @@ function EditPeopleScreen({
                   </SingleImageContainer>
                 )}
               </MainImageUploadContainer>
+            </MainContainerForImage>
+            <MainFieldContainer>
               <ThemeInfoContainer>
                 <LabelInputContainer>
                   <label htmlFor="color">Theme Color</label>
@@ -777,7 +785,9 @@ function EditPeopleScreen({
                   />
                 </LabelInputContainer>
               </DatesContainer>
-            </MainFormContainer>
+            </MainFieldContainer>
+            <Line />
+            <h2>SPECIFIC AGE INFORMATION</h2>
             <ImageUploadedContainer>
               <LabelInputContainer>
                 <label htmlFor="age">Select Age</label>
@@ -789,7 +799,6 @@ function EditPeopleScreen({
                   ))}
                 </select>
               </LabelInputContainer>
-
               <LabelInputContainer>
                 <label htmlFor="ageText">Edit Paragraph about the Age</label>
                 <textarea
@@ -803,83 +812,61 @@ function EditPeopleScreen({
                   }
                 ></textarea>
               </LabelInputContainer>
-              {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
-              <UploadFileInputEdit
-                selectedAge={selectedAge}
-                updatedPerson={updatedPerson}
-                onUpload={(selectedAge: number, newUploadDatas: string[]) =>
-                  setUpdatedPerson((prevState) => {
-                    // Create a copy of the previous state
-                    const newState = { ...prevState };
-
-                    // Retrieve existing uploadDatas or initialize as an empty object
-                    const existingUploadDatas = newState?.uploadDatas || {};
-
-                    // Retrieve existing uploadDatas for the selected age or initialize as an empty object
-                    const existingUploadDatasForAge = existingUploadDatas[
-                      selectedAge
-                    ] || { images: [], ageText: "" };
-
-                    // Update images for the selected age
-                    const updatedImages = [
-                      ...(existingUploadDatasForAge.images || []),
-                      ...newUploadDatas,
-                    ];
-
-                    // Update the uploadDatas object with the updated images for the selected age
-                    newState.uploadDatas = {
-                      ...existingUploadDatas,
-                      [selectedAge]: {
-                        ...existingUploadDatas[selectedAge],
-                        images: updatedImages,
-                      },
-                    };
-
-                    // Return the updated state
-                    return newState;
-                  })
-                }
-              />
-              <ImageGridContainer>
-                {person &&
-                  updatedPerson.uploadDatas &&
-                  selectedAge !== null &&
-                  updatedPerson.uploadDatas[selectedAge]?.images?.map(
-                    (src: string, index: number) => {
-                      return (
-                        <ImageWithCaption key={index}>
-                          <ImageContainer>
-                            <img src={src} alt={`Uploaded image ${index}`} />
-                            <button
-                              onClick={(e) => handleRemoveImage(src, index, e)}
-                            >
-                              x
-                            </button>
-                          </ImageContainer>
-                        </ImageWithCaption>
-                      );
-                    }
-                  )}
-                {person &&
-                  updatedPerson.uploadDatas &&
-                  selectedAge !== null &&
-                  // Array.isArray(updatedPerson.uploadDatas[selectedAge]) &&
-                  [
-                    ...Array(
-                      Math.max(
-                        0,
-                        4 -
-                          (updatedPerson?.uploadDatas[selectedAge]?.images
-                            ?.length || 0)
-                      )
-                    ),
-                  ].map((_, index) => (
-                    <ImageWithCaption key={index + 300}>
-                      <NumberContainer>{index + 1}</NumberContainer>
-                    </ImageWithCaption>
-                  ))}
-              </ImageGridContainer>
             </ImageUploadedContainer>
+            {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
+            <UploadFileInputEdit
+              selectedAge={selectedAge}
+              updatedPerson={updatedPerson}
+              onUpload={(selectedAge: number, newUploadDatas: string[]) =>
+                setUpdatedPerson((prevState) =>
+                  handleUpload(selectedAge, newUploadDatas, prevState)
+                )
+              }
+            />
+            <ImageGridContainer>
+              {person &&
+                updatedPerson.uploadDatas &&
+                selectedAge !== null &&
+                updatedPerson.uploadDatas[selectedAge]?.images?.map(
+                  (src: string, index: number) => {
+                    return (
+                      <ImageWithCaption key={index}>
+                        <ImageContainer>
+                          <img src={src} alt={`Uploaded image ${index}`} />
+                          <button
+                            onClick={(e) => handleRemoveImage(src, index, e)}
+                          >
+                            x
+                          </button>
+                        </ImageContainer>
+                      </ImageWithCaption>
+                    );
+                  }
+                )}
+              {person &&
+                updatedPerson.uploadDatas &&
+                selectedAge !== null &&
+                [
+                  ...Array(
+                    Math.max(
+                      0,
+                      4 -
+                        (updatedPerson?.uploadDatas[selectedAge]?.images
+                          ?.length || 0)
+                    )
+                  ),
+                ].map((_, index) => (
+                  <ImageWithCaption key={index + 300}>
+                    <ImageContainer>
+                      <ImageIcon
+                        src="/main_image_icon.svg"
+                        alt="Upload icon"
+                      ></ImageIcon>
+                      {/* {index + 1} */}
+                    </ImageContainer>
+                  </ImageWithCaption>
+                ))}
+            </ImageGridContainer>
 
             <ButtonContainer>
               {/* <button type="submit">Preview</button> */}
