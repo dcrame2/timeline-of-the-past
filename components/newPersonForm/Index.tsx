@@ -21,6 +21,9 @@ const H1Element = styled.h1`
   font-size: 30px;
   margin: 24px;
   color: #060606;
+  @media ${MediaQueries.mobile} {
+    margin: 12px 24px 0;
+  }
 `;
 
 const FormContainer = styled(motion.div)`
@@ -608,7 +611,7 @@ function NewPersonForm() {
 
   return (
     <>
-      <H1Element>Create a Timeline</H1Element>
+      {/* <H1Element>Create a Timeline</H1Element> */}
       <FormContainer {...motionPropsRight}>
         <Form method="post" onSubmit={submitNewPerson}>
           <FormInnerContainer>
