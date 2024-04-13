@@ -24,6 +24,9 @@ const Container = styled.div`
 const Logo = styled.img`
   width: 200px;
   position: fixed;
+  @media ${MediaQueries.mobile} {
+    width: 140px;
+  }
 `;
 
 const ProfileBtn = styled(motion.button)`
