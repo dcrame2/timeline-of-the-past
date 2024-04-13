@@ -14,8 +14,10 @@ import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import { fontOptions } from "@/lib/fonts";
 
 const Form = styled.form`
-  button {
-    margin-bottom: 4px;
+  max-height: 550px;
+  overflow-y: scroll;
+  @media ${MediaQueries.mobile} {
+    max-height: 100%;
   }
 `;
 
@@ -193,30 +195,35 @@ const LabelInputContainer = styled.div`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  right: 40px;
+  right: 24px;
   top: 20px;
   display: flex;
+  width: fit-content;
+  justify-content: space-between;
   gap: 20px;
   button {
     ${buttonType}
   }
 `;
 
-const ImageIcon = styled.img`
-  width: 20px !important;
-`;
-
 const BackButtonContainer = styled.div`
   position: absolute;
-  left: 40px;
-  top: 20px;
+  left: 24px;
+  top: 36px;
   display: flex;
   width: fit-content;
   justify-content: space-between;
-  gap: 20px;
+  gap: 4px;
   a {
     ${linkStyles}
   }
+  img {
+    width: 12px;
+  }
+`;
+
+const ImageIcon = styled.img`
+  width: 20px !important;
 `;
 
 const ImageUploadedContainer = styled.div`
@@ -867,6 +874,7 @@ function EditPeopleScreen({
               <button type="submit">Save</button>
             </ButtonContainer>
             <BackButtonContainer>
+              <img src="/return.svg" alt="return arrow" />
               <Link href="/auth/timeline">Back</Link>
             </BackButtonContainer>
           </FormInnerContainer>

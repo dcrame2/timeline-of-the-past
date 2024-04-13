@@ -32,6 +32,7 @@ const FormContainer = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+
   h2 {
     color: ${variables.black};
     grid-column: 1 / span 2;
@@ -39,13 +40,14 @@ const FormContainer = styled(motion.div)`
   }
   @media ${MediaQueries.mobile} {
     padding: 88px 24px 24px;
+    height: 80vh;
   }
 `;
 const Form = styled.form`
   max-height: 550px;
   overflow-y: scroll;
   @media ${MediaQueries.mobile} {
-    max-height: 90%;
+    max-height: 100%;
   }
 `;
 
@@ -153,7 +155,7 @@ const ImageUploadedContainer = styled.div`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  right: 40px;
+  right: 24px;
   top: 20px;
   display: flex;
   width: fit-content;
@@ -166,14 +168,17 @@ const ButtonContainer = styled.div`
 
 const BackButtonContainer = styled.div`
   position: absolute;
-  left: 40px;
-  top: 20px;
+  left: 24px;
+  top: 36px;
   display: flex;
   width: fit-content;
   justify-content: space-between;
-  gap: 20px;
+  gap: 4px;
   a {
     ${linkStyles}
+  }
+  img {
+    width: 12px;
   }
 `;
 
@@ -814,6 +819,7 @@ function NewPersonForm() {
               <button type="submit">Save</button>
             </ButtonContainer>
             <BackButtonContainer>
+              <img src="/return.svg" alt="return arrow" />
               <Link href="/auth/timeline">Back</Link>
             </BackButtonContainer>
           </FormInnerContainer>
