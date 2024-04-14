@@ -94,8 +94,17 @@ function TabNavigation() {
           className={initialActiveTab === "/auth/themes" ? "active" : ""}
         >
           <Link href="/auth/themes">
-            <img src="/subscription_icon.png" alt="icon" />
+            <img src="/layout.svg" alt="icon" />
             Themes
+          </Link>
+        </motion.li>
+        <motion.li
+          whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
+          className={initialActiveTab === "/auth/subscription" ? "active" : ""}
+        >
+          <Link href="/auth/subscription">
+            <img src="/subscription_icon.png" alt="icon" />
+            Subscription
           </Link>
         </motion.li>
       </ul>

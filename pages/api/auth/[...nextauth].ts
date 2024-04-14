@@ -69,8 +69,8 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      console.log(user, "Session top things");
-      console.log(token, "TOKEN top things");
+      // console.log(user, "Session top things");
+      // console.log(token, "TOKEN top things");
       if (user) {
         token.user = user.user;
       }
@@ -79,8 +79,8 @@ export const authOptions: NextAuthOptions = {
     },
     //TODO: password is being returned in session, we may want to remove that
     async session({ session, token }) {
-      console.log(session, "Session things");
-      console.log(token, "TOKEN things");
+      // console.log(session, "Session things");
+      // console.log(token, "TOKEN things");
       if (token && token.user) {
         session.user = token.user;
       }

@@ -35,6 +35,13 @@ const FormContainer = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  &::before {
+    background-color: ${variables.lightGrey};
+    content: "";
+    display: inline-block;
+    max-width: 1000px;
+    width: 100%;
+  }
 
   h2 {
     color: ${variables.black};
@@ -47,7 +54,7 @@ const FormContainer = styled(motion.div)`
   }
 `;
 const Form = styled.form`
-  max-height: 550px;
+  /* max-height: 550px; */
   overflow-y: scroll;
   @media ${MediaQueries.mobile} {
     max-height: 100%;
@@ -157,9 +164,9 @@ const ImageUploadedContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  position: absolute;
-  right: 24px;
-  top: 20px;
+  position: fixed;
+  left: 1175px;
+  top: 10vh;
   display: flex;
   width: fit-content;
   justify-content: space-between;
