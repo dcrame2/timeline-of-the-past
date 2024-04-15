@@ -36,7 +36,8 @@ export default async function handler(
           },
         ],
         metadata: {
-          email: userEmail, // Add your custom field and value here
+          email: userEmail,
+          selectedProduct: priceId,
         },
         mode: "payment",
         success_url: `${req.headers.origin}/auth/subscription?success=true`,

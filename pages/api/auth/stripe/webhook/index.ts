@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { buffer } from "micro";
 import { NextApiRequest, NextApiResponse } from "next";
+import addTimlineCreditsToUser from "@/lib/addTimelineCreditsToUser";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -30,8 +31,9 @@ export default async function handler(
       console.log(event, "EVENTTTT");
 
       if (event.type === "checkout.session.completed") {
-        const { email }: any = event.data.object.metadata;
-        console.log(email, "Email");
+        const { email, selectedProduct }: any = event.data.object.metadata;
+        console.log(email, "Email", selectedProduct, "YESSSSSSSSIR");
+        addTimlineCreditsToUser(email, selectedProduct);
       }
     } catch (err: any) {
       // On error, log and return the error message.
