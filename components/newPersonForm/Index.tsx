@@ -430,6 +430,15 @@ function NewPersonForm() {
       },
     });
 
+    await fetch("/api/auth/user/reduce-timelines", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // Include the sessionUserEmail in the request body
+      body: JSON.stringify({ sessionUserEmail }),
+    });
+
     router.push("/auth/timeline");
   };
 

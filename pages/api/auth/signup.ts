@@ -45,6 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       email: email,
       username: username,
       password: hashedPassword,
+      remainingTimelines: 1,
     });
 
     res.status(201).json({ message: "User created" });

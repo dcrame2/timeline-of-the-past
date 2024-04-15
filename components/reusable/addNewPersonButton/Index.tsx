@@ -18,9 +18,17 @@ const StyledLink = styled(motion(Link))`
   }
 `;
 
-export default function AddNewPersonButton() {
+export default function AddNewPersonButton({
+  specificUserInfo,
+}: {
+  specificUserInfo: any;
+}) {
+  const remainingTimelines = specificUserInfo?.user?.remainingTimelines;
   return (
-    <StyledLink href="/auth/new" whileHover={{ scale: 1.1 }}>
+    <StyledLink
+      href={remainingTimelines === 0 ? "/auth/timeline" : "/auth/new"}
+      whileHover={{ scale: 1.1 }}
+    >
       <img src="/add_icon.png" alt="icon" />
     </StyledLink>
   );

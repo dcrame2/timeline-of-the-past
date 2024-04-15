@@ -160,11 +160,14 @@ function PeopleFeed({
   peopleData,
   fetchData,
   isLoading,
+  getUserInfo,
+  specificUserInfo,
 }: {
   peopleData: PeopleDataProps;
-
+  getUserInfo: () => void;
   fetchData: () => void;
   isLoading: boolean;
+  specificUserInfo: any;
 }) {
   const deletePeopleHandler = async (person: PeopleProps, index: number) => {
     const session = await getSession();
@@ -183,7 +186,17 @@ function PeopleFeed({
       },
     });
 
+    await fetch("/api/auth/user/increase-timelines", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // Include the sessionUserEmail in the request body
+      body: JSON.stringify({ sessionUserEmail }),
+    });
+
     fetchData();
+    getUserInfo();
 
     console.log(response, "Response");
   };
@@ -207,7 +220,7 @@ function PeopleFeed({
     <PeopleFeedContainer>
       <HeaderAddContainer>
         <h3>All Timelines</h3>
-        <AddNewPersonButton />
+        <AddNewPersonButton specificUserInfo={specificUserInfo} />
       </HeaderAddContainer>
       <PeopleFeedInnerContainer>
         {isLoading ? (

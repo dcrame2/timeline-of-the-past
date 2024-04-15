@@ -1,18 +1,16 @@
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
-import AuthSignOutButton from "@/components/reusable/authSIgnOutButton/Index";
-import AddNewPersonButton from "@/components/reusable/addNewPersonButton/Index";
-import NewPersonForm from "@/components/newPersonForm/Index";
+
 import PeopleFeed from "@/components/peopleFeed/Index";
 import styled from "styled-components";
-import TabNavigation from "@/components/layout/dashboard/tabNavigation/Index";
-import DashboardHeader from "@/components/layout/dashboard/dashboardHeader/Index";
+import { pBase, pXSmall } from "@/styles/Type";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 // import { fetchData } from "@/lib/fetchData";
 
 import Layout from "@/components/layout/dashboard/Index";
+import { fetchUserData } from "@/lib/fetchUserData";
 
 const TimelineViewContainer = styled.div`
   width: 100%;
@@ -34,6 +32,10 @@ const InfoContainer = styled.div`
     margin: 24px;
     color: #060606;
   }
+  .remaining-timelines {
+    ${pXSmall};
+    margin: 24px;
+  }
 `;
 
 interface UserData {
@@ -51,6 +53,7 @@ export default function Protected() {
 
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
   const [isLoading, setIsLoading] = useState(true);
+  const [specificUserInfo, setSpecificUserInfo] = useState<any>();
   const session = useSession();
   console.log(session);
   const fetchData = async () => {
@@ -86,9 +89,26 @@ export default function Protected() {
     }
   };
 
+  async function getUserInfo() {
+    try {
+      const userInfo = await fetchUserData();
+      setSpecificUserInfo(userInfo);
+      return userInfo;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      // You can handle the error here, such as throwing it or returning a default value
+      return null;
+    }
+  }
+
   useEffect(() => {
     fetchData();
+    getUserInfo();
   }, []);
+
+  console.log(specificUserInfo, "specificUserInfo");
+
+  // const { user } = specificUserInfo;
 
   console.log(session);
 
@@ -100,10 +120,18 @@ export default function Protected() {
             Hello, {session?.data?.user.firstName}{" "}
             {session?.data?.user.lastName}!
           </h1>
+
+          {specificUserInfo && (
+            <p className="remaining-timelines">
+              {specificUserInfo?.user?.remainingTimelines} remaining Timelines
+            </p>
+          )}
           <PeopleFeed
             fetchData={fetchData}
             peopleData={peopleData}
             isLoading={isLoading}
+            getUserInfo={getUserInfo}
+            specificUserInfo={specificUserInfo}
           />
         </InfoContainer>
       </TimelineViewContainer>
