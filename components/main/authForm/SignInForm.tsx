@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TextInput from "@/components/reusable/formFields/TextInput1";
+import TextInput from "@/components/reusable/formFields/TextInput";
 import { buttonType, formStyles } from "@/styles/Type";
 
 const Form = styled.form`
