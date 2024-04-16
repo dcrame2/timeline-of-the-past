@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 
 import Layout from "@/components/layout/dashboard/Index";
 import { fetchUserData } from "@/lib/fetchUserData";
+import { Button } from "@nextui-org/react";
 
 const TimelineViewContainer = styled.div`
   width: 100%;

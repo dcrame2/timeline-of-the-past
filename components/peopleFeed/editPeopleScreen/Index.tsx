@@ -12,6 +12,8 @@ import Link from "next/link";
 import { themeData } from "@/themes/themeData";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import { fontOptions } from "@/lib/fonts";
+import { Select, SelectItem } from "@nextui-org/react";
+import { Textarea } from "@nextui-org/react";
 
 const Form = styled.form`
   max-height: 550px;
@@ -320,7 +322,7 @@ interface PeopleProps {
   uploadDatas?: { [key: number]: { images: string[]; ageText: string } };
   slug?: string;
   font?: string;
-  theme?: number;
+  theme?: number | string;
 }
 
 // Define the type for uploadDatas state
@@ -481,7 +483,7 @@ function EditPeopleScreen({
     event: React.ChangeEvent<HTMLSelectElement>,
     propertyName: string
   ) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (updatedPerson) {
       setUpdatedPerson((prevState) => ({
         ...prevState,
@@ -495,7 +497,7 @@ function EditPeopleScreen({
     event: React.ChangeEvent<HTMLSelectElement>,
     propertyName: string
   ) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (updatedPerson) {
       setUpdatedPerson((prevState) => ({
         ...prevState,
@@ -693,18 +695,18 @@ function EditPeopleScreen({
             </MainContainerForImage>
             <MainFieldContainer>
               <ThemeInfoContainer>
-                <LabelInputContainer>
-                  <label htmlFor="color">Theme Color</label>
-                  <input
-                    type="color"
-                    id="color"
-                    value={updatedPerson.color}
-                    onChange={(e) => {
-                      handleInputChange(e, "color");
-                    }}
-                  />
-                </LabelInputContainer>
-                <LabelInputContainer>
+                <TextInput
+                  type="color"
+                  id="color"
+                  name="color"
+                  value={updatedPerson.color}
+                  placeholder=" "
+                  label="Theme Color"
+                  onChange={(e: any) => {
+                    handleInputChange(e, "color");
+                  }}
+                />
+                {/* <LabelInputContainer>
                   <label htmlFor="font-family">Theme Font</label>
                   <select
                     id="font-family"
@@ -720,23 +722,56 @@ function EditPeopleScreen({
                       </option>
                     ))}
                   </select>
-                </LabelInputContainer>
-                <LabelInputContainer>
-                  <label htmlFor="themes">Theme</label>
-                  <select
-                    id="themes"
-                    value={theme}
-                    onChange={(e) => {
-                      handleThemeChange(e, "theme");
-                    }}
-                  >
-                    {themeData.map((option, index) => (
-                      <option key={index} value={option.value}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                </LabelInputContainer>
+                </LabelInputContainer> */}
+
+                <Select
+                  id="font-family"
+                  label={"Theme Font"}
+                  placeholder={font?.split(",").splice(0, 1).toString()}
+                  className="max-w-xs"
+                  onChange={(e: any) => {
+                    handleSelectChange(e, "font");
+                  }}
+                  value={font}
+                  labelPlacement={"outside"}
+                >
+                  {fontOptions.map((selectOption: any) => (
+                    <SelectItem
+                      key={selectOption.value}
+                      value={selectOption.value}
+                      style={{
+                        fontFamily: selectOption.value,
+                        color: "black",
+                      }}
+                    >
+                      {selectOption.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+
+                <Select
+                  label={"Theme"}
+                  id="themes"
+                  placeholder={theme?.toString()}
+                  className="max-w-xs"
+                  onChange={(e) => {
+                    handleThemeChange(e, "theme");
+                  }}
+                  value={theme}
+                  labelPlacement={"outside"}
+                >
+                  {themeData.map((selectOption: any) => (
+                    <SelectItem
+                      key={selectOption.value}
+                      value={selectOption.value}
+                      style={{
+                        color: "black",
+                      }}
+                    >
+                      {selectOption.name}
+                    </SelectItem>
+                  ))}
+                </Select>
               </ThemeInfoContainer>
               <NameContainer>
                 <TextInput
@@ -761,46 +796,60 @@ function EditPeopleScreen({
                 />
               </NameContainer>
               <DatesContainer>
-                <LabelInputContainer>
-                  <label>Date of Birth*</label>
-                  <input
-                    type="date"
-                    min="1900-01-01"
-                    max={maxDate}
-                    value={updatedPerson.dob}
-                    onChange={(e) => {
-                      handleInputChange(e, "dob");
-                      handleDateOfBirthChange(e);
-                    }}
-                    required
-                  />
-                </LabelInputContainer>
-                <LabelInputContainer>
-                  <label>Death (Optional)</label>
-                  <input
-                    type="date"
-                    value={updatedPerson.death}
-                    onChange={(e) => {
-                      handleInputChange(e, "death");
-                    }}
-                  />
-                </LabelInputContainer>
+                <TextInput
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max={maxDate}
+                  value={updatedPerson.dob}
+                  label={"Date of Birth*"}
+                  onChange={(e: any) => {
+                    handleInputChange(e, "dob");
+                    handleDateOfBirthChange(e);
+                  }}
+                  required
+                />
+
+                <TextInput
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max="2030-12-31"
+                  value={updatedPerson.death}
+                  label={"Death (Optional)"}
+                  onChange={(e: any) => {
+                    handleInputChange(e, "death");
+                  }}
+                />
               </DatesContainer>
             </MainFieldContainer>
             <Line />
             <h2>SPECIFIC AGE INFORMATION</h2>
             <ImageUploadedContainer>
-              <LabelInputContainer>
-                <label htmlFor="age">Select Age</label>
-                <select id="age" onChange={handleAgeChange} value={selectedAge}>
-                  {ageOptions.map((option, index) => (
-                    <option key={index} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </LabelInputContainer>
-              <LabelInputContainer>
+              <Select
+                label={"Year/Age"}
+                // placeholder="Select Year/Age"
+                placeholder=" "
+                className="max-w-xs"
+                onChange={handleAgeChange}
+                value={selectedAge}
+                labelPlacement={"outside"}
+              >
+                {ageOptions.map((selectOption: any) => (
+                  <SelectItem
+                    key={selectOption.value}
+                    value={selectOption.value}
+                    style={{
+                      color: "black",
+                    }}
+                  >
+                    {selectOption.label}
+                  </SelectItem>
+                ))}
+              </Select>
+              {/* <LabelInputContainer>
                 <label htmlFor="ageText">Edit Paragraph about the Age</label>
                 <textarea
                   placeholder="Write about this year..."
@@ -812,7 +861,18 @@ function EditPeopleScreen({
                     handleAgeTextChange(selectedAge, e.target.value)
                   }
                 ></textarea>
-              </LabelInputContainer>
+              </LabelInputContainer> */}
+
+              <Textarea
+                label={"Description of this Year/Age"}
+                placeholder="Enter your description"
+                className="max-w-xs"
+                value={updatedPerson?.uploadDatas?.[selectedAge]?.ageText || ""}
+                onChange={(e: any) =>
+                  handleAgeTextChange(selectedAge, e.target.value)
+                }
+                labelPlacement={"outside"}
+              />
             </ImageUploadedContainer>
             {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
             <UploadFileInputEdit

@@ -1,10 +1,11 @@
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import "@/styles/global.css";
-
+import * as React from "react";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import { useState, createContext } from "react";
+import { NextUIProvider } from "@nextui-org/react";
 // import { createContext } from "vm";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -38,10 +39,12 @@ export default function App({
   // console.log(uploadDatas, "UPLOAD DATA ON APP");
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
-    <SessionProvider session={session}>
-      {/* <Context.Provider value={[uploadDatas, setUploadDatas]}> */}
-      {getLayout(<Component {...pageProps} />)}
-      {/* </Context.Provider> */}
-    </SessionProvider>
+    <NextUIProvider>
+      <SessionProvider session={session}>
+        {/* <Context.Provider value={[uploadDatas, setUploadDatas]}> */}
+        {getLayout(<Component {...pageProps} />)}
+        {/* </Context.Provider> */}
+      </SessionProvider>
+    </NextUIProvider>
   );
 }

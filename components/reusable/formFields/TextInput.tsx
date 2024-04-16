@@ -2,20 +2,10 @@ import { inputType, pXSmall } from "@/styles/Type";
 import { variables } from "@/styles/Variables";
 import React from "react";
 import styled from "styled-components";
-
-const FieldContainer = styled.div`
-  width: 100%;
-  label {
-    color: ${variables.black};
-    ${pXSmall}
-  }
-  input {
-    ${inputType}
-  }
-`;
+import { Input } from "@nextui-org/react";
 
 interface TextInputProps {
-  type?: "text" | "password" | "file" | "email";
+  type?: "text" | "password" | "file" | "email" | "color" | "date";
   label?: string;
   id?: string;
   name?: string;
@@ -27,6 +17,8 @@ interface TextInputProps {
   errorMessage?: string;
   value?: string;
   onChange?: any;
+  min?: string;
+  max?: string;
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -44,13 +36,14 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       className,
       value,
       onChange,
+      min,
+      max,
     },
     ref
   ) => {
     return (
-      <FieldContainer className={className}>
-        {label && <label htmlFor={name}>{label}</label>}
-        <input
+      <>
+        <Input
           type={type}
           id={id}
           name={name}
@@ -61,9 +54,15 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           ref={ref}
           value={value}
           onChange={onChange}
+          variant={"flat"}
+          label={label}
+          labelPlacement={"outside"}
+          min={min}
+          max={max}
         />
+
         {errorMessage && <label>{errorMessage}</label>}
-      </FieldContainer>
+      </>
     );
   }
 );

@@ -1,5 +1,6 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import TextInput from "../reusable/formFields/TextInput";
+
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -14,6 +15,8 @@ import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
 import Link from "next/link";
 import { fontOptions } from "@/lib/fonts";
+import { Select, SelectItem } from "@nextui-org/react";
+import { Textarea } from "@nextui-org/react";
 
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 
@@ -116,24 +119,24 @@ const LabelInputContainer = styled.div`
     ${pXSmall}
     color: ${variables.black};
   }
-  input,
+  /* input,
   textarea {
     ${inputType}
-  }
-  select {
+  } */
+  /* select {
     ${inputType}
     background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+)
       no-repeat 99% 99%;
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
-  }
+  } */
 
   textarea {
     min-height: 150px;
   }
 
-  input[type="date"] {
+  /* input[type="date"] {
     width: 100%;
     min-height: 40px;
     -webkit-appearance: none;
@@ -145,15 +148,15 @@ const LabelInputContainer = styled.div`
 
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
-  }
-  input[type="color"] {
+  } */
+  /* input[type="color"] {
     padding: 0px 10px;
     height: 100%;
     min-height: 40px;
     @media ${MediaQueries.mobile} {
       height: 0;
     }
-  }
+  } */
 `;
 
 const ImageUploadedContainer = styled.div`
@@ -383,6 +386,8 @@ function NewPersonForm() {
   const [font, setFont] = useState("Arial, sans-serif");
   const [theme, setTheme] = useState(1);
 
+  console.log(theme, "theme");
+
   const [mainImage, setMainImage] = useState<string | null>(null);
 
   const submitNewPerson = async (event: FormEvent<HTMLFormElement>) => {
@@ -442,7 +447,7 @@ function NewPersonForm() {
     router.push("/auth/timeline");
   };
 
-  const handleAgeTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleAgeTextChange = (e: any) => {
     const newText = e.target.value;
 
     setAgeText(newText);
@@ -663,43 +668,55 @@ function NewPersonForm() {
             </MainContainerForImage>
             <MainFieldContainer>
               <ThemeInfoContainer>
-                <LabelInputContainer>
-                  <label htmlFor="color">Theme Color</label>
-                  <input type="color" id="color" name="color" ref={colorRef} />
-                </LabelInputContainer>
-                <LabelInputContainer>
-                  <label htmlFor="font-family">Theme Font</label>
-                  <select
-                    id="font-family"
-                    value={font}
-                    onChange={handleFontChange}
-                    style={{ fontFamily: font }}
-                  >
-                    {fontOptions.map((option, index) => (
-                      <option
-                        style={{ fontFamily: option.value }}
-                        key={index}
-                        value={option.value}
-                      >
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </LabelInputContainer>
-                <LabelInputContainer>
-                  <label htmlFor="themes">Theme</label>
-                  <select
-                    id="themes"
-                    value={theme}
-                    onChange={handleThemeChange}
-                  >
-                    {themeData.map((option, index) => (
-                      <option key={index} value={option.value}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                </LabelInputContainer>
+                <TextInput
+                  type="color"
+                  id="color"
+                  name="color"
+                  ref={colorRef}
+                  placeholder=" "
+                  label="Theme Color"
+                />
+                <Select
+                  label={"Theme Font"}
+                  placeholder="Select a font"
+                  className="max-w-xs"
+                  onChange={handleFontChange}
+                  value={font}
+                  labelPlacement={"outside"}
+                >
+                  {fontOptions.map((selectOption: any) => (
+                    <SelectItem
+                      key={selectOption.value}
+                      value={selectOption.value}
+                      style={{
+                        fontFamily: selectOption.value,
+                        color: "black",
+                      }}
+                    >
+                      {selectOption.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label={"Theme"}
+                  placeholder="Select a theme"
+                  className="max-w-xs"
+                  onChange={handleThemeChange}
+                  value={theme}
+                  labelPlacement={"outside"}
+                >
+                  {themeData.map((selectOption: any) => (
+                    <SelectItem
+                      key={selectOption.value}
+                      value={selectOption.value}
+                      style={{
+                        color: "black",
+                      }}
+                    >
+                      {selectOption.name}
+                    </SelectItem>
+                  ))}
+                </Select>
               </ThemeInfoContainer>
               <NameContainer>
                 <TextInput
@@ -727,58 +744,60 @@ function NewPersonForm() {
                 />
               </NameContainer>
               <DatesContainer>
-                <LabelInputContainer>
-                  <label htmlFor="start">Date of Birth*</label>
-                  <input
-                    type="date"
-                    id="start"
-                    name="trip-start"
-                    min="1900-01-01"
-                    placeholder="mm/dd/yyyy"
-                    max={maxDate}
-                    ref={dobRef}
-                    onChange={(e: any) => handleDateOfBirthChange(e)}
-                    required
-                  />
-                </LabelInputContainer>
-                <LabelInputContainer>
-                  <label htmlFor="start">Death (Optional)</label>
-                  <input
-                    type="date"
-                    id="start"
-                    name="trip-start"
-                    min="1900-01-01"
-                    max="2030-12-31"
-                    ref={deathRef}
-                  />
-                </LabelInputContainer>
+                <TextInput
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max={maxDate}
+                  ref={dobRef}
+                  label={"Date of Birth*"}
+                  onChange={(e: any) => handleDateOfBirthChange(e)}
+                  required
+                />
+
+                <TextInput
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max="2030-12-31"
+                  label={"Death (Optional)"}
+                  ref={deathRef}
+                />
               </DatesContainer>
             </MainFieldContainer>
             <Line />
             <h2>SPECIFIC AGE INFORMATION</h2>
             <ImageUploadedContainer>
-              <LabelInputContainer>
-                <label htmlFor="age">Select Year/Age</label>
-                <select id="age" onChange={handleAgeChange} value={selectedAge}>
-                  {ageOptions.map((option, index) => (
-                    <option key={index} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </LabelInputContainer>
-
-              <LabelInputContainer>
-                <label htmlFor="ageText">
-                  Enter Paragraph about this year {selectedAge}
-                </label>
-                <textarea
-                  id="ageText"
-                  placeholder="Write about this year..."
-                  value={uploadDatas[selectedAge]?.ageText || ageText}
-                  onChange={handleAgeTextChange}
-                ></textarea>
-              </LabelInputContainer>
+              <Select
+                label={"Year/Age"}
+                placeholder="Select Year/Age"
+                className="max-w-xs"
+                onChange={handleAgeChange}
+                value={selectedAge}
+                labelPlacement={"outside"}
+              >
+                {ageOptions.map((selectOption: any) => (
+                  <SelectItem
+                    key={selectOption.value}
+                    value={selectOption.value}
+                    style={{
+                      color: "black",
+                    }}
+                  >
+                    {selectOption.label}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Textarea
+                label={"Description of this Year/Age"}
+                placeholder="Enter your description"
+                className="max-w-xs"
+                value={uploadDatas[selectedAge]?.ageText || ageText}
+                onChange={handleAgeTextChange}
+                labelPlacement={"outside"}
+              />
             </ImageUploadedContainer>
             <UploadFileInputNew
               selectedAge={selectedAge}
