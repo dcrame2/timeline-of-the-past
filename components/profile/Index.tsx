@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
-import TextInput from "../reusable/formFields/TextInput1";
+import TextInput from "../reusable/formFields/TextInput";
 import { Session } from "next-auth";
 
 const ProfileContainer = styled.div`
