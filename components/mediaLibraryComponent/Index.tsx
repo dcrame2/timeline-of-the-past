@@ -5,6 +5,7 @@ import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
 import { pBase, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
+import { Image } from "@nextui-org/react";
 
 const MediaLibraryContainer = styled.div`
   height: 100%;
@@ -135,7 +136,12 @@ function MediaLibraryComponent() {
                 <>
                   {mediaLibrary?.map((imageUrl, index) => (
                     <ImageContainer key={`${imageUrl}-${index}`}>
-                      <img src={imageUrl} alt={`Image ${index}`} />
+                      <Image
+                        width={300}
+                        height={200}
+                        src={imageUrl}
+                        alt={`Image ${index}`}
+                      />
                     </ImageContainer>
                   ))}
                 </>

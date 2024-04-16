@@ -14,6 +14,7 @@ import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import { fontOptions } from "@/lib/fonts";
 import { Select, SelectItem } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 
 const Form = styled.form`
   max-height: 550px;
@@ -893,7 +894,13 @@ function EditPeopleScreen({
                     return (
                       <ImageWithCaption key={index}>
                         <ImageContainer>
-                          <img src={src} alt={`Uploaded image ${index}`} />
+                          <Image
+                            width={300}
+                            height={200}
+                            src={src}
+                            alt={`Image ${index}`}
+                          />
+                          {/* <img src={src} alt={`Uploaded image ${index}`} /> */}
                           <button
                             onClick={(e) => handleRemoveImage(src, index, e)}
                           >

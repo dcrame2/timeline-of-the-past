@@ -9,7 +9,7 @@ import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index"
 import { buttonType, h2styles, linkStyles } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { inputType, pXSmall } from "@/styles/Type";
-import Image from "next/image";
+import { Image } from "@nextui-org/react";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
@@ -767,7 +767,13 @@ function NewPersonForm() {
                 (src: string, index: number) => (
                   <ImageWithCaption key={index}>
                     <ImageContainer>
-                      <img src={src} alt={`Uploaded image ${index}`} />
+                      <Image
+                        width={300}
+                        height={200}
+                        src={src}
+                        alt={`Image ${index}`}
+                      />
+                      {/* <img src={src} alt={`Uploaded image ${index}`} /> */}
                       <button onClick={(e) => handleRemoveImage(src, index, e)}>
                         x
                       </button>
