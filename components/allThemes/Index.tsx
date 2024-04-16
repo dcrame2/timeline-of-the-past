@@ -31,9 +31,9 @@ const TextContainer = styled.div`
 `;
 
 const ExampleCardsContainer = styled.div`
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 10px; */
   margin-top: 20px;
   background-color: ${variables.lightGrey};
   margin: 24px;
@@ -114,34 +114,36 @@ function AllThemes() {
           <TextContainer>
             <h1>Theme examples you can use</h1>
           </TextContainer>
-          <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
-            {themeData.map((example, index) => (
-              <Link target="_blank" href={example.url}>
-                <Card
-                  shadow="sm"
-                  key={index}
-                  isPressable
-                  isHoverable={true}
-                  onPress={() => console.log("item pressed")}
-                >
-                  <CardBody className="overflow-visible p-0">
-                    <Image
-                      shadow="sm"
-                      radius="lg"
-                      width="100%"
-                      alt={example.img.alt}
-                      className="w-full object-cover h-[140px]"
-                      src={example.img.src}
-                    />
-                  </CardBody>
-                  <CardFooter className="text-small justify-between">
-                    <b>{example.name}</b>
-                    <p className="text-default-500">{example.name}</p>
-                  </CardFooter>
-                </Card>
-              </Link>
-            ))}
-          </div>
+          <ExampleCardsContainer>
+            <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
+              {themeData.map((example, index) => (
+                <Link target="_blank" href={example.url}>
+                  <Card
+                    shadow="sm"
+                    key={index}
+                    isPressable
+                    isHoverable={true}
+                    onPress={() => console.log("item pressed")}
+                  >
+                    <CardBody className="overflow-visible p-0">
+                      <Image
+                        shadow="sm"
+                        radius="lg"
+                        width="100%"
+                        alt={example.img.alt}
+                        className="w-full object-cover h-[140px]"
+                        src={example.img.src}
+                      />
+                    </CardBody>
+                    <CardFooter className="text-small justify-between">
+                      <b>{example.name}</b>
+                      <p className="text-default-500">{example.name}</p>
+                    </CardFooter>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </ExampleCardsContainer>
         </ExamplesInnerContainer>
       </ExamplesContainer>
     </>

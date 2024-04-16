@@ -84,6 +84,9 @@ const ThemeInfoContainer = styled.div`
   display: flex;
   gap: 12px;
   grid-column: 1 / span 2;
+
+  .custom-color-input {
+  }
   @media ${MediaQueries.mobile} {
     flex-direction: column;
     grid-column: unset;
@@ -109,54 +112,6 @@ const DatesContainer = styled.div`
     flex-direction: column;
     gap: 12px;
   }
-`;
-
-const LabelInputContainer = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  label {
-    ${pXSmall}
-    color: ${variables.black};
-  }
-  /* input,
-  textarea {
-    ${inputType}
-  } */
-  /* select {
-    ${inputType}
-    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+)
-      no-repeat 99% 99%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-  } */
-
-  textarea {
-    min-height: 150px;
-  }
-
-  /* input[type="date"] {
-    width: 100%;
-    min-height: 40px;
-    -webkit-appearance: none;
-  }
-
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-  }
-
-  input[type="date"]::-webkit-calendar-picker-indicator:hover {
-    opacity: 1;
-  } */
-  /* input[type="color"] {
-    padding: 0px 10px;
-    height: 100%;
-    min-height: 40px;
-    @media ${MediaQueries.mobile} {
-      height: 0;
-    }
-  } */
 `;
 
 const ImageUploadedContainer = styled.div`
@@ -669,6 +624,7 @@ function NewPersonForm() {
             <MainFieldContainer>
               <ThemeInfoContainer>
                 <TextInput
+                  className="custom-color-input"
                   type="color"
                   id="color"
                   name="color"

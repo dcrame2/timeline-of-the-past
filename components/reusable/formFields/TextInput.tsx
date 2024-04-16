@@ -44,6 +44,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     return (
       <>
         <Input
+          className={className}
           type={type}
           id={id}
           name={name}
