@@ -7,6 +7,7 @@ import { RadioGroup, Radio, cn } from "@nextui-org/react";
 import styled from "styled-components";
 import { MediaQueries } from "@/styles/Utilities";
 import { variables } from "@/styles/Variables";
+import { pXSmall } from "@/styles/Type";
 
 const ExampleCardsContainer = styled.div`
   /* display: grid;
@@ -32,19 +33,25 @@ const ExampleCardsContainer = styled.div`
   @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(2, 1fr);
   }
+  p {
+    ${pXSmall}
+  }
 `;
 function Subscription() {
+  const [purchaseMessage, setPurchaseMessage] = React.useState<string>();
   const { data: session } = useSession();
   const userEmail = session?.user?.email;
   React.useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
     if (query.get("success")) {
-      console.log("Order placed! You will receive an email confirmation.");
+      setPurchaseMessage(
+        `${selectedProduct} "Order placed! You will receive an email confirmation."`
+      );
     }
 
     if (query.get("canceled")) {
-      console.log(
+      setPurchaseMessage(
         "Order canceled -- continue to shop around and checkout when you’re ready."
       );
     }
@@ -145,6 +152,7 @@ function Subscription() {
               }
             `}
           </style>
+          {purchaseMessage && <p>{purchaseMessage}</p>}
         </form>
       </ExampleCardsContainer>
     </Layout>
