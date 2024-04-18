@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import TextInput from "../reusable/formFields/TextInput";
 import { Session } from "next-auth";
+import { Button, ButtonGroup } from "@nextui-org/react";
 
 const ProfileContainer = styled.div`
   max-width: 1000px;
@@ -64,6 +65,10 @@ function ProfileComponent({ session }: any) {
           value={session?.user.password}
           // onChange={(e: any) => handleInputChange(e, "firstName")}
         />
+
+        <Button color="primary">Edit</Button>
+
+        <Button color="primary">Save</Button>
       </Form>
     </ProfileContainer>
   );

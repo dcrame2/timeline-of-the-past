@@ -40,10 +40,21 @@ const FormContainer = styled(motion.div)`
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   &::before {
     background-color: ${variables.lightGrey};
+    /* background-color: red; */
     content: "";
-    display: inline-block;
-    max-width: 1000px;
+    /* display: inline-block; */
+    max-width: 960px;
     width: 100%;
+    top: 0;
+    position: fixed;
+    height: 140px;
+    z-index: 1000;
+    @media ${MediaQueries.tablet} {
+      max-width: 90%;
+    }
+    @media ${MediaQueries.tablet} {
+      max-width: 80%;
+    }
   }
 
   h2 {
@@ -53,7 +64,7 @@ const FormContainer = styled(motion.div)`
   }
   @media ${MediaQueries.mobile} {
     padding: 88px 24px 24px;
-    height: 80dvh;
+    /* height: 80dvh; */
   }
 `;
 const Form = styled.form`
@@ -123,25 +134,45 @@ const ImageUploadedContainer = styled.div`
 
 const ButtonContainer = styled.div`
   position: fixed;
-  left: 1175px;
+  left: 1095px;
   top: 10vh;
   display: flex;
   width: fit-content;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   gap: 20px;
+  z-index: 1001;
+  align-items: center;
+
+  @media (max-width: 1250px) {
+    right: 50px;
+    left: unset;
+  }
+  @media ${MediaQueries.tablet} {
+    right: 50px;
+    left: unset;
+  }
   button {
     ${buttonType}
   }
 `;
 
 const BackButtonContainer = styled.div`
-  position: absolute;
-  left: 24px;
-  top: 36px;
+  /* position: fixed;
+  left: 285px;
+  top: 10vh; */
   display: flex;
-  width: fit-content;
+  /* width: fit-content; */
   justify-content: space-between;
   gap: 4px;
+  z-index: 1001;
+  @media (max-width: 1250px) {
+    right: 50px;
+    left: unset;
+  }
+  @media ${MediaQueries.tablet} {
+    right: 50px;
+    left: unset;
+  }
   a {
     ${linkStyles}
   }
@@ -816,12 +847,12 @@ function NewPersonForm() {
             </ImageGridContainer>
 
             <ButtonContainer>
+              <BackButtonContainer>
+                <img src="/return.svg" alt="return arrow" />
+                <Link href="/auth/timeline">Back</Link>
+              </BackButtonContainer>
               <button type="submit">Save</button>
             </ButtonContainer>
-            <BackButtonContainer>
-              <img src="/return.svg" alt="return arrow" />
-              <Link href="/auth/timeline">Back</Link>
-            </BackButtonContainer>
           </FormInnerContainer>
         </Form>
       </FormContainer>

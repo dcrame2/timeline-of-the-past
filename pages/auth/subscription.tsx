@@ -7,8 +7,8 @@ import { RadioGroup, Radio, cn } from "@nextui-org/react";
 import styled from "styled-components";
 import { MediaQueries } from "@/styles/Utilities";
 import { variables } from "@/styles/Variables";
-import { pXSmall } from "@/styles/Type";
-
+import { h1styles, h3styles, pLarge, pXSmall } from "@/styles/Type";
+import { Button } from "@nextui-org/react";
 const ExampleCardsContainer = styled.div`
   /* display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -32,6 +32,9 @@ const ExampleCardsContainer = styled.div`
   }
   @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(2, 1fr);
+  }
+  h1 {
+    ${pLarge}
   }
   p {
     ${pXSmall}
@@ -121,37 +124,10 @@ function Subscription() {
             </Radio>
           </RadioGroup>
           <input type="hidden" name="userEmail" value={userEmail} />
-          <button type="submit" disabled={!selectedProduct}>
+          <Button type="submit" disabled={!selectedProduct} color="primary">
             Checkout
-          </button>
-          {/* </section> */}
-          <style jsx>
-            {`
-              section {
-                background: #ffffff;
-                display: flex;
-                flex-direction: column;
-                width: 400px;
-                height: 150px;
-                border-radius: 6px;
-                justify-content: space-between;
-              }
-              button {
-                height: 36px;
-                background: #556cd6;
-                border-radius: 4px;
-                color: white;
-                border: 0;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-              }
-              button:hover {
-                opacity: 0.8;
-              }
-            `}
-          </style>
+          </Button>
+
           {purchaseMessage && <p>{purchaseMessage}</p>}
         </form>
       </ExampleCardsContainer>

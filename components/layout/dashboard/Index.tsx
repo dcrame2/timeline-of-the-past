@@ -8,8 +8,8 @@ import { MediaQueries } from "@/styles/Utilities";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 224px 1fr 1fr;
-  grid-template-rows: 75px 1fr; /* Define two rows, the first one will auto size to fit content */
-  height: 100dvh; /* Ensure the container takes up the full viewport height */
+  grid-template-rows: 75px 1fr;
+  height: 100dvh;
 
   @media ${MediaQueries.tablet} {
     grid-template-columns: 1fr;

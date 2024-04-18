@@ -41,7 +41,7 @@ const MediaContainer = styled.div`
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   display: flex;
-  max-height: 650px;
+  /* max-height: 650px; */
   overflow-y: auto;
 
   @media ${MediaQueries.mobile} {
@@ -60,9 +60,9 @@ const AllMediaLibrary = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 
-  @media ${MediaQueries.tablet} {
+  /* @media ${MediaQueries.tablet} {
     grid-template-columns: repeat(2, 1fr);
-  }
+  } */
   @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(2, 1fr);
   }
