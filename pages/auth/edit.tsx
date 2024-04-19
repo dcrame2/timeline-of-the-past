@@ -75,19 +75,19 @@ function EditTimeline() {
 
   return (
     <Layout>
-      <PeopleScreen>
-        {receivedPersonData ? (
-          <EditPeopleScreen
-            setReceivedPersonData={setReceivedPersonData}
-            person={person}
-            selectedIndex={selectedIndex}
-          />
-        ) : (
-          <HourGlassContainer>
-            <HourGlassLottieLoading />
-          </HourGlassContainer>
-        )}
-      </PeopleScreen>
+      {/* <PeopleScreen> */}
+      {receivedPersonData ? (
+        <EditPeopleScreen
+          setReceivedPersonData={setReceivedPersonData}
+          person={person}
+          selectedIndex={selectedIndex}
+        />
+      ) : (
+        <HourGlassContainer>
+          <HourGlassLottieLoading />
+        </HourGlassContainer>
+      )}
+      {/* </PeopleScreen> */}
     </Layout>
   );
 }

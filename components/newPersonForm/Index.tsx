@@ -40,9 +40,7 @@ const FormContainer = styled(motion.div)`
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   &::before {
     background-color: ${variables.lightGrey};
-    /* background-color: red; */
     content: "";
-    /* display: inline-block; */
     max-width: 960px;
     width: 100%;
     top: 0;

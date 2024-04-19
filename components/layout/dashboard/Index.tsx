@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import Navigation from './Navigation';
 import TabNavigation from "./tabNavigation/Index";
 import DashboardHeader from "./dashboardHeader/Index";
 import { MediaQueries } from "@/styles/Utilities";
@@ -9,7 +8,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 224px 1fr 1fr;
   grid-template-rows: 75px 1fr;
-  height: 100dvh;
+  /* height: 100dvh; */
 
   @media ${MediaQueries.tablet} {
     grid-template-columns: 1fr;
@@ -30,7 +29,6 @@ const StyledNavigation = styled(TabNavigation)`
 const StyledHeader = styled(DashboardHeader)`
   grid-column: 1 / span 3;
   grid-row: 1 / span 3;
-  /* width: 254px; */
 `;
 
 const ContentSection = styled.div`
@@ -38,7 +36,6 @@ const ContentSection = styled.div`
   grid-row: 2;
 
   @media ${MediaQueries.tablet} {
-    /* grid-row: unset; */
     grid-column: unset;
   }
 `;
