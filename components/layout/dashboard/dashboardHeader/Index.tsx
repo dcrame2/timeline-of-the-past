@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProfileMenu from "./profileMenu/Index";
 import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
+import { Avatar } from "@nextui-org/react";
 
 const Container = styled.div`
   display: flex;
@@ -33,6 +34,7 @@ const ProfileBtn = styled(motion.button)`
   background-color: transparent;
   border: none;
   position: absolute;
+
   right: 0;
   @media ${MediaQueries.tablet} {
     right: 20px;
@@ -60,9 +62,21 @@ function DashboardHeader() {
       <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
 
       <ProfileMenuContainer>
-        <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>
+        {/* <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>
           {" "}
           <img src="/profile_icon.png" alt="icon" />
+        </ProfileBtn> */}
+        <ProfileBtn
+          onClick={profileBtnHandler}
+          whileHover={{ scale: 1.05 }}
+          className="flex gap-4 items-center"
+        >
+          <Avatar
+            size="sm"
+            isBordered
+            // color="warning"
+            src="/profile_icon.png"
+          />
         </ProfileBtn>
         <AnimatePresence mode="wait">
           {openProfileManu && <ProfileMenu />}
