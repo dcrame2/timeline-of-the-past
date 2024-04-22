@@ -7,8 +7,8 @@ import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
 import { buttonType, h2styles, linkStyles } from "@/styles/Type";
 import { useRouter } from "next/router";
-import { inputType, pXSmall } from "@/styles/Type";
-import { Card, Image, Skeleton } from "@nextui-org/react";
+import { pXSmall } from "@/styles/Type";
+import { Image } from "@nextui-org/react";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
@@ -16,18 +16,10 @@ import Link from "next/link";
 import { fontOptions } from "@/lib/fonts";
 import { Select, SelectItem } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
-import { Input } from "@nextui-org/react";
+import { Divider } from "@nextui-org/react";
 
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
-
-const H1Element = styled.h1`
-  font-size: 30px;
-  margin: 24px;
-  color: #060606;
-  @media ${MediaQueries.mobile} {
-    margin: 12px 24px 0;
-  }
-`;
+import EmptyImageCard from "../reusable/emptyImageCard/Index";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -41,6 +33,7 @@ const FormContainer = styled(motion.div)`
   height: fit-contnent;
   @media ${MediaQueries.mobile} {
     height: 100%;
+    padding: 88px 12px 24px;
   }
   &::before {
     background-color: ${variables.lightGrey};
@@ -55,15 +48,10 @@ const FormContainer = styled(motion.div)`
       max-width: 90%;
     }
   }
-
   h2 {
     color: ${variables.black};
     grid-column: 1 / span 2;
     letter-spacing: 1.5px;
-  }
-  @media ${MediaQueries.mobile} {
-    padding: 88px 12px 24px;
-    /* height: 80dvh; */
   }
 `;
 const Form = styled.form`
@@ -92,9 +80,6 @@ const ThemeInfoContainer = styled.div`
   display: flex;
   gap: 12px;
   grid-column: 1 / span 2;
-
-  .custom-color-input {
-  }
   @media ${MediaQueries.mobile} {
     flex-direction: column;
     grid-column: unset;
@@ -135,7 +120,6 @@ const ButtonContainer = styled.div`
   top: 10vh;
   display: flex;
   width: fit-content;
-  /* justify-content: space-between; */
   gap: 20px;
   z-index: 1001;
   align-items: center;
@@ -154,11 +138,8 @@ const ButtonContainer = styled.div`
 `;
 
 const BackButtonContainer = styled.div`
-  /* position: fixed;
-  left: 285px;
-  top: 10vh; */
   display: flex;
-  /* width: fit-content; */
+
   justify-content: space-between;
   gap: 4px;
   z-index: 1001;
@@ -185,13 +166,8 @@ const ImageGridContainer = styled.div`
   gap: 10px;
 
   @media ${MediaQueries.mobile} {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
-`;
-
-const ImageWithCaption = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const ImageContainer = styled.div`
@@ -226,25 +202,6 @@ const ImageContainer = styled.div`
   }
 `;
 
-const ImageIcon = styled.img`
-  width: 20px !important;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const CaptionInput = styled.input`
-  width: 100%;
-  margin-top: 5px;
-`;
-
-const Line = styled.hr`
-  grid-column: 1 / span 2;
-  height: 5px;
-  background-color: ${variables.black};
-`;
-
 const MainImageUploadContainer = styled.div`
   height: 100%;
   background-color: #f4f4f5;
@@ -270,22 +227,12 @@ const MainImageUploadContainer = styled.div`
     width: 100%;
     height: 100%;
     opacity: 0;
-    cursor: pointer; /* Ensure cursor changes to pointer on hover */
+    cursor: pointer;
   }
 
   img {
     width: 20px;
   }
-`;
-
-const StyledInput = styled(Input)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer; /* Ensure cursor changes to pointer on hover */
 `;
 
 const SingleImageContainer = styled.div`
@@ -327,8 +274,6 @@ const MainContainerForImage = styled.div`
   }
 `;
 
-type UploadDataState = string[];
-
 function NewPersonForm() {
   const motionPropsRight = {
     initial: {
@@ -355,7 +300,6 @@ function NewPersonForm() {
   const linkedinRef = React.useRef<HTMLInputElement>(null);
   const twitterRef = React.useRef<HTMLInputElement>(null);
   const colorRef = React.useRef<HTMLInputElement>(null);
-  const captionRef = React.useRef<HTMLInputElement>(null);
 
   const [uploadDatas, setUploadDatas] = useState<{
     [key: number]: { images: string[]; ageText: string };
@@ -393,7 +337,7 @@ function NewPersonForm() {
     const linkedinLink = linkedinRef.current?.value || "";
     const twitterLink = twitterRef.current?.value || "";
     const color = colorRef.current?.value || "#ff0000";
-    // const caption = captionRef.current?.value | "";
+
     console.log(firstName, lastName, images, middleName, dob);
 
     const slug = slugifyNames(firstName, middleName, lastName);
@@ -478,7 +422,7 @@ function NewPersonForm() {
     const age = parseInt(event.target.value);
     console.log(age, "AGE");
     setSelectedAge(age);
-    setAgeText(""); // Reset ageText to empty string when age is changed
+    setAgeText("");
     // Check if age exists in uploadDatas
     if (!(age in uploadDatas)) {
       // If not, initialize it with an empty array for images and empty string for ageText
@@ -667,6 +611,7 @@ function NewPersonForm() {
                   ref={colorRef}
                   placeholder=" "
                   label="Theme Color"
+                  style={{ borderRadius: 0 }}
                 />
                 <Select
                   label={"Theme Font"}
@@ -759,7 +704,7 @@ function NewPersonForm() {
                 />
               </DatesContainer>
             </MainFieldContainer>
-            <Line />
+            <Divider className="my-4 col-span-2" />
             <h2>SPECIFIC AGE INFORMATION</h2>
             <ImageUploadedContainer>
               <Select
@@ -801,7 +746,6 @@ function NewPersonForm() {
             <ImageGridContainer>
               {uploadDatas[selectedAge]?.images?.map(
                 (src: string, index: number) => (
-                  // <ImageWithCaption key={index}>
                   <ImageContainer>
                     <Image
                       width={300}
@@ -813,7 +757,6 @@ function NewPersonForm() {
                       x
                     </button>
                   </ImageContainer>
-                  // </ImageWithCaption>
                 )
               )}
               {[
@@ -824,21 +767,7 @@ function NewPersonForm() {
                   )
                 ),
               ].map((_, index) => (
-                <Card
-                  disableAnimation={true}
-                  className="w-[100%] relative shadow-none h-full bg-customGray"
-                  radius="md"
-                >
-                  <Skeleton isLoaded={true} className="rounded-lg">
-                    <div className="h-48 rounded-lg bg-customGray"></div>
-                  </Skeleton>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <ImageIcon
-                      src="/main_image_icon.svg"
-                      alt="Upload icon"
-                    ></ImageIcon>
-                  </div>
-                </Card>
+                <EmptyImageCard />
               ))}
             </ImageGridContainer>
 

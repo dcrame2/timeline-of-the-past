@@ -12,10 +12,11 @@ import Link from "next/link";
 import { themeData } from "@/themes/themeData";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import { fontOptions } from "@/lib/fonts";
-import { Card, Select, SelectItem, Skeleton } from "@nextui-org/react";
+import { Divider, Select, SelectItem } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import EmptyImageCard from "@/components/reusable/emptyImageCard/Index";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -107,7 +108,7 @@ const ImageGridContainer = styled.div`
   gap: 10px;
 
   @media ${MediaQueries.mobile} {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -182,62 +183,12 @@ const MainContainerForImage = styled.div`
   }
 `;
 
-const LabelInputContainer = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  label {
-    ${pXSmall}
-    color: ${variables.black};
-  }
-  input,
-  textarea {
-    ${inputType}
-  }
-  select {
-    ${inputType}
-    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+)
-      no-repeat 99% 99%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  textarea {
-    min-height: 150px;
-  }
-
-  input[type="date"] {
-    width: 100%;
-    min-height: 40px;
-    -webkit-appearance: none;
-  }
-
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-  }
-
-  input[type="date"]::-webkit-calendar-picker-indicator:hover {
-    opacity: 1;
-  }
-
-  input[type="color"] {
-    padding: 0px 10px;
-    height: 100%;
-    min-height: 40px;
-    @media ${MediaQueries.mobile} {
-      height: 0;
-    }
-  }
-`;
-
 const ButtonContainer = styled.div`
   position: fixed;
   left: 1095px;
   top: 10vh;
   display: flex;
   width: fit-content;
-  /* justify-content: space-between; */
   gap: 20px;
   z-index: 1001;
   align-items: center;
@@ -256,11 +207,7 @@ const ButtonContainer = styled.div`
 `;
 
 const BackButtonContainer = styled.div`
-  /* position: fixed;
-  left: 285px;
-  top: 10vh; */
   display: flex;
-  /* width: fit-content; */
   justify-content: space-between;
   gap: 4px;
   z-index: 1001;
@@ -280,10 +227,6 @@ const BackButtonContainer = styled.div`
   }
 `;
 
-const ImageIcon = styled.img`
-  width: 20px !important;
-`;
-
 const ImageUploadedContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -294,12 +237,6 @@ const MainFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-`;
-
-const Line = styled.hr`
-  grid-column: 1 / span 2;
-  height: 5px;
-  background-color: ${variables.black};
 `;
 
 const MainImageUploadContainer = styled.div`
@@ -385,7 +322,6 @@ interface PeopleProps {
 type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
 
 // Define the type for setUploadDatas function
-type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
 function EditPeopleScreen({
   person,
@@ -759,28 +695,11 @@ function EditPeopleScreen({
                     value={updatedPerson.color}
                     placeholder=" "
                     label="Theme Color"
+                    style={{ borderRadius: 0 }}
                     onChange={(e: any) => {
                       handleInputChange(e, "color");
                     }}
                   />
-                  {/* <LabelInputContainer>
-                  <label htmlFor="font-family">Theme Font</label>
-                  <select
-                    id="font-family"
-                    value={font}
-                    onChange={(e) => {
-                      handleSelectChange(e, "font");
-                    }}
-                    style={{ fontFamily: font }}
-                  >
-                    {fontOptions.map((option, index) => (
-                      <option key={index} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </LabelInputContainer> */}
-
                   <Select
                     id="font-family"
                     label={"Theme Font"}
@@ -882,12 +801,11 @@ function EditPeopleScreen({
                   />
                 </DatesContainer>
               </MainFieldContainer>
-              <Line />
+              <Divider className="my-4 col-span-2" />
               <h2>SPECIFIC AGE INFORMATION</h2>
               <ImageUploadedContainer>
                 <Select
                   label={"Year/Age"}
-                  // placeholder="Select Year/Age"
                   placeholder=" "
                   className="max-w-xs"
                   onChange={handleAgeChange}
@@ -906,20 +824,6 @@ function EditPeopleScreen({
                     </SelectItem>
                   ))}
                 </Select>
-                {/* <LabelInputContainer>
-                <label htmlFor="ageText">Edit Paragraph about the Age</label>
-                <textarea
-                  placeholder="Write about this year..."
-                  id="ageText"
-                  value={
-                    updatedPerson?.uploadDatas?.[selectedAge]?.ageText || ""
-                  }
-                  onChange={(e) =>
-                    handleAgeTextChange(selectedAge, e.target.value)
-                  }
-                ></textarea>
-              </LabelInputContainer> */}
-
                 <Textarea
                   label={"Description of this Year/Age"}
                   placeholder="Enter your description"
@@ -958,7 +862,6 @@ function EditPeopleScreen({
                               src={src}
                               alt={`Image ${index}`}
                             />
-                            {/* <img src={src} alt={`Uploaded image ${index}`} /> */}
                             <button
                               onClick={(e) => handleRemoveImage(src, index, e)}
                             >
@@ -981,23 +884,7 @@ function EditPeopleScreen({
                             ?.length || 0)
                       )
                     ),
-                  ].map((_, index) => (
-                    <Card
-                      disableAnimation={true}
-                      className="w-[100%] relative shadow-none h-full bg-customGray"
-                      radius="md"
-                    >
-                      <Skeleton isLoaded={true} className="rounded-lg">
-                        <div className="h-48 rounded-lg bg-customGray"></div>
-                      </Skeleton>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <ImageIcon
-                          src="/main_image_icon.svg"
-                          alt="Upload icon"
-                        ></ImageIcon>
-                      </div>
-                    </Card>
-                  ))}
+                  ].map((_, index) => <EmptyImageCard />)}
               </ImageGridContainer>
 
               <ButtonContainer>

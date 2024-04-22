@@ -19,6 +19,7 @@ interface TextInputProps {
   onChange?: any;
   min?: string;
   max?: string;
+  style?: any;
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -38,6 +39,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       onChange,
       min,
       max,
+      style,
     },
     ref
   ) => {
@@ -60,6 +62,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           labelPlacement={"outside"}
           min={min}
           max={max}
+          style={style}
         />
 
         {errorMessage && <label>{errorMessage}</label>}
