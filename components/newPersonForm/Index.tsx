@@ -185,7 +185,7 @@ const ImageGridContainer = styled.div`
   gap: 10px;
 
   @media ${MediaQueries.mobile} {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 `;
 
