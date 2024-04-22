@@ -1,6 +1,5 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import TextInput from "../reusable/formFields/TextInput";
-
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -39,6 +38,7 @@ const FormContainer = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+  height: fit-content;
   &::before {
     background-color: ${variables.lightGrey};
     content: "";
@@ -51,9 +51,9 @@ const FormContainer = styled(motion.div)`
     @media ${MediaQueries.tablet} {
       max-width: 90%;
     }
-    @media ${MediaQueries.tablet} {
+    /* @media ${MediaQueries.tablet} {
       max-width: 80%;
-    }
+    } */
   }
 
   h2 {
