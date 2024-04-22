@@ -9,7 +9,7 @@ import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index"
 import { buttonType, h2styles, linkStyles } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { inputType, pXSmall } from "@/styles/Type";
-import { Image } from "@nextui-org/react";
+import { Card, Image, Skeleton } from "@nextui-org/react";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
@@ -17,6 +17,7 @@ import Link from "next/link";
 import { fontOptions } from "@/lib/fonts";
 import { Select, SelectItem } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 
@@ -31,7 +32,7 @@ const H1Element = styled.h1`
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
-  margin: 0px 24px 24px;
+  margin: 0px 12px 24px;
   padding: 88px 24px 24px;
   z-index: 105;
   border-radius: 12px;
@@ -61,7 +62,7 @@ const FormContainer = styled(motion.div)`
     letter-spacing: 1.5px;
   }
   @media ${MediaQueries.mobile} {
-    padding: 88px 24px 24px;
+    padding: 88px 12px 24px;
     /* height: 80dvh; */
   }
 `;
@@ -184,11 +185,9 @@ const ImageGridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-column: 1 / span 2;
   gap: 10px;
-  @media ${MediaQueries.tablet} {
-    grid-template-columns: repeat(2, 1fr);
-  }
+
   @media ${MediaQueries.mobile} {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -198,23 +197,17 @@ const ImageWithCaption = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  flex: 1;
   background-color: ${variables.lightGrey};
-  border: 1px solid #ccc;
   text-align: center;
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 250px;
+  justify-content: flex-end;
   flex-direction: column-reverse;
   ${h2styles} @media ${MediaQueries.mobile} {
-    min-height: 200px;
   }
   img {
     object-fit: contain;
-    width: 200px;
   }
   button {
     position: absolute;
@@ -227,6 +220,7 @@ const ImageContainer = styled.div`
     width: 20px;
     height: 20px;
     font-size: 12px;
+    z-index: 10;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -236,6 +230,10 @@ const ImageContainer = styled.div`
 
 const ImageIcon = styled.img`
   width: 20px !important;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CaptionInput = styled.input`
@@ -251,16 +249,21 @@ const Line = styled.hr`
 
 const MainImageUploadContainer = styled.div`
   height: 100%;
-  background-color: ${variables.lightGrey};
+  background-color: #f4f4f5;
   border-radius: 12px;
-  border: 2px dashed steelblue;
+  border: 1px dashed ${variables.darkBlue};
   position: relative;
-  transition: background-color ease-in 0.3s;
-  display: flex;
   align-items: center;
   justify-content: center;
+  padding: 30px 30px;
+  display: flex;
+  transition: background-color ease-in 0.2s;
   @media ${MediaQueries.mobile} {
     min-height: 200px;
+  }
+  &:hover {
+    transition: background-color ease-in 0.2s;
+    background-color: #e4e4e7;
   }
   input[type="file"] {
     position: absolute;
@@ -275,10 +278,16 @@ const MainImageUploadContainer = styled.div`
   img {
     width: 20px;
   }
-  &:hover {
-    transition: background-color ease-in 0.3s;
-    background-color: ${variables.veryLightBlue};
-  }
+`;
+
+const StyledInput = styled(Input)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer; /* Ensure cursor changes to pointer on hover */
 `;
 
 const SingleImageContainer = styled.div`
@@ -616,13 +625,13 @@ function NewPersonForm() {
 
   return (
     <>
-      {/* <H1Element>Create a Timeline</H1Element> */}
       <FormContainer {...motionPropsRight}>
         <Form method="post" onSubmit={submitNewPerson}>
           <FormInnerContainer>
             <h2>MAIN INFORMATION</h2>
             <MainContainerForImage>
               <p>Main Image</p>
+
               <MainImageUploadContainer>
                 {!mainImage ? (
                   <label htmlFor="file">
@@ -794,27 +803,19 @@ function NewPersonForm() {
             <ImageGridContainer>
               {uploadDatas[selectedAge]?.images?.map(
                 (src: string, index: number) => (
-                  <ImageWithCaption key={index}>
-                    <ImageContainer>
-                      <Image
-                        width={300}
-                        height={200}
-                        src={src}
-                        alt={`Image ${index}`}
-                      />
-                      {/* <img src={src} alt={`Uploaded image ${index}`} /> */}
-                      <button onClick={(e) => handleRemoveImage(src, index, e)}>
-                        x
-                      </button>
-                    </ImageContainer>
-                    {/* <TextInput
-                    type="text"
-                    placeholder="Enter caption..."
-                    ref={captionRef}
-                    onChange={handleCaptionChange}
-                    // onChange={handleCaptionChange}
-                  /> */}
-                  </ImageWithCaption>
+                  // <ImageWithCaption key={index}>
+                  <ImageContainer>
+                    <Image
+                      width={300}
+                      height={200}
+                      src={src}
+                      alt={`Image ${index}`}
+                    />
+                    <button onClick={(e) => handleRemoveImage(src, index, e)}>
+                      x
+                    </button>
+                  </ImageContainer>
+                  // </ImageWithCaption>
                 )
               )}
               {[
@@ -825,22 +826,21 @@ function NewPersonForm() {
                   )
                 ),
               ].map((_, index) => (
-                <ImageWithCaption key={index + 100}>
-                  <ImageContainer>
+                <Card
+                  disableAnimation={true}
+                  className="w-[100%] relative shadow-none h-full bg-customGray"
+                  radius="md"
+                >
+                  <Skeleton isLoaded={true} className="rounded-lg">
+                    <div className="h-48 rounded-lg bg-customGray"></div>
+                  </Skeleton>
+                  <div className="absolute inset-0 flex items-center justify-center">
                     <ImageIcon
                       src="/main_image_icon.svg"
                       alt="Upload icon"
                     ></ImageIcon>
-                    {/* {index + 1} */}
-                  </ImageContainer>
-                  {/* <TextInput
-                    type="text"
-                    placeholder="Enter caption..."
-                    ref={captionRef}
-                    onChange={handleCaptionChange}
-                    // onChange={handleCaptionChange}
-                  /> */}
-                </ImageWithCaption>
+                  </div>
+                </Card>
               ))}
             </ImageGridContainer>
 

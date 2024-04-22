@@ -8,20 +8,21 @@ import { pXSmall } from "@/styles/Type";
 
 const Form = styled.div`
   height: 100%;
-  background-color: ${variables.lightGrey};
+  background-color: #f4f4f5;
   border-radius: 12px;
-  border: 2px dashed steelblue;
+  border: 1px dashed ${variables.darkBlue};
   position: relative;
   align-items: center;
   justify-content: center;
   padding: 30px 30px;
-  transition: background-color ease-in 0.3s;
+  display: flex;
+  transition: background-color ease-in 0.2s;
   @media ${MediaQueries.mobile} {
     min-height: 200px;
   }
   &:hover {
-    transition: background-color ease-in 0.3s;
-    background-color: ${variables.veryLightBlue};
+    transition: background-color ease-in 0.2s;
+    background-color: #e4e4e7;
   }
 
   label {

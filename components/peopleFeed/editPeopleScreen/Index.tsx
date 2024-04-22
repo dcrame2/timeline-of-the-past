@@ -12,14 +12,14 @@ import Link from "next/link";
 import { themeData } from "@/themes/themeData";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import { fontOptions } from "@/lib/fonts";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Card, Select, SelectItem, Skeleton } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
-  margin: 0px 24px 24px;
+  margin: 0px 12px 24px;
   padding: 88px 24px 24px;
   z-index: 105;
   border-radius: 12px;
@@ -38,7 +38,7 @@ const FormContainer = styled(motion.div)`
     @media ${MediaQueries.tablet} {
       max-width: 90%;
     }
-    @media ${MediaQueries.tablet} {
+    @media ${MediaQueries.mobile} {
       max-width: 80%;
     }
   }
@@ -49,7 +49,7 @@ const FormContainer = styled(motion.div)`
     letter-spacing: 1.5px;
   }
   @media ${MediaQueries.mobile} {
-    padding: 88px 24px 24px;
+    padding: 88px 12px 24px;
     /* height: 80dvh; */
   }
 `;
@@ -106,11 +106,9 @@ const ImageGridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-column: 1 / span 2;
   gap: 10px;
-  @media ${MediaQueries.tablet} {
-    grid-template-columns: repeat(2, 1fr);
-  }
+
   @media ${MediaQueries.mobile} {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -121,14 +119,17 @@ const ImageWithCaption = styled.div`
 
 const ImageContainer = styled.div`
   background-color: ${variables.lightGrey};
-  border: 1px solid #ccc;
   text-align: center;
   position: relative;
-  overflow: hidden;
   display: flex;
-  justify-content: center;
-  min-height: 250px;
-  ${h2styles}
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column-reverse;
+  ${h2styles} @media ${MediaQueries.mobile} {
+  }
+  img {
+    object-fit: contain;
+  }
   button {
     position: absolute;
     top: 5px;
@@ -136,18 +137,15 @@ const ImageContainer = styled.div`
     background-color: ${variables.white};
     color: black;
     border: none;
-    /* border-radius: 50%; */
+    border-radius: 50%;
     width: 20px;
     height: 20px;
     font-size: 12px;
+    z-index: 10;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  img {
-    width: 100%;
-    /* object-fit: cover; */
   }
 `;
 
@@ -985,15 +983,21 @@ function EditPeopleScreen({
                       )
                     ),
                   ].map((_, index) => (
-                    <ImageWithCaption key={index + 300}>
-                      <ImageContainer>
+                    <Card
+                      disableAnimation={true}
+                      className="w-[100%] relative shadow-none h-full bg-customGray"
+                      radius="md"
+                    >
+                      <Skeleton isLoaded={true} className="rounded-lg">
+                        <div className="h-48 rounded-lg bg-customGray"></div>
+                      </Skeleton>
+                      <div className="absolute inset-0 flex items-center justify-center">
                         <ImageIcon
                           src="/main_image_icon.svg"
                           alt="Upload icon"
                         ></ImageIcon>
-                        {/* {index + 1} */}
-                      </ImageContainer>
-                    </ImageWithCaption>
+                      </div>
+                    </Card>
                   ))}
               </ImageGridContainer>
 
