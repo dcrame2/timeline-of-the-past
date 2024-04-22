@@ -67,8 +67,6 @@ const FormContainer = styled(motion.div)`
   }
 `;
 const Form = styled.form`
-  /* max-height: 550px; */
-  overflow-y: scroll;
   @media ${MediaQueries.mobile} {
     max-height: 100%;
   }

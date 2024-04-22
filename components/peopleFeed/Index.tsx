@@ -25,9 +25,9 @@ const PeopleFeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin: 0 24px;
+  margin: 0px 12px 24px;
   background-color: ${variables.lightGrey};
-  margin: 24px;
+
   padding: 24px;
   border-radius: 12px;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;

@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 200px;
+  width: 150px;
   position: fixed;
   @media ${MediaQueries.mobile} {
     width: 140px;
