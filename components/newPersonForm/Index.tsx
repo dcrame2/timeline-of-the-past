@@ -38,7 +38,7 @@ const FormContainer = styled(motion.div)`
   max-width: 1000px;
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-  height: fit-content;
+  height: 100%;
   &::before {
     background-color: ${variables.lightGrey};
     content: "";
