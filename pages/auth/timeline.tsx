@@ -122,11 +122,6 @@ export default function Protected() {
             {session?.data?.user.lastName}!
           </h1>
 
-          {specificUserInfo && (
-            <p className="remaining-timelines">
-              {specificUserInfo?.user?.remainingTimelines} remaining Timelines
-            </p>
-          )}
           <PeopleFeed
             fetchData={fetchData}
             peopleData={peopleData}

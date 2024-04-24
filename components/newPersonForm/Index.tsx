@@ -116,7 +116,7 @@ const ImageUploadedContainer = styled.div`
 
 const ButtonContainer = styled.div`
   position: fixed;
-  left: 1095px;
+  left: 1080px;
   top: 10vh;
   display: flex;
   width: fit-content;
@@ -131,6 +131,10 @@ const ButtonContainer = styled.div`
   @media ${MediaQueries.tablet} {
     right: 50px;
     left: unset;
+  }
+  @media ${MediaQueries.mobile} {
+    top: 12vh;
+    right: 24px;
   }
   button {
     ${buttonType}

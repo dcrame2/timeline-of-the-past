@@ -14,7 +14,7 @@ function EmptyImageCard() {
   return (
     <Card
       disableAnimation={true}
-      className="w-[100%] relative shadow-none h-full bg-customGray"
+      className="w-[100%] relative shadow-none bg-customGray"
       radius="md"
     >
       <Skeleton isLoaded={true} className="rounded-lg">

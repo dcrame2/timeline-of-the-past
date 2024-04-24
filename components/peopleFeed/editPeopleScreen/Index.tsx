@@ -185,14 +185,13 @@ const MainContainerForImage = styled.div`
 
 const ButtonContainer = styled.div`
   position: fixed;
-  left: 1095px;
+  left: 1080px;
   top: 10vh;
   display: flex;
   width: fit-content;
   gap: 20px;
   z-index: 1001;
   align-items: center;
-
   @media (max-width: 1250px) {
     right: 50px;
     left: unset;
@@ -200,6 +199,10 @@ const ButtonContainer = styled.div`
   @media ${MediaQueries.tablet} {
     right: 50px;
     left: unset;
+  }
+  @media ${MediaQueries.mobile} {
+    top: 12vh;
+    right: 24px;
   }
   button {
     ${buttonType}

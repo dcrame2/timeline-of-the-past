@@ -219,7 +219,15 @@ function PeopleFeed({
   return (
     <PeopleFeedContainer>
       <HeaderAddContainer>
-        <h3>All Timelines</h3>
+        <h3>
+          All Timelines
+          {specificUserInfo && (
+            <span className="remaining-timelines">
+              ({specificUserInfo?.user?.remainingTimelines} remaining)
+            </span>
+          )}
+        </h3>
+
         <AddNewPersonButton specificUserInfo={specificUserInfo} />
       </HeaderAddContainer>
       <PeopleFeedInnerContainer>

@@ -7,21 +7,21 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      // const { productId, userEmail } = req.body; // Assuming productId is sent in the request body
-
       // Create a new object with the desired key-value pair and copy over other properties
       const newData = {
         ...req.body, // Copy over other properties
-        productId: req.body["react-aria-:RemH5:"], // Create new key-value pair
+        productId: Object.values(req.body).find(
+          (value) => typeof value === "string" && value.startsWith("product")
+        ), // Find the value starting with 'product' which corresponds to productId
       };
 
-      // Check if the property exists before attempting to delete it
-      if ("react-aria-:RemH5:" in newData) {
-        delete newData["react-aria-:RemH5:"];
+      // Check if the productId is found and delete it from newData
+      if (newData.productId !== undefined) {
+        delete newData[newData.productId];
       }
-      const { productId, userEmail } = newData;
 
-      console.log(newData);
+      const { productId, userEmail } = newData;
+      console.log(newData, "newData");
 
       console.log(req.body, "REQ BODY");
       console.log(userEmail, "userEmail");

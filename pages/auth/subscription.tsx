@@ -10,9 +10,6 @@ import { variables } from "@/styles/Variables";
 import { h1styles, h3styles, pLarge, pXSmall } from "@/styles/Type";
 import { Button } from "@nextui-org/react";
 const ExampleCardsContainer = styled.div`
-  /* display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px; */
   margin-top: 20px;
   background-color: ${variables.lightGrey};
   margin: 24px;
@@ -20,6 +17,7 @@ const ExampleCardsContainer = styled.div`
   z-index: 105;
   border-radius: 12px;
   display: flex;
+  flex-direction: column;
 
   max-width: 1000px;
   position: relative;
@@ -33,13 +31,26 @@ const ExampleCardsContainer = styled.div`
   @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(2, 1fr);
   }
-  h1 {
+  h2 {
     ${pLarge}
   }
   p {
     ${pXSmall}
   }
 `;
+
+const CustomRadioBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+`;
+
+const SingleRadioBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
 function Subscription() {
   const [purchaseMessage, setPurchaseMessage] = React.useState<string>();
   const { data: session } = useSession();
@@ -69,65 +80,83 @@ function Subscription() {
   return (
     <Layout>
       <ExampleCardsContainer>
+        <h2>Pay only for what you need</h2>
+        <p>Join many and create timelines for your family</p>
         <form action="/api/auth/stripe/checkout_sessions" method="POST">
           <RadioGroup
-            label="Pricing"
+            label="Findd the best pricing plan for you"
             description="Selected plan can be changed at any time."
           >
-            <Radio
-              description="Build one timeline with lifetime access"
-              name="productId"
-              value="product1"
-              checked={selectedProduct === "product1"}
-              onChange={handleProductChange}
-              classNames={{
-                base: cn(
-                  "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                  "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
-                  "data-[selected=true]:border-primary"
-                ),
-              }}
-            >
-              One Timeline
-            </Radio>
-            <Radio
-              description="Build three timelines with lifetime access"
-              name="productId"
-              value="product2"
-              checked={selectedProduct === "product2"}
-              onChange={handleProductChange}
-              classNames={{
-                base: cn(
-                  "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                  "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
-                  "data-[selected=true]:border-primary"
-                ),
-              }}
-            >
-              Three Timelines
-            </Radio>
-            <Radio
-              description="Build one timeline with lifetime access"
-              name="productId"
-              value="product3"
-              checked={selectedProduct === "product3"}
-              onChange={handleProductChange}
-              classNames={{
-                base: cn(
-                  "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                  "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
-                  "data-[selected=true]:border-primary"
-                ),
-              }}
-            >
-              Five Timelines
-            </Radio>
+            <CustomRadioBox>
+              <SingleRadioBox>
+                <Radio
+                  description="Build one timeline with lifetime access"
+                  name="productId"
+                  value="product1"
+                  checked={selectedProduct === "product1"}
+                  onChange={handleProductChange}
+                  classNames={{
+                    base: cn(
+                      "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
+                      "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 pt-20 pb-20 pl-8 pr-8 border-2 border-transparent",
+                      "data-[selected=true]:border-primary"
+                    ),
+                  }}
+                >
+                  One Timeline - $10
+                </Radio>
+                <p style={{ maxWidth: "300px" }}>
+                  Build one timeline and change the theme to any theme you want
+                </p>
+              </SingleRadioBox>
+              <SingleRadioBox>
+                <Radio
+                  description="Build three timelines with lifetime access"
+                  name="productId"
+                  value="product2"
+                  checked={selectedProduct === "product2"}
+                  onChange={handleProductChange}
+                  classNames={{
+                    base: cn(
+                      "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
+                      "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 pt-20 pb-20 pl-8 pr-8 border-2 border-transparent",
+                      "data-[selected=true]:border-primary"
+                    ),
+                  }}
+                >
+                  Three Timelines - $25
+                </Radio>
+                <p style={{ maxWidth: "300px" }}>
+                  Build one timeline and change the theme to any theme you want
+                </p>
+              </SingleRadioBox>
+              <SingleRadioBox>
+                <Radio
+                  description="Build one timeline with lifetime access"
+                  name="productId"
+                  value="product3"
+                  checked={selectedProduct === "product3"}
+                  onChange={handleProductChange}
+                  classNames={{
+                    base: cn(
+                      "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
+                      "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 pt-20 pb-20 pl-8 pr-8 border-2 border-transparent",
+                      "data-[selected=true]:border-primary"
+                    ),
+                  }}
+                >
+                  Five Timelines - $35
+                </Radio>
+                <p style={{ maxWidth: "300px" }}>
+                  Build one timeline and change the theme to any theme you want
+                </p>
+              </SingleRadioBox>
+            </CustomRadioBox>
           </RadioGroup>
           <input type="hidden" name="userEmail" value={userEmail} />
           <Button type="submit" disabled={!selectedProduct} color="primary">
             Checkout
           </Button>
-
           {purchaseMessage && <p>{purchaseMessage}</p>}
         </form>
       </ExampleCardsContainer>
