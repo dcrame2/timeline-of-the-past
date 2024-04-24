@@ -33,7 +33,6 @@ const TextContainer = styled.div`
 
 const MediaContainer = styled.div`
   background-color: ${variables.lightGrey};
-  margin: 24px;
   padding: 24px;
   z-index: 105;
   border-radius: 12px;

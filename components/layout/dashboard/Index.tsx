@@ -34,7 +34,7 @@ const StyledHeader = styled(DashboardHeader)`
 const ContentSection = styled.div`
   grid-column: 2 / span 3;
   grid-row: 2;
-
+  margin: 0px 12px 24px;
   @media ${MediaQueries.tablet} {
     grid-column: unset;
   }

@@ -23,7 +23,7 @@ import EmptyImageCard from "../reusable/emptyImageCard/Index";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
-  margin: 0px 12px 24px;
+
   padding: 88px 24px 24px;
   z-index: 105;
   border-radius: 12px;

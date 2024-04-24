@@ -17,7 +17,7 @@ const Container = styled.div`
   right: 0;
   left: 0;
   max-width: 1285px;
-  z-index: 120;
+  /* z-index: 120; */
   height: 75px;
   background-color: ${variables.darkerLightGrey};
 `;
@@ -59,7 +59,7 @@ function DashboardHeader() {
   };
   return (
     <Container>
-      <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
+      {/* <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" /> */}
 
       <ProfileMenuContainer>
         {/* <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>

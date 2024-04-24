@@ -9,19 +9,20 @@ import { MediaQueries } from "@/styles/Utilities";
 import { useRouter } from "next/router";
 
 const NavContainer = styled.div`
-  padding: 100px 24px 24px 24px;
+  padding: 20px 24px 24px 24px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: fit-content;
+  gap: 50px;
+  width: 224px;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 102;
-  @media ${MediaQueries.mobile} {
-    top: unset;
+  background-color: ${variables.lightBlue};
+  @media ${MediaQueries.tablet} {
+    display: none;
   }
 
   ul {
@@ -33,7 +34,7 @@ const NavContainer = styled.div`
       display: none;
     }
     li {
-      color: ${variables.black};
+      color: ${variables.white};
       border-radius: 12px;
       transition: all 0.3s ease;
       cursor: pointer;
@@ -50,10 +51,18 @@ const NavContainer = styled.div`
       }
 
       &.active {
-        background-color: ${variables.white};
+        background-color: ${variables.lightOrange};
         transform: scale(1.05);
       }
     }
+  }
+`;
+
+const Logo = styled.img`
+  width: 150px;
+  /* position: fixed; */
+  @media ${MediaQueries.mobile} {
+    width: 140px;
   }
 `;
 
@@ -63,6 +72,7 @@ function TabNavigation() {
 
   return (
     <NavContainer>
+      <Logo src="/timeline_that_logo_white.svg" alt="Timeline That Logo" />
       <ul>
         <motion.li
           whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}

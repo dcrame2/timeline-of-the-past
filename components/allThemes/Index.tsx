@@ -31,12 +31,8 @@ const TextContainer = styled.div`
 `;
 
 const ExampleCardsContainer = styled.div`
-  /* display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px; */
   margin-top: 20px;
   background-color: ${variables.lightGrey};
-  margin: 24px;
   padding: 24px;
   z-index: 105;
   border-radius: 12px;
