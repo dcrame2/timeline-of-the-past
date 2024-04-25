@@ -9,6 +9,7 @@ import Title from "@/components/reusable/title/Index";
 import styled from "styled-components";
 import CreateButton from "@/components/reusable/createButton/Index";
 import { MediaQueries } from "@/styles/Utilities";
+import { pXSmall } from "@/styles/Type";
 
 const HeadingContainer = styled.div`
   display: flex;
@@ -25,6 +26,9 @@ const HeaderAddContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 12px;
+  p {
+    ${pXSmall}
+  }
 `;
 
 const ButtonInfo = styled.div`
@@ -107,11 +111,13 @@ export default function Protected() {
         <ButtonInfo>
           <HeaderAddContainer>
             <p>
-              All Timelines
-              {specificUserInfo && (
+              All Timelines{" "}
+              {specificUserInfo ? (
                 <span className="remaining-timelines">
                   ({specificUserInfo?.user?.remainingTimelines} remaining)
                 </span>
+              ) : (
+                <span className="remaining-timelines">(0 remaining)</span>
               )}
             </p>
           </HeaderAddContainer>

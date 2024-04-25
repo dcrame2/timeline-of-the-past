@@ -237,7 +237,7 @@ function PeopleFeed({
                       <CRUDBtns>
                         <Button
                           style={{
-                            backgroundColor: `${variables.lightBlue}`,
+                            backgroundColor: `rgba(13, 51, 80, 0.8)`,
                             color: `${variables.white}`,
                           }}
                           size="sm"
@@ -252,9 +252,10 @@ function PeopleFeed({
                         <Button
                           style={{
                             color: `${variables.white}`,
+                            backgroundColor: "rgb(255, 180, 0, 0.8)",
                           }}
                           size="sm"
-                          color="warning"
+                          // color="warning"
                           isIconOnly
                           startContent={
                             <EditIcon color={`${variables.white}`} />
@@ -265,6 +266,7 @@ function PeopleFeed({
                         <Button
                           style={{
                             color: `${variables.white}`,
+                            backgroundColor: "rgb(255, 0, 0, 0.8)",
                           }}
                           size="sm"
                           target="_blank"
