@@ -153,6 +153,9 @@ const ButtonContainer = styled.div`
   padding: 0px 6px 12px;
   justify-content: space-between;
   align-items: center;
+  @media ${MediaQueries.mobile} {
+    padding: 0px 6px 6px;
+  }
 `;
 
 const ImageUploadedContainer = styled.div`

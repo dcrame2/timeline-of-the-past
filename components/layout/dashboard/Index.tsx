@@ -36,7 +36,7 @@ const ContentSection = styled.div`
     grid-column: unset;
   }
   @media ${MediaQueries.mobile} {
-    margin: 26px 12px 0;
+    margin: 24px 12px 0;
   }
 `;
 
