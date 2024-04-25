@@ -7,16 +7,18 @@ import { buttonType, linkStyles, h2styles, pXSmall } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
 import { MediaQueries } from "@/styles/Utilities";
-import Link from "next/link";
+import { Link, Button, Image } from "@nextui-org/react";
 import { themeData } from "@/themes/themeData";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import { fontOptions } from "@/lib/fonts";
 import { Divider, Select, SelectItem } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
-import { Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import EmptyImageCard from "@/components/reusable/emptyImageCard/Index";
 import MainContainer from "@/components/reusable/mainContainer/Index";
+import ReturnIcon from "@/components/reusable/svg/returnIcon/Index";
+import Title from "@/components/reusable/title/Index";
+import BackButton from "@/components/reusable/backButton/Index";
 
 const Form = styled.form`
   @media ${MediaQueries.mobile} {
@@ -32,6 +34,14 @@ const FormInnerContainer = styled.div`
     display: flex;
     flex-direction: column;
   }
+`;
+
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  max-width: 1000px;
+  padding-bottom: 4px;
 `;
 
 const LinkContainer = styled.div`
@@ -140,24 +150,6 @@ const ButtonContainer = styled.div`
   padding: 0px 6px 12px;
   justify-content: space-between;
   align-items: center;
-  button {
-    width: unset !important;
-    ${buttonType}
-  }
-`;
-
-const BackButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 4px;
-  z-index: 1001;
-
-  a {
-    ${linkStyles}
-  }
-  img {
-    width: 12px;
-  }
 `;
 
 const ImageUploadedContainer = styled.div`
@@ -567,15 +559,47 @@ function EditPeopleScreen({
     <>
       {person && (
         <>
-          <ButtonContainer>
-            <BackButtonContainer>
-              <img src="/return.svg" alt="return arrow" />
-              <Link href="/auth/timeline">Back</Link>
-            </BackButtonContainer>
-            <button onClick={(e: any) => handleSave(e)} type="submit">
+          <HeadingContainer>
+            <Title
+              name={`Editing ${updatedPerson.firstName} ${updatedPerson.lastName}'s timeline`}
+            />
+            <ButtonContainer>
+              <BackButton />
+              <Button
+                style={{
+                  backgroundColor: `${variables.lightOrange}`,
+                  color: `${variables.white}`,
+                }}
+                onClick={(e: any) => handleSave(e)}
+              >
+                Save
+              </Button>
+            </ButtonContainer>
+          </HeadingContainer>
+          {/* <ButtonContainer>
+            <Link
+              href="/auth/timeline"
+              isBlock
+              style={{
+                color: `${variables.black}`,
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+              }}
+            >
+              <ReturnIcon color={`${variables.black}`} />
+              Back
+            </Link>
+            <Button
+              style={{
+                backgroundColor: `${variables.lightOrange}`,
+                color: `${variables.white}`,
+              }}
+              onClick={(e: any) => handleSave(e)}
+            >
               Save
-            </button>
-          </ButtonContainer>
+            </Button>
+          </ButtonContainer> */}
           <MainContainer>
             <Form>
               <FormInnerContainer>

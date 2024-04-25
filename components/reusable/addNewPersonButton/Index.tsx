@@ -2,8 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import Link from "next/link";
+import { Button } from "@nextui-org/react";
 
-const StyledLink = styled(motion(Link))`
+const StyledLink = styled(motion(Button))`
   padding: 12px;
   background-color: #7bb1dd;
   border-radius: 50%;

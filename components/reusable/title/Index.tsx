@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const TitleHeader = styled(motion.h1)`
   ${h1stylesdashboard}
   padding-bottom: 8px;
-  padding-left: 24px;
+  /* padding-left: 24px; */
   /* text-transform: uppercase; */
   font-weight: 600;
   @media ${MediaQueries.tablet} {

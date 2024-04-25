@@ -5,11 +5,33 @@ import Layout from "@/components/layout/dashboard/Index";
 import AllThemes from "@/components/allThemes/Index";
 import Title from "@/components/reusable/title/Index";
 import { themeData } from "@/themes/themeData";
+import styled from "styled-components";
+import BackButton from "@/components/reusable/backButton/Index";
+import CreateButton from "@/components/reusable/createButton/Index";
+
+const ButtonInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  padding-bottom: 4px;
+`;
 
 function Themes() {
   return (
     <Layout>
-      <Title name={`Theme examples (${themeData.length} themes)`} />
+      <HeadingContainer>
+        <Title name={`Theme examples (${themeData.length} themes)`} />
+        <ButtonInfo>
+          <BackButton />
+          <CreateButton />
+        </ButtonInfo>
+      </HeadingContainer>
+
       <AllThemes />
     </Layout>
   );

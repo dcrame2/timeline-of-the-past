@@ -7,12 +7,10 @@ import { MediaQueries } from "@/styles/Utilities";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 224px 1fr 1fr;
-  grid-template-rows: 75px 1fr;
-  /* height: 100dvh; */
+  grid-template-rows: 1fr;
 
   @media ${MediaQueries.tablet} {
     grid-template-columns: 1fr;
-    grid-template-rows: 75px 1fr;
   }
 `;
 
@@ -26,17 +24,15 @@ const StyledNavigation = styled(TabNavigation)`
   }
 `;
 
-const StyledHeader = styled(DashboardHeader)`
-  grid-column: 1 / span 3;
-  grid-row: 1 / span 3;
-`;
+const StyledHeader = styled(DashboardHeader)``;
 
 const ContentSection = styled.div`
   grid-column: 2 / span 3;
   grid-row: 2;
-  margin: 0px 12px 24px;
+  margin: 48px 24px;
   overflow-y: hidden;
   @media ${MediaQueries.tablet} {
+    margin: 72px 12px 0;
     grid-column: unset;
   }
 `;

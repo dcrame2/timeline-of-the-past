@@ -10,6 +10,8 @@ import { pXSmall, pBase } from "@/styles/Type";
 import { Button } from "@nextui-org/react";
 import MainContainer from "@/components/reusable/mainContainer/Index";
 import Title from "@/components/reusable/title/Index";
+import BackButton from "@/components/reusable/backButton/Index";
+import CreateButton from "@/components/reusable/createButton/Index";
 
 const CustomRadioBox = styled.div`
   display: flex;
@@ -21,6 +23,19 @@ const SingleRadioBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+`;
+
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  max-width: 1000px;
+  padding-bottom: 4px;
+`;
+
+const ButtonInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 function Subscription() {
@@ -51,7 +66,13 @@ function Subscription() {
 
   return (
     <Layout>
-      <Title name="Pay only for what you need" />
+      <HeadingContainer>
+        <Title name="Pay only for what you need" />
+        <ButtonInfo>
+          <BackButton />
+          <CreateButton />
+        </ButtonInfo>
+      </HeadingContainer>
       <MainContainer>
         <form action="/api/auth/stripe/checkout_sessions" method="POST">
           <RadioGroup

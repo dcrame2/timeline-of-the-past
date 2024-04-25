@@ -9,33 +9,20 @@ import { Avatar } from "@nextui-org/react";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  grid-column: 1 / span 3;
-  grid-row: 1 / span 3;
-  padding: 24px;
-  position: fixed;
+
   top: 0;
   right: 0;
   left: 0;
   max-width: 1285px;
-  z-index: 100;
-  height: 75px;
-  background-color: ${variables.darkerLightGrey};
-`;
-
-const Logo = styled.img`
-  width: 150px;
-  position: fixed;
-  @media ${MediaQueries.mobile} {
-    width: 140px;
-  }
 `;
 
 const ProfileBtn = styled(motion.button)`
   background-color: transparent;
   border: none;
   position: absolute;
+  top: 20px;
+  left: 1285px;
 
-  right: 0;
   @media (max-width: 1310px) {
     right: 20px;
     left: unset;

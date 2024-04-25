@@ -1,26 +1,27 @@
-import React, { useState, FormEvent, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import TextInput from "../reusable/formFields/TextInput";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
 import { buttonType, h2styles, linkStyles } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { pXSmall } from "@/styles/Type";
-import { Image } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
-import Link from "next/link";
 import { fontOptions } from "@/lib/fonts";
 import { Select, SelectItem } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
-
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import EmptyImageCard from "../reusable/emptyImageCard/Index";
 import MainContainer from "../reusable/mainContainer/Index";
+import { Link } from "@nextui-org/react";
+import ReturnIcon from "../reusable/svg/returnIcon/Index";
+import BackButton from "../reusable/backButton/Index";
+import Title from "../reusable/title/Index";
 
 const Form = styled.form`
   max-width: 100%;
@@ -93,24 +94,6 @@ const ButtonContainer = styled.div`
   padding: 0px 6px 12px;
   justify-content: space-between;
   align-items: center;
-  button {
-    width: unset !important;
-    ${buttonType}
-  }
-`;
-
-const BackButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 4px;
-  z-index: 1001;
-
-  a {
-    ${linkStyles}
-  }
-  img {
-    width: 12px;
-  }
 `;
 
 const ImageGridContainer = styled.div`
@@ -122,6 +105,14 @@ const ImageGridContainer = styled.div`
   @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(2, 1fr);
   }
+`;
+
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  max-width: 1000px;
+  padding-bottom: 4px;
 `;
 
 const ImageContainer = styled.div`
@@ -229,21 +220,6 @@ const MainContainerForImage = styled.div`
 `;
 
 function NewPersonForm() {
-  const motionPropsRight = {
-    initial: {
-      opacity: 0,
-    },
-    animate: {
-      opacity: 1,
-    },
-    exit: {
-      opacity: 0,
-    },
-    transition: {
-      duration: 0.4,
-    },
-  };
-
   const firstNameRef = React.useRef<HTMLInputElement>(null);
   const lastNameRef = React.useRef<HTMLInputElement>(null);
   const imagesRef = React.useRef<HTMLInputElement>(null);
@@ -254,7 +230,6 @@ function NewPersonForm() {
   const linkedinRef = React.useRef<HTMLInputElement>(null);
   const twitterRef = React.useRef<HTMLInputElement>(null);
   const colorRef = React.useRef<HTMLInputElement>(null);
-
   const [uploadDatas, setUploadDatas] = useState<{
     [key: number]: { images: string[]; ageText: string };
   }>({});
@@ -291,11 +266,7 @@ function NewPersonForm() {
     const linkedinLink = linkedinRef.current?.value || "";
     const twitterLink = twitterRef.current?.value || "";
     const color = colorRef.current?.value || "#ff0000";
-
-    console.log(firstName, lastName, images, middleName, dob);
-
     const slug = slugifyNames(firstName, middleName, lastName);
-
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
     console.log(sessionUserEmail, "session");
@@ -521,13 +492,21 @@ function NewPersonForm() {
 
   return (
     <>
-      <ButtonContainer>
-        <BackButtonContainer>
-          <img src="/return.svg" alt="return arrow" />
-          <Link href="/auth/timeline">Back</Link>
-        </BackButtonContainer>
-        <button onClick={submitNewPerson}>Save</button>
-      </ButtonContainer>
+      <HeadingContainer>
+        <Title name="Create a new timeline" />
+        <ButtonContainer>
+          <BackButton />
+          <Button
+            style={{
+              backgroundColor: `${variables.lightOrange}`,
+              color: `${variables.white}`,
+            }}
+            onClick={submitNewPerson}
+          >
+            Save
+          </Button>
+        </ButtonContainer>
+      </HeadingContainer>
       <MainContainer>
         <Form method="post">
           <FormInnerContainer>

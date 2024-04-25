@@ -3,11 +3,13 @@ import { fetchData } from "@/lib/fetchData";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
-import { pBase, pXSmall } from "@/styles/Type";
+import { pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { Image } from "@nextui-org/react";
 import MainContainer from "../reusable/mainContainer/Index";
 import Title from "../reusable/title/Index";
+import BackButton from "../reusable/backButton/Index";
+import CreateButton from "../reusable/createButton/Index";
 
 const MediaLibraryContainer = styled.div`
   height: 100%;
@@ -15,39 +17,11 @@ const MediaLibraryContainer = styled.div`
 
 const MediaLibraryInnerContainer = styled.div``;
 
-// const TextContainer = styled.div`
-//   gap: 20px;
-//   @media ${MediaQueries.tablet} {
-//     gap: 12px;
-//   }
-//   @media ${MediaQueries.mobile} {
-//     gap: 8px;
-//   }
-//   h1 {
-//     ${pBase}
-//     margin: 24px;
-//   }
-//   p {
-//     ${pBase}
-//     max-width: 1000px;
-//   }
-// `;
-
-const MediaContainer = styled.div`
-  background-color: ${variables.lightGrey};
-  padding: 24px;
-  z-index: 105;
-  border-radius: 12px;
-  max-width: 1000px;
-  position: relative;
-  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
+const HeadingContainer = styled.div`
   display: flex;
-  /* max-height: 650px; */
-  overflow-y: auto;
-
-  @media ${MediaQueries.mobile} {
-    padding: 24px 24px;
-  }
+  flex-direction: column;
+  max-width: 1000px;
+  padding-bottom: 4px;
 `;
 
 const HourGlassContainer = styled.div`
@@ -60,18 +34,16 @@ const AllMediaLibrary = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+  grid-auto-flow: dense;
 
-  /* @media ${MediaQueries.tablet} {
-    grid-template-columns: repeat(2, 1fr);
-  } */
   @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(2, 1fr);
   }
 
   img {
-    /* max-width: 200px; */
     width: 100%;
     object-fit: cover;
+    height: 100%;
   }
   p {
     ${pXSmall}
@@ -81,6 +53,11 @@ const AllMediaLibrary = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
+`;
+
+const ButtonInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 function MediaLibraryComponent() {
@@ -123,8 +100,13 @@ function MediaLibraryComponent() {
   return (
     <MediaLibraryContainer>
       <MediaLibraryInnerContainer>
-        <Title name={`Media Library (${mediaLibrary.length} Images)`} />
-
+        <HeadingContainer>
+          <Title name={`Media Library (${mediaLibrary.length} Images)`} />
+          <ButtonInfo>
+            <BackButton />
+            <CreateButton />
+          </ButtonInfo>
+        </HeadingContainer>
         <MainContainer>
           {isLoading ? (
             <HourGlassContainer>

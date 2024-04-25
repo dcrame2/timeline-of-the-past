@@ -6,6 +6,27 @@ import { useSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import { fetchUserData } from "@/lib/fetchUserData";
 import Title from "@/components/reusable/title/Index";
+import styled from "styled-components";
+import CreateButton from "@/components/reusable/createButton/Index";
+
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  padding-bottom: 4px;
+`;
+
+const HeaderAddContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+`;
+
+const ButtonInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 interface UserData {
   firstName?: string;
@@ -75,9 +96,24 @@ export default function Protected() {
 
   return (
     <Layout>
-      <Title
-        name={`Hello, ${session?.data?.user.firstName} ${session?.data?.user.lastName}!`}
-      />
+      <HeadingContainer>
+        <Title
+          name={`Hello, ${session?.data?.user.firstName} ${session?.data?.user.lastName}!`}
+        />
+        <ButtonInfo>
+          <HeaderAddContainer>
+            <p>
+              All Timelines
+              {specificUserInfo && (
+                <span className="remaining-timelines">
+                  ({specificUserInfo?.user?.remainingTimelines} remaining)
+                </span>
+              )}
+            </p>
+          </HeaderAddContainer>
+          <CreateButton />
+        </ButtonInfo>
+      </HeadingContainer>
       <PeopleFeed
         fetchData={fetchData}
         peopleData={peopleData}

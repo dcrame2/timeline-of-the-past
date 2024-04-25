@@ -2,13 +2,18 @@ import React from "react";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import AddNewPersonButton from "../reusable/addNewPersonButton/Index";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
 import { linkStyles, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { MediaQueries } from "@/styles/Utilities";
 import MainContainer from "../reusable/mainContainer/Index";
+import CreateButton from "../reusable/createButton/Index";
+import { Button } from "@nextui-org/react";
+import ExternalIcon from "../reusable/svg/externalIcon/Index";
+import EditIcon from "../reusable/svg/editIcon/Index";
+import { useRouter } from "next/router";
+import TrashIcon from "../reusable/svg/trashIcon/Index";
 
 interface UserData {
   firstName?: string;
@@ -37,13 +42,6 @@ const HourGlassContainer = styled.div`
 
 const MainInfo = styled.div`
   gap: 4px;
-`;
-
-const HeaderAddContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 12px;
 `;
 
 const IndividualPeopleContainer = styled(motion.div)`
@@ -122,6 +120,12 @@ const DeleteBtn = styled(motion.button)`
   }
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+`;
+
 interface PeopleProps {
   firstName?: string;
   lastName?: string;
@@ -194,20 +198,20 @@ function PeopleFeed({
     },
   };
 
+  const router = useRouter();
+
+  const handleEditClick = (person: any, index: number) => {
+    // Navigate to the edit page with query parameters
+    router.push({
+      pathname: "/auth/edit",
+      query: {
+        person: JSON.stringify(person),
+        selectedIndex: index,
+      },
+    });
+  };
   return (
     <MainContainer>
-      <HeaderAddContainer>
-        <p>
-          All Timelines
-          {specificUserInfo && (
-            <span className="remaining-timelines">
-              ({specificUserInfo?.user?.remainingTimelines} remaining)
-            </span>
-          )}
-        </p>
-
-        <AddNewPersonButton specificUserInfo={specificUserInfo} />
-      </HeaderAddContainer>
       <PeopleFeedInnerContainer>
         {isLoading ? (
           <HourGlassContainer>
@@ -231,36 +235,53 @@ function PeopleFeed({
                         </p>
                       </MainInfo>
                       <CRUDBtns>
-                        <ExternalBtn
-                          target="_blank"
-                          href={`https://timelinethat.com${slug}`}
-                          whileHover={{ scale: 1.1 }}
-                        >
-                          <img src="/external-link.svg" alt="" />
-                        </ExternalBtn>
-
-                        <EditBtn
-                          href={{
-                            pathname: "/auth/edit",
-                            query: {
-                              person: JSON.stringify(person),
-                              selectedIndex: index,
-                            },
+                        <Button
+                          style={{
+                            backgroundColor: `${variables.lightBlue}`,
+                            color: `${variables.white}`,
                           }}
-                          whileHover={{ scale: 1.1 }}
-                        >
-                          <img src="/edit_icon.png" alt="icon" />
-                        </EditBtn>
-                        <DeleteBtn
-                          whileHover={{ scale: 1.1 }}
+                          size="sm"
+                          target="_blank"
+                          as={Link}
+                          isIconOnly
+                          href={`https://timelinethat.com${slug}`}
+                          startContent={
+                            <ExternalIcon color={`${variables.white}`} />
+                          }
+                        />
+                        <Button
+                          style={{
+                            color: `${variables.white}`,
+                          }}
+                          size="sm"
+                          color="warning"
+                          isIconOnly
+                          startContent={
+                            <EditIcon color={`${variables.white}`} />
+                          }
+                          onClick={() => handleEditClick(person, index)}
+                        />
+
+                        <Button
+                          style={{
+                            color: `${variables.white}`,
+                          }}
+                          size="sm"
+                          target="_blank"
+                          color="danger"
+                          isIconOnly
                           onClick={() => deletePeopleHandler(person, index)}
-                        >
-                          <img src="/trash_icon.png" alt="icon" />
-                        </DeleteBtn>
+                          startContent={
+                            <TrashIcon color={`${variables.white}`} />
+                          }
+                        />
                       </CRUDBtns>
                     </IndividualPeopleContainer>
                   );
                 })}
+                <ButtonContainer>
+                  <CreateButton />
+                </ButtonContainer>
               </>
             ) : (
               <>{peopleData && <h6>No Timelines</h6>}</>

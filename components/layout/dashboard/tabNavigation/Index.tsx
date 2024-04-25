@@ -26,7 +26,6 @@ const NavContainer = styled.div`
   @media ${MediaQueries.tablet} {
     display: none;
   }
-
   ul {
     list-style-type: none;
     display: flex;
@@ -40,21 +39,20 @@ const NavContainer = styled.div`
       border-radius: 12px;
       transition: all 0.3s ease;
       cursor: pointer;
-
       a {
         padding: 12px;
         display: flex;
         gap: 12px;
         align-items: center;
       }
-
       img {
         width: 20px;
       }
-
       &.active {
         background-color: ${variables.lightOrange};
         transform: scale(1.05);
+        a {
+        }
       }
     }
   }
@@ -62,7 +60,6 @@ const NavContainer = styled.div`
 
 const Logo = styled.img`
   width: 150px;
-  /* position: fixed; */
   @media ${MediaQueries.mobile} {
     width: 140px;
   }
@@ -77,7 +74,10 @@ function TabNavigation() {
       <Logo src="/timeline_that_logo_white.svg" alt="Timeline That Logo" />
       <ul>
         <motion.li
-          whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: "rgba(204, 109, 61, 0.5)",
+          }}
           className={
             initialActiveTab === "/auth/timeline" ||
             initialActiveTab === "/auth/new" ||
@@ -93,7 +93,10 @@ function TabNavigation() {
         </motion.li>
         <motion.li
           className={initialActiveTab === "/auth/media-library" ? "active" : ""}
-          whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: "rgba(204, 109, 61, 0.5)",
+          }}
         >
           <Link href="/auth/media-library">
             <MediaIcon color={`${variables.white}`} />
@@ -102,7 +105,10 @@ function TabNavigation() {
         </motion.li>
 
         <motion.li
-          whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: "rgba(204, 109, 61, 0.5)",
+          }}
           className={initialActiveTab === "/auth/themes" ? "active" : ""}
         >
           <Link href="/auth/themes">
@@ -111,7 +117,10 @@ function TabNavigation() {
           </Link>
         </motion.li>
         <motion.li
-          whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: "rgba(204, 109, 61, 0.5)",
+          }}
           className={initialActiveTab === "/auth/subscription" ? "active" : ""}
         >
           <Link href="/auth/subscription">
