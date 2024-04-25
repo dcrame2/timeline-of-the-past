@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
@@ -13,10 +13,10 @@ import Title from "@/components/reusable/title/Index";
 import BackButton from "@/components/reusable/backButton/Index";
 import CreateButton from "@/components/reusable/createButton/Index";
 import { variables } from "@/styles/Variables";
+import StripeIcon from "@/components/reusable/svg/stripeIcon/Index";
 
 const CustomRadioBox = styled.div`
   display: flex;
-  /* flex-wrap: wrap; */
   gap: 12px;
 
   @media ${MediaQueries.mobile} {
@@ -25,27 +25,30 @@ const CustomRadioBox = styled.div`
   }
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const SingleRadioBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  /* box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px; */
-  /* padding: 20px; */
-  ul {
-    margin: 20px 20px 20px 16px;
-    ${pXSmall}
-    list-style-type: square;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    li {
-      color: #636262;
-    }
-  }
-  p {
-  }
   .ml-2 {
     margin-left: 0px;
+  }
+
+  .bg-primary {
+    background-color: ${variables.lightOrange};
+  }
+  .group[data-selected="true"] .group-data-\[selected\=true\]\:border-primary {
+    border-color: ${variables.lightOrange};
+  }
+
+  .group[data-selected="true"] {
+    background-color: ${variables.lightGrey};
   }
 `;
 
@@ -80,10 +83,17 @@ const RadioText = styled.div`
       font-weight: 400;
     }
   }
-`;
-
-const Description = styled.p`
-  ${pXSmall}
+  ul {
+    margin: 20px 20px 20px 16px;
+    ${pXSmall}
+    list-style-type: square;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    li {
+      color: #636262;
+    }
+  }
 `;
 
 const ButtonInfo = styled.div`
@@ -110,11 +120,18 @@ function Subscription() {
       );
     }
   }, []);
-  const [selectedProduct, setSelectedProduct] = React.useState("product2"); // State to hold the selected product
+  const [selectedProduct, setSelectedProduct] = React.useState(); // State to hold the selected product
   console.log(selectedProduct, "SELECTED");
 
   const handleProductChange = (event: any) => {
     setSelectedProduct(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    const form = document.getElementById("myForm") as HTMLFormElement;
+    if (form) {
+      form.submit();
+    }
   };
 
   return (
@@ -123,19 +140,30 @@ function Subscription() {
         <Title name="Pay only for what you need" />
         <ButtonInfo>
           <BackButton />
-          <CreateButton />
+          <Button
+            type="submit"
+            disabled={!selectedProduct}
+            style={{
+              backgroundColor: `${variables.lightOrange}`,
+              color: `${variables.white}`,
+            }}
+            endContent={<StripeIcon color={`${variables.white}`} />}
+            onClick={handleSubmit}
+          >
+            Checkout
+          </Button>
         </ButtonInfo>
       </HeadingContainer>
       <MainContainer>
-        <form action="/api/auth/stripe/checkout_sessions" method="POST">
-          <RadioGroup
-          // label="Findd the best pricing plan for you"
-          // description="Selected plan can be changed at any time."
-          >
+        <Form
+          id="myForm"
+          action="/api/auth/stripe/checkout_sessions"
+          method="POST"
+        >
+          <RadioGroup>
             <CustomRadioBox>
               <SingleRadioBox>
                 <Radio
-                  // description="Build one timeline with lifetime access"
                   name="productId"
                   value="product1"
                   checked={selectedProduct === "product1"}
@@ -144,75 +172,67 @@ function Subscription() {
                     base: cn(
                       "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
                       "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10 border-2 border-transparent",
-                      "data-[selected=true]:border-primary"
+                      "data-[selected=true]:border-lightBlue"
                     ),
                   }}
                 >
                   <RadioText>
                     <span>One Timeline</span>
                     <p className="price">$10</p>
+                    <ul style={{ maxWidth: "300px" }}>
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                      <Divider />
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                      <Divider />
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                    </ul>
                   </RadioText>
                 </Radio>
-                <ul style={{ maxWidth: "300px" }}>
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                  <Divider />
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                  <Divider />
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                </ul>
               </SingleRadioBox>
               <SingleRadioBox>
                 <Radio
-                  // description="Build three timelines with lifetime access"
                   name="productId"
                   value="product2"
                   checked={selectedProduct === "product2"}
                   onChange={handleProductChange}
-                  // style={{ backgroundColor: `${variables.lightBlue}` }}
                   classNames={{
                     base: cn(
                       "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
                       "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10  border-2 border-transparent",
-                      "data-[selected=true]:border-primary"
+                      "data-[selected=true]:border-lightBlue"
                     ),
                   }}
                 >
                   <RadioText>
                     <span>Three Timelines</span>
                     <p className="price">$25</p>
+                    <ul style={{ maxWidth: "300px" }}>
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                      <Divider />
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                      <Divider />
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                    </ul>
                   </RadioText>
                 </Radio>
-
-                <ul style={{ maxWidth: "300px" }}>
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                  <Divider />
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                  <Divider />
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                  <Divider />
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                </ul>
               </SingleRadioBox>
               <SingleRadioBox>
                 <Radio
@@ -224,42 +244,39 @@ function Subscription() {
                     base: cn(
                       "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
                       "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10  border-2 border-transparent",
-                      "data-[selected=true]:border-primary"
+                      "data-[selected=true]:border-lightBlue"
                     ),
                   }}
                 >
                   <RadioText>
                     <span>Five Timelines</span>
                     <p className="price">$35</p>
+                    <ul style={{ maxWidth: "300px" }}>
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                      <Divider />
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                      <Divider />
+                      <li>
+                        Build one timeline and change the theme to any theme you
+                        want
+                      </li>
+                    </ul>
                   </RadioText>
                 </Radio>
-                <ul style={{ maxWidth: "300px" }}>
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                  <Divider />
-                  <li>
-                    Build one timeline and change the theme to any theme you
-                    want
-                  </li>
-                </ul>
               </SingleRadioBox>
             </CustomRadioBox>
           </RadioGroup>
           <CheckoutButtonContainer>
             <input type="hidden" name="userEmail" value={userEmail} />
-            <Button
-              size="lg"
-              type="submit"
-              disabled={!selectedProduct}
-              color="primary"
-            >
-              Checkout
-            </Button>
           </CheckoutButtonContainer>
           {purchaseMessage && <p>{purchaseMessage}</p>}
-        </form>
+        </Form>
       </MainContainer>
     </Layout>
   );

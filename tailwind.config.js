@@ -17,6 +17,8 @@ module.exports = {
       },
       colors: {
         customGray: "#f4f4f5",
+        lightBlue: "#0D3350",
+        lightOrange: "#cc6d3d",
       },
     },
   },
