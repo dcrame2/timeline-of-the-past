@@ -15,6 +15,7 @@ const TitleHeader = styled(motion.h1)`
   }
   @media ${MediaQueries.mobile} {
     padding-left: 12px;
+    max-width: 280px;
   }
 `;
 

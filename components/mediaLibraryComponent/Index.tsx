@@ -22,6 +22,9 @@ const HeadingContainer = styled.div`
   flex-direction: column;
   max-width: 1000px;
   padding-bottom: 4px;
+  @media ${MediaQueries.mobile} {
+    gap: 16px;
+  }
 `;
 
 const HourGlassContainer = styled.div`

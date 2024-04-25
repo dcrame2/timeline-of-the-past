@@ -35,6 +35,9 @@ const ContentSection = styled.div`
     margin: 72px 12px 0;
     grid-column: unset;
   }
+  @media ${MediaQueries.mobile} {
+    margin: 26px 12px 0;
+  }
 `;
 
 interface LayoutProps {

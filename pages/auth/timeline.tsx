@@ -8,12 +8,16 @@ import { fetchUserData } from "@/lib/fetchUserData";
 import Title from "@/components/reusable/title/Index";
 import styled from "styled-components";
 import CreateButton from "@/components/reusable/createButton/Index";
+import { MediaQueries } from "@/styles/Utilities";
 
 const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 1000px;
   padding-bottom: 4px;
+  @media ${MediaQueries.mobile} {
+    gap: 16px;
+  }
 `;
 
 const HeaderAddContainer = styled.div`

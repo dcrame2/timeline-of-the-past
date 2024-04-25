@@ -113,6 +113,9 @@ const HeadingContainer = styled.div`
 
   max-width: 1000px;
   padding-bottom: 4px;
+  @media ${MediaQueries.mobile} {
+    gap: 16px;
+  }
 `;
 
 const ImageContainer = styled.div`

@@ -8,6 +8,7 @@ import { themeData } from "@/themes/themeData";
 import styled from "styled-components";
 import BackButton from "@/components/reusable/backButton/Index";
 import CreateButton from "@/components/reusable/createButton/Index";
+import { MediaQueries } from "@/styles/Utilities";
 
 const ButtonInfo = styled.div`
   display: flex;
@@ -19,6 +20,9 @@ const HeadingContainer = styled.div`
   flex-direction: column;
   max-width: 1000px;
   padding-bottom: 4px;
+  @media ${MediaQueries.mobile} {
+    gap: 16px;
+  }
 `;
 
 function Themes() {
