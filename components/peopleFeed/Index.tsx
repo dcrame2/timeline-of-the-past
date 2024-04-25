@@ -26,7 +26,6 @@ const PeopleFeedInnerContainer = styled.div`
   gap: 12px;
   flex-direction: column;
   padding-bottom: 12px;
-  /* max-height: 550px; */
   overflow-y: scroll;
 `;
 

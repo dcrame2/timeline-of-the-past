@@ -137,7 +137,7 @@ const ButtonContainer = styled.div`
   max-width: 1000px;
   gap: 20px;
   z-index: 1001;
-  padding: 0px 24px 12px;
+  padding: 0px 6px 12px;
   justify-content: space-between;
   align-items: center;
   button {

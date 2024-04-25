@@ -1,9 +1,10 @@
 import { MediaQueries } from "@/styles/Utilities";
 import { variables } from "@/styles/Variables";
+import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 
-const OuterContainer = styled.div`
+const OuterContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
   z-index: 105;
   border-radius: 12px;
@@ -11,6 +12,8 @@ const OuterContainer = styled.div`
   position: relative;
   height: calc(80dvh - 24px);
   overflow-y: auto;
+  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 4px;
+  margin: 4px;
 
   h2 {
     color: ${variables.black};
@@ -35,11 +38,31 @@ const InnerContainer = styled.div`
   }
 `;
 
+const motionProps = {
+  initial: {
+    opacity: 0,
+    // y: 100,
+  },
+  animate: {
+    opacity: 1,
+    // y: 0,
+  },
+  exit: {
+    opacity: 0,
+    // y: -100,
+  },
+  transition: {
+    duration: 0.6,
+  },
+};
+
 function MainContainer({ children }: { children: React.ReactNode }) {
   return (
-    <OuterContainer>
-      <InnerContainer>{children}</InnerContainer>
-    </OuterContainer>
+    <AnimatePresence mode="wait">
+      <OuterContainer {...motionProps}>
+        <InnerContainer>{children}</InnerContainer>
+      </OuterContainer>
+    </AnimatePresence>
   );
 }
 

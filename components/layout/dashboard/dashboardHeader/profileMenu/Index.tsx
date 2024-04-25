@@ -5,6 +5,10 @@ import AuthSignOutButton from "@/components/reusable/authSIgnOutButton/Index";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
 import { MediaQueries } from "@/styles/Utilities";
+import TimelineIcon from "@/components/reusable/svg/timelineIcon/Index";
+import MediaIcon from "@/components/reusable/svg/mediaIcon/Index";
+import ThemeIcon from "@/components/reusable/svg/themeIcon/Index";
+import PurchaseIcon from "@/components/reusable/svg/purchaseIcon/Index";
 
 const ProfileContainer = styled(motion.div)`
   padding: 12px;
@@ -77,19 +81,19 @@ function ProfileMenu() {
       <ul>
         <li className="hide-on-desktop">
           <Link href="/auth/timeline">
-            <img src="/timeline_icon.png" alt="icon" />
+            <TimelineIcon color={`${variables.black}`} />
             Timeline
           </Link>
         </li>
         <li className="hide-on-desktop">
           <Link href="/auth/media-library">
-            <img src="/media_icon.png" alt="icon" />
+            <MediaIcon color={`${variables.black}`} />
             Media Library
           </Link>
         </li>
         <li className="hide-on-desktop">
           <Link href="/auth/themes">
-            <img src="/subscription_icon.png" alt="icon" />
+            <ThemeIcon color={`${variables.black}`} />
             Themes
           </Link>
         </li>
@@ -103,7 +107,7 @@ function ProfileMenu() {
         <li>
           <Link href="/auth/subscription">
             {" "}
-            <img src="/subscription_icon.png" alt="icon" />
+            <PurchaseIcon color={`${variables.black}`} />
             Purchase
           </Link>
         </li>

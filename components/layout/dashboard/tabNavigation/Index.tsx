@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import AddNewPersonButton from "../../../reusable/addNewPersonButton/Index";
-import AuthSignOutButton from "../../../reusable/authSIgnOutButton/Index";
 import { motion } from "framer-motion";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
 import { MediaQueries } from "@/styles/Utilities";
 import { useRouter } from "next/router";
+import TimelineIcon from "@/components/reusable/svg/timelineIcon/Index";
+import MediaIcon from "@/components/reusable/svg/mediaIcon/Index";
+import ThemeIcon from "@/components/reusable/svg/themeIcon/Index";
+import PurchaseIcon from "@/components/reusable/svg/purchaseIcon/Index";
 
 const NavContainer = styled.div`
   padding: 20px 24px 24px 24px;
@@ -85,7 +87,7 @@ function TabNavigation() {
           }
         >
           <Link href="/auth/timeline">
-            <img src="/timeline_icon.png" alt="icon" />
+            <TimelineIcon color={`${variables.white}`} />
             Timeline
           </Link>
         </motion.li>
@@ -94,7 +96,7 @@ function TabNavigation() {
           whileHover={{ scale: 1.05, backgroundColor: "#dddddd" }}
         >
           <Link href="/auth/media-library">
-            <img src="/media_icon.png" alt="icon" />
+            <MediaIcon color={`${variables.white}`} />
             Media Library
           </Link>
         </motion.li>
@@ -104,7 +106,7 @@ function TabNavigation() {
           className={initialActiveTab === "/auth/themes" ? "active" : ""}
         >
           <Link href="/auth/themes">
-            <img src="/layout.svg" alt="icon" />
+            <ThemeIcon color={`${variables.white}`} />
             Themes
           </Link>
         </motion.li>
@@ -113,8 +115,8 @@ function TabNavigation() {
           className={initialActiveTab === "/auth/subscription" ? "active" : ""}
         >
           <Link href="/auth/subscription">
-            <img src="/subscription_icon.png" alt="icon" />
-            Subscription
+            <PurchaseIcon color={`${variables.white}`} />
+            Purchase
           </Link>
         </motion.li>
       </ul>

@@ -1,40 +1,11 @@
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
-
 import PeopleFeed from "@/components/peopleFeed/Index";
-import styled from "styled-components";
-import { pBase, pXSmall } from "@/styles/Type";
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
-// import { fetchData } from "@/lib/fetchData";
-
 import Layout from "@/components/layout/dashboard/Index";
 import { fetchUserData } from "@/lib/fetchUserData";
-import { Button } from "@nextui-org/react";
 import Title from "@/components/reusable/title/Index";
-
-const TimelineViewContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-template-areas:
-    "dashboard dashboard dashboard"
-    "dashboard dashboard dashboard"
-    "dashboard dashboard dashboard";
-`;
-
-const InfoContainer = styled.div`
-  grid-area: dashboard;
-
-  .remaining-timelines {
-    ${pXSmall};
-    margin: 24px;
-  }
-`;
 
 interface UserData {
   firstName?: string;
@@ -55,7 +26,7 @@ export default function Protected() {
     try {
       const session = await getSession();
       if (!session) {
-        return; // No session, no need to fetch data
+        return;
       }
       const sessionUserEmail = session?.user?.email;
 
