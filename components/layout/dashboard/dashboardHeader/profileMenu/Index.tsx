@@ -12,11 +12,18 @@ const ProfileContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   position: absolute;
-  right: 0;
-  top: 60px;
+  right: unset;
+  top: 66px;
   z-index: 1000;
+  left: 1140px;
+
+  @media (max-width: 1310px) {
+    right: 20px;
+    left: unset;
+  }
   @media ${MediaQueries.tablet} {
     right: 20px;
+    left: unset;
   }
   ul {
     list-style-type: none;
@@ -100,9 +107,7 @@ function ProfileMenu() {
             Purchase
           </Link>
         </li>
-        {/* <li>
-          <Link href="/auth/settings">Settings</Link>
-        </li> */}
+
         <AuthSignOutButton />
       </ul>
     </ProfileContainer>

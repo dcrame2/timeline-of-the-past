@@ -36,6 +36,10 @@ const ProfileBtn = styled(motion.button)`
   position: absolute;
 
   right: 0;
+  @media (max-width: 1310px) {
+    right: 20px;
+    left: unset;
+  }
   @media ${MediaQueries.tablet} {
     right: 20px;
   }
@@ -64,10 +68,6 @@ function DashboardHeader() {
         {/* <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" /> */}
 
         <ProfileMenuContainer>
-          {/* <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>
-          {" "}
-          <img src="/profile_icon.png" alt="icon" />
-        </ProfileBtn> */}
           <ProfileBtn
             onClick={profileBtnHandler}
             whileHover={{ scale: 1.05 }}

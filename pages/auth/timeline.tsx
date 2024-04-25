@@ -104,21 +104,16 @@ export default function Protected() {
 
   return (
     <Layout>
-      <TimelineViewContainer>
-        <InfoContainer>
-          <Title
-            name={`Hello, ${session?.data?.user.firstName} ${session?.data?.user.lastName}!`}
-          />
-
-          <PeopleFeed
-            fetchData={fetchData}
-            peopleData={peopleData}
-            isLoading={isLoading}
-            getUserInfo={getUserInfo}
-            specificUserInfo={specificUserInfo}
-          />
-        </InfoContainer>
-      </TimelineViewContainer>
+      <Title
+        name={`Hello, ${session?.data?.user.firstName} ${session?.data?.user.lastName}!`}
+      />
+      <PeopleFeed
+        fetchData={fetchData}
+        peopleData={peopleData}
+        isLoading={isLoading}
+        getUserInfo={getUserInfo}
+        specificUserInfo={specificUserInfo}
+      />
     </Layout>
   );
 }

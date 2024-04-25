@@ -4,6 +4,7 @@ import { variables } from "@/styles/Variables";
 import TextInput from "../reusable/formFields/TextInput";
 import { Session } from "next-auth";
 import { Button, ButtonGroup } from "@nextui-org/react";
+import MainContainer from "../reusable/mainContainer/Index";
 
 const ProfileContainer = styled.div`
   max-width: 1000px;
@@ -31,7 +32,7 @@ const Form = styled.form`
 
 function ProfileComponent({ session }: any) {
   return (
-    <ProfileContainer>
+    <MainContainer>
       <Form>
         <TextInput
           label="First Name:"
@@ -68,7 +69,7 @@ function ProfileComponent({ session }: any) {
 
         <Button color="primary">Save</Button>
       </Form>
-    </ProfileContainer>
+    </MainContainer>
   );
 }
 

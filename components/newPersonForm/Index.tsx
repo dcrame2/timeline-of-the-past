@@ -22,33 +22,9 @@ import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import EmptyImageCard from "../reusable/emptyImageCard/Index";
 import MainContainer from "../reusable/mainContainer/Index";
 
-const FormContainer = styled(motion.div)`
-  background-color: ${variables.lightGrey};
-  z-index: 105;
-  border-radius: 12px;
-  max-width: 1000px;
-  position: relative;
-  height: calc(85vh - 24px);
-  overflow-y: auto;
-
-  h2 {
-    color: ${variables.black};
-    grid-column: 1 / span 2;
-    letter-spacing: 1.5px;
-  }
-`;
-
-const FormScrolling = styled.div`
-  overflow-y: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
 const Form = styled.form`
   max-width: 100%;
-  /* padding: 24px; */
+
   @media ${MediaQueries.mobile} {
     max-height: 100%;
   }
