@@ -20,6 +20,7 @@ import { Divider } from "@nextui-org/react";
 
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import EmptyImageCard from "../reusable/emptyImageCard/Index";
+import MainContainer from "../reusable/mainContainer/Index";
 
 const FormContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
@@ -29,9 +30,6 @@ const FormContainer = styled(motion.div)`
   position: relative;
   height: calc(85vh - 24px);
   overflow-y: auto;
-  /* @media ${MediaQueries.mobile} {
-    height: 100%;
-  } */
 
   h2 {
     color: ${variables.black};
@@ -50,7 +48,7 @@ const FormScrolling = styled.div`
 `;
 const Form = styled.form`
   max-width: 100%;
-  padding: 24px;
+  /* padding: 24px; */
   @media ${MediaQueries.mobile} {
     max-height: 100%;
   }
@@ -554,160 +552,66 @@ function NewPersonForm() {
         </BackButtonContainer>
         <button onClick={submitNewPerson}>Save</button>
       </ButtonContainer>
-      <FormContainer {...motionPropsRight}>
-        <FormScrolling>
-          <Form method="post">
-            <FormInnerContainer>
-              <h2>MAIN INFORMATION</h2>
-              <MainContainerForImage>
-                <p>Main Image</p>
+      <MainContainer>
+        <Form method="post">
+          <FormInnerContainer>
+            <h2>MAIN INFORMATION</h2>
+            <MainContainerForImage>
+              <p>Main Image</p>
 
-                <MainImageUploadContainer>
-                  {!mainImage ? (
-                    <label htmlFor="file">
-                      Add Main Image
-                      <input
-                        id="file"
-                        type="file"
-                        name="file"
-                        accept="image/*"
-                        onChange={(e) => handleOnChange(e)}
-                      />
-                    </label>
-                  ) : (
-                    <SingleImageContainer>
-                      <button
-                        onClick={(e) => handleSingleRemoveImage(mainImage, e)}
-                      >
-                        x
-                      </button>
-                      <SingleImage
-                        src={mainImage}
-                        alt="Uploaded image"
-                      ></SingleImage>
-                    </SingleImageContainer>
-                  )}
-                </MainImageUploadContainer>
-              </MainContainerForImage>
-              <MainFieldContainer>
-                <ThemeInfoContainer>
-                  <TextInput
-                    className="custom-color-input"
-                    type="color"
-                    id="color"
-                    name="color"
-                    ref={colorRef}
-                    placeholder=" "
-                    label="Theme Color"
-                    style={{ borderRadius: 0 }}
-                  />
-                  <Select
-                    label={"Theme Font"}
-                    placeholder="Select a font"
-                    className="max-w-xs"
-                    onChange={handleFontChange}
-                    value={font}
-                    labelPlacement={"outside"}
-                  >
-                    {fontOptions.map((selectOption: any) => (
-                      <SelectItem
-                        key={selectOption.value}
-                        value={selectOption.value}
-                        style={{
-                          fontFamily: selectOption.value,
-                          color: "black",
-                        }}
-                      >
-                        {selectOption.label}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                  <Select
-                    label={"Theme"}
-                    placeholder="Select a theme"
-                    className="max-w-xs"
-                    onChange={handleThemeChange}
-                    value={theme}
-                    labelPlacement={"outside"}
-                  >
-                    {themeData.map((selectOption: any) => (
-                      <SelectItem
-                        key={selectOption.value}
-                        value={selectOption.value}
-                        style={{
-                          color: "black",
-                        }}
-                      >
-                        {selectOption.name}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                </ThemeInfoContainer>
-                <NameContainer>
-                  <TextInput
-                    name="firstName"
-                    label="First Name*"
-                    placeholder="John"
-                    type="text"
-                    ref={firstNameRef}
-                    required
-                  />
-                  <TextInput
-                    name="middleName"
-                    label="Middle Name"
-                    placeholder="George"
-                    type="text"
-                    ref={middleNameRef}
-                  />
-                  <TextInput
-                    name="lastName"
-                    label="Last Name*"
-                    placeholder="Doe"
-                    type="text"
-                    ref={lastNameRef}
-                    required
-                  />
-                </NameContainer>
-                <DatesContainer>
-                  <TextInput
-                    type="date"
-                    id="start"
-                    name="trip-start"
-                    min="1900-01-01"
-                    max={maxDate}
-                    ref={dobRef}
-                    label={"Date of Birth*"}
-                    onChange={(e: any) => handleDateOfBirthChange(e)}
-                    required
-                  />
-
-                  <TextInput
-                    type="date"
-                    id="start"
-                    name="trip-start"
-                    min="1900-01-01"
-                    max="2030-12-31"
-                    label={"Death (Optional)"}
-                    ref={deathRef}
-                  />
-                </DatesContainer>
-              </MainFieldContainer>
-              <Divider className="my-4 col-span-2" />
-              <h2>SPECIFIC AGE INFORMATION</h2>
-              <ImageUploadedContainer>
+              <MainImageUploadContainer>
+                {!mainImage ? (
+                  <label htmlFor="file">
+                    Add Main Image
+                    <input
+                      id="file"
+                      type="file"
+                      name="file"
+                      accept="image/*"
+                      onChange={(e) => handleOnChange(e)}
+                    />
+                  </label>
+                ) : (
+                  <SingleImageContainer>
+                    <button
+                      onClick={(e) => handleSingleRemoveImage(mainImage, e)}
+                    >
+                      x
+                    </button>
+                    <SingleImage
+                      src={mainImage}
+                      alt="Uploaded image"
+                    ></SingleImage>
+                  </SingleImageContainer>
+                )}
+              </MainImageUploadContainer>
+            </MainContainerForImage>
+            <MainFieldContainer>
+              <ThemeInfoContainer>
+                <TextInput
+                  className="custom-color-input"
+                  type="color"
+                  id="color"
+                  name="color"
+                  ref={colorRef}
+                  placeholder=" "
+                  label="Theme Color"
+                  style={{ borderRadius: 0 }}
+                />
                 <Select
-                  label={"Year/Age"}
-                  placeholder="Select Year/Age"
+                  label={"Theme Font"}
+                  placeholder="Select a font"
                   className="max-w-xs"
-                  onChange={handleAgeChange}
-                  value={selectedAge}
+                  onChange={handleFontChange}
+                  value={font}
                   labelPlacement={"outside"}
                 >
-                  {ageOptions.map((selectOption: any) => (
+                  {fontOptions.map((selectOption: any) => (
                     <SelectItem
                       key={selectOption.value}
                       value={selectOption.value}
                       style={{
+                        fontFamily: selectOption.value,
                         color: "black",
                       }}
                     >
@@ -715,53 +619,145 @@ function NewPersonForm() {
                     </SelectItem>
                   ))}
                 </Select>
-                <Textarea
-                  label={"Description of this Year/Age"}
-                  placeholder="Enter your description"
+                <Select
+                  label={"Theme"}
+                  placeholder="Select a theme"
                   className="max-w-xs"
-                  value={uploadDatas[selectedAge]?.ageText || ageText}
-                  onChange={handleAgeTextChange}
+                  onChange={handleThemeChange}
+                  value={theme}
                   labelPlacement={"outside"}
+                >
+                  {themeData.map((selectOption: any) => (
+                    <SelectItem
+                      key={selectOption.value}
+                      value={selectOption.value}
+                      style={{
+                        color: "black",
+                      }}
+                    >
+                      {selectOption.name}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </ThemeInfoContainer>
+              <NameContainer>
+                <TextInput
+                  name="firstName"
+                  label="First Name*"
+                  placeholder="John"
+                  type="text"
+                  ref={firstNameRef}
+                  required
                 />
-              </ImageUploadedContainer>
-              <UploadFileInputNew
-                selectedAge={selectedAge}
-                setUploadDatas={setUploadDatas}
-                uploadDatas={uploadDatas}
-                setImageSrcs={setImageSrcs}
-                imageSrcs={imageSrcs}
-              />
-              <ImageGridContainer>
-                {uploadDatas[selectedAge]?.images?.map(
-                  (src: string, index: number) => (
-                    <ImageContainer>
-                      <Image
-                        width={300}
-                        height={200}
-                        src={src}
-                        alt={`Image ${index}`}
-                      />
-                      <button onClick={(e) => handleRemoveImage(src, index, e)}>
-                        x
-                      </button>
-                    </ImageContainer>
-                  )
-                )}
-                {[
-                  ...Array(
-                    Math.max(
-                      0,
-                      4 - (uploadDatas[selectedAge]?.images?.length || 0)
-                    )
-                  ),
-                ].map((_, index) => (
-                  <EmptyImageCard />
+                <TextInput
+                  name="middleName"
+                  label="Middle Name"
+                  placeholder="George"
+                  type="text"
+                  ref={middleNameRef}
+                />
+                <TextInput
+                  name="lastName"
+                  label="Last Name*"
+                  placeholder="Doe"
+                  type="text"
+                  ref={lastNameRef}
+                  required
+                />
+              </NameContainer>
+              <DatesContainer>
+                <TextInput
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max={maxDate}
+                  ref={dobRef}
+                  label={"Date of Birth*"}
+                  onChange={(e: any) => handleDateOfBirthChange(e)}
+                  required
+                />
+
+                <TextInput
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  min="1900-01-01"
+                  max="2030-12-31"
+                  label={"Death (Optional)"}
+                  ref={deathRef}
+                />
+              </DatesContainer>
+            </MainFieldContainer>
+            <Divider className="my-4 col-span-2" />
+            <h2>SPECIFIC AGE INFORMATION</h2>
+            <ImageUploadedContainer>
+              <Select
+                label={"Year/Age"}
+                placeholder="Select Year/Age"
+                className="max-w-xs"
+                onChange={handleAgeChange}
+                value={selectedAge}
+                labelPlacement={"outside"}
+              >
+                {ageOptions.map((selectOption: any) => (
+                  <SelectItem
+                    key={selectOption.value}
+                    value={selectOption.value}
+                    style={{
+                      color: "black",
+                    }}
+                  >
+                    {selectOption.label}
+                  </SelectItem>
                 ))}
-              </ImageGridContainer>
-            </FormInnerContainer>
-          </Form>
-        </FormScrolling>
-      </FormContainer>
+              </Select>
+              <Textarea
+                label={"Description of this Year/Age"}
+                placeholder="Enter your description"
+                className="max-w-xs"
+                value={uploadDatas[selectedAge]?.ageText || ageText}
+                onChange={handleAgeTextChange}
+                labelPlacement={"outside"}
+              />
+            </ImageUploadedContainer>
+            <UploadFileInputNew
+              selectedAge={selectedAge}
+              setUploadDatas={setUploadDatas}
+              uploadDatas={uploadDatas}
+              setImageSrcs={setImageSrcs}
+              imageSrcs={imageSrcs}
+            />
+            <ImageGridContainer>
+              {uploadDatas[selectedAge]?.images?.map(
+                (src: string, index: number) => (
+                  <ImageContainer>
+                    <Image
+                      width={300}
+                      height={200}
+                      src={src}
+                      alt={`Image ${index}`}
+                    />
+                    <button onClick={(e) => handleRemoveImage(src, index, e)}>
+                      x
+                    </button>
+                  </ImageContainer>
+                )
+              )}
+              {[
+                ...Array(
+                  Math.max(
+                    0,
+                    4 - (uploadDatas[selectedAge]?.images?.length || 0)
+                  )
+                ),
+              ].map((_, index) => (
+                <EmptyImageCard />
+              ))}
+            </ImageGridContainer>
+          </FormInnerContainer>
+        </Form>
+      </MainContainer>
     </>
   );
 }

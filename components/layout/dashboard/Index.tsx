@@ -12,7 +12,7 @@ const Container = styled.div`
 
   @media ${MediaQueries.tablet} {
     grid-template-columns: 1fr;
-    grid-template-rows: 75px 1fr 75px;
+    grid-template-rows: 75px 1fr;
   }
 `;
 
@@ -35,6 +35,7 @@ const ContentSection = styled.div`
   grid-column: 2 / span 3;
   grid-row: 2;
   margin: 0px 12px 24px;
+  overflow-y: hidden;
   @media ${MediaQueries.tablet} {
     grid-column: unset;
   }
