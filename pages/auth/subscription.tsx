@@ -23,25 +23,6 @@ const SingleRadioBox = styled.div`
   gap: 4px;
 `;
 
-const TextContainer = styled.div`
-  gap: 20px;
-  @media ${MediaQueries.tablet} {
-    gap: 12px;
-  }
-  @media ${MediaQueries.mobile} {
-    gap: 8px;
-  }
-  h1 {
-    ${pBase}
-    margin: 24px 0 12px 24px;
-  }
-  p {
-    ${pXSmall}
-    margin-left: 24px;
-    max-width: 1000px;
-  }
-`;
-
 function Subscription() {
   const [purchaseMessage, setPurchaseMessage] = React.useState<string>();
   const { data: session } = useSession();
