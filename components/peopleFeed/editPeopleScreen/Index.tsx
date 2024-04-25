@@ -595,15 +595,6 @@ function EditPeopleScreen({
                   Saving
                 </Button>
               )}
-              {/* <Button
-                style={{
-                  backgroundColor: `${variables.lightOrange}`,
-                  color: `${variables.white}`,
-                }}
-                onClick={(e: any) => handleSave(e)}
-              >
-                Save
-              </Button> */}
             </ButtonContainer>
           </HeadingContainer>
 

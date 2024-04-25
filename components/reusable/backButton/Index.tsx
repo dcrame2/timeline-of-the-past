@@ -11,27 +11,19 @@ const StyledLink = styled(Link)`
   gap: 4px;
   background-color: transparent;
   transition: background-color 0.3s ease-in;
-  padding-right: 4px;
-  padding-left: 4px;
+  padding: 4px;
   border-radius: 12px;
   &:hover {
     transition: background-color 0.3s ease-in;
     background-color: rgba(204, 109, 61, 0.5);
     border-radius: 12px;
+    padding: 4px;
   }
 `;
 
 function BackButton() {
   return (
-    <StyledLink
-      href="/auth/timeline"
-      //   style={{
-      //     color: `${variables.black}`,
-      //     display: "flex",
-      //     alignItems: "center",
-      //     gap: "4px",
-      //   }}
-    >
+    <StyledLink href="/auth/timeline">
       <ReturnIcon color={`${variables.black}`} />
       Back
     </StyledLink>

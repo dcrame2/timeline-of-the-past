@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
@@ -103,6 +103,7 @@ const ButtonInfo = styled.div`
 
 function Subscription() {
   const [purchaseMessage, setPurchaseMessage] = React.useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const userEmail = session?.user?.email;
   React.useEffect(() => {
@@ -128,6 +129,7 @@ function Subscription() {
   };
 
   const handleSubmit = () => {
+    setIsLoading(true);
     const form = document.getElementById("myForm") as HTMLFormElement;
     if (form) {
       form.submit();
@@ -140,18 +142,31 @@ function Subscription() {
         <Title name="Pay only for what you need" />
         <ButtonInfo>
           <BackButton />
-          <Button
-            type="submit"
-            disabled={!selectedProduct}
-            style={{
-              backgroundColor: `${variables.lightOrange}`,
-              color: `${variables.white}`,
-            }}
-            endContent={<StripeIcon color={`${variables.white}`} />}
-            onClick={handleSubmit}
-          >
-            Checkout
-          </Button>
+          {!isLoading ? (
+            <Button
+              type="submit"
+              disabled={!selectedProduct}
+              style={{
+                backgroundColor: `${variables.lightOrange}`,
+                color: `${variables.white}`,
+              }}
+              endContent={<StripeIcon color={`${variables.white}`} />}
+              onClick={handleSubmit}
+            >
+              Checkout
+            </Button>
+          ) : (
+            <Button
+              style={{
+                backgroundColor: `${variables.lightOrange}`,
+                color: `${variables.white}`,
+              }}
+              isLoading
+              disabled
+            >
+              Loading
+            </Button>
+          )}
         </ButtonInfo>
       </HeadingContainer>
       <MainContainer>

@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
-import { buttonType, h2styles, linkStyles } from "@/styles/Type";
+import { h2styles } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { pXSmall } from "@/styles/Type";
 import { Button, Image } from "@nextui-org/react";
@@ -18,8 +18,6 @@ import { Divider } from "@nextui-org/react";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import EmptyImageCard from "../reusable/emptyImageCard/Index";
 import MainContainer from "../reusable/mainContainer/Index";
-import { Link } from "@nextui-org/react";
-import ReturnIcon from "../reusable/svg/returnIcon/Index";
 import BackButton from "../reusable/backButton/Index";
 import Title from "../reusable/title/Index";
 

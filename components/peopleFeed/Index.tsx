@@ -214,13 +214,13 @@ function PeopleFeed({
                             <ExternalIcon color={`${variables.white}`} />
                           }
                         />
+
                         <Button
                           style={{
                             color: `${variables.white}`,
                             backgroundColor: "rgb(255, 180, 0, 0.8)",
                           }}
                           size="sm"
-                          // color="warning"
                           isIconOnly
                           startContent={
                             <EditIcon color={`${variables.white}`} />
