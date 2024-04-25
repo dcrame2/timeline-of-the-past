@@ -7,6 +7,7 @@ import { pBase, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { Image } from "@nextui-org/react";
 import MainContainer from "../reusable/mainContainer/Index";
+import Title from "../reusable/title/Index";
 
 const MediaLibraryContainer = styled.div`
   height: 100%;
@@ -14,23 +15,23 @@ const MediaLibraryContainer = styled.div`
 
 const MediaLibraryInnerContainer = styled.div``;
 
-const TextContainer = styled.div`
-  gap: 20px;
-  @media ${MediaQueries.tablet} {
-    gap: 12px;
-  }
-  @media ${MediaQueries.mobile} {
-    gap: 8px;
-  }
-  h1 {
-    ${pBase}
-    margin: 24px;
-  }
-  p {
-    ${pBase}
-    max-width: 1000px;
-  }
-`;
+// const TextContainer = styled.div`
+//   gap: 20px;
+//   @media ${MediaQueries.tablet} {
+//     gap: 12px;
+//   }
+//   @media ${MediaQueries.mobile} {
+//     gap: 8px;
+//   }
+//   h1 {
+//     ${pBase}
+//     margin: 24px;
+//   }
+//   p {
+//     ${pBase}
+//     max-width: 1000px;
+//   }
+// `;
 
 const MediaContainer = styled.div`
   background-color: ${variables.lightGrey};
@@ -122,9 +123,8 @@ function MediaLibraryComponent() {
   return (
     <MediaLibraryContainer>
       <MediaLibraryInnerContainer>
-        <TextContainer>
-          <h1>Media Library ({mediaLibrary.length} Images)</h1>
-        </TextContainer>
+        <Title name={`Media Library (${mediaLibrary.length} Images)`} />
+
         <MainContainer>
           {isLoading ? (
             <HourGlassContainer>

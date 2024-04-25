@@ -4,6 +4,7 @@ import { keyframes } from "styled-components";
 import { variables } from "./Variables";
 
 const monsterrat = `Montserrat, sans-serif`;
+const livvic = `Livvic, sans-serif`;
 const openSans = "Open Sans, sans-serif";
 
 export const h1styles = css`
@@ -21,6 +22,23 @@ export const h1styles = css`
   @media ${MediaQueries.mobile} {
     font-size: 2.2rem;
     line-height: 3.2rem;
+  }
+`;
+
+export const h1stylesdashboard = css`
+  font-family: ${livvic};
+  font-size: 1.8rem;
+  line-height: 2.2rem;
+  color: ${variables.black};
+
+  @media ${MediaQueries.tablet} {
+    font-size: 1.6rem;
+    line-height: 2rem;
+  }
+
+  @media ${MediaQueries.mobile} {
+    font-size: 1.3rem;
+    line-height: 1.5rem;
   }
 `;
 

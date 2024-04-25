@@ -21,33 +21,12 @@ interface PeopleDataProps {
   userData?: UserData[];
 }
 
-const PeopleFeedContainer = styled.div`
-  max-width: 1000px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background-color: ${variables.lightGrey};
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-  @media ${MediaQueries.mobile} {
-    padding: 12px;
-  }
-  h3 {
-    font-size: 20px;
-    color: ${variables.black};
-  }
-  h6 {
-    color: ${variables.black};
-  }
-`;
-
 const PeopleFeedInnerContainer = styled.div`
   display: flex;
   gap: 12px;
   flex-direction: column;
   padding-bottom: 12px;
-  max-height: 550px;
+  /* max-height: 550px; */
   overflow-y: scroll;
 `;
 
@@ -65,6 +44,7 @@ const HeaderAddContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 12px;
 `;
 
 const IndividualPeopleContainer = styled(motion.div)`
@@ -218,14 +198,14 @@ function PeopleFeed({
   return (
     <MainContainer>
       <HeaderAddContainer>
-        <h3>
+        <p>
           All Timelines
           {specificUserInfo && (
             <span className="remaining-timelines">
               ({specificUserInfo?.user?.remainingTimelines} remaining)
             </span>
           )}
-        </h3>
+        </p>
 
         <AddNewPersonButton specificUserInfo={specificUserInfo} />
       </HeaderAddContainer>

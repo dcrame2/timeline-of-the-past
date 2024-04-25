@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import { fetchUserData } from "@/lib/fetchUserData";
 import { Button } from "@nextui-org/react";
+import Title from "@/components/reusable/title/Index";
 
 const TimelineViewContainer = styled.div`
   width: 100%;
@@ -28,11 +29,7 @@ const TimelineViewContainer = styled.div`
 
 const InfoContainer = styled.div`
   grid-area: dashboard;
-  h1 {
-    font-size: 30px;
-    margin: 24px;
-    color: #060606;
-  }
+
   .remaining-timelines {
     ${pXSmall};
     margin: 24px;
@@ -49,9 +46,6 @@ interface PeopleDataProps {
 }
 
 export default function Protected() {
-  const [showAddPersonFields, setShowAddPersonFields] =
-    useState<boolean>(false);
-
   const [peopleData, setPeopleData] = useState<PeopleDataProps>({});
   const [isLoading, setIsLoading] = useState(true);
   const [specificUserInfo, setSpecificUserInfo] = useState<any>();
@@ -64,14 +58,13 @@ export default function Protected() {
         return; // No session, no need to fetch data
       }
       const sessionUserEmail = session?.user?.email;
-      // console.log(session, "sessionsss BETTTT");
 
       const response = await fetch("/api/people/get-people", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        // Include the sessionUserEmail in the request body
+
         body: JSON.stringify({ sessionUserEmail }),
       });
       console.log(response, "Response");
@@ -83,7 +76,6 @@ export default function Protected() {
       setPeopleData(userData);
       setIsLoading(false);
       return userData;
-      // Process userData as needed
     } catch (error) {
       console.error("Error fetching user data:", error);
       setIsLoading(false);
@@ -108,19 +100,15 @@ export default function Protected() {
   }, []);
 
   console.log(specificUserInfo, "specificUserInfo");
-
-  // const { user } = specificUserInfo;
-
   console.log(session);
 
   return (
     <Layout>
       <TimelineViewContainer>
         <InfoContainer>
-          <h1>
-            Hello, {session?.data?.user.firstName}{" "}
-            {session?.data?.user.lastName}!
-          </h1>
+          <Title
+            name={`Hello, ${session?.data?.user.firstName} ${session?.data?.user.lastName}!`}
+          />
 
           <PeopleFeed
             fetchData={fetchData}

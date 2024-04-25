@@ -14,7 +14,7 @@ const ProfileContainer = styled(motion.div)`
   position: absolute;
   right: 0;
   top: 60px;
-  z-index: 100;
+  z-index: 1000;
   @media ${MediaQueries.tablet} {
     right: 20px;
   }
@@ -97,7 +97,7 @@ function ProfileMenu() {
           <Link href="/auth/subscription">
             {" "}
             <img src="/subscription_icon.png" alt="icon" />
-            Subscription
+            Purchase
           </Link>
         </li>
         {/* <li>

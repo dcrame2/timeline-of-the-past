@@ -30,4 +30,5 @@ export const variables = {
 
   // Type
   monsterrat: "monsterrat, sans-serif",
+  livvic: `Livvic, sans-serif`,
 };

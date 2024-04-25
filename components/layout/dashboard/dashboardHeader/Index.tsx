@@ -58,31 +58,34 @@ function DashboardHeader() {
     setOpenProfileMenu(!openProfileManu);
   };
   return (
-    <Container>
-      {/* <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" /> */}
+    <>
+      {" "}
+      <Container>
+        {/* <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" /> */}
 
-      <ProfileMenuContainer>
-        {/* <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>
+        <ProfileMenuContainer>
+          {/* <ProfileBtn onClick={profileBtnHandler} whileHover={{ scale: 1.05 }}>
           {" "}
           <img src="/profile_icon.png" alt="icon" />
         </ProfileBtn> */}
-        <ProfileBtn
-          onClick={profileBtnHandler}
-          whileHover={{ scale: 1.05 }}
-          className="flex gap-4 items-center"
-        >
-          <Avatar
-            size="sm"
-            isBordered
-            // color="warning"
-            src="/profile_icon.png"
-          />
-        </ProfileBtn>
-        <AnimatePresence mode="wait">
-          {openProfileManu && <ProfileMenu />}
-        </AnimatePresence>
-      </ProfileMenuContainer>
-    </Container>
+          <ProfileBtn
+            onClick={profileBtnHandler}
+            whileHover={{ scale: 1.05 }}
+            className="flex gap-4 items-center"
+          >
+            <Avatar
+              size="sm"
+              isBordered
+              // color="warning"
+              src="/profile_icon.png"
+            />
+          </ProfileBtn>
+        </ProfileMenuContainer>
+      </Container>
+      <AnimatePresence mode="wait">
+        {openProfileManu && <ProfileMenu />}
+      </AnimatePresence>
+    </>
   );
 }
 

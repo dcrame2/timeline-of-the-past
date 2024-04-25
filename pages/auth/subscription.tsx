@@ -6,39 +6,10 @@ import { useSession } from "next-auth/react";
 import { RadioGroup, Radio, cn } from "@nextui-org/react";
 import styled from "styled-components";
 import { MediaQueries } from "@/styles/Utilities";
-import { variables } from "@/styles/Variables";
-import { h1styles, h3styles, pLarge, pXSmall, pBase } from "@/styles/Type";
+import { pXSmall, pBase } from "@/styles/Type";
 import { Button } from "@nextui-org/react";
 import MainContainer from "@/components/reusable/mainContainer/Index";
-const ExampleCardsContainer = styled.div`
-  margin-top: 20px;
-  background-color: ${variables.lightGrey};
-
-  padding: 24px;
-  z-index: 105;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-
-  max-width: 1000px;
-  position: relative;
-  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-  @media ${MediaQueries.mobile} {
-    padding: 24px 24px;
-  }
-  @media ${MediaQueries.tablet} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media ${MediaQueries.mobile} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  h1 {
-    ${pLarge}
-  }
-  p {
-    ${pXSmall}
-  }
-`;
+import Title from "@/components/reusable/title/Index";
 
 const CustomRadioBox = styled.div`
   display: flex;
@@ -99,10 +70,7 @@ function Subscription() {
 
   return (
     <Layout>
-      <TextContainer>
-        <h1>Pay only for what you need</h1>
-        <p>Join many and create timelines for your family</p>
-      </TextContainer>
+      <Title name="Pay only for what you need" />
       <MainContainer>
         <form action="/api/auth/stripe/checkout_sessions" method="POST">
           <RadioGroup
