@@ -8,6 +8,7 @@ import Link from "next/link";
 import { linkStyles, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { MediaQueries } from "@/styles/Utilities";
+import MainContainer from "../reusable/mainContainer/Index";
 
 interface UserData {
   firstName?: string;
@@ -215,7 +216,7 @@ function PeopleFeed({
   };
 
   return (
-    <PeopleFeedContainer>
+    <MainContainer>
       <HeaderAddContainer>
         <h3>
           All Timelines
@@ -288,7 +289,7 @@ function PeopleFeed({
           </>
         )}
       </PeopleFeedInnerContainer>
-    </PeopleFeedContainer>
+    </MainContainer>
   );
 }
 

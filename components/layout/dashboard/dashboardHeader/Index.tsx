@@ -17,7 +17,7 @@ const Container = styled.div`
   right: 0;
   left: 0;
   max-width: 1285px;
-  /* z-index: 120; */
+  z-index: 100;
   height: 75px;
   background-color: ${variables.darkerLightGrey};
 `;

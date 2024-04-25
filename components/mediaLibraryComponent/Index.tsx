@@ -6,6 +6,7 @@ import { MediaQueries } from "@/styles/Utilities";
 import { pBase, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { Image } from "@nextui-org/react";
+import MainContainer from "../reusable/mainContainer/Index";
 
 const MediaLibraryContainer = styled.div`
   height: 100%;
@@ -124,7 +125,7 @@ function MediaLibraryComponent() {
         <TextContainer>
           <h1>Media Library ({mediaLibrary.length} Images)</h1>
         </TextContainer>
-        <MediaContainer>
+        <MainContainer>
           {isLoading ? (
             <HourGlassContainer>
               <HourGlassLottieLoading />
@@ -149,7 +150,7 @@ function MediaLibraryComponent() {
               )}
             </AllMediaLibrary>
           )}
-        </MediaContainer>
+        </MainContainer>
       </MediaLibraryInnerContainer>
     </MediaLibraryContainer>
   );

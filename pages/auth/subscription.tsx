@@ -9,6 +9,7 @@ import { MediaQueries } from "@/styles/Utilities";
 import { variables } from "@/styles/Variables";
 import { h1styles, h3styles, pLarge, pXSmall, pBase } from "@/styles/Type";
 import { Button } from "@nextui-org/react";
+import MainContainer from "@/components/reusable/mainContainer/Index";
 const ExampleCardsContainer = styled.div`
   margin-top: 20px;
   background-color: ${variables.lightGrey};
@@ -102,7 +103,7 @@ function Subscription() {
         <h1>Pay only for what you need</h1>
         <p>Join many and create timelines for your family</p>
       </TextContainer>
-      <ExampleCardsContainer>
+      <MainContainer>
         <form action="/api/auth/stripe/checkout_sessions" method="POST">
           <RadioGroup
             // label="Findd the best pricing plan for you"
@@ -180,7 +181,7 @@ function Subscription() {
           </Button>
           {purchaseMessage && <p>{purchaseMessage}</p>}
         </form>
-      </ExampleCardsContainer>
+      </MainContainer>
     </Layout>
   );
 }

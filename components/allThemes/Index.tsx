@@ -7,6 +7,7 @@ import { Container, MediaQueries } from "@/styles/Utilities";
 import { motion } from "framer-motion";
 import { themeData } from "@/themes/themeData";
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import MainContainer from "../reusable/mainContainer/Index";
 
 const ExamplesContainer = styled.div``;
 
@@ -81,36 +82,12 @@ const MotionImage = styled(motion.img)`
 function AllThemes() {
   return (
     <>
-      {/* <ExamplesContainer>
-        <ExamplesInnerContainer>
-          <TextContainer>
-            <h1>Theme examples you can use</h1>
-          </TextContainer>
-          <ExampleCardsContainer>
-            {themeData.map((example) => {
-              const { url, img, name } = example;
-              return (
-                <IndividualCard key={name} target="_blank" href={url}>
-                  <ImageContainer>
-                    <MotionImage
-                      src={img.src}
-                      alt={img.alt}
-                      whileHover={{ scale: 1.1 }}
-                    />
-                  </ImageContainer>
-                  <p>{name}</p>
-                </IndividualCard>
-              );
-            })}
-          </ExampleCardsContainer>
-        </ExamplesInnerContainer>
-      </ExamplesContainer> */}
       <ExamplesContainer>
         <ExamplesInnerContainer>
           <TextContainer>
             <h1>Theme examples you can use</h1>
           </TextContainer>
-          <ExampleCardsContainer>
+          <MainContainer>
             <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
               {themeData.map((example, index) => (
                 <Link target="_blank" href={example.url}>
@@ -139,7 +116,7 @@ function AllThemes() {
                 </Link>
               ))}
             </div>
-          </ExampleCardsContainer>
+          </MainContainer>
         </ExamplesInnerContainer>
       </ExamplesContainer>
     </>
