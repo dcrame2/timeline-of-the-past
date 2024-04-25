@@ -26,4 +26,121 @@ export const themeData = [
     name: "Theme Three",
     value: 3,
   },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    name: "Theme Four",
+    value: 4,
+  },
 ];

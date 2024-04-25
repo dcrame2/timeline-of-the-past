@@ -41,7 +41,7 @@ const NavContainer = styled.div`
       transition: all 0.3s ease;
       cursor: pointer;
       a {
-        padding: 12px;
+        padding: 8px 12px;
         display: flex;
         gap: 12px;
         align-items: center;

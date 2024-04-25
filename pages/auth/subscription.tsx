@@ -3,7 +3,7 @@ import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import { useSession } from "next-auth/react";
-import { RadioGroup, Radio, cn } from "@nextui-org/react";
+import { RadioGroup, Radio, cn, Divider } from "@nextui-org/react";
 import styled from "styled-components";
 import { MediaQueries } from "@/styles/Utilities";
 import { pXSmall, pBase } from "@/styles/Type";
@@ -12,17 +12,47 @@ import MainContainer from "@/components/reusable/mainContainer/Index";
 import Title from "@/components/reusable/title/Index";
 import BackButton from "@/components/reusable/backButton/Index";
 import CreateButton from "@/components/reusable/createButton/Index";
+import { variables } from "@/styles/Variables";
 
 const CustomRadioBox = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 12px;
+
+  @media ${MediaQueries.mobile} {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const SingleRadioBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  /* box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px; */
+  /* padding: 20px; */
+  ul {
+    margin: 20px 20px 20px 16px;
+    ${pXSmall}
+    list-style-type: square;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    li {
+      color: #636262;
+    }
+  }
+  p {
+  }
+  .ml-2 {
+    margin-left: 0px;
+  }
+`;
+
+const CheckoutButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 `;
 
 const HeadingContainer = styled.div`
@@ -34,6 +64,26 @@ const HeadingContainer = styled.div`
   @media ${MediaQueries.mobile} {
     gap: 16px;
   }
+`;
+
+const RadioText = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  .price {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.5rem;
+    span {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+`;
+
+const Description = styled.p`
+  ${pXSmall}
 `;
 
 const ButtonInfo = styled.div`
@@ -79,13 +129,13 @@ function Subscription() {
       <MainContainer>
         <form action="/api/auth/stripe/checkout_sessions" method="POST">
           <RadioGroup
-            // label="Findd the best pricing plan for you"
-            description="Selected plan can be changed at any time."
+          // label="Findd the best pricing plan for you"
+          // description="Selected plan can be changed at any time."
           >
             <CustomRadioBox>
               <SingleRadioBox>
                 <Radio
-                  description="Build one timeline with lifetime access"
+                  // description="Build one timeline with lifetime access"
                   name="productId"
                   value="product1"
                   checked={selectedProduct === "product1"}
@@ -93,41 +143,79 @@ function Subscription() {
                   classNames={{
                     base: cn(
                       "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                      "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 pt-20 pb-20 pl-8 pr-8 border-2 border-transparent",
+                      "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10 border-2 border-transparent",
                       "data-[selected=true]:border-primary"
                     ),
                   }}
                 >
-                  One Timeline - $10
+                  <RadioText>
+                    <span>One Timeline</span>
+                    <p className="price">$10</p>
+                  </RadioText>
                 </Radio>
-                <p style={{ maxWidth: "300px" }}>
-                  Build one timeline and change the theme to any theme you want
-                </p>
+                <ul style={{ maxWidth: "300px" }}>
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                  <Divider />
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                  <Divider />
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                </ul>
               </SingleRadioBox>
               <SingleRadioBox>
                 <Radio
-                  description="Build three timelines with lifetime access"
+                  // description="Build three timelines with lifetime access"
                   name="productId"
                   value="product2"
                   checked={selectedProduct === "product2"}
                   onChange={handleProductChange}
+                  // style={{ backgroundColor: `${variables.lightBlue}` }}
                   classNames={{
                     base: cn(
                       "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                      "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 pt-20 pb-20 pl-8 pr-8 border-2 border-transparent",
+                      "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10  border-2 border-transparent",
                       "data-[selected=true]:border-primary"
                     ),
                   }}
                 >
-                  Three Timelines - $25
+                  <RadioText>
+                    <span>Three Timelines</span>
+                    <p className="price">$25</p>
+                  </RadioText>
                 </Radio>
-                <p style={{ maxWidth: "300px" }}>
-                  Build one timeline and change the theme to any theme you want
-                </p>
+
+                <ul style={{ maxWidth: "300px" }}>
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                  <Divider />
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                  <Divider />
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                  <Divider />
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                </ul>
               </SingleRadioBox>
               <SingleRadioBox>
                 <Radio
-                  description="Build one timeline with lifetime access"
                   name="productId"
                   value="product3"
                   checked={selectedProduct === "product3"}
@@ -135,23 +223,41 @@ function Subscription() {
                   classNames={{
                     base: cn(
                       "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                      "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 pt-20 pb-20 pl-8 pr-8 border-2 border-transparent",
+                      "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10  border-2 border-transparent",
                       "data-[selected=true]:border-primary"
                     ),
                   }}
                 >
-                  Five Timelines - $35
+                  <RadioText>
+                    <span>Five Timelines</span>
+                    <p className="price">$35</p>
+                  </RadioText>
                 </Radio>
-                <p style={{ maxWidth: "300px" }}>
-                  Build one timeline and change the theme to any theme you want
-                </p>
+                <ul style={{ maxWidth: "300px" }}>
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                  <Divider />
+                  <li>
+                    Build one timeline and change the theme to any theme you
+                    want
+                  </li>
+                </ul>
               </SingleRadioBox>
             </CustomRadioBox>
           </RadioGroup>
-          <input type="hidden" name="userEmail" value={userEmail} />
-          <Button type="submit" disabled={!selectedProduct} color="primary">
-            Checkout
-          </Button>
+          <CheckoutButtonContainer>
+            <input type="hidden" name="userEmail" value={userEmail} />
+            <Button
+              size="lg"
+              type="submit"
+              disabled={!selectedProduct}
+              color="primary"
+            >
+              Checkout
+            </Button>
+          </CheckoutButtonContainer>
           {purchaseMessage && <p>{purchaseMessage}</p>}
         </form>
       </MainContainer>
