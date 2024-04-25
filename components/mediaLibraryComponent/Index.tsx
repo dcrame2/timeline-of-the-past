@@ -3,7 +3,7 @@ import { fetchData } from "@/lib/fetchData";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
-import { pXSmall } from "@/styles/Type";
+import { pSmall, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { Image } from "@nextui-org/react";
 import MainContainer from "../reusable/mainContainer/Index";
@@ -15,7 +15,9 @@ const MediaLibraryContainer = styled.div`
   height: 100%;
 `;
 
-const MediaLibraryInnerContainer = styled.div``;
+const MediaLibraryInnerContainer = styled.div`
+  height: 100%;
+`;
 
 const HeadingContainer = styled.div`
   display: flex;
@@ -30,7 +32,9 @@ const HeadingContainer = styled.div`
 const HourGlassContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
+  height: 100%;
 `;
 
 const AllMediaLibrary = styled.div`
@@ -61,6 +65,19 @@ const ImageContainer = styled.div`
 const ButtonInfo = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const NoMediaContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  p {
+    ${pSmall}
+  }
 `;
 
 function MediaLibraryComponent() {
@@ -116,24 +133,29 @@ function MediaLibraryComponent() {
               <HourGlassLottieLoading />
             </HourGlassContainer>
           ) : (
-            <AllMediaLibrary>
+            <>
               {mediaLibrary.length !== 0 ? (
-                <>
-                  {mediaLibrary?.map((imageUrl, index) => (
-                    <ImageContainer key={`${imageUrl}-${index}`}>
-                      <Image
-                        width={300}
-                        height={200}
-                        src={imageUrl}
-                        alt={`Image ${index}`}
-                      />
-                    </ImageContainer>
-                  ))}
-                </>
+                <AllMediaLibrary>
+                  <>
+                    {mediaLibrary?.map((imageUrl, index) => (
+                      <ImageContainer key={`${imageUrl}-${index}`}>
+                        <Image
+                          width={300}
+                          height={200}
+                          src={imageUrl}
+                          alt={`Image ${index}`}
+                        />
+                      </ImageContainer>
+                    ))}
+                  </>
+                </AllMediaLibrary>
               ) : (
-                <p>No images found</p>
+                <NoMediaContainer>
+                  <p>No Media</p>
+                  <CreateButton />
+                </NoMediaContainer>
               )}
-            </AllMediaLibrary>
+            </>
           )}
         </MainContainer>
       </MediaLibraryInnerContainer>

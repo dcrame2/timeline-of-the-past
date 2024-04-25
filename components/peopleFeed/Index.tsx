@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
-import { linkStyles, pXSmall } from "@/styles/Type";
+import { linkStyles, pLarge, pSmall, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { MediaQueries } from "@/styles/Utilities";
 import MainContainer from "../reusable/mainContainer/Index";
@@ -14,6 +14,7 @@ import ExternalIcon from "../reusable/svg/externalIcon/Index";
 import EditIcon from "../reusable/svg/editIcon/Index";
 import { useRouter } from "next/router";
 import TrashIcon from "../reusable/svg/trashIcon/Index";
+import { parseSetCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 interface UserData {
   firstName?: string;
@@ -32,12 +33,14 @@ const PeopleFeedInnerContainer = styled.div`
   flex-direction: column;
   padding-bottom: 12px;
   overflow-y: scroll;
+  height: 100%;
 `;
 
 const HourGlassContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
 `;
 
 const MainInfo = styled.div`
@@ -69,54 +72,16 @@ const CRUDBtns = styled.div`
   align-items: center;
 `;
 
-const ExternalBtn = styled(motion(Link))`
-  background-color: rgb(0, 0, 100, 0.4);
-  opacity: 0.7;
-  border: none;
+const NoTimelineContainer = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1;
-  position: relative;
-  img {
-    width: 16px;
-  }
-`;
-
-const EditBtn = styled(motion(Link))`
-  background-color: rgb(100, 100, 0, 0.4);
-  opacity: 0.7;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1;
-  position: relative;
-  img {
-    width: 16px;
-  }
-`;
-
-const DeleteBtn = styled(motion.button)`
-  background-color: rgb(255, 0, 0, 0.4);
-  opacity: 0.7;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1;
-  position: relative;
-  img {
-    width: 16px;
+  flex-direction: column;
+  gap: 8px;
+  p {
+    ${pSmall}
   }
 `;
 
@@ -286,7 +251,14 @@ function PeopleFeed({
                 </ButtonContainer>
               </>
             ) : (
-              <>{peopleData && <h6>No Timelines</h6>}</>
+              <>
+                {peopleData && (
+                  <NoTimelineContainer>
+                    <p>No Timelines</p>
+                    <CreateButton />
+                  </NoTimelineContainer>
+                )}
+              </>
             )}
           </>
         )}
