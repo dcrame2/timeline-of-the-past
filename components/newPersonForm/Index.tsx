@@ -260,8 +260,11 @@ function NewPersonForm() {
 
   const [mainImage, setMainImage] = useState<string | null>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const submitNewPerson = async (event: any) => {
     event.preventDefault();
+    setIsLoading(true);
     const firstName = firstNameRef.current?.value || "";
     const lastName = lastNameRef.current?.value || "";
     const images = imagesRef.current?.files?.[0];
@@ -502,15 +505,28 @@ function NewPersonForm() {
         <Title name="Create a new timeline" />
         <ButtonContainer>
           <BackButton />
-          <Button
-            style={{
-              backgroundColor: `${variables.lightOrange}`,
-              color: `${variables.white}`,
-            }}
-            onClick={submitNewPerson}
-          >
-            Save
-          </Button>
+          {!isLoading ? (
+            <Button
+              style={{
+                backgroundColor: `${variables.lightOrange}`,
+                color: `${variables.white}`,
+              }}
+              onClick={submitNewPerson}
+            >
+              Save
+            </Button>
+          ) : (
+            <Button
+              isLoading
+              disabled
+              style={{
+                backgroundColor: `${variables.lightOrange}`,
+                color: `${variables.white}`,
+              }}
+            >
+              Saving...
+            </Button>
+          )}
         </ButtonContainer>
       </HeadingContainer>
       <MainContainer>

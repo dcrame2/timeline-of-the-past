@@ -261,6 +261,8 @@ function EditPeopleScreen({
   const [updatedPerson, setUpdatedPerson] = useState<PeopleProps>({
     ...person,
   });
+
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [selectedAge, setSelectedAge] = useState<number>(0);
   const [ageOptions, setAgeOptions] = useState<
@@ -426,7 +428,7 @@ function EditPeopleScreen({
 
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (!updatedPerson) {
       return;
     }
@@ -571,7 +573,29 @@ function EditPeopleScreen({
             />
             <ButtonContainer>
               <BackButton />
-              <Button
+              {!isLoading ? (
+                <Button
+                  style={{
+                    backgroundColor: `${variables.lightOrange}`,
+                    color: `${variables.white}`,
+                  }}
+                  onClick={(e: any) => handleSave(e)}
+                >
+                  Save
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: `${variables.lightOrange}`,
+                    color: `${variables.white}`,
+                  }}
+                  disabled
+                  isLoading
+                >
+                  Saving
+                </Button>
+              )}
+              {/* <Button
                 style={{
                   backgroundColor: `${variables.lightOrange}`,
                   color: `${variables.white}`,
@@ -579,33 +603,10 @@ function EditPeopleScreen({
                 onClick={(e: any) => handleSave(e)}
               >
                 Save
-              </Button>
+              </Button> */}
             </ButtonContainer>
           </HeadingContainer>
-          {/* <ButtonContainer>
-            <Link
-              href="/auth/timeline"
-              isBlock
-              style={{
-                color: `${variables.black}`,
-                display: "flex",
-                alignItems: "center",
-                gap: "4px",
-              }}
-            >
-              <ReturnIcon color={`${variables.black}`} />
-              Back
-            </Link>
-            <Button
-              style={{
-                backgroundColor: `${variables.lightOrange}`,
-                color: `${variables.white}`,
-              }}
-              onClick={(e: any) => handleSave(e)}
-            >
-              Save
-            </Button>
-          </ButtonContainer> */}
+
           <MainContainer>
             <Form>
               <FormInnerContainer>
