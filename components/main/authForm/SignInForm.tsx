@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import TextInput from "@/components/reusable/formFields/TextInput";
 import { buttonType, formStyles } from "@/styles/Type";
+import { Button } from "@nextui-org/react";
+import { variables } from "@/styles/Variables";
+import Link from "next/link";
 
 const Form = styled.form`
-  ${formStyles}
-
-  button {
+  ${formStyles}/* button {
     ${buttonType}
-  }
+  } */
 `;
 
 interface signInFormProps {
@@ -37,9 +38,17 @@ export default function SignInForm({
         required={true}
         ref={passwordInputRef}
       />
-      <button className="submit" onClick={submitHandler}>
+      <Button
+        style={{
+          backgroundColor: `${variables.lightOrange}`,
+          color: `${variables.white}`,
+        }}
+        // as={Link}
+        className="submit"
+        onClick={submitHandler}
+      >
         Sign In
-      </button>
+      </Button>
     </Form>
   );
 }

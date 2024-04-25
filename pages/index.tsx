@@ -8,6 +8,7 @@ import Examples from "@/mainWebsite/examples/Index";
 import Video from "@/mainWebsite/video/Index";
 import { variables } from "@/styles/Variables";
 import Testimonials from "@/mainWebsite/testimonials/Index";
+import { Button } from "@nextui-org/react";
 
 const LayoutContainer = styled.nav`
   position: absolute;
@@ -101,7 +102,16 @@ export default function Home() {
         <LayoutContainer>
           <LayoutInnerContainer>
             <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
-            <LinkStyled href="/auth/authenticate">Login or Sign Up</LinkStyled>
+            <Button
+              style={{
+                backgroundColor: `${variables.lightOrange}`,
+                color: `${variables.white}`,
+              }}
+              href="/auth/authenticate"
+              as={Link}
+            >
+              Login or Sign Up
+            </Button>
           </LayoutInnerContainer>
         </LayoutContainer>
         <Hero />

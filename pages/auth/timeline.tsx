@@ -25,7 +25,7 @@ const HeaderAddContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 12px;
+  /* padding-bottom: 12px; */
   p {
     ${pXSmall}
   }
@@ -34,6 +34,7 @@ const HeaderAddContainer = styled.div`
 const ButtonInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 interface UserData {

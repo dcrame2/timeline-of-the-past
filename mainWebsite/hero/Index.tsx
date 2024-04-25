@@ -5,6 +5,7 @@ import { variables } from "@/styles/Variables";
 import { buttonType, h1styles, pBase } from "@/styles/Type";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Button } from "@nextui-org/react";
 
 const HeroContainer = styled.div`
   width: 100%;
@@ -132,15 +133,20 @@ function Hero() {
           {/* Make History Yours:  */}
           Create Your Own Stunning Timelines
         </motion.p>
-        <LinkStyled
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: `0.5`, delay: 0.8 }}
-          viewport={{ once: true }}
+        <Button
+          // initial={{ opacity: 0 }}
+          // whileInView={{ opacity: 1 }}
+          // transition={{ duration: `0.5`, delay: 0.8 }}
+          // viewport={{ once: true }}
+          as={Link}
           href="/auth/authenticate"
+          style={{
+            backgroundColor: `${variables.lightOrange}`,
+            color: `${variables.white}`,
+          }}
         >
           Login or Sign Up
-        </LinkStyled>
+        </Button>
       </HeroInnerContainer>
     </HeroContainer>
   );
