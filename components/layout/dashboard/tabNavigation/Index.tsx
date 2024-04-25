@@ -23,6 +23,7 @@ const NavContainer = styled.div`
   right: 0;
   z-index: 102;
   background-color: ${variables.lightBlue};
+  justify-content: space-between;
   @media ${MediaQueries.tablet} {
     display: none;
   }
@@ -58,8 +59,24 @@ const NavContainer = styled.div`
   }
 `;
 
+const TabContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+`;
+
 const Logo = styled.img`
   width: 150px;
+  @media ${MediaQueries.mobile} {
+    width: 140px;
+  }
+`;
+
+const Clock = styled.img`
+  min-width: 200px;
+  width: 100%;
+  overflow: hidden;
+  margin-left: -90px;
   @media ${MediaQueries.mobile} {
     width: 140px;
   }
@@ -71,64 +88,71 @@ function TabNavigation() {
 
   return (
     <NavContainer>
-      <Logo src="/timeline_that_logo_white.svg" alt="Timeline That Logo" />
-      <ul>
-        <motion.li
-          whileHover={{
-            scale: 1.05,
-            backgroundColor: "rgba(204, 109, 61, 0.5)",
-          }}
-          className={
-            initialActiveTab === "/auth/timeline" ||
-            initialActiveTab === "/auth/new" ||
-            initialActiveTab === "/auth/edit"
-              ? "active"
-              : ""
-          }
-        >
-          <Link href="/auth/timeline">
-            <TimelineIcon color={`${variables.white}`} />
-            Timeline
-          </Link>
-        </motion.li>
-        <motion.li
-          className={initialActiveTab === "/auth/media-library" ? "active" : ""}
-          whileHover={{
-            scale: 1.05,
-            backgroundColor: "rgba(204, 109, 61, 0.5)",
-          }}
-        >
-          <Link href="/auth/media-library">
-            <MediaIcon color={`${variables.white}`} />
-            Media Library
-          </Link>
-        </motion.li>
+      <TabContainer>
+        <Logo src="/timeline_that_logo_white.svg" alt="Timeline That Logo" />
+        <ul>
+          <motion.li
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "rgba(204, 109, 61, 0.5)",
+            }}
+            className={
+              initialActiveTab === "/auth/timeline" ||
+              initialActiveTab === "/auth/new" ||
+              initialActiveTab === "/auth/edit"
+                ? "active"
+                : ""
+            }
+          >
+            <Link href="/auth/timeline">
+              <TimelineIcon color={`${variables.white}`} />
+              Timeline
+            </Link>
+          </motion.li>
+          <motion.li
+            className={
+              initialActiveTab === "/auth/media-library" ? "active" : ""
+            }
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "rgba(204, 109, 61, 0.5)",
+            }}
+          >
+            <Link href="/auth/media-library">
+              <MediaIcon color={`${variables.white}`} />
+              Media Library
+            </Link>
+          </motion.li>
 
-        <motion.li
-          whileHover={{
-            scale: 1.05,
-            backgroundColor: "rgba(204, 109, 61, 0.5)",
-          }}
-          className={initialActiveTab === "/auth/themes" ? "active" : ""}
-        >
-          <Link href="/auth/themes">
-            <ThemeIcon color={`${variables.white}`} />
-            Themes
-          </Link>
-        </motion.li>
-        <motion.li
-          whileHover={{
-            scale: 1.05,
-            backgroundColor: "rgba(204, 109, 61, 0.5)",
-          }}
-          className={initialActiveTab === "/auth/subscription" ? "active" : ""}
-        >
-          <Link href="/auth/subscription">
-            <PurchaseIcon color={`${variables.white}`} />
-            Purchase
-          </Link>
-        </motion.li>
-      </ul>
+          <motion.li
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "rgba(204, 109, 61, 0.5)",
+            }}
+            className={initialActiveTab === "/auth/themes" ? "active" : ""}
+          >
+            <Link href="/auth/themes">
+              <ThemeIcon color={`${variables.white}`} />
+              Themes
+            </Link>
+          </motion.li>
+          <motion.li
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "rgba(204, 109, 61, 0.5)",
+            }}
+            className={
+              initialActiveTab === "/auth/subscription" ? "active" : ""
+            }
+          >
+            <Link href="/auth/subscription">
+              <PurchaseIcon color={`${variables.white}`} />
+              Purchase
+            </Link>
+          </motion.li>
+        </ul>
+      </TabContainer>
+      <Clock src="/clock-bg.svg" alt="Timeline That Logo" />
     </NavContainer>
   );
 }

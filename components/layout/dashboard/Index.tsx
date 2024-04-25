@@ -31,6 +31,7 @@ const ContentSection = styled.div`
   grid-row: 2;
   margin: 48px 24px;
   overflow-y: hidden;
+
   @media ${MediaQueries.tablet} {
     margin: 72px 12px 0;
     grid-column: unset;
