@@ -9,6 +9,8 @@ import { variables } from "@/styles/Variables";
 import { MediaQueries } from "@/styles/Utilities";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import MainContainer from "@/components/reusable/mainContainer/Index";
+import Title from "@/components/reusable/title/Index";
 
 const HourGlassContainer = styled.div`
   display: flex;
@@ -41,7 +43,7 @@ function EditTimeline() {
   const { query } = router;
   const { person: personQuery, selectedIndex: selectedIndexQuery } = query;
 
-  const [person, setPerson] = useState(null);
+  const [person, setPerson] = useState<any>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [receivedPersonData, setReceivedPersonData] = useState(false);
 
@@ -83,10 +85,18 @@ function EditTimeline() {
           selectedIndex={selectedIndex}
         />
       ) : (
-        <HourGlassContainer>
-          <HourGlassLottieLoading />
-        </HourGlassContainer>
+        <>
+          <Title
+            name={`Editing ${person?.firstName} ${person?.lastName}'s timeline`}
+          />
+          <MainContainer>
+            <HourGlassContainer>
+              <HourGlassLottieLoading />
+            </HourGlassContainer>
+          </MainContainer>
+        </>
       )}
+
       {/* </PeopleScreen> */}
     </Layout>
   );
