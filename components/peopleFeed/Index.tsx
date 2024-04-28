@@ -1,10 +1,9 @@
 import React from "react";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
-import { linkStyles, pLarge, pSmall, pXSmall } from "@/styles/Type";
+import { pSmall, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { MediaQueries } from "@/styles/Utilities";
 import MainContainer from "../reusable/mainContainer/Index";
@@ -49,9 +48,8 @@ const PeopleFeedInnerContainer = styled.div`
   flex-direction: column;
   padding: 8px;
   overflow-y: scroll;
-  /* height: 100%; */
   @media ${MediaQueries.tablet} {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   @media ${MediaQueries.mobile} {
     grid-template-columns: repeat(1, 1fr);
@@ -63,26 +61,6 @@ const HourGlassContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-`;
-
-const MainInfo = styled.div`
-  gap: 4px;
-`;
-
-const IndividualPeopleContainer = styled(motion.div)`
-  display: flex;
-  flex-direction: row;
-  padding: 16px 12px;
-  background-color: ${variables.white};
-  border-radius: 12px;
-  justify-content: space-between;
-  color: ${variables.black};
-  align-items: center;
-  box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
-  gap: 12px;
-  a {
-    ${linkStyles}
-  }
 `;
 
 const CRUDBtns = styled.div`
@@ -120,26 +98,24 @@ interface PeopleProps {
   dob?: string;
 }
 
-// Define the type for uploadDatas state
-type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
-
-// Define the type for setUploadDatas function
-type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
-
 function PeopleFeed({
   peopleData,
   fetchData,
   isLoading,
   getUserInfo,
-  specificUserInfo,
 }: {
   peopleData: PeopleDataProps;
   getUserInfo: () => void;
   fetchData: () => void;
   isLoading: boolean;
-  specificUserInfo: any;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const [deletePerson, setDeletePerson] = React.useState<PeopleProps | null>();
+
+  const deletePersonHandler = (name: PeopleProps) => {
+    setDeletePerson(name);
+  };
 
   const deletePeopleHandler = async (person: PeopleProps, index: number) => {
     const session = await getSession();
@@ -173,21 +149,6 @@ function PeopleFeed({
     console.log(response, "Response");
   };
 
-  const motionPropsUp = {
-    initial: {
-      opacity: 0,
-    },
-    animate: {
-      opacity: 1,
-    },
-    exit: {
-      opacity: 0,
-    },
-    transition: {
-      duration: 0.4,
-    },
-  };
-
   const router = useRouter();
 
   const handleEditClick = (person: any, index: number) => {
@@ -219,10 +180,6 @@ function PeopleFeed({
                 return (
                   <Card key={index} className="py-4 h-auto w-full">
                     <CardHeader className="pb-0 pt-2 px-4 flex flex-col items-start">
-                      {/* <p className="text-tiny uppercase font-bold">
-                        Theme: {theme}
-                      </p> */}
-
                       <h4 className="font-bold">
                         {firstName} {lastName}
                       </h4>
@@ -271,6 +228,7 @@ function PeopleFeed({
                         color="danger"
                         isIconOnly
                         onPress={onOpen}
+                        onClick={() => deletePersonHandler(person)}
                         startContent={<TrashIcon color={variables.white} />}
                       />
                       <>
@@ -289,8 +247,8 @@ function PeopleFeed({
                                   <ModalDescription>
                                     You are about to delete the timeline for{" "}
                                     <b>
-                                      {/* TODO: need to figure out how to put the name i am click on here */}
-                                      {firstName} {lastName}
+                                      {deletePerson?.firstName}{" "}
+                                      {deletePerson?.lastName}
                                     </b>
                                     . This will delete all content and images
                                     from your account and is irreversible.

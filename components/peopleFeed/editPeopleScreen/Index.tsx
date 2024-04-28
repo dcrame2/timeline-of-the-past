@@ -7,11 +7,17 @@ import { buttonType, linkStyles, h2styles, pXSmall } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
 import { MediaQueries } from "@/styles/Utilities";
-import { Link, Button, Image } from "@nextui-org/react";
 import { themeData } from "@/themes/themeData";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
 import { fontOptions } from "@/lib/fonts";
-import { Divider, Select, SelectItem } from "@nextui-org/react";
+import {
+  Divider,
+  Select,
+  SelectItem,
+  Link,
+  Button,
+  Image,
+} from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import EmptyImageCard from "@/components/reusable/emptyImageCard/Index";
@@ -174,12 +180,15 @@ const MainImageUploadContainer = styled.div`
   height: 100%;
   background-color: ${variables.lightGrey};
   border-radius: 12px;
-  border: 2px dashed steelblue;
+  border: 1px dashed ${variables.darkBlue};
   position: relative;
   transition: background-color ease-in 0.3s;
   display: flex;
   align-items: center;
+  /* padding: 30px 30px; */
+  overflow: hidden;
   justify-content: center;
+  max-height: 300px;
   @media ${MediaQueries.mobile} {
     min-height: 200px;
   }
@@ -203,10 +212,11 @@ const MainImageUploadContainer = styled.div`
 `;
 
 const SingleImageContainer = styled.div`
+  position: relative;
   button {
     position: absolute;
     top: 5px;
-    right: 5px;
+    right: 15px;
     background-color: ${variables.white};
     color: black;
     border: none;
@@ -221,14 +231,12 @@ const SingleImageContainer = styled.div`
   }
 `;
 
-const SingleImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
+const SingleImage = styled(Image)`
   width: 100% !important;
   height: 100%;
   object-fit: cover;
   z-index: 2;
+  border-radius: 12px;
 `;
 
 interface PeopleProps {
@@ -613,8 +621,8 @@ function EditPeopleScreen({
                 <h2>MAIN INFORMATION</h2>
                 <MainContainerForImage>
                   <p>Main Image</p>
-                  <MainImageUploadContainer>
-                    {!updatedPerson.mainImage ? (
+                  {!updatedPerson.mainImage ? (
+                    <MainImageUploadContainer>
                       <label htmlFor="file">
                         Add Main Image
                         <input
@@ -625,25 +633,27 @@ function EditPeopleScreen({
                           onChange={(e) => handleOnChange(e)}
                         />
                       </label>
-                    ) : (
-                      <SingleImageContainer>
-                        <button
-                          onClick={(e) =>
-                            handleSingleRemoveImage(
-                              updatedPerson.mainImage ?? "",
-                              e
-                            )
-                          }
-                        >
-                          x
-                        </button>
-                        <SingleImage
-                          src={updatedPerson.mainImage}
-                          alt="Uploaded image"
-                        ></SingleImage>
-                      </SingleImageContainer>
-                    )}
-                  </MainImageUploadContainer>
+                    </MainImageUploadContainer>
+                  ) : (
+                    <SingleImageContainer>
+                      <button
+                        onClick={(e) =>
+                          handleSingleRemoveImage(
+                            updatedPerson.mainImage ?? "",
+                            e
+                          )
+                        }
+                      >
+                        x
+                      </button>
+                      <SingleImage
+                        src={updatedPerson.mainImage}
+                        alt="Uploaded image"
+                        width={300}
+                        height={200}
+                      ></SingleImage>
+                    </SingleImageContainer>
+                  )}
                 </MainContainerForImage>
                 <MainFieldContainer>
                   <ThemeInfoContainer>

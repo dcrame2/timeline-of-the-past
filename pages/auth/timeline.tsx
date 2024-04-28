@@ -130,7 +130,6 @@ export default function Protected() {
         peopleData={peopleData}
         isLoading={isLoading}
         getUserInfo={getUserInfo}
-        specificUserInfo={specificUserInfo}
       />
     </Layout>
   );

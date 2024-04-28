@@ -12,8 +12,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        montserrat: ["Montserrat", "sans-serif"],
-        livvic: ["Livvic", "sans-serif"],
+        montserrat: ["var(--font-montserrat)"],
+        livvic: ["var(--font-livvic)"],
       },
       colors: {
         customGray: "#f4f4f5",

@@ -3,12 +3,28 @@ import { css } from "styled-components";
 import { keyframes } from "styled-components";
 import { variables } from "./Variables";
 
-const monsterrat = `Montserrat, sans-serif`;
-const livvic = `Livvic, sans-serif`;
+// const monsterrat = `Montserrat, sans-serif`;
+// const livvic = `Livvic, sans-serif`;
 const openSans = "Open Sans, sans-serif";
 
+import { Livvic } from "next/font/google";
+import { Montserrat } from "next/font/google";
+
+const livvic = Livvic({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-livvic",
+});
+
+const monsterrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-montserrat",
+});
+
+console.log(livvic, "livvic");
 export const h1styles = css`
-  font-family: ${monsterrat};
+  /* font-family: ${monsterrat.style.fontFamily};    */
 
   font-size: 8rem;
   line-height: 9.4rem;
@@ -26,11 +42,11 @@ export const h1styles = css`
 `;
 
 export const h1stylesdashboard = css`
-  font-family: ${livvic};
+  /* font-family: ${livvic}; */
+  font-family: ${livvic.style.fontFamily};
   font-size: 1.8rem;
   line-height: 2.2rem;
   color: ${variables.black};
-
   @media ${MediaQueries.tablet} {
     font-size: 1.6rem;
     line-height: 2rem;
@@ -43,7 +59,7 @@ export const h1stylesdashboard = css`
 `;
 
 export const h2styles = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   font-size: 3.4rem;
   line-height: 3.5rem;
   color: ${variables.black};
@@ -60,7 +76,7 @@ export const h2styles = css`
 `;
 
 export const h3styles = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   font-size: 2.2rem;
   line-height: 6.3rem;
   font-weight: 300;
@@ -78,7 +94,7 @@ export const h3styles = css`
 `;
 
 export const h4styles = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   font-size: 2rem;
   line-height: 3.4rem;
   font-weight: 300;
@@ -96,7 +112,7 @@ export const h4styles = css`
 `;
 
 export const pLarge = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   font-size: 2.4rem;
   line-height: 3.2rem;
   font-weight: 300;
@@ -109,7 +125,7 @@ export const pLarge = css`
 `;
 
 export const pBase = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   font-size: 1.5rem;
   line-height: 1.7rem;
   font-weight: 300;
@@ -126,7 +142,7 @@ export const pBase = css`
 `;
 
 export const pSmall = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   font-size: 1.1rem;
   line-height: 1.3rem;
   font-weight: 300;
@@ -134,7 +150,7 @@ export const pSmall = css`
 `;
 
 export const pXSmall = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   font-size: 0.9rem;
   line-height: 1rem;
   font-weight: 300;
@@ -142,7 +158,7 @@ export const pXSmall = css`
 `;
 
 export const buttonType = css`
-  font-family: ${monsterrat};
+  font-family: ${monsterrat.style.fontFamily};
   padding: 0 12px;
   line-height: 2.4rem;
   font-weight: 300;
