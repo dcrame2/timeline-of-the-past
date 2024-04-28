@@ -9,7 +9,19 @@ import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { MediaQueries } from "@/styles/Utilities";
 import MainContainer from "../reusable/mainContainer/Index";
 import CreateButton from "../reusable/createButton/Index";
-import { Button, Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Image,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
 import ExternalIcon from "../reusable/svg/externalIcon/Index";
 import EditIcon from "../reusable/svg/editIcon/Index";
 import { useRouter } from "next/router";
@@ -95,10 +107,11 @@ const NoTimelineContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 12px;
+const ModalDescription = styled.p`
+  ${pXSmall}
+  b {
+    font-weight: bold;
+  }
 `;
 
 interface PeopleProps {
@@ -126,6 +139,8 @@ function PeopleFeed({
   isLoading: boolean;
   specificUserInfo: any;
 }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const deletePeopleHandler = async (person: PeopleProps, index: number) => {
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
@@ -255,9 +270,60 @@ function PeopleFeed({
                         target="_blank"
                         color="danger"
                         isIconOnly
-                        onClick={() => deletePeopleHandler(person, index)}
+                        onPress={onOpen}
                         startContent={<TrashIcon color={variables.white} />}
                       />
+                      <>
+                        <Modal
+                          placement="center"
+                          isOpen={isOpen}
+                          onOpenChange={onOpenChange}
+                        >
+                          <ModalContent>
+                            {(onClose) => (
+                              <>
+                                <ModalHeader className="flex flex-col gap-1 text-black">
+                                  Are you sure?
+                                </ModalHeader>
+                                <ModalBody>
+                                  <ModalDescription>
+                                    You are about to delete the timeline for{" "}
+                                    <b>
+                                      {/* TODO: need to figure out how to put the name i am click on here */}
+                                      {firstName} {lastName}
+                                    </b>
+                                    . This will delete all content and images
+                                    from your account and is irreversible.
+                                    Please click the Confirm Delete button to
+                                    proceed.
+                                  </ModalDescription>
+                                </ModalBody>
+                                <ModalFooter>
+                                  <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={onClose}
+                                  >
+                                    Close
+                                  </Button>
+                                  <Button
+                                    style={{
+                                      color: variables.white,
+                                      backgroundColor: "rgba(255, 0, 0, 0.8)",
+                                    }}
+                                    onClick={() =>
+                                      deletePeopleHandler(person, index)
+                                    }
+                                    onPress={onClose}
+                                  >
+                                    Confirm Delete
+                                  </Button>
+                                </ModalFooter>
+                              </>
+                            )}
+                          </ModalContent>
+                        </Modal>
+                      </>
                     </CRUDBtns>
                   </Card>
                 );

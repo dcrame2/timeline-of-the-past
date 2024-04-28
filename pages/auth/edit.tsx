@@ -77,7 +77,6 @@ function EditTimeline() {
 
   return (
     <Layout>
-      {/* <PeopleScreen> */}
       {receivedPersonData ? (
         <EditPeopleScreen
           setReceivedPersonData={setReceivedPersonData}
@@ -96,8 +95,6 @@ function EditTimeline() {
           </MainContainer>
         </>
       )}
-
-      {/* </PeopleScreen> */}
     </Layout>
   );
 }

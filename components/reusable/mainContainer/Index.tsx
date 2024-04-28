@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const OuterContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
-  z-index: 105;
+  z-index: 1;
   border-radius: 12px;
   max-width: 1000px;
   position: relative;
