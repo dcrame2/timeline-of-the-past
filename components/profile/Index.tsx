@@ -154,14 +154,14 @@ function ProfileComponent({ session }: any) {
             label="Username:"
             type="text"
             value={session?.user.username}
-            disabled
+            // disabled
             // onChange={(e: any) => handleInputChange(e, "firstName")}
           />
           <TextInput
             label="Email:"
             type="email"
             value={session?.user.email}
-            disabled
+            // disabled
             // onChange={(e: any) => handleInputChange(e, "firstName")}
           />
         </EmailUsernameInformation>
