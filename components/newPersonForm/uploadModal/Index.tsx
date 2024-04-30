@@ -23,13 +23,12 @@ function UploadModal({
       <Button
         onPress={openMutlitplImageModal}
         type="button"
-        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 max-w-60"
+        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 max-w-72"
       >
         Add Images -{" "}
         {ageOptions[selectedAge]?.label
           ? ageOptions[selectedAge].label
           : "Born"}
-        {/* {selectedAge === 0 ? "Born" : `Age ${selectedAge}`} */}
       </Button>
       <Transition.Root show={mulitipleImageModalOpen} as={Fragment}>
         <Dialog

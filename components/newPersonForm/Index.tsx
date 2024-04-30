@@ -442,6 +442,7 @@ function NewPersonForm() {
                   name="color"
                   ref={colorRef}
                   label="Theme Color"
+                  style={{ borderRadius: 0 }}
                 />
 
                 <SelectInput

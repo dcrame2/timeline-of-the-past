@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getSession } from "next-auth/react";
 import { variables } from "@/styles/Variables";
 import TextInput from "@/components/reusable/formFields/TextInput";
-import { buttonType, linkStyles, h2styles, pXSmall } from "@/styles/Type";
+import { linkStyles } from "@/styles/Type";
 import UploadFileInputEdit from "@/components/reusable/formFields/uploadFileInputEdit/Index";
 import { useRouter } from "next/router";
 import { MediaQueries } from "@/styles/Utilities";
@@ -16,15 +16,9 @@ import {
   SelectItem,
   Link,
   Button,
-  Image,
+  Textarea,
 } from "@nextui-org/react";
-import { Textarea } from "@nextui-org/react";
-import { motion } from "framer-motion";
-import EmptyImageCard from "@/components/reusable/emptyImageCard/Index";
 import MainContainer from "@/components/reusable/mainContainer/Index";
-import ReturnIcon from "@/components/reusable/svg/returnIcon/Index";
-import Title from "@/components/reusable/title/Index";
-import BackButton from "@/components/reusable/backButton/Index";
 import SectionHeader from "@/components/reusable/sectionHeader/Index";
 import MainImageUpload from "./mainImageUpload/Index";
 import UploadModal from "@/components/newPersonForm/uploadModal/Index";
@@ -72,54 +66,6 @@ const DatesContainer = styled.div`
   @media ${MediaQueries.mobile} {
     flex-direction: column;
     gap: 12px;
-  }
-`;
-
-const ImageGridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column: 1 / span 2;
-  gap: 10px;
-
-  @media ${MediaQueries.mobile} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
-
-const ImageWithCaption = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ImageContainer = styled.div`
-  background-color: ${variables.lightGrey};
-  text-align: center;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: column-reverse;
-  ${h2styles} @media ${MediaQueries.mobile} {
-  }
-  img {
-    object-fit: contain;
-  }
-  button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: ${variables.white};
-    color: black;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    z-index: 10;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 `;
 
@@ -540,7 +486,7 @@ function EditPeopleScreen({
                   handleSingleRemoveImage={handleSingleRemoveImage}
                 />
                 <MainFieldContainer>
-                  <ThemeInfoContainer>
+                  <ThemeInfoContainer className="w-full">
                     <TextInput
                       type="color"
                       id="color"
