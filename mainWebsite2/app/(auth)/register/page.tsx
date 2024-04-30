@@ -1,14 +1,14 @@
-import Link from 'next/link'
+import Link from "next/link";
 
-import { Button } from '@/components/Button'
-import { SelectField, TextField } from '@/components/Fields'
-import { Logo } from '@/components/Logo'
-import { SlimLayout } from '@/components/SlimLayout'
-import { type Metadata } from 'next'
+import { Button } from "@/mainWebsite2/components/Button";
+import { SelectField, TextField } from "@/mainWebsite2/components/Fields";
+import { Logo } from "@/mainWebsite2/components/Logo";
+import { SlimLayout } from "@/mainWebsite2/components/SlimLayout";
+import { type Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Sign Up',
-}
+  title: "Sign Up",
+};
 
 export default function Register() {
   return (
@@ -22,13 +22,13 @@ export default function Register() {
         Get started for free
       </h2>
       <p className="mt-2 text-sm text-gray-700">
-        Already registered?{' '}
+        Already registered?{" "}
         <Link
           href="/login"
           className="font-medium text-blue-600 hover:underline"
         >
           Sign in
-        </Link>{' '}
+        </Link>{" "}
         to your account.
       </p>
       <form
@@ -84,5 +84,5 @@ export default function Register() {
         </div>
       </form>
     </SlimLayout>
-  )
+  );
 }
