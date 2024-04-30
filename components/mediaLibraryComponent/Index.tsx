@@ -22,7 +22,7 @@ const MediaLibraryInnerContainer = styled.div`
 const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
+  /* max-width: 1000px; */
   padding-bottom: 4px;
   @media ${MediaQueries.mobile} {
     gap: 16px;

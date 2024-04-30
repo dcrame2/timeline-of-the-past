@@ -9,6 +9,7 @@ import styled from "styled-components";
 import BackButton from "@/components/reusable/backButton/Index";
 import CreateButton from "@/components/reusable/createButton/Index";
 import { MediaQueries } from "@/styles/Utilities";
+import SectionHeader from "@/components/reusable/sectionHeader/Index";
 
 const ButtonInfo = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const ButtonInfo = styled.div`
 const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
+  /* max-width: 1000px; */
   padding-bottom: 4px;
   @media ${MediaQueries.mobile} {
     gap: 16px;
@@ -29,11 +30,11 @@ function Themes() {
   return (
     <Layout>
       <HeadingContainer>
-        <Title name={`Theme examples (${themeData.length} themes)`} />
-        <ButtonInfo>
-          <BackButton />
-          <CreateButton />
-        </ButtonInfo>
+        <SectionHeader
+          backButton={true}
+          button={<CreateButton />}
+          heading={`Theme examples (${themeData.length} themes)`}
+        />
       </HeadingContainer>
 
       <AllThemes />

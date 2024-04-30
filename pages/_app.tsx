@@ -1,12 +1,14 @@
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
-import "@/styles/global.css";
+
 import * as React from "react";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import { useState, createContext } from "react";
 import { NextUIProvider } from "@nextui-org/react";
 // import { createContext } from "vm";
+import "@/styles/global.css";
+import "@/styles/tailwind.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

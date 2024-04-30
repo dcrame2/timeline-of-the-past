@@ -10,11 +10,12 @@ import styled from "styled-components";
 import CreateButton from "@/components/reusable/createButton/Index";
 import { MediaQueries } from "@/styles/Utilities";
 import { pXSmall } from "@/styles/Type";
+import SectionHeader from "@/components/reusable/sectionHeader/Index";
 
 const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
+  /* max-width: 1000px; */
   padding-bottom: 4px;
   @media ${MediaQueries.mobile} {
     gap: 16px;
@@ -105,26 +106,11 @@ export default function Protected() {
 
   return (
     <Layout>
-      <HeadingContainer>
-        <Title
-          name={`Hello, ${session?.data?.user.firstName} ${session?.data?.user.lastName}!`}
-        />
-        <ButtonInfo>
-          <HeaderAddContainer>
-            <p>
-              All Timelines{" "}
-              {specificUserInfo ? (
-                <span className="remaining-timelines">
-                  ({specificUserInfo?.user?.remainingTimelines} remaining)
-                </span>
-              ) : (
-                <span className="remaining-timelines">(0 remaining)</span>
-              )}
-            </p>
-          </HeaderAddContainer>
-          <CreateButton />
-        </ButtonInfo>
-      </HeadingContainer>
+      <SectionHeader
+        button={<CreateButton />}
+        heading={`Hello, ${session?.data?.user.firstName} ${session?.data?.user.lastName}!`}
+      />
+
       <PeopleFeed
         fetchData={fetchData}
         peopleData={peopleData}

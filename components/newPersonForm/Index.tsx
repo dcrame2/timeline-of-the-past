@@ -1,25 +1,25 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, Fragment } from "react";
 import TextInput from "../reusable/formFields/TextInput";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
-import { h2styles } from "@/styles/Type";
 import { useRouter } from "next/router";
 import { pXSmall } from "@/styles/Type";
-import { Button, Image } from "@nextui-org/react";
+import { Button, DatePicker, Image } from "@nextui-org/react";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
 import { fontOptions } from "@/lib/fonts";
-import { Select, SelectItem } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
-import EmptyImageCard from "../reusable/emptyImageCard/Index";
 import MainContainer from "../reusable/mainContainer/Index";
-import BackButton from "../reusable/backButton/Index";
-import Title from "../reusable/title/Index";
+import SectionHeader from "../reusable/sectionHeader/Index";
+import MainImageUpload from "../reusable/mainImageUpload/Index";
+import UploadModal from "./uploadModal/Index";
+import FourImageGrid from "./fourImageGrid/Index";
+import SelectInput from "../reusable/formFields/selectInput/Index";
 
 const Form = styled.form`
   max-width: 100%;
@@ -29,11 +29,18 @@ const Form = styled.form`
   }
 `;
 
+const MainInfo = styled.h2`
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  @media ${MediaQueries.mobile} {
+    grid-column: unset;
+  }
+`;
 const FormInnerContainer = styled.div`
   display: grid;
-  grid-template-columns: 0.5fr 1fr;
+  grid-template-columns: 0.4fr 1fr;
   gap: 24px;
-  @media ${MediaQueries.mobile} {
+  @media ${MediaQueries.tablet} {
     display: flex;
     flex-direction: column;
   }
@@ -43,12 +50,18 @@ const MainFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  grid-column: 2;
+  grid-row: 2;
 `;
 
 const ThemeInfoContainer = styled.div`
   display: flex;
   gap: 12px;
-  grid-column: 1 / span 2;
+  width: 100%;
+
+  [type="color"] {
+    height: 42px;
+  }
   @media ${MediaQueries.mobile} {
     flex-direction: column;
     grid-column: unset;
@@ -80,147 +93,7 @@ const ImageUploadedContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  grid-column: 1;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 1000px;
-  gap: 20px;
-  z-index: 1001;
-  padding: 0px 6px 12px;
-  justify-content: space-between;
-  align-items: center;
-  @media ${MediaQueries.mobile} {
-    padding: 0px 6px 6px;
-  }
-`;
-
-const ImageGridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column: 1 / span 2;
-  gap: 10px;
-
-  @media ${MediaQueries.mobile} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
-
-const HeadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  max-width: 1000px;
-  padding-bottom: 4px;
-  @media ${MediaQueries.mobile} {
-    gap: 16px;
-  }
-`;
-
-const ImageContainer = styled.div`
-  background-color: ${variables.lightGrey};
-  text-align: center;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: column-reverse;
-  ${h2styles} @media ${MediaQueries.mobile} {
-  }
-  img {
-    object-fit: contain;
-  }
-  button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: ${variables.white};
-    color: black;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    z-index: 10;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const MainImageUploadContainer = styled.div`
-  height: 100%;
-  background-color: #f4f4f5;
-  border-radius: 12px;
-  border: 1px dashed ${variables.darkBlue};
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 30px;
-  display: flex;
-  transition: background-color ease-in 0.2s;
-  @media ${MediaQueries.mobile} {
-    min-height: 200px;
-  }
-  &:hover {
-    transition: background-color ease-in 0.2s;
-    background-color: #e4e4e7;
-  }
-  input[type="file"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  img {
-    width: 20px;
-  }
-`;
-
-const SingleImageContainer = styled.div`
-  button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: ${variables.white};
-    color: black;
-    border: none;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    z-index: 5;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const SingleImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100%;
-  object-fit: cover;
-  z-index: 2;
-`;
-
-const MainContainerForImage = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  p {
-    ${pXSmall}
-  }
+  grid-column: 2;
 `;
 
 function NewPersonForm() {
@@ -234,9 +107,11 @@ function NewPersonForm() {
   const linkedinRef = React.useRef<HTMLInputElement>(null);
   const twitterRef = React.useRef<HTMLInputElement>(null);
   const colorRef = React.useRef<HTMLInputElement>(null);
+  const mainTextRef = React.useRef<HTMLTextAreaElement>(null);
   const [uploadDatas, setUploadDatas] = useState<{
     [key: number]: { images: string[]; ageText: string };
   }>({});
+
   const maxDate = new Date().toISOString().split("T")[0];
 
   const router = useRouter();
@@ -248,17 +123,33 @@ function NewPersonForm() {
     { value: number; label: string }[]
   >([]);
 
+  console.log(uploadDatas[selectedAge], "uploadDatas[selectedAge]");
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
   const [singleImageSrc, setSingleImageSrc] = useState();
 
   const [font, setFont] = useState("Arial, sans-serif");
+  console.log(font, "FONT");
   const [theme, setTheme] = useState(1);
 
-  console.log(theme, "theme");
+  // console.log(theme, "theme");
 
   const [mainImage, setMainImage] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [imageIsLoading, setImageIsLoading] = useState(false);
+
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+
+  console.log(uploadedImages, "UPLOADED IMAGES");
+
+  interface UploadedImage {
+    src: string;
+    progress: number;
+  }
+
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   const submitNewPerson = async (event: any) => {
     event.preventDefault();
@@ -273,6 +164,7 @@ function NewPersonForm() {
     const linkedinLink = linkedinRef.current?.value || "";
     const twitterLink = twitterRef.current?.value || "";
     const color = colorRef.current?.value || "#ff0000";
+    const mainText = mainTextRef.current?.value || "";
     const slug = slugifyNames(firstName, middleName, lastName);
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
@@ -291,6 +183,7 @@ function NewPersonForm() {
         color,
         font,
         theme,
+        mainText,
         facebookLink,
         linkedinLink,
         twitterLink,
@@ -316,9 +209,7 @@ function NewPersonForm() {
 
   const handleAgeTextChange = (e: any) => {
     const newText = e.target.value;
-
     setAgeText(newText);
-
     setUploadDatas((prevUploadDatas) => ({
       ...prevUploadDatas,
       [selectedAge]: {
@@ -332,7 +223,7 @@ function NewPersonForm() {
   const handleDateOfBirthChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const selectedDate = new Date(event.target.value);
+    const selectedDate = new Date(dobRef.current?.value || "");
 
     const today = new Date();
     const diffYears = today.getFullYear() - selectedDate.getFullYear();
@@ -422,6 +313,9 @@ function NewPersonForm() {
         console.error("Error deleting image:", error);
       }
       // Update the uploadDatas state with the modified object
+      setUploadedImages((prevImages) =>
+        prevImages.filter((_, i) => i !== imageIndex)
+      );
       setUploadDatas(updatedUploadDatas);
     }
   };
@@ -448,6 +342,7 @@ function NewPersonForm() {
           console.log("Image deleted successfully");
           // Reset mainImage state to null
           setMainImage(null);
+          setSingleImageSrc(undefined);
         } else {
           // Handle error response from the API route
           console.error("Failed to delete image:", response.statusText);
@@ -457,14 +352,6 @@ function NewPersonForm() {
         console.error("Error deleting image:", error);
       }
     }
-  };
-
-  const handleCaptionChange = (index: number, caption: string) => {
-    setUploadDatas((prevUploadDatas: any) => {
-      const updatedUploadDatas = { ...prevUploadDatas };
-      updatedUploadDatas[selectedAge][index].caption = caption;
-      return updatedUploadDatas;
-    });
   };
 
   const handleOnChange = async (changeEvent: any) => {
@@ -499,121 +386,78 @@ function NewPersonForm() {
 
   return (
     <>
-      <HeadingContainer>
-        <Title name="Create a new timeline" />
-        <ButtonContainer>
-          <BackButton />
-          {!isLoading ? (
-            <Button
-              style={{
-                backgroundColor: `${variables.lightOrange}`,
-                color: `${variables.white}`,
-              }}
-              onClick={submitNewPerson}
-            >
-              Save
-            </Button>
-          ) : (
-            <Button
-              isLoading
-              disabled
-              style={{
-                backgroundColor: `${variables.lightOrange}`,
-                color: `${variables.white}`,
-              }}
-            >
-              Saving...
-            </Button>
-          )}
-        </ButtonContainer>
-      </HeadingContainer>
+      <SectionHeader
+        backButton={true}
+        button={
+          <>
+            {!isLoading ? (
+              <Button
+                style={{
+                  backgroundColor: `${variables.lightOrange}`,
+                  color: `${variables.white}`,
+                }}
+                onClick={submitNewPerson}
+              >
+                Save
+              </Button>
+            ) : (
+              <Button
+                isLoading
+                disabled
+                style={{
+                  backgroundColor: `${variables.lightOrange}`,
+                  color: `${variables.white}`,
+                }}
+              >
+                Saving...
+              </Button>
+            )}{" "}
+          </>
+        }
+        heading="Create a new timeline"
+      />
       <MainContainer>
         <Form method="post">
           <FormInnerContainer>
-            <h2>MAIN INFORMATION</h2>
-            <MainContainerForImage>
-              <p>Main Image</p>
-
-              <MainImageUploadContainer>
-                {!mainImage ? (
-                  <label htmlFor="file">
-                    Add Main Image
-                    <input
-                      id="file"
-                      type="file"
-                      name="file"
-                      accept="image/*"
-                      onChange={(e) => handleOnChange(e)}
-                    />
-                  </label>
-                ) : (
-                  <SingleImageContainer>
-                    <button
-                      onClick={(e) => handleSingleRemoveImage(mainImage, e)}
-                    >
-                      x
-                    </button>
-                    <SingleImage
-                      src={mainImage}
-                      alt="Uploaded image"
-                    ></SingleImage>
-                  </SingleImageContainer>
-                )}
-              </MainImageUploadContainer>
-            </MainContainerForImage>
+            <div className="row-span-2 flex gap-4 flex-col">
+              <MainInfo>MAIN INFORMATION</MainInfo>
+              <p className="italic text-xs">
+                Supply the personal information regarding the timeline
+              </p>
+              <p className="italic text-xs">This information will be public</p>
+            </div>
+            <MainImageUpload
+              handleSingleRemoveImage={handleSingleRemoveImage}
+              mainImage={mainImage}
+              handleOnChange={handleOnChange}
+              singleImageSrc={singleImageSrc}
+              setSingleImageSrc={setSingleImageSrc}
+            />
             <MainFieldContainer>
-              <ThemeInfoContainer>
+              <ThemeInfoContainer className="w-full">
                 <TextInput
-                  className="custom-color-input"
+                  className=""
                   type="color"
                   id="color"
                   name="color"
                   ref={colorRef}
-                  placeholder=" "
                   label="Theme Color"
-                  style={{ borderRadius: 0 }}
                 />
-                <Select
-                  label={"Theme Font"}
+
+                <SelectInput
                   placeholder="Select a font"
-                  className="max-w-xs"
+                  label={"Theme Font"}
                   onChange={handleFontChange}
                   value={font}
-                  labelPlacement={"outside"}
-                >
-                  {fontOptions.map((selectOption: any) => (
-                    <SelectItem
-                      key={selectOption.value}
-                      value={selectOption.value}
-                      style={{
-                        fontFamily: selectOption.value,
-                        color: "black",
-                      }}
-                    >
-                      {selectOption.label}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Select
+                  options={fontOptions}
+                />
+                <SelectInput
                   label={"Theme"}
                   placeholder="Select a theme"
-                  className="max-w-xs"
                   onChange={handleThemeChange}
                   value={theme}
-                  labelPlacement={"outside"}
-                >
-                  {themeData.map((selectOption: any) => (
-                    <SelectItem
-                      key={selectOption.value}
-                      value={selectOption.value}
-                      style={{
-                        color: "black",
-                      }}
-                    >
-                      {selectOption.name}
-                    </SelectItem>
-                  ))}
-                </Select>
+                  options={themeData}
+                />
               </ThemeInfoContainer>
               <NameContainer>
                 <TextInput
@@ -663,73 +507,65 @@ function NewPersonForm() {
                   ref={deathRef}
                 />
               </DatesContainer>
+              <Textarea
+                label={"Who are you today?"}
+                ref={mainTextRef}
+                placeholder="Enter your description"
+                className="border-none"
+                labelPlacement={"outside"}
+              />
             </MainFieldContainer>
             <Divider className="my-4 col-span-2" />
-            <h2>SPECIFIC AGE INFORMATION</h2>
+            <div className="row-span-2 flex gap-4 flex-col">
+              <h2>SPECIFIC AGE INFORMATION</h2>
+              <p className="italic text-xs">
+                Supply the information regarding the specific age of your life.
+              </p>
+              <p className="italic text-xs">This information will be public.</p>
+            </div>
+
             <ImageUploadedContainer>
-              <Select
-                label={"Year/Age"}
+              <SelectInput
                 placeholder="Select Year/Age"
-                className="max-w-xs"
+                label={"Year/Age"}
                 onChange={handleAgeChange}
-                value={selectedAge}
-                labelPlacement={"outside"}
-              >
-                {ageOptions.map((selectOption: any) => (
-                  <SelectItem
-                    key={selectOption.value}
-                    value={selectOption.value}
-                    style={{
-                      color: "black",
-                    }}
-                  >
-                    {selectOption.label}
-                  </SelectItem>
-                ))}
-              </Select>
+                value={ageOptions[selectedAge]?.label || ageOptions[0]?.value}
+                options={ageOptions}
+              />
               <Textarea
-                label={"Description of this Year/Age"}
+                label={`Description of   ${
+                  ageOptions[selectedAge]?.label
+                    ? ageOptions[selectedAge].label
+                    : "Born"
+                }`}
                 placeholder="Enter your description"
-                className="max-w-xs"
+                className="border-none"
                 value={uploadDatas[selectedAge]?.ageText || ageText}
                 onChange={handleAgeTextChange}
                 labelPlacement={"outside"}
               />
+              <UploadModal
+                uploadDatas={uploadDatas}
+                selectedAge={selectedAge}
+                ageOptions={ageOptions}
+              >
+                <UploadFileInputNew
+                  uploadedImages={uploadedImages}
+                  setUploadedImages={setUploadedImages}
+                  selectedAge={selectedAge}
+                  setUploadDatas={setUploadDatas}
+                  uploadDatas={uploadDatas}
+                  setImageSrcs={setImageSrcs}
+                  imageSrcs={imageSrcs}
+                  handleRemoveImage={handleRemoveImage}
+                />
+              </UploadModal>
             </ImageUploadedContainer>
-            <UploadFileInputNew
-              selectedAge={selectedAge}
-              setUploadDatas={setUploadDatas}
+            <FourImageGrid
               uploadDatas={uploadDatas}
-              setImageSrcs={setImageSrcs}
-              imageSrcs={imageSrcs}
+              selectedAge={selectedAge}
+              handleRemoveImage={handleRemoveImage}
             />
-            <ImageGridContainer>
-              {uploadDatas[selectedAge]?.images?.map(
-                (src: string, index: number) => (
-                  <ImageContainer>
-                    <Image
-                      width={300}
-                      height={200}
-                      src={src}
-                      alt={`Image ${index}`}
-                    />
-                    <button onClick={(e) => handleRemoveImage(src, index, e)}>
-                      x
-                    </button>
-                  </ImageContainer>
-                )
-              )}
-              {[
-                ...Array(
-                  Math.max(
-                    0,
-                    4 - (uploadDatas[selectedAge]?.images?.length || 0)
-                  )
-                ),
-              ].map((_, index) => (
-                <EmptyImageCard />
-              ))}
-            </ImageGridContainer>
           </FormInnerContainer>
         </Form>
       </MainContainer>

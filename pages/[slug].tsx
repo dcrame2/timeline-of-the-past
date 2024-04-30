@@ -7,6 +7,8 @@ import type {
 import ThemeOne from "@/themes/themeOne/Index";
 import ThemeTwo from "@/themes/themeTwo/Index";
 import ThemeThree from "@/themes/themeThree/Index";
+import ThemeFour from "@/themes/themeFour/Index";
+import ThemeFive from "@/themes/themeFive/Index";
 
 interface Person {
   data: [
@@ -121,6 +123,12 @@ export default function Page({ data }: { data: any }) {
       break;
     case 3:
       themeComponent = <ThemeThree data={data} />;
+      break;
+    case 4:
+      themeComponent = <ThemeFour data={data} />;
+      break;
+    case 5:
+      themeComponent = <ThemeFive data={data} />;
       break;
     default:
       themeComponent = null; // Handle default case if theme is not 1, 2, or 3

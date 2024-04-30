@@ -7,6 +7,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
+      console.log(req.body, "REQ BODY");
       // Create a new object with the desired key-value pair and copy over other properties
       const newData = {
         ...req.body, // Copy over other properties

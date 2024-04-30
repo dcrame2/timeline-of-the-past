@@ -25,6 +25,10 @@ import MainContainer from "@/components/reusable/mainContainer/Index";
 import ReturnIcon from "@/components/reusable/svg/returnIcon/Index";
 import Title from "@/components/reusable/title/Index";
 import BackButton from "@/components/reusable/backButton/Index";
+import SectionHeader from "@/components/reusable/sectionHeader/Index";
+import MainImageUpload from "./mainImageUpload/Index";
+import UploadModal from "@/components/newPersonForm/uploadModal/Index";
+import FourImageGrid from "@/components/newPersonForm/fourImageGrid/Index";
 
 const Form = styled.form`
   @media ${MediaQueries.mobile} {
@@ -34,22 +38,11 @@ const Form = styled.form`
 
 const FormInnerContainer = styled.div`
   display: grid;
-  grid-template-columns: 0.5fr 1fr;
+  grid-template-columns: 0.4fr 1fr;
   gap: 24px;
   @media ${MediaQueries.mobile} {
     display: flex;
     flex-direction: column;
-  }
-`;
-
-const HeadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  max-width: 1000px;
-  padding-bottom: 4px;
-  @media ${MediaQueries.mobile} {
-    gap: 16px;
   }
 `;
 
@@ -140,30 +133,6 @@ const ThemeInfoContainer = styled.div`
   }
 `;
 
-const MainContainerForImage = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  p {
-    ${pXSmall}
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 1000px;
-  gap: 20px;
-  z-index: 1001;
-  padding: 0px 6px 12px;
-  justify-content: space-between;
-  align-items: center;
-  @media ${MediaQueries.mobile} {
-    padding: 0px 6px 6px;
-  }
-`;
-
 const ImageUploadedContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -174,69 +143,6 @@ const MainFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-`;
-
-const MainImageUploadContainer = styled.div`
-  height: 100%;
-  background-color: ${variables.lightGrey};
-  border-radius: 12px;
-  border: 1px dashed ${variables.darkBlue};
-  position: relative;
-  transition: background-color ease-in 0.3s;
-  display: flex;
-  align-items: center;
-  /* padding: 30px 30px; */
-  overflow: hidden;
-  justify-content: center;
-  max-height: 300px;
-  @media ${MediaQueries.mobile} {
-    min-height: 200px;
-  }
-  input[type="file"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  img {
-    width: 20px;
-  }
-  &:hover {
-    transition: background-color ease-in 0.3s;
-    background-color: ${variables.veryLightBlue};
-  }
-`;
-
-const SingleImageContainer = styled.div`
-  position: relative;
-  button {
-    position: absolute;
-    top: 5px;
-    right: 15px;
-    background-color: ${variables.white};
-    color: black;
-    border: none;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    z-index: 5;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const SingleImage = styled(Image)`
-  width: 100% !important;
-  height: 100%;
-  object-fit: cover;
-  z-index: 2;
-  border-radius: 12px;
 `;
 
 interface PeopleProps {
@@ -255,6 +161,7 @@ interface PeopleProps {
   slug?: string;
   font?: string;
   theme?: number | string;
+  mainText?: string;
 }
 
 function EditPeopleScreen({
@@ -575,36 +482,36 @@ function EditPeopleScreen({
     <>
       {person && (
         <>
-          <HeadingContainer>
-            <Title
-              name={`Editing ${updatedPerson.firstName} ${updatedPerson.lastName}'s timeline`}
-            />
-            <ButtonContainer>
-              <BackButton />
-              {!isLoading ? (
-                <Button
-                  style={{
-                    backgroundColor: `${variables.lightOrange}`,
-                    color: `${variables.white}`,
-                  }}
-                  onClick={(e: any) => handleSave(e)}
-                >
-                  Save
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    backgroundColor: `${variables.lightOrange}`,
-                    color: `${variables.white}`,
-                  }}
-                  disabled
-                  isLoading
-                >
-                  Saving
-                </Button>
-              )}
-            </ButtonContainer>
-          </HeadingContainer>
+          <SectionHeader
+            heading={`Editing ${updatedPerson.firstName} ${updatedPerson.lastName}'s timeline`}
+            backButton={true}
+            button={
+              <>
+                {!isLoading ? (
+                  <Button
+                    style={{
+                      backgroundColor: `${variables.lightOrange}`,
+                      color: `${variables.white}`,
+                    }}
+                    onClick={(e: any) => handleSave(e)}
+                  >
+                    Save
+                  </Button>
+                ) : (
+                  <Button
+                    style={{
+                      backgroundColor: `${variables.lightOrange}`,
+                      color: `${variables.white}`,
+                    }}
+                    disabled
+                    isLoading
+                  >
+                    Saving
+                  </Button>
+                )}
+              </>
+            }
+          />
 
           <MainContainer>
             <Form>
@@ -618,43 +525,20 @@ function EditPeopleScreen({
                     https://timelinethat.com{person.slug}
                   </Link>
                 </LinkContainer>
-                <h2>MAIN INFORMATION</h2>
-                <MainContainerForImage>
-                  <p>Main Image</p>
-                  {!updatedPerson.mainImage ? (
-                    <MainImageUploadContainer>
-                      <label htmlFor="file">
-                        Add Main Image
-                        <input
-                          id="file"
-                          type="file"
-                          name="file"
-                          accept="image/*"
-                          onChange={(e) => handleOnChange(e)}
-                        />
-                      </label>
-                    </MainImageUploadContainer>
-                  ) : (
-                    <SingleImageContainer>
-                      <button
-                        onClick={(e) =>
-                          handleSingleRemoveImage(
-                            updatedPerson.mainImage ?? "",
-                            e
-                          )
-                        }
-                      >
-                        x
-                      </button>
-                      <SingleImage
-                        src={updatedPerson.mainImage}
-                        alt="Uploaded image"
-                        width={300}
-                        height={200}
-                      ></SingleImage>
-                    </SingleImageContainer>
-                  )}
-                </MainContainerForImage>
+                <div className="row-span-2 flex gap-4 flex-col">
+                  <h2>MAIN INFORMATION</h2>
+                  <p className="italic text-xs">
+                    Supply the personal information regarding the timeline
+                  </p>
+                  <p className="italic text-xs">
+                    This information will be public
+                  </p>
+                </div>
+                <MainImageUpload
+                  updatedPerson={updatedPerson}
+                  handleOnChange={handleOnChange}
+                  handleSingleRemoveImage={handleSingleRemoveImage}
+                />
                 <MainFieldContainer>
                   <ThemeInfoContainer>
                     <TextInput
@@ -713,7 +597,7 @@ function EditPeopleScreen({
                             color: "black",
                           }}
                         >
-                          {selectOption.name}
+                          {selectOption.label}
                         </SelectItem>
                       ))}
                     </Select>
@@ -769,13 +653,34 @@ function EditPeopleScreen({
                       }}
                     />
                   </DatesContainer>
+
+                  <Textarea
+                    label={"Who are you today?"}
+                    value={updatedPerson.mainText}
+                    placeholder="Enter your description"
+                    className="border-none"
+                    labelPlacement={"outside"}
+                  />
                 </MainFieldContainer>
                 <Divider className="my-4 col-span-2" />
-                <h2>SPECIFIC AGE INFORMATION</h2>
+                <div className="row-span-2 flex gap-4 flex-col">
+                  <h2>SPECIFIC AGE INFORMATION</h2>
+                  <p className="italic text-xs">
+                    Supply the information regarding the specific age of your
+                    life.
+                  </p>
+                  <p className="italic text-xs">
+                    This information will be public.
+                  </p>
+                </div>
                 <ImageUploadedContainer>
                   <Select
                     label={"Year/Age"}
-                    placeholder=" "
+                    placeholder={
+                      ageOptions[selectedAge]?.label
+                        ? ageOptions[selectedAge].label
+                        : "Born"
+                    }
                     className="max-w-xs"
                     onChange={handleAgeChange}
                     value={selectedAge}
@@ -793,10 +698,15 @@ function EditPeopleScreen({
                       </SelectItem>
                     ))}
                   </Select>
+
                   <Textarea
-                    label={"Description of this Year/Age"}
+                    label={`Description of   ${
+                      ageOptions[selectedAge]?.label
+                        ? ageOptions[selectedAge].label
+                        : "Born"
+                    }`}
                     placeholder="Enter your description"
-                    className="max-w-xs"
+                    className="border-none"
                     value={
                       updatedPerson?.uploadDatas?.[selectedAge]?.ageText || ""
                     }
@@ -807,16 +717,27 @@ function EditPeopleScreen({
                   />
                 </ImageUploadedContainer>
                 {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
-                <UploadFileInputEdit
+                <UploadModal
+                  uploadDatas={updatedPerson?.uploadDatas}
                   selectedAge={selectedAge}
-                  updatedPerson={updatedPerson}
-                  onUpload={(selectedAge: number, newUploadDatas: string[]) =>
-                    setUpdatedPerson((prevState) =>
-                      handleUpload(selectedAge, newUploadDatas, prevState)
-                    )
-                  }
+                  ageOptions={ageOptions}
+                >
+                  <UploadFileInputEdit
+                    selectedAge={selectedAge}
+                    updatedPerson={updatedPerson}
+                    onUpload={(selectedAge: number, newUploadDatas: string[]) =>
+                      setUpdatedPerson((prevState) =>
+                        handleUpload(selectedAge, newUploadDatas, prevState)
+                      )
+                    }
+                  />
+                </UploadModal>
+                <FourImageGrid
+                  uploadDatas={updatedPerson.uploadDatas}
+                  selectedAge={selectedAge}
+                  handleRemoveImage={handleRemoveImage}
                 />
-                <ImageGridContainer>
+                {/* <ImageGridContainer>
                   {person &&
                     updatedPerson.uploadDatas &&
                     selectedAge !== null &&
@@ -856,7 +777,7 @@ function EditPeopleScreen({
                         )
                       ),
                     ].map((_, index) => <EmptyImageCard />)}
-                </ImageGridContainer>
+                </ImageGridContainer> */}
               </FormInnerContainer>
             </Form>
           </MainContainer>

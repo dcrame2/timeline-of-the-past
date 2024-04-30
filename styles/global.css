@@ -97,7 +97,7 @@ body {
 }
 
 body {
-  color: #fff;
+  /* color: #fff; */
   background-color: #f5f7f7;
 }
 
@@ -127,6 +127,7 @@ input[type="week"],
 select:focus,
 textarea {
   font-size: 16px !important;
+  border: none;
 }
 
 @media (prefers-color-scheme: dark) {

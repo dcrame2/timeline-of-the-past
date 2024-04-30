@@ -4,11 +4,6 @@ import styled from "styled-components";
 import { buttonType } from "@/styles/Type";
 import { Button } from "@nextui-org/react";
 import { variables } from "@/styles/Variables";
-import Link from "next/link";
-
-const SignOutButton = styled.button`
-  ${buttonType}
-`;
 
 export default function AuthSignOutButton() {
   function signOutHandler() {

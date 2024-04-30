@@ -2,13 +2,23 @@ import { h2styles, pBase, buttonType, linkStyles } from "@/styles/Type";
 import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
-import Hero from "@/mainWebsite/hero/Index";
+// import Hero from "@/mainWebsite/hero/Index";
 import { Container, MediaQueries } from "@/styles/Utilities";
 import Examples from "@/mainWebsite/examples/Index";
 import Video from "@/mainWebsite/video/Index";
 import { variables } from "@/styles/Variables";
-import Testimonials from "@/mainWebsite/testimonials/Index";
+import { Testimonials } from "@/mainWebsite2/components/Testimonials";
 import { Button } from "@nextui-org/react";
+import MainHero from "@/mainWebsite/mainHero/Index";
+import { Hero } from "@/mainWebsite2/components/Hero";
+import { Header } from "@/mainWebsite2/components/Header";
+// import "@/styles/tailwind.css";
+import { PrimaryFeatures } from "@/mainWebsite2/components/PrimaryFeatures";
+import { SecondaryFeatures } from "@/mainWebsite2/components/SecondaryFeatures";
+import { CallToAction } from "@/mainWebsite2/components/CallToAction";
+import { Faqs } from "@/mainWebsite2/components/Faqs";
+import { Footer } from "@/mainWebsite2/components/Footer";
+import { Pricing } from "@/mainWebsite2/components/Pricing";
 
 const LayoutContainer = styled.nav`
   position: absolute;
@@ -98,38 +108,17 @@ export default function Home() {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
+      <Header />
       <main>
-        <LayoutContainer>
-          <LayoutInnerContainer>
-            <Logo src="/timeline_that_logo_blue.svg" alt="Timeline That Logo" />
-            <Button
-              style={{
-                backgroundColor: `${variables.lightOrange}`,
-                color: `${variables.white}`,
-              }}
-              href="/auth/authenticate"
-              as={Link}
-            >
-              Login or Sign Up
-            </Button>
-          </LayoutInnerContainer>
-        </LayoutContainer>
         <Hero />
-        <Examples />
-        <Video />
+        <PrimaryFeatures />
+        <SecondaryFeatures />
+        <CallToAction />
         <Testimonials />
-        <FooterContainer>
-          <FooterInnerContainer>
-            <LinkStyledLink target="_blank" href="/">
-              <Logo
-                src="/timeline_that_logo_white.svg"
-                alt="Timeline That Logo"
-              />
-              https://timelinethat.com
-            </LinkStyledLink>
-          </FooterInnerContainer>
-        </FooterContainer>
+        <Pricing />
+        <Faqs />
       </main>
+      <Footer />
     </>
   );
 }

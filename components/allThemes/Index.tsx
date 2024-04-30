@@ -28,8 +28,8 @@ function AllThemes() {
                 />
               </CardBody>
               <CardFooter className="text-small justify-between">
-                <b>{example.name}</b>
-                <p className="text-default-500">{example.name}</p>
+                <b>{example.label}</b>
+                <p className="text-default-500">{example.label}</p>
               </CardFooter>
             </Card>
           </Link>

@@ -5,6 +5,8 @@ import { uploadFilesToCloudinary } from "@/lib/uploadFilesToCloudinary";
 import { pXSmall } from "@/styles/Type";
 import { motion } from "framer-motion";
 import { MediaQueries } from "@/styles/Utilities";
+import { Progress } from "@nextui-org/react";
+import { PhotoIcon } from "@heroicons/react/20/solid";
 
 const Form = styled.div`
   height: 100%;
@@ -53,8 +55,8 @@ const Form = styled.div`
 const ImageMainContainer = styled(motion.div)`
   display: flex;
   gap: 8px;
-  flex-direction: row;
-  position: absolute;
+  flex-direction: column;
+  /* position: absolute; */
   bottom: 0;
   right: 0;
   margin: 4px;
@@ -74,9 +76,27 @@ const ImageContainer = styled.div`
     height: 100%;
     object-fit: contain;
   }
+  button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: ${variables.white};
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const IndividualImageContainer = styled(motion.div)`
+  position: relative;
   display: flex;
   padding: 4px;
   background-color: ${variables.darkerLightGrey};
@@ -84,6 +104,7 @@ const IndividualImageContainer = styled(motion.div)`
   border-radius: 8px;
   align-items: center;
   gap: 24px;
+  width: 100%;
 `;
 
 const motionProps = {
@@ -107,14 +128,48 @@ type UploadDataState = string[];
 // Define the type for setUploadDatas function
 type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
 
+// Define the type for an uploaded image
+interface UploadedImage {
+  src: string;
+  progress: number;
+}
+
 function UploadFileInputNew({
   selectedAge,
   uploadDatas,
   setUploadDatas,
   setImageSrcs,
   imageSrcs,
-}: any) {
+  handleRemoveImage,
+  uploadedImages,
+  setUploadedImages,
+}: {
+  selectedAge: number;
+  uploadDatas: any;
+  setUploadDatas: any;
+  setImageSrcs: any;
+  imageSrcs: any;
+  handleRemoveImage: any;
+  uploadedImages: any;
+  setUploadedImages: any;
+}) {
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  // const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+
+  const [value, setValue] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      if (uploadProgress <= 100) {
+        setUploadProgress((prevProgress) => prevProgress + 0.5);
+      }
+    }, 100);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [uploadProgress]);
 
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();
@@ -136,6 +191,10 @@ function UploadFileInputNew({
 
       reader.onload = (onLoadEvent: any) => {
         onLoadEvent.preventDefault();
+        setUploadedImages((prevImages: any) => [
+          ...prevImages,
+          { src: onLoadEvent.target.result, progress: 100 },
+        ]);
         newImageSrcs.push(onLoadEvent.target.result);
         if (newImageSrcs.length === files.length) {
           setImageSrcs(newImageSrcs);
@@ -152,40 +211,73 @@ function UploadFileInputNew({
                 ],
               },
             };
+            setUploadProgress(100);
             setUploadDatas(updatedUploadDatas);
             setIsLoading(false);
+            // Update the progress of each uploaded image to 100
+            setUploadedImages((prevImages: any) =>
+              prevImages.map((image: any, index: number) => ({
+                ...image,
+                progress: index < prevImages.length ? image.progress : 100,
+              }))
+            );
           });
         }
       };
       reader.readAsDataURL(file);
+      // setUploadedImages((prevImages) => [
+      //   ...prevImages,
+      //   { src: URL.createObjectURL(file), progress: 0 },
+      // ]);
     }
   };
 
   return (
-    <Form>
-      <label htmlFor="file">Add Specific Age Image(s) </label>
-      <input
-        multiple
-        type="file"
-        name="file"
-        accept="image/*"
-        onChange={(e) => handleOnChange(e)}
-      />
-      {isLoading && (
-        <ImageMainContainer>
-          {imageSrcs?.map((src: string, index: number) => (
-            <IndividualImageContainer key={index} {...motionProps}>
-              <ImageContainer>
-                <img key={index} src={src} alt={`Uploaded image ${index}`} />
-              </ImageContainer>
-              <IsLoadingContainer>
-                <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
-              </IsLoadingContainer>
-            </IndividualImageContainer>
-          ))}
-        </ImageMainContainer>
-      )}
-    </Form>
+    <>
+      <Form>
+        <PhotoIcon
+          className="mx-auto h-12 w-12 text-black"
+          aria-hidden="true"
+        />
+        <label htmlFor="file">Add Specific Age Image(s) </label>
+        <input
+          multiple
+          type="file"
+          name="file"
+          accept="image/*"
+          onChange={(e) => handleOnChange(e)}
+        />
+      </Form>
+
+      <ImageMainContainer>
+        {uploadedImages?.map((image: UploadedImage, index: number) => (
+          <IndividualImageContainer key={index}>
+            <ImageContainer>
+              <img src={image.src} alt={`Uploaded image ${index}`} />
+              <button
+                onClick={(e) =>
+                  handleRemoveImage(
+                    uploadDatas[selectedAge].images[index],
+                    index,
+                    e
+                  )
+                }
+              >
+                x
+              </button>
+            </ImageContainer>
+            <Progress
+              aria-label="Downloading..."
+              size="md"
+              value={uploadProgress}
+              color="success"
+              showValueLabel={true}
+              className="max-w-md"
+            />
+          </IndividualImageContainer>
+        ))}
+      </ImageMainContainer>
+    </>
   );
 }
 

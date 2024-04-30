@@ -11,6 +11,8 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import MainContainer from "@/components/reusable/mainContainer/Index";
 import Title from "@/components/reusable/title/Index";
+import SectionHeader from "@/components/reusable/sectionHeader/Index";
+import BackButton from "@/components/reusable/backButton/Index";
 
 const HourGlassContainer = styled.div`
   display: flex;
@@ -24,7 +26,7 @@ const PeopleScreen = styled(motion.div)`
   padding: 88px 24px 24px;
   z-index: 105;
   border-radius: 12px;
-  max-width: 1000px;
+  /* max-width: 1000px; */
   position: relative;
   box-shadow: rgba(56, 59, 61, 0.2) 0px 2px 2px;
   h2 {
@@ -85,8 +87,9 @@ function EditTimeline() {
         />
       ) : (
         <>
-          <Title
-            name={`Editing ${person?.firstName} ${person?.lastName}'s timeline`}
+          <SectionHeader
+            heading={`Editing ${person?.firstName} ${person?.lastName}'s timeline`}
+            button={<BackButton />}
           />
           <MainContainer>
             <HourGlassContainer>

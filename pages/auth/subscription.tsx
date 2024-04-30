@@ -14,6 +14,8 @@ import BackButton from "@/components/reusable/backButton/Index";
 import CreateButton from "@/components/reusable/createButton/Index";
 import { variables } from "@/styles/Variables";
 import StripeIcon from "@/components/reusable/svg/stripeIcon/Index";
+import SectionHeader from "@/components/reusable/sectionHeader/Index";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 const CustomRadioBox = styled.div`
   display: flex;
@@ -62,7 +64,7 @@ const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  max-width: 1000px;
+  /* max-width: 1000px; */
   padding-bottom: 4px;
   @media ${MediaQueries.mobile} {
     gap: 16px;
@@ -121,11 +123,16 @@ function Subscription() {
       );
     }
   }, []);
-  const [selectedProduct, setSelectedProduct] = React.useState(); // State to hold the selected product
+  const [selectedProduct, setSelectedProduct] = React.useState<string>(); // State to hold the selected product
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   console.log(selectedProduct, "SELECTED");
 
-  const handleProductChange = (event: any) => {
-    setSelectedProduct(event.target.value);
+  const handleProductChange = (product: string) => {
+    setIsLoading(true);
+    setSelectedProduct(product);
   };
 
   const handleSubmit = () => {
@@ -136,161 +143,219 @@ function Subscription() {
     }
   };
 
+  const tiers = [
+    {
+      name: "One Timeline",
+      id: "tier-freelancer",
+      href: "#",
+      price: { monthly: "$10" },
+      description: "The essentials to provide your best work for clients.",
+      features: [
+        "Adds the ability to create one timeline",
+        "Change the theme to any allowed themes",
+        "Access for life to your created timeline",
+      ],
+      mostPopular: false,
+      product: "product1",
+    },
+    {
+      name: "Three Timelines",
+      id: "tier-startup",
+      href: "#",
+      price: { monthly: "$25" },
+      description: "A plan that scales with your rapidly growing business.",
+      features: [
+        "Adds the ability to create three additional timelines",
+        "Change the theme to any allowed themes",
+        "Access for life to your created timelines",
+      ],
+      mostPopular: true,
+      product: "product2",
+    },
+    {
+      name: "Five Timelines",
+      id: "tier-enterprise",
+      href: "#",
+      price: { monthly: "$35" },
+      description: "Dedicated support and infrastructure for your company.",
+      features: [
+        "Adds the ability to create five additional timelines",
+        "Change the theme to any allowed themes",
+        "Access for life to your created timelines",
+      ],
+      mostPopular: false,
+      product: "product3",
+    },
+  ];
+
   return (
     <Layout>
-      <HeadingContainer>
-        <Title name="Pay only for what you need" />
-        <ButtonInfo>
-          <BackButton />
-          {!isLoading ? (
-            <Button
-              type="submit"
-              disabled={!selectedProduct}
-              style={{
-                backgroundColor: `${variables.lightOrange}`,
-                color: `${variables.white}`,
-              }}
-              endContent={<StripeIcon color={`${variables.white}`} />}
-              onClick={handleSubmit}
-            >
-              Checkout
-            </Button>
-          ) : (
-            <Button
-              style={{
-                backgroundColor: `${variables.lightOrange}`,
-                color: `${variables.white}`,
-              }}
-              isLoading
-              disabled
-            >
-              Loading
-            </Button>
-          )}
-        </ButtonInfo>
-      </HeadingContainer>
+      <SectionHeader
+        heading="Pay only for what you need"
+        // backButton={true}
+        button={<CreateButton />}
+        // button={
+        //   <>
+        //     {" "}
+        //     {!isLoading ? (
+        //       <Button
+        //         type="submit"
+        //         disabled={!selectedProduct}
+        //         style={{
+        //           backgroundColor: `${variables.lightOrange}`,
+        //           color: `${variables.white}`,
+        //         }}
+        //         endContent={<StripeIcon color={`${variables.white}`} />}
+        //         // onClick={handleSubmit}
+        //       >
+        //         Checkout
+        //       </Button>
+        //     ) : (
+        //       <Button
+        //         style={{
+        //           backgroundColor: `${variables.lightOrange}`,
+        //           color: `${variables.white}`,
+        //         }}
+        //         isLoading
+        //         disabled
+        //       >
+        //         Loading
+        //       </Button>
+        //     )}
+        //   </>
+        // }
+      />
+
       <MainContainer>
         <Form
           id="myForm"
           action="/api/auth/stripe/checkout_sessions"
           method="POST"
+          className="bg-white"
         >
-          <RadioGroup>
-            <CustomRadioBox>
-              <SingleRadioBox>
-                <Radio
-                  name="productId"
-                  value="product1"
-                  checked={selectedProduct === "product1"}
-                  onChange={handleProductChange}
-                  classNames={{
-                    base: cn(
-                      "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                      "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10 border-2 border-transparent",
-                      "data-[selected=true]:border-lightBlue"
-                    ),
-                  }}
-                >
-                  <RadioText>
-                    <span>One Timeline</span>
-                    <p className="price">$10</p>
-                    <ul style={{ maxWidth: "300px" }}>
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                      <Divider />
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                      <Divider />
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                    </ul>
-                  </RadioText>
-                </Radio>
-              </SingleRadioBox>
-              <SingleRadioBox>
-                <Radio
-                  name="productId"
-                  value="product2"
-                  checked={selectedProduct === "product2"}
-                  onChange={handleProductChange}
-                  classNames={{
-                    base: cn(
-                      "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                      "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10  border-2 border-transparent",
-                      "data-[selected=true]:border-lightBlue"
-                    ),
-                  }}
-                >
-                  <RadioText>
-                    <span>Three Timelines</span>
-                    <p className="price">$25</p>
-                    <ul style={{ maxWidth: "300px" }}>
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                      <Divider />
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                      <Divider />
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                    </ul>
-                  </RadioText>
-                </Radio>
-              </SingleRadioBox>
-              <SingleRadioBox>
-                <Radio
-                  name="productId"
-                  value="product3"
-                  checked={selectedProduct === "product3"}
-                  onChange={handleProductChange}
-                  classNames={{
-                    base: cn(
-                      "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
-                      "flex-col max-w-[300px] cursor-pointer rounded-lg gap-4 pt-10 pb-10  border-2 border-transparent",
-                      "data-[selected=true]:border-lightBlue"
-                    ),
-                  }}
-                >
-                  <RadioText>
-                    <span>Five Timelines</span>
-                    <p className="price">$35</p>
-                    <ul style={{ maxWidth: "300px" }}>
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                      <Divider />
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                      <Divider />
-                      <li>
-                        Build one timeline and change the theme to any theme you
-                        want
-                      </li>
-                    </ul>
-                  </RadioText>
-                </Radio>
-              </SingleRadioBox>
-            </CustomRadioBox>
-          </RadioGroup>
-          <CheckoutButtonContainer>
-            <input type="hidden" name="userEmail" value={userEmail} />
-          </CheckoutButtonContainer>
-          {purchaseMessage && <p>{purchaseMessage}</p>}
+          <div className="mx-auto max-w-7xl">
+            <div className=" flex justify-center">
+              <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                <input type="hidden" name="userEmail" value={userEmail} />
+                {tiers.map((tier) => (
+                  <>
+                    <div
+                      key={tier.id}
+                      className={classNames(
+                        tier.mostPopular
+                          ? "ring-2 ring-lightBlue"
+                          : "ring-1 ring-lightBlue",
+                        "rounded-3xl p-8 xl:p-10"
+                      )}
+                    >
+                      <div className="flex  items-center justify-between gap-x-4">
+                        <h3
+                          id={tier.id}
+                          className={classNames(
+                            tier.mostPopular ? "text-black" : "text-black",
+                            "text-lg font-semibold leading-8"
+                          )}
+                        >
+                          {tier.name}
+                        </h3>
+                        {tier.mostPopular ? (
+                          <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-black">
+                            Most popular
+                          </p>
+                        ) : null}
+                      </div>
+
+                      <p className="mt-6 flex items-baseline gap-x-1">
+                        <span className="text-4xl font-bold tracking-tight text-black">
+                          {tier.price.monthly}
+                        </span>
+                        <span className="text-sm font-semibold leading-6 text-black">
+                          one time
+                        </span>
+                      </p>
+                      {!isLoading ? (
+                        <Button
+                          value={tier.product}
+                          name="productId"
+                          type="submit"
+                          onSubmit={() => {
+                            handleProductChange(tier.product);
+                          }}
+                          href={tier.href}
+                          aria-describedby={tier.id}
+                          style={
+                            tier.mostPopular
+                              ? {
+                                  backgroundColor: `${variables.lightOrange}`,
+                                  color: `${variables.white}`,
+                                  width: "100%",
+                                  marginTop: "20px",
+                                }
+                              : {
+                                  backgroundColor: `${variables.transparent}`,
+                                  border: `1px solid ${variables.lightOrange}`,
+                                  color: `${variables.black}`,
+                                  width: "100%",
+                                  marginTop: "20px",
+                                }
+                          }
+                          endContent={
+                            <StripeIcon color={`${variables.white}`} />
+                          }
+                          // onClick={handleSubmit}
+                        >
+                          Buy this plan
+                        </Button>
+                      ) : (
+                        <Button
+                          style={{
+                            backgroundColor: `${variables.lightOrange}`,
+                            color: `${variables.white}`,
+                          }}
+                          isLoading
+                          disabled
+                        >
+                          Loading
+                        </Button>
+                      )}
+                      {/* <Button
+                      value={tier.product}
+                      name="productId"
+                      type="submit"
+                      onSubmit={() => {
+                        handleProductChange(tier.product);
+                      }}
+                      href={tier.href}
+                      aria-describedby={tier.id}
+                      className={classNames(
+                        tier.mostPopular
+                          ? "bg-indigo-600 text-black shadow-sm hover:bg-indigo-500"
+                          : "text-black ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
+                        "mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      )}
+                    >
+                      Buy plan
+                    </Button> */}
+                      <ul
+                        role="list"
+                        className="mt-8 space-y-3 text-sm leading-6 text-black xl:mt-10"
+                      >
+                        {tier.features.map((feature) => (
+                          <li key={feature} className="flex gap-x-3">
+                            <CheckIcon
+                              className="h-6 w-5 flex-none text-indigo-600"
+                              aria-hidden="true"
+                            />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ))}
+              </div>
+            </div>
+          </div>
         </Form>
       </MainContainer>
     </Layout>

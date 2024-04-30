@@ -5,7 +5,7 @@ export const themeData = [
       src: "/delilahmae.png",
       alt: "Delilah Mae Hero",
     },
-    name: "Theme One",
+    label: "Theme One",
     value: 1,
   },
   {
@@ -14,7 +14,7 @@ export const themeData = [
       src: "/delilahmae.png",
       alt: "Delilah Mae Hero",
     },
-    name: "Theme Two",
+    label: "Theme Two",
     value: 2,
   },
   {
@@ -23,7 +23,25 @@ export const themeData = [
       src: "/delilahmae.png",
       alt: "Delilah Mae Hero",
     },
-    name: "Theme Three",
+    label: "Theme Three",
     value: 3,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    label: "Theme Four",
+    value: 4,
+  },
+  {
+    url: "https://timelinethat.com/delilah-mae-davis",
+    img: {
+      src: "/delilahmae.png",
+      alt: "Delilah Mae Hero",
+    },
+    label: "Theme Five",
+    value: 5,
   },
 ];

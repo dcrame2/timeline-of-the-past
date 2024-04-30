@@ -4,6 +4,8 @@ import TabNavigation from "./tabNavigation/Index";
 import DashboardHeader from "./dashboardHeader/Index";
 import { MediaQueries } from "@/styles/Utilities";
 
+import Dashboard from "./dashboard/Index";
+
 const Container = styled.div`
   display: grid;
   grid-template-columns: 224px 1fr 1fr;
@@ -47,12 +49,5 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, className }: LayoutProps) {
-  return (
-    <Container className={className}>
-      <StyledHeader />
-      <StyledNavigation />
-
-      <ContentSection>{children}</ContentSection>
-    </Container>
-  );
+  return <Dashboard classes={className}>{children}</Dashboard>;
 }
