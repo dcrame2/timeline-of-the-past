@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
@@ -31,6 +17,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 import { useRouter } from "next/router";
 
@@ -47,12 +34,12 @@ const navigation = [
     icon: HomeIcon,
     current: true,
   },
-  {
-    name: "Media Library",
-    href: "/auth/media-library",
-    icon: DocumentDuplicateIcon,
-    current: false,
-  },
+  // {
+  //   name: "Media Library",
+  //   href: "/auth/media-library",
+  //   icon: DocumentDuplicateIcon,
+  //   current: false,
+  // },
   { name: "Themes", href: "/auth/themes", icon: FolderIcon, current: false },
   {
     name: "Purchase",
@@ -76,6 +63,7 @@ function classNames(...classes: string[]) {
 export default function Dashboard({ children }: any) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+  const session = useSession();
   return (
     <>
       <div>
@@ -165,19 +153,6 @@ export default function Dashboard({ children }: any) {
                               </li>
                             ))}
                           </ul>
-                        </li>
-
-                        <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0"
-                              aria-hidden="true"
-                            />
-                            Settings
-                          </a>
                         </li>
                       </ul>
                     </nav>
@@ -276,7 +251,8 @@ export default function Dashboard({ children }: any) {
                         className="ml-4 text-sm font-semibold leading-6 text-black"
                         aria-hidden="true"
                       >
-                        Tom Cook
+                        {session?.data?.user.firstName}{" "}
+                        {session?.data?.user.lastName}
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-black"

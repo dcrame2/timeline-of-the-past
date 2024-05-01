@@ -62,8 +62,6 @@ const ImageMainContainer = styled(motion.div)`
   margin: 4px;
 `;
 
-const IsLoadingContainer = styled(motion.div)``;
-
 const ImageContainer = styled.div`
   max-height: 40px;
   max-width: 40px;

@@ -8,8 +8,17 @@ import MainContainer from "../reusable/mainContainer/Index";
 import { MediaQueries } from "@/styles/Utilities";
 import { pXSmall } from "@/styles/Type";
 import EmptyImageCard from "../reusable/emptyImageCard/Index";
+import Profile from "@/pages/auth/profile";
+import ProfileImageUpload from "./profileImageUpload/Index";
 
 const Form = styled.form`
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
+  gap: 24px;
+  @media ${MediaQueries.tablet} {
+    display: flex;
+    flex-direction: column;
+  }
   button {
     margin-bottom: 4px;
   }
@@ -71,110 +80,78 @@ const MainImageUploadContainer = styled.div`
   }
 `;
 
-const SingleImageContainer = styled.div`
-  button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: ${variables.white};
-    color: black;
-    border: none;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    z-index: 5;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+const MainFieldContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  grid-column: 2;
+  grid-row: 2;
 `;
 
-const SingleImage = styled(Image)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100%;
-  object-fit: cover;
-  z-index: 2;
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  grid-column: 2;
 `;
 
 function ProfileComponent({ session }: any) {
   return (
     <MainContainer>
       <Form>
-        <MainContainerForImage>
-          <p>Profile Image</p>
+        <div className="row-span-2 flex gap-4 flex-col">
+          <h2>PROFILE INFORMATION</h2>
+          <p className="italic text-xs">
+            This is your personal information regarding your user account with
+            Timeline That
+          </p>
+          <p className="italic text-xs">Update your profile</p>
+        </div>
 
-          <MainImageUploadContainer>
-            <label htmlFor="file">
-              Add Profile Image
-              <input
-                id="file"
-                type="file"
-                name="file"
-                accept="image/*"
-                // onChange={(e) => handleOnChange(e)}
-              />
-            </label>
-          </MainImageUploadContainer>
-          {false ? (
-            <EmptyImageCard />
-          ) : (
-            <SingleImageContainer>
-              <button
-              // onClick={(e) => handleSingleRemoveImage(mainImage, e)}
-              >
-                x
-              </button>
-              <SingleImage
-                src="/time-clock-hero.jpg"
-                alt="Uploaded image"
-              ></SingleImage>
-            </SingleImageContainer>
-          )}
-        </MainContainerForImage>
-        <NameInformation>
+        <ProfileImageUpload />
+        <MainFieldContainer>
+          <NameInformation>
+            <TextInput
+              label="First Name:"
+              type="text"
+              value={session?.user.firstName}
+              // onChange={(e: any) => handleInputChange(e, "firstName")}
+            />
+            <TextInput
+              label="Last Name:"
+              type="text"
+              value={session?.user.lastName}
+              // onChange={(e: any) => handleInputChange(e, "firstName")}
+            />
+          </NameInformation>
+          <EmailUsernameInformation>
+            <TextInput
+              label="Username:"
+              type="text"
+              value={session?.user.username}
+              // disabled
+              // onChange={(e: any) => handleInputChange(e, "firstName")}
+            />
+            <TextInput
+              label="Email:"
+              type="email"
+              value={session?.user.email}
+              // disabled
+              // onChange={(e: any) => handleInputChange(e, "firstName")}
+            />
+          </EmailUsernameInformation>
           <TextInput
-            label="First Name:"
-            type="text"
-            value={session?.user.firstName}
+            label="Password"
+            type="password"
+            value={session?.user.password}
             // onChange={(e: any) => handleInputChange(e, "firstName")}
           />
-          <TextInput
-            label="Last Name:"
-            type="text"
-            value={session?.user.lastName}
-            // onChange={(e: any) => handleInputChange(e, "firstName")}
-          />
-        </NameInformation>
-        <EmailUsernameInformation>
-          <TextInput
-            label="Username:"
-            type="text"
-            value={session?.user.username}
-            // disabled
-            // onChange={(e: any) => handleInputChange(e, "firstName")}
-          />
-          <TextInput
-            label="Email:"
-            type="email"
-            value={session?.user.email}
-            // disabled
-            // onChange={(e: any) => handleInputChange(e, "firstName")}
-          />
-        </EmailUsernameInformation>
-        <TextInput
-          label="Password"
-          type="password"
-          value={session?.user.password}
-          // onChange={(e: any) => handleInputChange(e, "firstName")}
-        />
+        </MainFieldContainer>
+        <ButtonContainer>
+          <Button color="primary">Edit</Button>
 
-        <Button color="primary">Edit</Button>
-
-        <Button color="primary">Save</Button>
+          <Button color="primary">Save</Button>
+        </ButtonContainer>
       </Form>
     </MainContainer>
   );

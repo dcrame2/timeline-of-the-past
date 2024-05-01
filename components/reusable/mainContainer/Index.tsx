@@ -22,13 +22,14 @@ const OuterContainer = styled(motion.div)`
 `;
 
 const InnerContainer = styled.div`
-  padding: 24px;
+  padding: 12px;
   overflow-y: auto;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  scrollbar-color: ${variables.lightOrange} ${variables.white};
   @media ${MediaQueries.tablet} {
     padding: 16px;
   }

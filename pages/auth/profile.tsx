@@ -6,7 +6,8 @@ import { useSession } from "next-auth/react"; // Import useSession
 import { Session } from "next-auth";
 import styled from "styled-components";
 import ProfileComponent from "@/components/profile/Index";
-import Title from "@/components/reusable/title/Index";
+import SectionHeader from "@/components/reusable/sectionHeader/Index";
+import CreateButton from "@/components/reusable/createButton/Index";
 
 interface ProfileProps {
   session: Session | null;
@@ -18,8 +19,10 @@ function Profile() {
   return (
     <Layout>
       {session && (
-        <Title
-          name={`${session?.user.firstName} ${session?.user.lastName}'s Profile`}
+        <SectionHeader
+          heading={`${session?.user.firstName} ${session?.user.lastName}'s Profile`}
+          backButton={true}
+          button={<CreateButton />}
         />
       )}
       <ProfileComponent session={session} />

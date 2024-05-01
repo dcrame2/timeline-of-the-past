@@ -19,7 +19,9 @@ import MainImageUpload from "../reusable/mainImageUpload/Index";
 import UploadModal from "./uploadModal/Index";
 import FourImageGrid from "./fourImageGrid/Index";
 import SelectInput from "../reusable/formFields/selectInput/Index";
-
+import { ExclamationTriangleIcon } from "@heroicons/react/16/solid";
+import ErrorFormMessage from "../reusable/errorFormMessage/Index";
+import Notification from "../reusable/notification/Index";
 const Form = styled.form`
   max-width: 100%;
 
@@ -132,6 +134,8 @@ function NewPersonForm() {
 
   // console.log(theme, "theme");
 
+  const [saveAttempt, setSaveAttempt] = useState(false);
+
   const [mainImage, setMainImage] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -152,10 +156,22 @@ function NewPersonForm() {
 
   const submitNewPerson = async (event: any) => {
     event.preventDefault();
+
+    setSaveAttempt(true);
+
+    if (
+      !firstNameRef?.current?.value ||
+      !lastNameRef?.current?.value ||
+      !dobRef?.current?.value
+    ) {
+      // Show error message or handle validation failure
+
+      return; // Exit function without submitting the form
+    }
+
     setIsLoading(true);
     const firstName = firstNameRef.current?.value || "";
     const lastName = lastNameRef.current?.value || "";
-    const images = imagesRef.current?.files?.[0];
     const middleName = middleNameRef.current?.value || "";
     const dob = dobRef.current?.value || "";
     const death = deathRef.current?.value || "";
@@ -167,6 +183,7 @@ function NewPersonForm() {
     const slug = slugifyNames(firstName, middleName, lastName);
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
+
     console.log(sessionUserEmail, "session");
 
     await fetch("/api/people/people", {
@@ -426,13 +443,18 @@ function NewPersonForm() {
               </p>
               <p className="italic text-xs">This information will be public</p>
             </div>
-            <MainImageUpload
-              handleSingleRemoveImage={handleSingleRemoveImage}
-              mainImage={mainImage}
-              handleOnChange={handleOnChange}
-              singleImageSrc={singleImageSrc}
-              setSingleImageSrc={setSingleImageSrc}
-            />
+            <div className="flex flex-col gap-2 ">
+              <MainImageUpload
+                handleSingleRemoveImage={handleSingleRemoveImage}
+                mainImage={mainImage}
+                handleOnChange={handleOnChange}
+                singleImageSrc={singleImageSrc}
+                setSingleImageSrc={setSingleImageSrc}
+              />
+              {!mainImage && saveAttempt && (
+                <ErrorFormMessage message="Main image is required" />
+              )}
+            </div>
             <MainFieldContainer>
               <ThemeInfoContainer className="w-full">
                 <TextInput
@@ -461,14 +483,19 @@ function NewPersonForm() {
                 />
               </ThemeInfoContainer>
               <NameContainer>
-                <TextInput
-                  name="firstName"
-                  label="First Name*"
-                  placeholder="John"
-                  type="text"
-                  ref={firstNameRef}
-                  required
-                />
+                <div className="flex flex-col gap-2 w-full">
+                  <TextInput
+                    name="firstName"
+                    label="First Name*"
+                    placeholder="John"
+                    type="text"
+                    ref={firstNameRef}
+                    required
+                  />
+                  {!firstNameRef?.current?.value && saveAttempt && (
+                    <ErrorFormMessage message="First name is required" />
+                  )}
+                </div>
                 <TextInput
                   name="middleName"
                   label="Middle Name"
@@ -476,27 +503,37 @@ function NewPersonForm() {
                   type="text"
                   ref={middleNameRef}
                 />
-                <TextInput
-                  name="lastName"
-                  label="Last Name*"
-                  placeholder="Doe"
-                  type="text"
-                  ref={lastNameRef}
-                  required
-                />
+                <div className="flex flex-col gap-2 w-full">
+                  <TextInput
+                    name="lastName"
+                    label="Last Name*"
+                    placeholder="Doe"
+                    type="text"
+                    ref={lastNameRef}
+                    required
+                  />
+                  {!lastNameRef?.current?.value && saveAttempt && (
+                    <ErrorFormMessage message="Last name is required" />
+                  )}
+                </div>
               </NameContainer>
               <DatesContainer>
-                <TextInput
-                  type="date"
-                  id="start"
-                  name="trip-start"
-                  min="1900-01-01"
-                  max={maxDate}
-                  ref={dobRef}
-                  label={"Date of Birth*"}
-                  onChange={(e: any) => handleDateOfBirthChange(e)}
-                  required
-                />
+                <div className="flex flex-col gap-2 w-full">
+                  <TextInput
+                    type="date"
+                    id="start"
+                    name="trip-start"
+                    min="1900-01-01"
+                    max={maxDate}
+                    ref={dobRef}
+                    label={"Date of Birth*"}
+                    onChange={(e: any) => handleDateOfBirthChange(e)}
+                    required
+                  />
+                  {!dobRef?.current?.value && saveAttempt && (
+                    <ErrorFormMessage message="Date of Birth is required" />
+                  )}
+                </div>
 
                 <TextInput
                   type="date"

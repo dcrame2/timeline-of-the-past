@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { themeData } from "@/themes/themeData";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import MainContainer from "../reusable/mainContainer/Index";
 
 function AllThemes() {
@@ -9,30 +9,30 @@ function AllThemes() {
     <MainContainer>
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
         {themeData.map((example, index) => (
-          <Link target="_blank" href={example.url}>
-            <Card
-              shadow="sm"
-              key={index}
-              isPressable
-              isHoverable={true}
-              onPress={() => console.log("item pressed")}
-            >
-              <CardBody className="overflow-visible p-0">
-                <Image
-                  shadow="sm"
-                  radius="lg"
-                  width="100%"
-                  alt={example.img.alt}
-                  className="w-full object-cover h-[140px]"
-                  src={example.img.src}
-                />
-              </CardBody>
-              <CardFooter className="text-small justify-between">
-                <b>{example.label}</b>
-                <p className="text-default-500">{example.label}</p>
-              </CardFooter>
-            </Card>
-          </Link>
+          <div className=" overflow-hidden rounded-lg bg-white shadow">
+            <div className="px-4 py-5 sm:px-6">
+              <h4 className="font-bold text-black">{example.label}</h4>
+              <small className="text-default-500">
+                This is what the {example.label} theme looks like
+              </small>
+            </div>
+            <div className="px-4 sm:px-4">
+              {" "}
+              <Image
+                shadow="sm"
+                radius="lg"
+                width={500}
+                alt={example.img.alt}
+                className="w-full object-cover h-[140px]"
+                src={example.img.src}
+              />
+            </div>
+            <div className="px-4 py-4 sm:px-6">
+              <Button size="sm" target="_blank" as={Link} href={example.url}>
+                View Theme
+              </Button>
+            </div>
+          </div>
         ))}
       </div>
     </MainContainer>

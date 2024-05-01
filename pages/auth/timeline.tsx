@@ -5,7 +5,7 @@ import PeopleFeed from "@/components/peopleFeed/Index";
 import { useSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import { fetchUserData } from "@/lib/fetchUserData";
-import Title from "@/components/reusable/title/Index";
+
 import styled from "styled-components";
 import CreateButton from "@/components/reusable/createButton/Index";
 import { MediaQueries } from "@/styles/Utilities";

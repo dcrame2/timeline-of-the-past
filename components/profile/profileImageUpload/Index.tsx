@@ -1,52 +1,26 @@
-import { h2styles, pXSmall } from "@/styles/Type";
-import { MediaQueries } from "@/styles/Utilities";
 import { variables } from "@/styles/Variables";
-import { Dialog, Transition } from "@headlessui/react";
 import {
   PhotoIcon,
   UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/16/solid";
-import { Button, Progress } from "@nextui-org/react";
-import { motion } from "framer-motion";
 import React, { Fragment, useState } from "react";
 import styled from "styled-components";
+import { Image } from "@nextui-org/react";
+import { pXSmall } from "@/styles/Type";
+import { MediaQueries } from "@/styles/Utilities";
+import { Transition, Dialog } from "@headlessui/react";
+import { Button } from "@nextui-org/react";
+import UploadModal from "./uploadModal/Index";
 
 const MainContainerForImage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  grid-column: 2;
-  grid-row: 1;
 
   p {
     ${pXSmall}
   }
-`;
-
-const SingleImageContainer = styled.div`
-  position: relative;
-  /* width: 60px; */
-  button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: ${variables.white};
-    color: black;
-    border: none;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    z-index: 5;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const SingleImage = styled.img`
-  z-index: 2;
 `;
 
 const MainImageUploadContainer = styled.div`
@@ -59,9 +33,8 @@ const MainImageUploadContainer = styled.div`
   justify-content: center;
   padding: 30px 30px;
   display: flex;
-  grid-column: 2;
-  grid-column: 2;
   transition: background-color ease-in 0.2s;
+  display: flex;
   @media ${MediaQueries.mobile} {
     min-height: 200px;
   }
@@ -84,34 +57,7 @@ const MainImageUploadContainer = styled.div`
   }
 `;
 
-const IndividualImageContainer = styled(motion.div)`
-  position: relative;
-  display: flex;
-  padding: 4px;
-  background-color: ${variables.darkerLightGrey};
-  border: 1px solid ${variables.darkBlue};
-  border-radius: 8px;
-  align-items: center;
-  gap: 24px;
-  width: 100%;
-`;
-
-const ImageContainer = styled.div`
-  background-color: ${variables.lightGrey};
-  text-align: center;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: column-reverse;
-  ${h2styles};
-  /* width: 50px;
-  height: 50px; */
-  @media ${MediaQueries.mobile} {
-  }
-  img {
-    object-fit: contain;
-  }
+const SingleImageContainer = styled.div`
   button {
     position: absolute;
     top: 5px;
@@ -119,11 +65,10 @@ const ImageContainer = styled.div`
     background-color: ${variables.white};
     color: black;
     border: none;
-    border-radius: 50%;
     width: 20px;
     height: 20px;
     font-size: 12px;
-    z-index: 10;
+    z-index: 5;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -131,17 +76,21 @@ const ImageContainer = styled.div`
   }
 `;
 
-function MainImageUpload({
-  mainImage,
-  handleSingleRemoveImage,
-  handleOnChange,
-  singleImageSrc,
-  setSingleImageSrc,
-}: any) {
+const SingleImage = styled(Image)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+`;
+
+function ProfileImageUpload() {
   const [open, setOpen] = useState(false);
   const openCoverModal = () => {
     setOpen(true);
-    setSingleImageSrc(undefined);
+    // setSingleImageSrc(undefined);
   };
   return (
     <>
@@ -154,19 +103,21 @@ function MainImageUpload({
             Main Photo
           </label>
           <div className="mt-2 flex items-center gap-x-3">
-            {!mainImage ? (
+            {true ? (
               <UserCircleIcon
                 className="h-12 w-12 text-black"
                 aria-hidden="true"
               />
             ) : (
               <SingleImageContainer>
-                <button onClick={(e) => handleSingleRemoveImage(mainImage, e)}>
+                <button
+                // onClick={(e) => handleSingleRemoveImage(mainImage, e)}
+                >
                   x
                 </button>
                 <SingleImage
                   className="rounded-full w-16 h-16"
-                  src={mainImage}
+                  src="//delilahmae.png"
                   alt="Uploaded image"
                 ></SingleImage>
               </SingleImageContainer>
@@ -225,53 +176,9 @@ function MainImageUpload({
                       >
                         Add Cover Photo
                       </Dialog.Title>
-                      <div className="mt-2 w-full">
-                        <MainImageUploadContainer className=" min-h-16 w-full">
-                          <label htmlFor="file">
-                            <PhotoIcon
-                              className="mx-auto h-12 w-12 text-gray-300"
-                              aria-hidden="true"
-                            />
-                            Click or Drag and Drop Images
-                            <input
-                              id="file"
-                              type="file"
-                              name="file"
-                              accept="image/*"
-                              onChange={(e) => handleOnChange(e)}
-                            />
-                          </label>
-                        </MainImageUploadContainer>
-                      </div>
-
-                      {singleImageSrc && (
-                        <IndividualImageContainer>
-                          <ImageContainer>
-                            <img
-                              src={singleImageSrc}
-                              alt={`Uploaded image`}
-                              className="w-20"
-                            />
-                            <button
-                              onClick={(e) =>
-                                handleSingleRemoveImage(mainImage, e)
-                              }
-                            >
-                              x
-                            </button>
-                          </ImageContainer>
-                          <Progress
-                            aria-label="Downloading..."
-                            size="md"
-                            // value={uploadProgress}
-                            color="success"
-                            showValueLabel={true}
-                            className="max-w-md"
-                          />
-                        </IndividualImageContainer>
-                      )}
                     </div>
                   </div>
+                  <UploadModal />
                   <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                     <button
                       type="button"
@@ -298,4 +205,4 @@ function MainImageUpload({
   );
 }
 
-export default MainImageUpload;
+export default ProfileImageUpload;
