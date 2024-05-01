@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { themeData } from "@/themes/themeData";
-import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 import MainContainer from "../reusable/mainContainer/Index";
 
 function AllThemes() {
   return (
     <MainContainer>
-      <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
+      <div className="gap-2 grid grid-cols-1 sm:grid-cols-4">
         {themeData.map((example, index) => (
           <div className=" overflow-hidden rounded-lg bg-white shadow">
             <div className="px-4 py-5 sm:px-6">

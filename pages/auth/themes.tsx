@@ -4,38 +4,17 @@ import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import AllThemes from "@/components/allThemes/Index";
 import { themeData } from "@/themes/themeData";
-import styled from "styled-components";
-import BackButton from "@/components/reusable/backButton/Index";
 import CreateButton from "@/components/reusable/createButton/Index";
-import { MediaQueries } from "@/styles/Utilities";
 import SectionHeader from "@/components/reusable/sectionHeader/Index";
-
-const ButtonInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const HeadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* max-width: 1000px; */
-  padding-bottom: 4px;
-  @media ${MediaQueries.mobile} {
-    gap: 16px;
-  }
-`;
 
 function Themes() {
   return (
     <Layout>
-      <HeadingContainer>
-        <SectionHeader
-          backButton={true}
-          button={<CreateButton />}
-          heading={`Theme examples (${themeData.length} themes)`}
-        />
-      </HeadingContainer>
-
+      <SectionHeader
+        backButton={true}
+        button={<CreateButton />}
+        heading={`Theme examples (${themeData.length} themes)`}
+      />
       <AllThemes />
     </Layout>
   );
