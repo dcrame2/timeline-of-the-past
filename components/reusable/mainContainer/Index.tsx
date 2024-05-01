@@ -8,7 +8,6 @@ const OuterContainer = styled(motion.div)`
   background-color: ${variables.lightGrey};
   z-index: 1;
   border-radius: 8px;
-  /* max-width: 1000px; */
   position: relative;
   height: calc(78dvh - 24px);
   overflow-y: auto;

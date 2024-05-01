@@ -7,9 +7,8 @@ import { pSmall, pXSmall } from "@/styles/Type";
 import HourGlassLottieLoading from "../reusable/hourglassLottieLoading/Index";
 import { Image } from "@nextui-org/react";
 import MainContainer from "../reusable/mainContainer/Index";
-import Title from "../reusable/title/Index";
-import BackButton from "../reusable/backButton/Index";
 import CreateButton from "../reusable/createButton/Index";
+import SectionHeader from "../reusable/sectionHeader/Index";
 
 const MediaLibraryContainer = styled.div`
   height: 100%;
@@ -17,16 +16,6 @@ const MediaLibraryContainer = styled.div`
 
 const MediaLibraryInnerContainer = styled.div`
   height: 100%;
-`;
-
-const HeadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* max-width: 1000px; */
-  padding-bottom: 4px;
-  @media ${MediaQueries.mobile} {
-    gap: 16px;
-  }
 `;
 
 const HourGlassContainer = styled.div`
@@ -60,11 +49,6 @@ const AllMediaLibrary = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
-`;
-
-const ButtonInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const NoMediaContainer = styled.div`
@@ -120,13 +104,11 @@ function MediaLibraryComponent() {
   return (
     <MediaLibraryContainer>
       <MediaLibraryInnerContainer>
-        <HeadingContainer>
-          <Title name={`Media Library (${mediaLibrary.length} Images)`} />
-          <ButtonInfo>
-            <BackButton />
-            <CreateButton />
-          </ButtonInfo>
-        </HeadingContainer>
+        <SectionHeader
+          heading={`Media Library (${mediaLibrary.length} Images)`}
+          backButton={true}
+          button={<CreateButton />}
+        />
         <MainContainer>
           {isLoading ? (
             <HourGlassContainer>

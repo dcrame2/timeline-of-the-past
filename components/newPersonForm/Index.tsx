@@ -1,12 +1,11 @@
-import React, { useState, ChangeEvent, Fragment } from "react";
+import React, { useState, ChangeEvent } from "react";
 import TextInput from "../reusable/formFields/TextInput";
 import { getSession } from "next-auth/react";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
 import { useRouter } from "next/router";
-import { pXSmall } from "@/styles/Type";
-import { Button, DatePicker, Image } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
@@ -265,6 +264,7 @@ function NewPersonForm() {
         }));
       }
     }
+    setUploadedImages([]);
   };
 
   const handleFontChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -549,6 +549,7 @@ function NewPersonForm() {
                 uploadDatas={uploadDatas}
                 selectedAge={selectedAge}
                 ageOptions={ageOptions}
+                setUploadedImages={setUploadedImages}
               >
                 <UploadFileInputNew
                   uploadedImages={uploadedImages}

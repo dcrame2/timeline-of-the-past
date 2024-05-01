@@ -8,22 +8,29 @@ function UploadModal({
   uploadDatas,
   selectedAge,
   ageOptions,
+  setUploadedImages,
 }: {
   children: React.ReactNode;
   uploadDatas: any;
   selectedAge: any;
   ageOptions: any;
+  setUploadedImages: any;
 }) {
   const [mulitipleImageModalOpen, setMulitipleImageModalOpen] = useState(false);
   const openMutlitplImageModal = () => {
     setMulitipleImageModalOpen(true);
+  };
+
+  const doneImageHandler = () => {
+    setUploadedImages([]);
+    setMulitipleImageModalOpen(false);
   };
   return (
     <>
       <Button
         onPress={openMutlitplImageModal}
         type="button"
-        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 max-w-72"
+        className="max-w-72 text-white bg-lightOrange border-lightBlue"
       >
         Add Images -{" "}
         {ageOptions[selectedAge]?.label
@@ -82,20 +89,20 @@ function UploadModal({
                     </div>
                   </div>
                   <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                    <button
+                    <Button
                       type="button"
                       className="inline-flex w-full justify-center rounded-md bg-green px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                      onClick={() => setMulitipleImageModalOpen(false)}
+                      onClick={doneImageHandler}
                     >
                       Done
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="button"
-                      className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                      onClick={() => setMulitipleImageModalOpen(false)}
+                      className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-lightBlue hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                      onClick={doneImageHandler}
                     >
                       Cancel
-                    </button>
+                    </Button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

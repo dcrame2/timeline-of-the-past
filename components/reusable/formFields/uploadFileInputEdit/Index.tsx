@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { uploadFilesToCloudinary } from "@/lib/uploadFilesToCloudinary";
 import { MediaQueries } from "@/styles/Utilities";
 import { pXSmall } from "@/styles/Type";
+import { Progress } from "@nextui-org/react";
 
 const Form = styled.div`
   height: 100%;
@@ -54,7 +55,7 @@ const ImageMainContainer = styled(motion.div)`
   display: flex;
   gap: 8px;
   flex-direction: row;
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
   right: 0;
   margin: 4px;
@@ -74,9 +75,27 @@ const ImageContainer = styled.div`
     height: 100%;
     object-fit: contain;
   }
+  button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: ${variables.white};
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const IndividualImageContainer = styled(motion.div)`
+  position: relative;
   display: flex;
   padding: 4px;
   background-color: ${variables.darkerLightGrey};
@@ -84,6 +103,7 @@ const IndividualImageContainer = styled(motion.div)`
   border-radius: 8px;
   align-items: center;
   gap: 24px;
+  width: 100%;
 `;
 
 const motionProps = {
@@ -112,10 +132,14 @@ function UploadFileInputEdit({
   onUpload,
   selectedAge,
   updatedPerson,
+  uploadedImages,
+  setUploadedImages,
 }: {
   onUpload: (selectedAge: number, uploadedUrls: string[]) => void;
   selectedAge: any;
   updatedPerson: any;
+  uploadedImages: any;
+  setUploadedImages: any;
 }) {
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -159,33 +183,47 @@ function UploadFileInputEdit({
   };
 
   return (
-    <Form>
-      <label htmlFor="file">Drag and Drop images here</label>
-      <input
-        multiple
-        type="file"
-        name="file"
-        accept="image/*"
-        onChange={(e) => handleOnChange(e)}
-      />
-      {isLoading && (
-        <ImageMainContainer>
-          <AnimatePresence mode="wait">
-            {imageSrcs?.map((src: string, index: number) => (
-              <IndividualImageContainer key={index} {...motionProps}>
-                <ImageContainer>
-                  <img key={index} src={src} alt={`Uploaded image ${index}`} />
-                </ImageContainer>
+    <>
+      <Form>
+        <label htmlFor="file">Drag and Drop images here</label>
+        <input
+          multiple
+          type="file"
+          name="file"
+          accept="image/*"
+          onChange={(e) => handleOnChange(e)}
+        />
+      </Form>
+      <ImageMainContainer>
+        {uploadedImages?.map((src: string, index: number) => (
+          <IndividualImageContainer key={index}>
+            <ImageContainer>
+              <img src={src} alt={`Uploaded image ${index}`} />
+              <button
+              // onClick={(e) =>
+              //   handleRemoveImage(
+              //     uploadDatas[selectedAge].images[index],
+              //     index,
+              //     e
+              //   )
+              // }
+              >
+                x
+              </button>
+            </ImageContainer>
 
-                <IsLoadingContainer>
-                  <p style={{ color: "#2e2424" }}>Loading image(s)...</p>
-                </IsLoadingContainer>
-              </IndividualImageContainer>
-            ))}
-          </AnimatePresence>
-        </ImageMainContainer>
-      )}
-    </Form>
+            <Progress
+              aria-label="Downloading..."
+              size="md"
+              // value={uploadProgress}
+              color="success"
+              showValueLabel={true}
+              className="max-w-md"
+            />
+          </IndividualImageContainer>
+        ))}
+      </ImageMainContainer>
+    </>
   );
 }
 

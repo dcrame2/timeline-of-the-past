@@ -96,6 +96,7 @@ interface PeopleProps {
   firstName?: string;
   lastName?: string;
   dob?: string;
+  mainImage?: string;
 }
 
 function PeopleFeed({
@@ -115,6 +116,47 @@ function PeopleFeed({
 
   const deletePersonHandler = (name: PeopleProps) => {
     setDeletePerson(name);
+  };
+
+  const handleRemoveAllImages = async (person: PeopleProps) => {
+    try {
+      // Make a POST request to the deleteImage API route
+      const response = await fetch("/api/deleteImage/deleteAllImages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ person }),
+      });
+
+      if (response.ok) {
+        // Image deletion was successful
+        console.log("Image deleted successfully");
+      } else {
+        // Handle error response from the API route
+        console.error("Failed to delete image:", response.statusText);
+      }
+    } catch (error) {
+      // Handle any errors that occur during the fetch operation
+      console.error("Error deleting image:", error);
+    }
+  };
+
+  const handleSingleRemoveImage = async (imageUrlToDelete: string) => {
+    // Check if selectedAge is not empty
+    try {
+      // Make a POST request to the deleteImage API route
+      await fetch("/api/deleteImage/deleteImage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageUrlToDelete }),
+      });
+    } catch (error) {
+      // Handle any errors that occur during the fetch operation
+      console.error("Error deleting image:", error);
+    }
   };
 
   const deletePeopleHandler = async (person: PeopleProps, index: number) => {
@@ -142,6 +184,12 @@ function PeopleFeed({
       // Include the sessionUserEmail in the request body
       body: JSON.stringify({ sessionUserEmail }),
     });
+
+    if (person.mainImage) {
+      handleSingleRemoveImage(person.mainImage);
+    }
+
+    handleRemoveAllImages(person);
 
     fetchData();
     getUserInfo();

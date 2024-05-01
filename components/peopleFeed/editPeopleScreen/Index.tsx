@@ -123,6 +123,11 @@ function EditPeopleScreen({
     ...person,
   });
 
+  interface UploadedImage {
+    src: string;
+    progress: number;
+  }
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [selectedAge, setSelectedAge] = useState<number>(0);
@@ -132,6 +137,7 @@ function EditPeopleScreen({
   const [font, setFont] = useState(updatedPerson.font);
   const [theme, setTheme] = useState(updatedPerson.theme);
   const maxDate = new Date().toISOString().split("T")[0];
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
   console.log(updatedPerson, "updatedPerson");
 
@@ -232,6 +238,7 @@ function EditPeopleScreen({
     const age = parseInt(event.target.value);
     console.log(age, "AGE");
     setSelectedAge(age);
+    setUploadedImages([]);
   };
 
   const handleInputChange = (
@@ -606,6 +613,9 @@ function EditPeopleScreen({
                     placeholder="Enter your description"
                     className="border-none"
                     labelPlacement={"outside"}
+                    onChange={(e: any) => {
+                      handleInputChange(e, "mainText");
+                    }}
                   />
                 </MainFieldContainer>
                 <Divider className="my-4 col-span-2" />
@@ -667,8 +677,11 @@ function EditPeopleScreen({
                   uploadDatas={updatedPerson?.uploadDatas}
                   selectedAge={selectedAge}
                   ageOptions={ageOptions}
+                  setUploadedImages={setUploadedImages}
                 >
                   <UploadFileInputEdit
+                    setUploadedImages={setUploadedImages}
+                    uploadedImages={uploadedImages}
                     selectedAge={selectedAge}
                     updatedPerson={updatedPerson}
                     onUpload={(selectedAge: number, newUploadDatas: string[]) =>
@@ -683,47 +696,6 @@ function EditPeopleScreen({
                   selectedAge={selectedAge}
                   handleRemoveImage={handleRemoveImage}
                 />
-                {/* <ImageGridContainer>
-                  {person &&
-                    updatedPerson.uploadDatas &&
-                    selectedAge !== null &&
-                    updatedPerson.uploadDatas[selectedAge]?.images?.map(
-                      (src: string, index: number) => {
-                        return (
-                          <ImageWithCaption key={index}>
-                            <ImageContainer>
-                              <Image
-                                width={300}
-                                height={200}
-                                src={src}
-                                alt={`Image ${index}`}
-                              />
-                              <button
-                                onClick={(e) =>
-                                  handleRemoveImage(src, index, e)
-                                }
-                              >
-                                x
-                              </button>
-                            </ImageContainer>
-                          </ImageWithCaption>
-                        );
-                      }
-                    )}
-                  {person &&
-                    updatedPerson.uploadDatas &&
-                    selectedAge !== null &&
-                    [
-                      ...Array(
-                        Math.max(
-                          0,
-                          4 -
-                            (updatedPerson?.uploadDatas[selectedAge]?.images
-                              ?.length || 0)
-                        )
-                      ),
-                    ].map((_, index) => <EmptyImageCard />)}
-                </ImageGridContainer> */}
               </FormInnerContainer>
             </Form>
           </MainContainer>
