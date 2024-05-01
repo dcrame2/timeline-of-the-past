@@ -9,98 +9,18 @@ import { MediaQueries } from "@/styles/Utilities";
 import { pXSmall, pBase } from "@/styles/Type";
 import { Button } from "@nextui-org/react";
 import MainContainer from "@/components/reusable/mainContainer/Index";
-import Title from "@/components/reusable/title/Index";
-import BackButton from "@/components/reusable/backButton/Index";
+
 import CreateButton from "@/components/reusable/createButton/Index";
 import { variables } from "@/styles/Variables";
 import StripeIcon from "@/components/reusable/svg/stripeIcon/Index";
 import SectionHeader from "@/components/reusable/sectionHeader/Index";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
-const CustomRadioBox = styled.div`
-  display: flex;
-  gap: 12px;
-
-  @media ${MediaQueries.mobile} {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const SingleRadioBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  .ml-2 {
-    margin-left: 0px;
-  }
-
-  .bg-primary {
-    background-color: ${variables.lightOrange};
-  }
-  .group[data-selected="true"] .group-data-\[selected\=true\]\:border-primary {
-    border-color: ${variables.lightOrange};
-  }
-
-  .group[data-selected="true"] {
-    background-color: ${variables.lightGrey};
-  }
-`;
-
-const CheckoutButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: 20px;
-`;
-
-const HeadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  /* max-width: 1000px; */
-  padding-bottom: 4px;
-  @media ${MediaQueries.mobile} {
-    gap: 16px;
-  }
-`;
-
-const RadioText = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  .price {
-    font-size: 48px;
-    font-weight: 600;
-    line-height: 1.5rem;
-    span {
-      font-size: 12px;
-      font-weight: 400;
-    }
-  }
-  ul {
-    margin: 20px 20px 20px 16px;
-    ${pXSmall}
-    list-style-type: square;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    li {
-      color: #636262;
-    }
-  }
-`;
-
-const ButtonInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 function Subscription() {
@@ -192,38 +112,7 @@ function Subscription() {
     <Layout>
       <SectionHeader
         heading="Pay only for what you need"
-        // backButton={true}
         button={<CreateButton />}
-        // button={
-        //   <>
-        //     {" "}
-        //     {!isLoading ? (
-        //       <Button
-        //         type="submit"
-        //         disabled={!selectedProduct}
-        //         style={{
-        //           backgroundColor: `${variables.lightOrange}`,
-        //           color: `${variables.white}`,
-        //         }}
-        //         endContent={<StripeIcon color={`${variables.white}`} />}
-        //         // onClick={handleSubmit}
-        //       >
-        //         Checkout
-        //       </Button>
-        //     ) : (
-        //       <Button
-        //         style={{
-        //           backgroundColor: `${variables.lightOrange}`,
-        //           color: `${variables.white}`,
-        //         }}
-        //         isLoading
-        //         disabled
-        //       >
-        //         Loading
-        //       </Button>
-        //     )}
-        //   </>
-        // }
       />
 
       <MainContainer>

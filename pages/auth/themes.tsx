@@ -3,7 +3,6 @@ import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Layout from "@/components/layout/dashboard/Index";
 import AllThemes from "@/components/allThemes/Index";
-import Title from "@/components/reusable/title/Index";
 import { themeData } from "@/themes/themeData";
 import styled from "styled-components";
 import BackButton from "@/components/reusable/backButton/Index";

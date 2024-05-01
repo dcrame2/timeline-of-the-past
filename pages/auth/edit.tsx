@@ -10,7 +10,6 @@ import { MediaQueries } from "@/styles/Utilities";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import MainContainer from "@/components/reusable/mainContainer/Index";
-import Title from "@/components/reusable/title/Index";
 import SectionHeader from "@/components/reusable/sectionHeader/Index";
 import BackButton from "@/components/reusable/backButton/Index";
 
