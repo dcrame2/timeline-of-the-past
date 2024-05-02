@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { Button } from "./Button";
+import { Button } from "@nextui-org/react";
 import { Container } from "./Container";
 
 function SwirlyDoodle(props: React.ComponentPropsWithoutRef<"svg">) {
@@ -60,7 +60,7 @@ function Plan({
 }: {
   name: string;
   price: string;
-  description: string;
+  description?: string;
   href: string;
   features: Array<string>;
   featured?: boolean;
@@ -69,40 +69,50 @@ function Plan({
     <section
       className={clsx(
         "flex flex-col rounded-3xl px-6 sm:px-8",
-        featured ? "order-first bg-blue-600 py-8 lg:order-none" : "lg:py-8"
+        featured ? "order-first bg-lightBlue py-8 lg:order-none" : "lg:py-8"
       )}
     >
-      <h3 className="mt-5 font-display text-lg text-white">{name}</h3>
+      <h3
+        className={`{mt-5 font-display text-lg ${
+          featured ? "text-white" : "text-lightBlue"
+        }`}
+      >
+        {name}
+      </h3>
       <p
         className={clsx(
           "mt-2 text-base",
-          featured ? "text-white" : "text-slate-400"
+          featured ? "text-white" : "text-lightBlue"
         )}
       >
         {description}
       </p>
-      <p className="order-first font-display text-5xl font-light tracking-tight text-white">
+      <p
+        className={` order-first font-display text-5xl font-light tracking-tight ${
+          featured ? "text-white" : "text-lightOrange"
+        }`}
+      >
         {price}
       </p>
       <ul
         role="list"
         className={clsx(
           "order-last mt-10 flex flex-col gap-y-3 text-sm",
-          featured ? "text-white" : "text-slate-200"
+          featured ? "text-white" : "text-lightBlue"
         )}
       >
         {features.map((feature) => (
           <li key={feature} className="flex">
-            <CheckIcon className={featured ? "text-white" : "text-slate-400"} />
+            <CheckIcon className={featured ? "text-white" : "text-white"} />
             <span className="ml-4">{feature}</span>
           </li>
         ))}
       </ul>
       <Button
         href={href}
-        variant={featured ? "solid" : "outline"}
-        color="white"
-        className="mt-8"
+        className={`mt-8 ${
+          featured ? "text-lightBlue bg-white" : "text-white bg-lightBlue"
+        }`}
         aria-label={`Get started with the ${name} plan for ${price}`}
       >
         Get started
@@ -120,59 +130,50 @@ export function Pricing() {
     >
       <Container>
         <div className="md:text-center">
-          <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl">
+          <h2 className="font-display text-3xl tracking-tight text-lightBlue sm:text-4xl">
             <span className="relative whitespace-nowrap">
-              <SwirlyDoodle className="absolute left-0 top-1/2 h-[1em] w-full fill-blue-400" />
-              <span className="relative">Simple pricing,</span>
+              <span className="relative text-lightOrange">Simple pricing,</span>
             </span>{" "}
             for everyone.
           </h2>
           <p className="mt-4 text-lg text-slate-400">
-            It doesn’t matter what size your business is, our software won’t
-            work well for you.
+            Our pricing is simple and transparent. One time fees for all
+            timelines. No hidden fees.
           </p>
         </div>
-        <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8">
+        <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8 bg-lightGrey ">
           <Plan
-            name="Starter"
-            price="$9"
-            description="Good for anyone who is self-employed and just getting started."
-            href="/register"
+            name="One Timeline"
+            price="$10"
+            // description="Good for one additional timeline."
+            href="/auth/authenticate"
             features={[
-              "Send 10 quotes and invoices",
-              "Connect up to 2 bank accounts",
-              "Track up to 15 expenses per month",
-              "Manual payroll support",
-              "Export up to 3 reports",
+              "Adds the ability to create one timeline",
+              "Change the theme to any allowed themes",
+              "Access for life to your created timeline",
             ]}
           />
           <Plan
             featured
-            name="Small business"
-            price="$15"
-            description="Perfect for small / medium sized businesses."
-            href="/register"
+            name="Three Timelines"
+            price="$25"
+            // description="Perfect for building timelines for your family."
+            href="/auth/authenticate"
             features={[
-              "Send 25 quotes and invoices",
-              "Connect up to 5 bank accounts",
-              "Track up to 50 expenses per month",
-              "Automated payroll support",
-              "Export up to 12 reports",
-              "Bulk reconcile transactions",
-              "Track in multiple currencies",
+              "Adds the ability to create three additional timelines",
+              "Change the theme to any allowed themes",
+              "Access for life to your created timelines",
             ]}
           />
           <Plan
-            name="Enterprise"
-            price="$39"
-            description="For even the biggest enterprise companies."
-            href="/register"
+            name="Five Timelines"
+            price="$35"
+            // description="For your building timelines for your friends and family"
+            href="/auth/authenticate"
             features={[
-              "Send unlimited quotes and invoices",
-              "Connect up to 15 bank accounts",
-              "Track up to 200 expenses per month",
-              "Automated payroll support",
-              "Export up to 25 reports, including TPS",
+              "Adds the ability to create five additional timelines",
+              "Change the theme to any allowed themes",
+              "Access for life to your created timelines",
             ]}
           />
         </div>

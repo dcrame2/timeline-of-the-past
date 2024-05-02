@@ -11,37 +11,33 @@ import screenshotExpenses from "../images/screenshots/expenses.png";
 import screenshotPayroll from "../images/screenshots/payroll.png";
 import screenshotReporting from "../images/screenshots/reporting.png";
 import screenshotVatReturns from "../images/screenshots/vat-returns.png";
+import timelinePage from "../../public/main-website/timeline_page.png";
 
 const features = [
+  {
+    title: "View All Timelines",
+    description:
+      "Easily create your own timelines with intuitive tools. Add events, milestones, and customize the appearance to suit your needs.",
+    image: timelinePage,
+  },
   {
     title: "Create Timelines",
     description:
       "Easily create your own timelines with intuitive tools. Add events, milestones, and customize the appearance to suit your needs.",
-    image: screenshotVatReturns,
+    image: timelinePage,
   },
   {
     title: "Edit Timelines",
     description:
       "Effortlessly edit your timelines at any time. Update event details, change the order of events, or tweak the timeline layout.",
-    image: screenshotVatReturns,
+    image: timelinePage,
   },
-  {
-    title: "Media Library",
-    description:
-      "Access a vast library of media resources to enhance your timelines. Add images, videos, and audio clips to bring your stories to life.",
-    image: screenshotVatReturns,
-  },
+
   {
     title: "Unlimited Themes",
     description:
       "Choose from a wide range of themes to personalize the look and feel of your timelines. Whether it's a historical timeline or a project schedule, find the perfect theme for every occasion.",
-    image: screenshotVatReturns,
-  },
-  {
-    title: "Purchase Additional Items",
-    description:
-      "Unlock premium features and add-ons to take your timelines to the next level. Get access to exclusive templates, advanced customization options, and more.",
-    image: screenshotVatReturns,
+    image: timelinePage,
   },
 ];
 

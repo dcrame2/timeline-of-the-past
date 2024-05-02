@@ -12,6 +12,7 @@ import logoTransistor from "../images/logos/transistor.svg";
 import logoTuple from "../images/logos/tuple.svg";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
+import Link from "next/link";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -57,8 +58,11 @@ export function Hero() {
           Share your life's journey with the world
         </p>
         <div className="mt-10 flex justify-center gap-x-6">
-          <Button href="/register">Get 6 months free</Button>
+          <Button as={Link} href="/auth/authenticate">
+            Sign Up
+          </Button>
           <Button
+            as={Link}
             href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             // variant="outline"
             className=" bg-lightOrange text-white"
