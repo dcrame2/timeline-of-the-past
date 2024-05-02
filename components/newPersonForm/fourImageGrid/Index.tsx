@@ -8,7 +8,6 @@ import EmptyImageCard from "@/components/reusable/emptyImageCard/Index";
 const ImageGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  /* grid-column: 1 / span 2; */
   gap: 10px;
   grid-column: 2;
 
@@ -18,7 +17,6 @@ const ImageGridContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  background-color: ${variables.lightGrey};
   text-align: center;
   position: relative;
   display: flex;

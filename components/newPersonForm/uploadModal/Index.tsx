@@ -79,7 +79,7 @@ function UploadModal({
                     </button>
                   </div>
                   <div className="sm:flex sm:items-start">
-                    <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <div className="mt-3 w-full text-center sm:mt-0 sm:text-left">
                       <Dialog.Title
                         as="h3"
                         className="text-base font-semibold leading-6 text-black"

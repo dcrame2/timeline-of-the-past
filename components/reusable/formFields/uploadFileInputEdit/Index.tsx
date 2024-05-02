@@ -54,14 +54,10 @@ const Form = styled.div`
 const ImageMainContainer = styled(motion.div)`
   display: flex;
   gap: 8px;
-  flex-direction: row;
-  /* position: absolute; */
-  bottom: 0;
-  right: 0;
+  flex-direction: column;
+
   margin: 4px;
 `;
-
-const IsLoadingContainer = styled(motion.div)``;
 
 const ImageContainer = styled.div`
   max-height: 40px;
@@ -122,6 +118,11 @@ const motionProps = {
   },
 };
 
+interface UploadedImage {
+  src: string;
+  progress: number;
+}
+
 // Define the type for uploadDatas state
 type UploadDataState = string[]; // Assuming uploadDatas stores an array of string URLs
 
@@ -143,6 +144,19 @@ function UploadFileInputEdit({
 }) {
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      if (uploadProgress <= 100) {
+        setUploadProgress((prevProgress) => prevProgress + 0.5);
+      }
+    }, 100);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [uploadProgress]);
 
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();
@@ -166,6 +180,12 @@ function UploadFileInputEdit({
 
       reader.onload = (onLoadEvent: any) => {
         onLoadEvent.preventDefault();
+
+        setUploadedImages((prevImages: any) => [
+          ...prevImages,
+          { src: onLoadEvent.target.result, progress: 100 },
+        ]);
+
         newImageSrcs.push(onLoadEvent.target.result);
         if (newImageSrcs.length === files.length) {
           setImageSrcs(newImageSrcs);
@@ -175,6 +195,13 @@ function UploadFileInputEdit({
             // Once all files are uploaded, call the callback function to update the parent component's state
             onUpload(selectedAge, uploadedUrls); // Pass selectedAge along with uploadedUrls
             setIsLoading(false);
+            setUploadProgress(100);
+            setUploadedImages((prevImages: any) =>
+              prevImages.map((image: any, index: number) => ({
+                ...image,
+                progress: index < prevImages.length ? image.progress : 100,
+              }))
+            );
           });
         }
       };
@@ -195,27 +222,27 @@ function UploadFileInputEdit({
         />
       </Form>
       <ImageMainContainer>
-        {uploadedImages?.map((src: string, index: number) => (
+        {uploadedImages?.map((image: UploadedImage, index: number) => (
           <IndividualImageContainer key={index}>
             <ImageContainer>
-              <img src={src} alt={`Uploaded image ${index}`} />
-              <button
-              // onClick={(e) =>
-              //   handleRemoveImage(
-              //     uploadDatas[selectedAge].images[index],
-              //     index,
-              //     e
-              //   )
-              // }
+              <img src={image.src} alt={`Uploaded image ${index}`} />
+              {/* <button
+              onClick={(e) =>
+                handleRemoveImage(
+                  uploadDatas[selectedAge].images[index],
+                  index,
+                  e
+                )
+              }
               >
                 x
-              </button>
+              </button> */}
             </ImageContainer>
 
             <Progress
               aria-label="Downloading..."
               size="md"
-              // value={uploadProgress}
+              value={uploadProgress}
               color="success"
               showValueLabel={true}
               className="max-w-md"

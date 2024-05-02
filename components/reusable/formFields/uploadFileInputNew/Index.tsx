@@ -56,9 +56,6 @@ const ImageMainContainer = styled(motion.div)`
   display: flex;
   gap: 8px;
   flex-direction: column;
-  /* position: absolute; */
-  bottom: 0;
-  right: 0;
   margin: 4px;
 `;
 
@@ -154,8 +151,6 @@ function UploadFileInputNew({
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  // const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
-
   const [value, setValue] = React.useState(0);
 
   React.useEffect(() => {
@@ -223,10 +218,6 @@ function UploadFileInputNew({
         }
       };
       reader.readAsDataURL(file);
-      // setUploadedImages((prevImages) => [
-      //   ...prevImages,
-      //   { src: URL.createObjectURL(file), progress: 0 },
-      // ]);
     }
   };
 
@@ -252,7 +243,7 @@ function UploadFileInputNew({
           <IndividualImageContainer key={index}>
             <ImageContainer>
               <img src={image.src} alt={`Uploaded image ${index}`} />
-              <button
+              {/* <button
                 onClick={(e) =>
                   handleRemoveImage(
                     uploadDatas[selectedAge].images[index],
@@ -262,7 +253,7 @@ function UploadFileInputNew({
                 }
               >
                 x
-              </button>
+              </button> */}
             </ImageContainer>
             <Progress
               aria-label="Downloading..."
