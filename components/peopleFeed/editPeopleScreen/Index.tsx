@@ -608,7 +608,7 @@ function EditPeopleScreen({
                 </DatesContainer>
 
                 <Textarea
-                  label={"Who are you today?"}
+                  label={"Write a main description of the life"}
                   value={updatedPerson.mainText}
                   placeholder="Enter your description"
                   className="border-none"

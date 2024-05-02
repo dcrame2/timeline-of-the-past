@@ -546,10 +546,10 @@ function NewPersonForm() {
               />
             </DatesContainer>
             <Textarea
-              label={"Who are you today?"}
+              label={"Write a main description of the life"}
               ref={mainTextRef}
               placeholder="Enter your description"
-              className="border-none"
+              className="border-none focus:outline-none focus:shadow-none shadow-none"
               labelPlacement={"outside"}
             />
           </MainFieldContainer>
