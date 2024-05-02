@@ -28,7 +28,13 @@ function AllThemes() {
               />
             </div>
             <div className="px-4 py-4 sm:px-6">
-              <Button size="sm" target="_blank" as={Link} href={example.url}>
+              <Button
+                size="sm"
+                target="_blank"
+                as={Link}
+                href={example.url}
+                className="bg-lightBlue text-white"
+              >
                 View Theme
               </Button>
             </div>

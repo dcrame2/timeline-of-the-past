@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import backgroundImage from "./images/background-auth.jpg";
+import backgroundImage from "../../public/time-clock-hero.jpg";
 
 export function SlimLayout({ children }: { children: React.ReactNode }) {
   return (

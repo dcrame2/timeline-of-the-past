@@ -30,6 +30,7 @@ function UploadModal({
       <Button
         onPress={openMutlitplImageModal}
         type="button"
+        size="sm"
         className="max-w-72 text-white bg-lightOrange border-lightBlue"
       >
         Add Images -{" "}

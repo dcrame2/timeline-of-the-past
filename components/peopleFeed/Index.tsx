@@ -212,153 +212,148 @@ function PeopleFeed({
   };
   return (
     <>
-      <MainContainer>
-        {isLoading ? (
-          <HourGlassContainer>
-            <HourGlassLottieLoading />
-          </HourGlassContainer>
-        ) : (
-          <>
-            <div />
-            {peopleData &&
-            peopleData.userData &&
-            peopleData.userData.length > 0 ? (
-              <PeopleFeedInnerContainer>
-                {peopleData.userData.map((person, index) => {
-                  const { firstName, lastName, slug, dob, mainImage, theme } =
-                    person;
+      {/* <MainContainer> */}
+      {isLoading ? (
+        <HourGlassContainer>
+          <HourGlassLottieLoading />
+        </HourGlassContainer>
+      ) : (
+        <>
+          <div />
+          {peopleData &&
+          peopleData.userData &&
+          peopleData.userData.length > 0 ? (
+            <PeopleFeedInnerContainer>
+              {peopleData.userData.map((person, index) => {
+                const { firstName, lastName, slug, dob, mainImage, theme } =
+                  person;
 
-                  return (
-                    <>
-                      <div className="overflow-hidden rounded-lg bg-white shadow">
-                        <div className="px-4 py-5 sm:px-4">
-                          <h4 className="font-bold text-black">
-                            {firstName} {lastName}
-                          </h4>
-                          <small className="text-default-500">
-                            Birthday: {formatDate(dob)}
-                          </small>
-                        </div>
-                        <div className="px-4 sm:px-4">
-                          <Image
-                            alt="Card background"
-                            className="object-cover rounded-xl h-56 w-full"
-                            src={mainImage}
-                            width={500}
-                          />
-                        </div>
-                        <div className="px-4 py-4 sm:px-4">
-                          <CRUDBtns className="mt-2   justify-center">
-                            <Button
-                              style={{
-                                backgroundColor: "rgba(13, 51, 80, 0.8)",
-                                color: variables.white,
-                              }}
-                              size="sm"
-                              target="_blank"
-                              as={Link}
-                              isIconOnly
-                              href={`https://timelinethat.com${slug}`}
-                              startContent={
-                                <ExternalIcon color={variables.white} />
-                              }
-                            />
-                            <Button
-                              style={{
-                                color: variables.white,
-                                backgroundColor: "rgba(255, 180, 0, 0.8)",
-                              }}
-                              size="sm"
-                              isIconOnly
-                              startContent={
-                                <EditIcon color={variables.white} />
-                              }
-                              onClick={() => handleEditClick(person, index)}
-                            />
-                            <Button
-                              style={{
-                                color: variables.white,
-                                backgroundColor: "rgba(255, 0, 0, 0.8)",
-                              }}
-                              size="sm"
-                              target="_blank"
-                              color="danger"
-                              isIconOnly
-                              onPress={onOpen}
-                              onClick={() => deletePersonHandler(person)}
-                              startContent={
-                                <TrashIcon color={variables.white} />
-                              }
-                            />
-                            <>
-                              <Modal
-                                placement="center"
-                                isOpen={isOpen}
-                                onOpenChange={onOpenChange}
-                              >
-                                <ModalContent>
-                                  {(onClose) => (
-                                    <>
-                                      <ModalHeader className="flex flex-col gap-1 text-black">
-                                        Are you sure?
-                                      </ModalHeader>
-                                      <ModalBody>
-                                        <ModalDescription>
-                                          You are about to delete the timeline
-                                          for{" "}
-                                          <b>
-                                            {deletePerson?.firstName}{" "}
-                                            {deletePerson?.lastName}
-                                          </b>
-                                          . This will delete all content and
-                                          images from your account and is
-                                          irreversible. Please click the Confirm
-                                          Delete button to proceed.
-                                        </ModalDescription>
-                                      </ModalBody>
-                                      <ModalFooter>
-                                        <Button
-                                          color="danger"
-                                          variant="light"
-                                          onPress={onClose}
-                                        >
-                                          Close
-                                        </Button>
-                                        <Button
-                                          style={{
-                                            color: variables.white,
-                                            backgroundColor:
-                                              "rgba(255, 0, 0, 0.8)",
-                                          }}
-                                          onClick={() =>
-                                            deletePeopleHandler(person, index)
-                                          }
-                                          onPress={onClose}
-                                        >
-                                          Confirm Delete
-                                        </Button>
-                                      </ModalFooter>
-                                    </>
-                                  )}
-                                </ModalContent>
-                              </Modal>
-                            </>
-                          </CRUDBtns>
-                        </div>
+                return (
+                  <>
+                    <div className="overflow-hidden rounded-lg bg-white shadow">
+                      <div className="px-4 py-5 sm:px-4">
+                        <h4 className="font-bold text-black">
+                          {firstName} {lastName}
+                        </h4>
+                        <small className="text-default-500">
+                          Birthday: {formatDate(dob)}
+                        </small>
                       </div>
-                    </>
-                  );
-                })}
-              </PeopleFeedInnerContainer>
-            ) : (
-              <NoTimelineContainer>
-                <p>No Timelines</p>
-                <CreateButton />
-              </NoTimelineContainer>
-            )}
-          </>
-        )}
-      </MainContainer>
+                      <div className="px-4 sm:px-4">
+                        <Image
+                          alt="Card background"
+                          className="object-cover rounded-xl h-56 w-full"
+                          src={mainImage}
+                          width={500}
+                        />
+                      </div>
+                      <div className="px-4 py-4 sm:px-4">
+                        <CRUDBtns className="mt-2   justify-center">
+                          <Button
+                            style={{
+                              backgroundColor: "rgba(13, 51, 80, 0.8)",
+                              color: variables.white,
+                            }}
+                            size="sm"
+                            target="_blank"
+                            as={Link}
+                            isIconOnly
+                            href={`https://timelinethat.com${slug}`}
+                            startContent={
+                              <ExternalIcon color={variables.white} />
+                            }
+                          />
+                          <Button
+                            style={{
+                              color: variables.white,
+                              backgroundColor: "rgba(255, 180, 0, 0.8)",
+                            }}
+                            size="sm"
+                            isIconOnly
+                            startContent={<EditIcon color={variables.white} />}
+                            onClick={() => handleEditClick(person, index)}
+                          />
+                          <Button
+                            style={{
+                              color: variables.white,
+                              backgroundColor: "rgba(255, 0, 0, 0.8)",
+                            }}
+                            size="sm"
+                            target="_blank"
+                            color="danger"
+                            isIconOnly
+                            onPress={onOpen}
+                            onClick={() => deletePersonHandler(person)}
+                            startContent={<TrashIcon color={variables.white} />}
+                          />
+                          <>
+                            <Modal
+                              placement="center"
+                              isOpen={isOpen}
+                              onOpenChange={onOpenChange}
+                            >
+                              <ModalContent>
+                                {(onClose) => (
+                                  <>
+                                    <ModalHeader className="flex flex-col gap-1 text-black">
+                                      Are you sure?
+                                    </ModalHeader>
+                                    <ModalBody>
+                                      <ModalDescription>
+                                        You are about to delete the timeline for{" "}
+                                        <b>
+                                          {deletePerson?.firstName}{" "}
+                                          {deletePerson?.lastName}
+                                        </b>
+                                        . This will delete all content and
+                                        images from your account and is
+                                        irreversible. Please click the Confirm
+                                        Delete button to proceed.
+                                      </ModalDescription>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                      <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={onClose}
+                                      >
+                                        Close
+                                      </Button>
+                                      <Button
+                                        style={{
+                                          color: variables.white,
+                                          backgroundColor:
+                                            "rgba(255, 0, 0, 0.8)",
+                                        }}
+                                        onClick={() =>
+                                          deletePeopleHandler(person, index)
+                                        }
+                                        onPress={onClose}
+                                      >
+                                        Confirm Delete
+                                      </Button>
+                                    </ModalFooter>
+                                  </>
+                                )}
+                              </ModalContent>
+                            </Modal>
+                          </>
+                        </CRUDBtns>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </PeopleFeedInnerContainer>
+          ) : (
+            <NoTimelineContainer>
+              <p>No Timelines</p>
+              <CreateButton />
+            </NoTimelineContainer>
+          )}
+        </>
+      )}
+      {/* </MainContainer> */}
     </>
   );
 }

@@ -433,181 +433,181 @@ function NewPersonForm() {
         }
         heading="Create a new timeline"
       />
-      <MainContainer>
-        <Form method="post">
-          <FormInnerContainer>
-            <div className="row-span-2 flex gap-4 flex-col">
-              <MainInfo>MAIN INFORMATION</MainInfo>
-              <p className="italic text-xs">
-                Supply the personal information regarding the timeline
-              </p>
-              <p className="italic text-xs">This information will be public</p>
-            </div>
-            <div className="flex flex-col gap-2 ">
-              <MainImageUpload
-                handleSingleRemoveImage={handleSingleRemoveImage}
-                mainImage={mainImage}
-                handleOnChange={handleOnChange}
-                singleImageSrc={singleImageSrc}
-                setSingleImageSrc={setSingleImageSrc}
+      {/* <MainContainer> */}
+      <Form method="post">
+        <FormInnerContainer>
+          <div className="row-span-2 flex gap-4 flex-col">
+            <MainInfo>MAIN INFORMATION</MainInfo>
+            <p className="italic text-xs">
+              Supply the personal information regarding the timeline
+            </p>
+            <p className="italic text-xs">This information will be public</p>
+          </div>
+          <div className="flex flex-col gap-2 ">
+            <MainImageUpload
+              handleSingleRemoveImage={handleSingleRemoveImage}
+              mainImage={mainImage}
+              handleOnChange={handleOnChange}
+              singleImageSrc={singleImageSrc}
+              setSingleImageSrc={setSingleImageSrc}
+            />
+            {!mainImage && saveAttempt && (
+              <ErrorFormMessage message="Main image is required" />
+            )}
+          </div>
+          <MainFieldContainer>
+            <ThemeInfoContainer className="w-full">
+              <TextInput
+                className=""
+                type="color"
+                id="color"
+                name="color"
+                ref={colorRef}
+                label="Theme Color"
+                style={{ borderRadius: 0 }}
               />
-              {!mainImage && saveAttempt && (
-                <ErrorFormMessage message="Main image is required" />
-              )}
-            </div>
-            <MainFieldContainer>
-              <ThemeInfoContainer className="w-full">
-                <TextInput
-                  className=""
-                  type="color"
-                  id="color"
-                  name="color"
-                  ref={colorRef}
-                  label="Theme Color"
-                  style={{ borderRadius: 0 }}
-                />
 
-                <SelectInput
-                  placeholder="Select a font"
-                  label={"Theme Font"}
-                  onChange={handleFontChange}
-                  value={font}
-                  options={fontOptions}
-                />
-                <SelectInput
-                  label={"Theme"}
-                  placeholder="Select a theme"
-                  onChange={handleThemeChange}
-                  value={theme}
-                  options={themeData}
-                />
-              </ThemeInfoContainer>
-              <NameContainer>
-                <div className="flex flex-col gap-2 w-full">
-                  <TextInput
-                    name="firstName"
-                    label="First Name*"
-                    placeholder="John"
-                    type="text"
-                    ref={firstNameRef}
-                    required
-                  />
-                  {!firstNameRef?.current?.value && saveAttempt && (
-                    <ErrorFormMessage message="First name is required" />
-                  )}
-                </div>
+              <SelectInput
+                placeholder="Select a font"
+                label={"Theme Font"}
+                onChange={handleFontChange}
+                value={font}
+                options={fontOptions}
+              />
+              <SelectInput
+                label={"Theme"}
+                placeholder="Select a theme"
+                onChange={handleThemeChange}
+                value={theme}
+                options={themeData}
+              />
+            </ThemeInfoContainer>
+            <NameContainer>
+              <div className="flex flex-col gap-2 w-full">
                 <TextInput
-                  name="middleName"
-                  label="Middle Name"
-                  placeholder="George"
+                  name="firstName"
+                  label="First Name*"
+                  placeholder="John"
                   type="text"
-                  ref={middleNameRef}
+                  ref={firstNameRef}
+                  required
                 />
-                <div className="flex flex-col gap-2 w-full">
-                  <TextInput
-                    name="lastName"
-                    label="Last Name*"
-                    placeholder="Doe"
-                    type="text"
-                    ref={lastNameRef}
-                    required
-                  />
-                  {!lastNameRef?.current?.value && saveAttempt && (
-                    <ErrorFormMessage message="Last name is required" />
-                  )}
-                </div>
-              </NameContainer>
-              <DatesContainer>
-                <div className="flex flex-col gap-2 w-full">
-                  <TextInput
-                    type="date"
-                    id="start"
-                    name="trip-start"
-                    min="1900-01-01"
-                    max={maxDate}
-                    ref={dobRef}
-                    label={"Date of Birth*"}
-                    onChange={(e: any) => handleDateOfBirthChange(e)}
-                    required
-                  />
-                  {!dobRef?.current?.value && saveAttempt && (
-                    <ErrorFormMessage message="Date of Birth is required" />
-                  )}
-                </div>
-
+                {!firstNameRef?.current?.value && saveAttempt && (
+                  <ErrorFormMessage message="First name is required" />
+                )}
+              </div>
+              <TextInput
+                name="middleName"
+                label="Middle Name"
+                placeholder="George"
+                type="text"
+                ref={middleNameRef}
+              />
+              <div className="flex flex-col gap-2 w-full">
+                <TextInput
+                  name="lastName"
+                  label="Last Name*"
+                  placeholder="Doe"
+                  type="text"
+                  ref={lastNameRef}
+                  required
+                />
+                {!lastNameRef?.current?.value && saveAttempt && (
+                  <ErrorFormMessage message="Last name is required" />
+                )}
+              </div>
+            </NameContainer>
+            <DatesContainer>
+              <div className="flex flex-col gap-2 w-full">
                 <TextInput
                   type="date"
                   id="start"
                   name="trip-start"
                   min="1900-01-01"
-                  max="2030-12-31"
-                  label={"Death (Optional)"}
-                  ref={deathRef}
+                  max={maxDate}
+                  ref={dobRef}
+                  label={"Date of Birth*"}
+                  onChange={(e: any) => handleDateOfBirthChange(e)}
+                  required
                 />
-              </DatesContainer>
-              <Textarea
-                label={"Who are you today?"}
-                ref={mainTextRef}
-                placeholder="Enter your description"
-                className="border-none"
-                labelPlacement={"outside"}
-              />
-            </MainFieldContainer>
-            <Divider className="my-4 col-span-2" />
-            <div className="row-span-2 flex gap-4 flex-col">
-              <h2>SPECIFIC AGE INFORMATION</h2>
-              <p className="italic text-xs">
-                Supply the information regarding the specific age of your life.
-              </p>
-              <p className="italic text-xs">This information will be public.</p>
-            </div>
+                {!dobRef?.current?.value && saveAttempt && (
+                  <ErrorFormMessage message="Date of Birth is required" />
+                )}
+              </div>
 
-            <ImageUploadedContainer>
-              <SelectInput
-                placeholder="Select Year/Age"
-                label={"Year/Age"}
-                onChange={handleAgeChange}
-                value={ageOptions[selectedAge]?.label || ageOptions[0]?.value}
-                options={ageOptions}
+              <TextInput
+                type="date"
+                id="start"
+                name="trip-start"
+                min="1900-01-01"
+                max="2030-12-31"
+                label={"Death (Optional)"}
+                ref={deathRef}
               />
-              <Textarea
-                label={`Description of   ${
-                  ageOptions[selectedAge]?.label
-                    ? ageOptions[selectedAge].label
-                    : "Born"
-                }`}
-                placeholder="Enter your description"
-                className="border-none"
-                value={uploadDatas[selectedAge]?.ageText || ageText}
-                onChange={handleAgeTextChange}
-                labelPlacement={"outside"}
-              />
-              <UploadModal
-                uploadDatas={uploadDatas}
-                selectedAge={selectedAge}
-                ageOptions={ageOptions}
-                setUploadedImages={setUploadedImages}
-              >
-                <UploadFileInputNew
-                  uploadedImages={uploadedImages}
-                  setUploadedImages={setUploadedImages}
-                  selectedAge={selectedAge}
-                  setUploadDatas={setUploadDatas}
-                  uploadDatas={uploadDatas}
-                  setImageSrcs={setImageSrcs}
-                  imageSrcs={imageSrcs}
-                  handleRemoveImage={handleRemoveImage}
-                />
-              </UploadModal>
-            </ImageUploadedContainer>
-            <FourImageGrid
+            </DatesContainer>
+            <Textarea
+              label={"Who are you today?"}
+              ref={mainTextRef}
+              placeholder="Enter your description"
+              className="border-none"
+              labelPlacement={"outside"}
+            />
+          </MainFieldContainer>
+          <Divider className="my-4 col-span-2" />
+          <div className="row-span-2 flex gap-4 flex-col">
+            <h2>SPECIFIC AGE INFORMATION</h2>
+            <p className="italic text-xs">
+              Supply the information regarding the specific age of your life.
+            </p>
+            <p className="italic text-xs">This information will be public.</p>
+          </div>
+
+          <ImageUploadedContainer>
+            <SelectInput
+              placeholder="Select Year/Age"
+              label={"Year/Age"}
+              onChange={handleAgeChange}
+              value={ageOptions[selectedAge]?.label || ageOptions[0]?.value}
+              options={ageOptions}
+            />
+            <Textarea
+              label={`Description of   ${
+                ageOptions[selectedAge]?.label
+                  ? ageOptions[selectedAge].label
+                  : "Born"
+              }`}
+              placeholder="Enter your description"
+              className="border-none"
+              value={uploadDatas[selectedAge]?.ageText || ageText}
+              onChange={handleAgeTextChange}
+              labelPlacement={"outside"}
+            />
+            <UploadModal
               uploadDatas={uploadDatas}
               selectedAge={selectedAge}
-              handleRemoveImage={handleRemoveImage}
-            />
-          </FormInnerContainer>
-        </Form>
-      </MainContainer>
+              ageOptions={ageOptions}
+              setUploadedImages={setUploadedImages}
+            >
+              <UploadFileInputNew
+                uploadedImages={uploadedImages}
+                setUploadedImages={setUploadedImages}
+                selectedAge={selectedAge}
+                setUploadDatas={setUploadDatas}
+                uploadDatas={uploadDatas}
+                setImageSrcs={setImageSrcs}
+                imageSrcs={imageSrcs}
+                handleRemoveImage={handleRemoveImage}
+              />
+            </UploadModal>
+          </ImageUploadedContainer>
+          <FourImageGrid
+            uploadDatas={uploadDatas}
+            selectedAge={selectedAge}
+            handleRemoveImage={handleRemoveImage}
+          />
+        </FormInnerContainer>
+      </Form>
+      {/* </MainContainer> */}
     </>
   );
 }

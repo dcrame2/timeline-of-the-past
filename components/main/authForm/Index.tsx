@@ -16,6 +16,7 @@ import { h2styles } from "@/styles/Type";
 const AuthContainer = styled.div`
   width: 100%;
   background-color: ${variables.darkBlue};
+  height: 100dvh;
 
   button.toggleForm {
   }
@@ -170,44 +171,25 @@ export default function AuthForm() {
 
   return (
     <AuthContainer>
-      <IntialSignInContainer>
-        <FormInfoContainer>
-          <FormInfoInnerContainer>
-            <img src="/timeline_that_logo_blue.svg" alt="" />
-            {!toggleSignUpForm ? (
-              <SignUpForm
-                firstnameInputRef={firstnameInputRef}
-                lastnameInputRef={lastnameInputRef}
-                submitHandler={submitHandler}
-                emailInputRef={emailInputRef}
-                usernameInputRef={usernameInputRef}
-                passwordInputRef={passwordInputRef}
-                confirmPasswordRef={confirmPasswordRef}
-              />
-            ) : (
-              <SignInForm
-                identifierInputRef={identifierInputRef}
-                passwordInputRef={passwordInputRef}
-                submitHandler={submitHandler}
-              />
-            )}
-
-            <ToggleFormButton
-              toggleSignUpForm={toggleSignUpForm}
-              onClick={toggleForm}
-            />
-          </FormInfoInnerContainer>
-        </FormInfoContainer>
-        <MainImageContainer>
-          <h1>Create Your Own Stunning Timelines</h1>
-          <Image
-            src="/hourglass.svg"
-            width={500}
-            height={500}
-            alt="Picture of the author"
-          />
-        </MainImageContainer>
-      </IntialSignInContainer>
+      {!toggleSignUpForm ? (
+        <SignUpForm
+          toggleForm={toggleForm}
+          firstnameInputRef={firstnameInputRef}
+          lastnameInputRef={lastnameInputRef}
+          submitHandler={submitHandler}
+          emailInputRef={emailInputRef}
+          usernameInputRef={usernameInputRef}
+          passwordInputRef={passwordInputRef}
+          confirmPasswordRef={confirmPasswordRef}
+        />
+      ) : (
+        <SignInForm
+          identifierInputRef={identifierInputRef}
+          passwordInputRef={passwordInputRef}
+          submitHandler={submitHandler}
+          toggleForm={toggleForm}
+        />
+      )}
     </AuthContainer>
   );
 }
