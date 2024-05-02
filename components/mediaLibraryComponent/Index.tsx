@@ -109,7 +109,7 @@ function MediaLibraryComponent() {
           backButton={true}
           button={<CreateButton />}
         />
-        <MainContainer>
+        <>
           {isLoading ? (
             <HourGlassContainer>
               <HourGlassLottieLoading />
@@ -139,7 +139,7 @@ function MediaLibraryComponent() {
               )}
             </>
           )}
-        </MainContainer>
+        </>
       </MediaLibraryInnerContainer>
     </MediaLibraryContainer>
   );

@@ -90,11 +90,11 @@ function EditTimeline() {
             heading={`Editing ${person?.firstName} ${person?.lastName}'s timeline`}
             button={<BackButton />}
           />
-          <MainContainer>
-            <HourGlassContainer>
-              <HourGlassLottieLoading />
-            </HourGlassContainer>
-          </MainContainer>
+          {/* <MainContainer> */}
+          <HourGlassContainer>
+            <HourGlassLottieLoading />
+          </HourGlassContainer>
+          {/* </MainContainer> */}
         </>
       )}
     </Layout>

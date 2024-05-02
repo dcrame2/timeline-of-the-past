@@ -466,183 +466,83 @@ function EditPeopleScreen({
             }
           />
 
-          <MainContainer>
-            <Form>
-              <FormInnerContainer>
-                <LinkContainer>
-                  {`URL: `}
-                  <Link
-                    target="_blank"
-                    href={`https://timelinethat.com${person.slug}`}
-                  >
-                    https://timelinethat.com{person.slug}
-                  </Link>
-                </LinkContainer>
-                <div className="row-span-2 flex gap-4 flex-col">
-                  <h2>MAIN INFORMATION</h2>
-                  <p className="italic text-xs">
-                    Supply the personal information regarding the timeline
-                  </p>
-                  <p className="italic text-xs">
-                    This information will be public
-                  </p>
-                </div>
-                <MainImageUpload
-                  updatedPerson={updatedPerson}
-                  handleOnChange={handleOnChange}
-                  handleSingleRemoveImage={handleSingleRemoveImage}
-                />
-                <MainFieldContainer>
-                  <ThemeInfoContainer className="w-full">
-                    <TextInput
-                      type="color"
-                      id="color"
-                      name="color"
-                      value={updatedPerson.color}
-                      placeholder=" "
-                      label="Theme Color"
-                      style={{ borderRadius: 0 }}
-                      onChange={(e: any) => {
-                        handleInputChange(e, "color");
-                      }}
-                    />
-                    <Select
-                      id="font-family"
-                      label={"Theme Font"}
-                      placeholder={font?.split(",").splice(0, 1).toString()}
-                      className="max-w-xs"
-                      onChange={(e: any) => {
-                        handleSelectChange(e, "font");
-                      }}
-                      value={font}
-                      labelPlacement={"outside"}
-                    >
-                      {fontOptions.map((selectOption: any) => (
-                        <SelectItem
-                          key={selectOption.value}
-                          value={selectOption.value}
-                          style={{
-                            fontFamily: selectOption.value,
-                            color: "black",
-                          }}
-                        >
-                          {selectOption.label}
-                        </SelectItem>
-                      ))}
-                    </Select>
-
-                    <Select
-                      label={"Theme"}
-                      id="themes"
-                      placeholder={theme?.toString()}
-                      className="max-w-xs"
-                      onChange={(e) => {
-                        handleThemeChange(e, "theme");
-                      }}
-                      value={theme}
-                      labelPlacement={"outside"}
-                    >
-                      {themeData.map((selectOption: any) => (
-                        <SelectItem
-                          key={selectOption.value}
-                          value={selectOption.value}
-                          style={{
-                            color: "black",
-                          }}
-                        >
-                          {selectOption.label}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                  </ThemeInfoContainer>
-                  <NameContainer>
-                    <TextInput
-                      label="First Name*"
-                      type="text"
-                      value={updatedPerson.firstName}
-                      onChange={(e: any) => handleInputChange(e, "firstName")}
-                      required
-                    />
-                    <TextInput
-                      label="Middle Name"
-                      type="text"
-                      value={updatedPerson.middleName}
-                      onChange={(e: any) => handleInputChange(e, "middleName")}
-                    />
-                    <TextInput
-                      label="Last Name*"
-                      type="text"
-                      value={updatedPerson.lastName}
-                      onChange={(e: any) => handleInputChange(e, "lastName")}
-                      required
-                    />
-                  </NameContainer>
-                  <DatesContainer>
-                    <TextInput
-                      type="date"
-                      id="start"
-                      name="trip-start"
-                      min="1900-01-01"
-                      max={maxDate}
-                      value={updatedPerson.dob}
-                      label={"Date of Birth*"}
-                      onChange={(e: any) => {
-                        handleInputChange(e, "dob");
-                        handleDateOfBirthChange(e);
-                      }}
-                      required
-                    />
-
-                    <TextInput
-                      type="date"
-                      id="start"
-                      name="trip-start"
-                      min="1900-01-01"
-                      max="2030-12-31"
-                      value={updatedPerson.death}
-                      label={"Death (Optional)"}
-                      onChange={(e: any) => {
-                        handleInputChange(e, "death");
-                      }}
-                    />
-                  </DatesContainer>
-
-                  <Textarea
-                    label={"Who are you today?"}
-                    value={updatedPerson.mainText}
-                    placeholder="Enter your description"
-                    className="border-none"
-                    labelPlacement={"outside"}
+          {/* <MainContainer> */}
+          <Form>
+            <FormInnerContainer>
+              <LinkContainer>
+                {`URL: `}
+                <Link
+                  target="_blank"
+                  href={`https://timelinethat.com${person.slug}`}
+                >
+                  https://timelinethat.com{person.slug}
+                </Link>
+              </LinkContainer>
+              <div className="row-span-2 flex gap-4 flex-col">
+                <h2>MAIN INFORMATION</h2>
+                <p className="italic text-xs">
+                  Supply the personal information regarding the timeline
+                </p>
+                <p className="italic text-xs">
+                  This information will be public
+                </p>
+              </div>
+              <MainImageUpload
+                updatedPerson={updatedPerson}
+                handleOnChange={handleOnChange}
+                handleSingleRemoveImage={handleSingleRemoveImage}
+              />
+              <MainFieldContainer>
+                <ThemeInfoContainer className="w-full">
+                  <TextInput
+                    type="color"
+                    id="color"
+                    name="color"
+                    value={updatedPerson.color}
+                    placeholder=" "
+                    label="Theme Color"
+                    style={{ borderRadius: 0 }}
                     onChange={(e: any) => {
-                      handleInputChange(e, "mainText");
+                      handleInputChange(e, "color");
                     }}
                   />
-                </MainFieldContainer>
-                <Divider className="my-4 col-span-2" />
-                <div className="row-span-2 flex gap-4 flex-col">
-                  <h2>SPECIFIC AGE INFORMATION</h2>
-                  <p className="italic text-xs">
-                    Supply the information regarding the specific age of your
-                    life.
-                  </p>
-                  <p className="italic text-xs">
-                    This information will be public.
-                  </p>
-                </div>
-                <ImageUploadedContainer>
                   <Select
-                    label={"Year/Age"}
-                    placeholder={
-                      ageOptions[selectedAge]?.label
-                        ? ageOptions[selectedAge].label
-                        : "Born"
-                    }
+                    id="font-family"
+                    label={"Theme Font"}
+                    placeholder={font?.split(",").splice(0, 1).toString()}
                     className="max-w-xs"
-                    onChange={handleAgeChange}
-                    value={selectedAge}
+                    onChange={(e: any) => {
+                      handleSelectChange(e, "font");
+                    }}
+                    value={font}
                     labelPlacement={"outside"}
                   >
-                    {ageOptions.map((selectOption: any) => (
+                    {fontOptions.map((selectOption: any) => (
+                      <SelectItem
+                        key={selectOption.value}
+                        value={selectOption.value}
+                        style={{
+                          fontFamily: selectOption.value,
+                          color: "black",
+                        }}
+                      >
+                        {selectOption.label}
+                      </SelectItem>
+                    ))}
+                  </Select>
+
+                  <Select
+                    label={"Theme"}
+                    id="themes"
+                    placeholder={theme?.toString()}
+                    className="max-w-xs"
+                    onChange={(e) => {
+                      handleThemeChange(e, "theme");
+                    }}
+                    value={theme}
+                    labelPlacement={"outside"}
+                  >
+                    {themeData.map((selectOption: any) => (
                       <SelectItem
                         key={selectOption.value}
                         value={selectOption.value}
@@ -654,51 +554,151 @@ function EditPeopleScreen({
                       </SelectItem>
                     ))}
                   </Select>
+                </ThemeInfoContainer>
+                <NameContainer>
+                  <TextInput
+                    label="First Name*"
+                    type="text"
+                    value={updatedPerson.firstName}
+                    onChange={(e: any) => handleInputChange(e, "firstName")}
+                    required
+                  />
+                  <TextInput
+                    label="Middle Name"
+                    type="text"
+                    value={updatedPerson.middleName}
+                    onChange={(e: any) => handleInputChange(e, "middleName")}
+                  />
+                  <TextInput
+                    label="Last Name*"
+                    type="text"
+                    value={updatedPerson.lastName}
+                    onChange={(e: any) => handleInputChange(e, "lastName")}
+                    required
+                  />
+                </NameContainer>
+                <DatesContainer>
+                  <TextInput
+                    type="date"
+                    id="start"
+                    name="trip-start"
+                    min="1900-01-01"
+                    max={maxDate}
+                    value={updatedPerson.dob}
+                    label={"Date of Birth*"}
+                    onChange={(e: any) => {
+                      handleInputChange(e, "dob");
+                      handleDateOfBirthChange(e);
+                    }}
+                    required
+                  />
 
-                  <Textarea
-                    label={`Description of   ${
-                      ageOptions[selectedAge]?.label
-                        ? ageOptions[selectedAge].label
-                        : "Born"
-                    }`}
-                    placeholder="Enter your description"
-                    className="border-none"
-                    value={
-                      updatedPerson?.uploadDatas?.[selectedAge]?.ageText || ""
-                    }
-                    onChange={(e: any) =>
-                      handleAgeTextChange(selectedAge, e.target.value)
-                    }
-                    labelPlacement={"outside"}
+                  <TextInput
+                    type="date"
+                    id="start"
+                    name="trip-start"
+                    min="1900-01-01"
+                    max="2030-12-31"
+                    value={updatedPerson.death}
+                    label={"Death (Optional)"}
+                    onChange={(e: any) => {
+                      handleInputChange(e, "death");
+                    }}
                   />
-                </ImageUploadedContainer>
-                {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
-                <UploadModal
-                  uploadDatas={updatedPerson?.uploadDatas}
-                  selectedAge={selectedAge}
-                  ageOptions={ageOptions}
-                  setUploadedImages={setUploadedImages}
-                >
-                  <UploadFileInputEdit
-                    setUploadedImages={setUploadedImages}
-                    uploadedImages={uploadedImages}
-                    selectedAge={selectedAge}
-                    updatedPerson={updatedPerson}
-                    onUpload={(selectedAge: number, newUploadDatas: string[]) =>
-                      setUpdatedPerson((prevState) =>
-                        handleUpload(selectedAge, newUploadDatas, prevState)
-                      )
-                    }
-                  />
-                </UploadModal>
-                <FourImageGrid
-                  uploadDatas={updatedPerson.uploadDatas}
-                  selectedAge={selectedAge}
-                  handleRemoveImage={handleRemoveImage}
+                </DatesContainer>
+
+                <Textarea
+                  label={"Who are you today?"}
+                  value={updatedPerson.mainText}
+                  placeholder="Enter your description"
+                  className="border-none"
+                  labelPlacement={"outside"}
+                  onChange={(e: any) => {
+                    handleInputChange(e, "mainText");
+                  }}
                 />
-              </FormInnerContainer>
-            </Form>
-          </MainContainer>
+              </MainFieldContainer>
+              <Divider className="my-4 col-span-2" />
+              <div className="row-span-2 flex gap-4 flex-col">
+                <h2>SPECIFIC AGE INFORMATION</h2>
+                <p className="italic text-xs">
+                  Supply the information regarding the specific age of your
+                  life.
+                </p>
+                <p className="italic text-xs">
+                  This information will be public.
+                </p>
+              </div>
+              <ImageUploadedContainer>
+                <Select
+                  label={"Year/Age"}
+                  placeholder={
+                    ageOptions[selectedAge]?.label
+                      ? ageOptions[selectedAge].label
+                      : "Born"
+                  }
+                  className="max-w-xs"
+                  onChange={handleAgeChange}
+                  value={selectedAge}
+                  labelPlacement={"outside"}
+                >
+                  {ageOptions.map((selectOption: any) => (
+                    <SelectItem
+                      key={selectOption.value}
+                      value={selectOption.value}
+                      style={{
+                        color: "black",
+                      }}
+                    >
+                      {selectOption.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+
+                <Textarea
+                  label={`Description of   ${
+                    ageOptions[selectedAge]?.label
+                      ? ageOptions[selectedAge].label
+                      : "Born"
+                  }`}
+                  placeholder="Enter your description"
+                  className="border-none"
+                  value={
+                    updatedPerson?.uploadDatas?.[selectedAge]?.ageText || ""
+                  }
+                  onChange={(e: any) =>
+                    handleAgeTextChange(selectedAge, e.target.value)
+                  }
+                  labelPlacement={"outside"}
+                />
+              </ImageUploadedContainer>
+              {/* Render the UploadFileInputEdit component passing existing uploadDatas */}
+              <UploadModal
+                uploadDatas={updatedPerson?.uploadDatas}
+                selectedAge={selectedAge}
+                ageOptions={ageOptions}
+                setUploadedImages={setUploadedImages}
+              >
+                <UploadFileInputEdit
+                  setUploadedImages={setUploadedImages}
+                  uploadedImages={uploadedImages}
+                  selectedAge={selectedAge}
+                  updatedPerson={updatedPerson}
+                  onUpload={(selectedAge: number, newUploadDatas: string[]) =>
+                    setUpdatedPerson((prevState) =>
+                      handleUpload(selectedAge, newUploadDatas, prevState)
+                    )
+                  }
+                />
+              </UploadModal>
+              <FourImageGrid
+                uploadDatas={updatedPerson.uploadDatas}
+                selectedAge={selectedAge}
+                handleRemoveImage={handleRemoveImage}
+              />
+            </FormInnerContainer>
+          </Form>
+          {/* </MainContainer> */}
         </>
       )}
     </>

@@ -22,7 +22,7 @@ function Profile() {
         <SectionHeader
           heading={`${session?.user.firstName} ${session?.user.lastName}'s Profile`}
           backButton={true}
-          button={<CreateButton />}
+          // button={<CreateButton />}
         />
       )}
       <ProfileComponent session={session} />

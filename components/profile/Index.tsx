@@ -97,63 +97,63 @@ const ButtonContainer = styled.div`
 
 function ProfileComponent({ session }: any) {
   return (
-    <MainContainer>
-      <Form>
-        <div className="row-span-2 flex gap-4 flex-col">
-          <h2>PROFILE INFORMATION</h2>
-          <p className="italic text-xs">
-            This is your personal information regarding your user account with
-            Timeline That
-          </p>
-          <p className="italic text-xs">Update your profile</p>
-        </div>
+    // <MainContainer>
+    <Form>
+      <div className="row-span-2 flex gap-4 flex-col">
+        <h2>PROFILE INFORMATION</h2>
+        <p className="italic text-xs">
+          This is your personal information regarding your user account with
+          Timeline That
+        </p>
+        <p className="italic text-xs">Update your profile</p>
+      </div>
 
-        <ProfileImageUpload />
-        <MainFieldContainer>
-          <NameInformation>
-            <TextInput
-              label="First Name:"
-              type="text"
-              value={session?.user.firstName}
-              // onChange={(e: any) => handleInputChange(e, "firstName")}
-            />
-            <TextInput
-              label="Last Name:"
-              type="text"
-              value={session?.user.lastName}
-              // onChange={(e: any) => handleInputChange(e, "firstName")}
-            />
-          </NameInformation>
-          <EmailUsernameInformation>
-            <TextInput
-              label="Username:"
-              type="text"
-              value={session?.user.username}
-              // disabled
-              // onChange={(e: any) => handleInputChange(e, "firstName")}
-            />
-            <TextInput
-              label="Email:"
-              type="email"
-              value={session?.user.email}
-              // disabled
-              // onChange={(e: any) => handleInputChange(e, "firstName")}
-            />
-          </EmailUsernameInformation>
+      <ProfileImageUpload />
+      <MainFieldContainer>
+        <NameInformation>
           <TextInput
-            label="Password"
-            type="password"
-            value={session?.user.password}
+            label="First Name:"
+            type="text"
+            value={session?.user.firstName}
             // onChange={(e: any) => handleInputChange(e, "firstName")}
           />
-        </MainFieldContainer>
-        <ButtonContainer>
-          <Button color="primary">Edit</Button>
+          <TextInput
+            label="Last Name:"
+            type="text"
+            value={session?.user.lastName}
+            // onChange={(e: any) => handleInputChange(e, "firstName")}
+          />
+        </NameInformation>
+        <EmailUsernameInformation>
+          <TextInput
+            label="Username:"
+            type="text"
+            value={session?.user.username}
+            // disabled
+            // onChange={(e: any) => handleInputChange(e, "firstName")}
+          />
+          <TextInput
+            label="Email:"
+            type="email"
+            value={session?.user.email}
+            // disabled
+            // onChange={(e: any) => handleInputChange(e, "firstName")}
+          />
+        </EmailUsernameInformation>
+        <TextInput
+          label="Password"
+          type="password"
+          value={session?.user.password}
+          // onChange={(e: any) => handleInputChange(e, "firstName")}
+        />
+      </MainFieldContainer>
+      <ButtonContainer>
+        <Button color="primary">Edit</Button>
 
-          <Button color="primary">Save</Button>
-        </ButtonContainer>
-      </Form>
-    </MainContainer>
+        <Button color="primary">Save</Button>
+      </ButtonContainer>
+    </Form>
+    // </MainContainer>
   );
 }
 

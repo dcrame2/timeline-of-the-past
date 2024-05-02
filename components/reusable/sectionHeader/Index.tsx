@@ -6,7 +6,7 @@ export default function SectionHeader({
   backButton,
 }: {
   heading: string;
-  button: React.JSX.Element;
+  button?: React.JSX.Element;
   backButton?: boolean;
 }) {
   return (

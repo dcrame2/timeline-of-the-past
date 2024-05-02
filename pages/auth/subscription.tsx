@@ -112,102 +112,100 @@ function Subscription() {
     <Layout>
       <SectionHeader
         heading="Pay only for what you need"
-        button={<CreateButton />}
+        // button={<CreateButton />}
+        backButton={true}
       />
 
-      <MainContainer>
-        <Form
-          id="myForm"
-          action="/api/auth/stripe/checkout_sessions"
-          method="POST"
-          className="bg-white"
-        >
-          <div className="mx-auto max-w-7xl">
-            <div className=" flex justify-center">
-              <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                <input type="hidden" name="userEmail" value={userEmail} />
-                {tiers.map((tier) => (
-                  <>
-                    <div
-                      key={tier.id}
-                      className={classNames(
-                        tier.mostPopular
-                          ? "ring-2 ring-lightBlue"
-                          : "ring-1 ring-lightBlue",
-                        "rounded-3xl p-8 xl:p-10"
-                      )}
-                    >
-                      <div className="flex  items-center justify-between gap-x-4">
-                        <h3
-                          id={tier.id}
-                          className={classNames(
-                            tier.mostPopular ? "text-black" : "text-black",
-                            "text-lg font-semibold leading-8"
-                          )}
-                        >
-                          {tier.name}
-                        </h3>
-                        {tier.mostPopular ? (
-                          <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-black">
-                            Most popular
-                          </p>
-                        ) : null}
-                      </div>
+      {/* <MainContainer> */}
+      <Form
+        id="myForm"
+        action="/api/auth/stripe/checkout_sessions"
+        method="POST"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className=" flex justify-center">
+            <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+              <input type="hidden" name="userEmail" value={userEmail} />
+              {tiers.map((tier) => (
+                <>
+                  <div
+                    key={tier.id}
+                    className={classNames(
+                      tier.mostPopular
+                        ? "ring-2 ring-lightBlue"
+                        : "ring-1 ring-lightBlue",
+                      "rounded-3xl p-8 xl:p-10"
+                    )}
+                  >
+                    <div className="flex  items-center justify-between gap-x-4">
+                      <h3
+                        id={tier.id}
+                        className={classNames(
+                          tier.mostPopular ? "text-black" : "text-black",
+                          "text-lg font-semibold leading-8"
+                        )}
+                      >
+                        {tier.name}
+                      </h3>
+                      {tier.mostPopular ? (
+                        <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-black">
+                          Most popular
+                        </p>
+                      ) : null}
+                    </div>
 
-                      <p className="mt-6 flex items-baseline gap-x-1">
-                        <span className="text-4xl font-bold tracking-tight text-black">
-                          {tier.price.monthly}
-                        </span>
-                        <span className="text-sm font-semibold leading-6 text-black">
-                          one time
-                        </span>
-                      </p>
-                      {!isLoading ? (
-                        <Button
-                          value={tier.product}
-                          name="productId"
-                          type="submit"
-                          onSubmit={() => {
-                            handleProductChange(tier.product);
-                          }}
-                          href={tier.href}
-                          aria-describedby={tier.id}
-                          style={
-                            tier.mostPopular
-                              ? {
-                                  backgroundColor: `${variables.lightOrange}`,
-                                  color: `${variables.white}`,
-                                  width: "100%",
-                                  marginTop: "20px",
-                                }
-                              : {
-                                  backgroundColor: `${variables.transparent}`,
-                                  border: `1px solid ${variables.lightOrange}`,
-                                  color: `${variables.black}`,
-                                  width: "100%",
-                                  marginTop: "20px",
-                                }
-                          }
-                          endContent={
-                            <StripeIcon color={`${variables.white}`} />
-                          }
-                          // onClick={handleSubmit}
-                        >
-                          Buy this plan
-                        </Button>
-                      ) : (
-                        <Button
-                          style={{
-                            backgroundColor: `${variables.lightOrange}`,
-                            color: `${variables.white}`,
-                          }}
-                          isLoading
-                          disabled
-                        >
-                          Loading
-                        </Button>
-                      )}
-                      {/* <Button
+                    <p className="mt-6 flex items-baseline gap-x-1">
+                      <span className="text-4xl font-bold tracking-tight text-black">
+                        {tier.price.monthly}
+                      </span>
+                      <span className="text-sm font-semibold leading-6 text-black">
+                        one time
+                      </span>
+                    </p>
+                    {!isLoading ? (
+                      <Button
+                        value={tier.product}
+                        name="productId"
+                        type="submit"
+                        onSubmit={() => {
+                          handleProductChange(tier.product);
+                        }}
+                        href={tier.href}
+                        aria-describedby={tier.id}
+                        style={
+                          tier.mostPopular
+                            ? {
+                                backgroundColor: `${variables.lightOrange}`,
+                                color: `${variables.white}`,
+                                width: "100%",
+                                marginTop: "20px",
+                              }
+                            : {
+                                backgroundColor: `${variables.transparent}`,
+                                border: `1px solid ${variables.lightOrange}`,
+                                color: `${variables.black}`,
+                                width: "100%",
+                                marginTop: "20px",
+                              }
+                        }
+                        endContent={<StripeIcon color={`${variables.white}`} />}
+                        // onClick={handleSubmit}
+                      >
+                        Buy this plan
+                      </Button>
+                    ) : (
+                      <Button
+                        style={{
+                          backgroundColor: `${variables.lightOrange}`,
+                          color: `${variables.white}`,
+                        }}
+                        isLoading
+                        disabled
+                      >
+                        Loading
+                      </Button>
+                    )}
+                    {/* <Button
                       value={tier.product}
                       name="productId"
                       type="submit"
@@ -225,28 +223,28 @@ function Subscription() {
                     >
                       Buy plan
                     </Button> */}
-                      <ul
-                        role="list"
-                        className="mt-8 space-y-3 text-sm leading-6 text-black xl:mt-10"
-                      >
-                        {tier.features.map((feature) => (
-                          <li key={feature} className="flex gap-x-3">
-                            <CheckIcon
-                              className="h-6 w-5 flex-none text-indigo-600"
-                              aria-hidden="true"
-                            />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </>
-                ))}
-              </div>
+                    <ul
+                      role="list"
+                      className="mt-8 space-y-3 text-sm leading-6 text-black xl:mt-10"
+                    >
+                      {tier.features.map((feature) => (
+                        <li key={feature} className="flex gap-x-3">
+                          <CheckIcon
+                            className="h-6 w-5 flex-none text-indigo-600"
+                            aria-hidden="true"
+                          />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              ))}
             </div>
           </div>
-        </Form>
-      </MainContainer>
+        </div>
+      </Form>
+      {/* </MainContainer> */}
     </Layout>
   );
 }

@@ -82,7 +82,7 @@ export default function Dashboard({ children }: any) {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-lightBlue" />
+              <div className="fixed inset-0 bg-lightBlue opacity-90" />
             </Transition.Child>
 
             <div className="fixed inset-0 flex ">
