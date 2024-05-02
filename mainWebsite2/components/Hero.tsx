@@ -59,7 +59,7 @@ export function Hero() {
         </p>
         <div className="mt-10 flex justify-center gap-x-6">
           <Button as={Link} href="/auth/authenticate">
-            Sign Up
+            Create Timelines
           </Button>
           <Button
             as={Link}

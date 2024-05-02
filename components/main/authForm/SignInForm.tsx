@@ -45,7 +45,7 @@ export default function SignInForm({
         <TextInput
           name="identifier"
           placeholder="Username or Email"
-          label="Username or Email"
+          label="Username or Email*"
           required={true}
           ref={identifierInputRef}
         />
@@ -53,7 +53,7 @@ export default function SignInForm({
           type="password"
           name="password"
           placeholder="Password"
-          label="Password"
+          label="Password*"
           required={true}
           ref={passwordInputRef}
         />

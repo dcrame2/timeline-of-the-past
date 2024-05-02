@@ -45,7 +45,7 @@ function Custom404() {
         <p className="mt-3 text-sm text-gray-700">
           Sorry, we couldn’t find the page you’re looking for.
         </p>
-        <Button className="text-white bg-lightOrange mt-10" href="/">
+        <Button as={Link} className="text-white bg-lightOrange mt-10" href="/">
           Go back home
         </Button>
       </SlimLayout>

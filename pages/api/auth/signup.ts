@@ -14,7 +14,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       !password ||
       password.trim().length < 7
     ) {
-      res.status(422).json({ message: "invalid input" });
+      res
+        .status(422)
+        .json({
+          message: "Email must include an @ and password must be 7 characters",
+        });
       return;
     }
 
@@ -32,7 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .findOne({ username: username });
 
     if (existingUserEmail || existingUserUsername) {
-      res.status(422).json({ message: "User already exists" });
+      res.status(422).json({ message: "Username or email already exists" });
       client.close();
       return;
     }

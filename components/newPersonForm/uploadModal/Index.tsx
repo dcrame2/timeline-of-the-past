@@ -31,7 +31,7 @@ function UploadModal({
         onPress={openMutlitplImageModal}
         type="button"
         size="sm"
-        className="max-w-72 text-white bg-lightOrange border-lightBlue"
+        className="text-white fit-content bg-lightOrange border-lightBlue inline px-4"
       >
         Add Images -{" "}
         {ageOptions[selectedAge]?.label
@@ -41,7 +41,7 @@ function UploadModal({
       <Transition.Root show={mulitipleImageModalOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-50"
           onClose={setMulitipleImageModalOpen}
         >
           <Transition.Child

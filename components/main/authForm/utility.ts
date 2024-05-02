@@ -13,13 +13,11 @@ export async function createUser(
     },
   });
 
-  const data = await response.json();
+  // const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(
-      data.message || "Something went wrong while creating user "
-    );
+  if (response.status === 500) {
+    throw new Error("Something went wrong while creating user ");
   }
 
-  return data;
+  return response;
 }

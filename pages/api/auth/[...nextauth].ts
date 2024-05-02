@@ -54,15 +54,7 @@ export const authOptions: NextAuthOptions = {
 
         const returnedUser = { user: { ...user } };
         console.log(returnedUser, "USASAA");
-        // return {
-        //   email: user.email,
-        //   firstName: user.firstName,
-        //   lastName: user.lastName,
-        //   username: user.username,
-        //   redirect: {
-        //     destination: "/auth/timeline",
-        //   },
-        // };
+
         return Promise.resolve(returnedUser);
       },
     }),

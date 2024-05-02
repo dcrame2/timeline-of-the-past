@@ -23,6 +23,7 @@ interface signUpFormProps {
   firstnameInputRef: React.RefObject<HTMLInputElement>;
   lastnameInputRef: React.RefObject<HTMLInputElement>;
   toggleForm: () => void;
+  userMessage: string;
 }
 
 export default function SignUpForm({
@@ -34,6 +35,7 @@ export default function SignUpForm({
   firstnameInputRef,
   lastnameInputRef,
   toggleForm,
+  userMessage,
 }: signUpFormProps) {
   return (
     <SlimLayout>
@@ -63,27 +65,27 @@ export default function SignUpForm({
         <TextInput
           name="firstname"
           placeholder="Dylan"
-          label="First name"
+          label="First name*"
           required={true}
           ref={firstnameInputRef}
         />
         <TextInput
           name="lastname"
-          label="Last name"
+          label="Last name*"
           placeholder="Cramer"
           required={true}
           ref={lastnameInputRef}
         />
         <TextInput
           name="email"
-          label="Email address"
+          label="Email address*"
           placeholder="email@email.com"
           required={true}
           ref={emailInputRef}
         />
         <TextInput
           name="username"
-          label="Username"
+          label="Username*"
           placeholder="Username"
           required={true}
           ref={usernameInputRef}
@@ -91,7 +93,7 @@ export default function SignUpForm({
         <TextInput
           type="password"
           name="password"
-          label="Password"
+          label="Password*"
           placeholder="Password"
           required={true}
           ref={passwordInputRef}
@@ -99,7 +101,7 @@ export default function SignUpForm({
         <TextInput
           type="password"
           name="confirmPassword"
-          label="Confirm Password"
+          label="Confirm Password*"
           placeholder="Confirm Password"
           required={true}
           ref={confirmPasswordRef}
@@ -117,52 +119,8 @@ export default function SignUpForm({
             </span>
           </Button>
         </div>
+        {userMessage && <p className="col-span-full text-red">{userMessage}</p>}
       </form>
     </SlimLayout>
-    // <Form>
-    //   <h2>Sign up</h2>
-    //   <TextInput
-    //     name="firstname"
-    //     placeholder="First name"
-    //     required={true}
-    //     ref={firstnameInputRef}
-    //   />
-    //   <TextInput
-    //     name="lastname"
-    //     placeholder="Last name"
-    //     required={true}
-    //     ref={lastnameInputRef}
-    //   />
-    //   <TextInput
-    //     name="email"
-    //     placeholder="Email"
-    //     required={true}
-    //     ref={emailInputRef}
-    //   />
-
-    //   <TextInput
-    //     name="username"
-    //     placeholder="Username"
-    //     required={true}
-    //     ref={usernameInputRef}
-    //   />
-    //   <TextInput
-    //     type="password"
-    //     name="password"
-    //     placeholder="Password"
-    //     required={true}
-    //     ref={passwordInputRef}
-    //   />
-    //   <TextInput
-    //     type="password"
-    //     name="confirmPassword"
-    //     placeholder="Confirm Password"
-    //     required={true}
-    //     ref={confirmPasswordRef}
-    //   />
-    //   <button onClick={submitHandler} className="submit">
-    //     Sign Up
-    //   </button>
-    // </Form>
   );
 }

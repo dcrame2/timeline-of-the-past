@@ -25,73 +25,6 @@ const AuthContainer = styled.div`
   }
 `;
 
-const IntialSignInContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: black;
-  ${Container}
-  height: 100dvh;
-`;
-
-const FormInfoContainer = styled.div`
-  width: 40%;
-  padding-top: 48px;
-  padding-bottom: 48px;
-  @media ${MediaQueries.tablet} {
-    width: 100%;
-    height: 100dvh;
-  }
-  @media ${MediaQueries.mobile} {
-    height: 100dvh;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-  img {
-    width: 300px;
-    @media ${MediaQueries.mobile} {
-      width: 200px;
-    }
-  }
-`;
-
-const FormInfoInnerContainer = styled.div`
-  background-color: ${variables.darkerLightGrey};
-  border-radius: 12px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-  -webkit-box-shadow: 0px 0px 50px -20px #ffffff;
-  -moz-box-shadow: 0px 0px 50px -20px #ffffff;
-  box-shadow: 0px 0px 50px -20px #ffffff;
-`;
-
-const MainImageContainer = styled.div`
-  width: 60%;
-  display: flex;
-  padding-top: 48px;
-  padding-bottom: 48px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  @media ${MediaQueries.tablet} {
-    display: none;
-  }
-  h1 {
-    ${h2styles}
-    text-align: center;
-    color: ${variables.white};
-  }
-
-  img {
-    /* width: 50%; */
-    /* height: 100vh; */
-  }
-`;
-
 export default function AuthForm() {
   const router = useRouter();
   const [loading, setLoading] = useState();
@@ -104,6 +37,7 @@ export default function AuthForm() {
   const confirmPasswordRef = React.useRef<HTMLInputElement>(null);
   //signin
   const identifierInputRef = React.useRef<HTMLInputElement>(null);
+  const [userMessage, setUserMessage] = useState("");
 
   const toggleForm = () => {
     setToggleSignUpForm((prevState) => !prevState);
@@ -138,18 +72,41 @@ export default function AuthForm() {
             enteredFirstname,
             enteredLastname
           );
-          setToggleSignUpForm((prevState) => !prevState);
+
+          console.log(result, "RESULT CREATE USER");
+
+          if (result.status === 201) {
+            const result = await signIn("credentials", {
+              redirect: false,
+              identifier: enteredUsername,
+              password: enteredPassword,
+            });
+
+            if (!result?.error) {
+              router.replace("/auth/timeline");
+            }
+
+            if (result && result.error) {
+              // setLoading(false);
+              window.alert(result!.error);
+            }
+          }
+          console.log(result, "RESULT");
+          setUserMessage("User created successfully");
+          // setToggleSignUpForm((prevState) => !prevState);
         } catch (error) {
           let message = "Unknown Error";
           if (error instanceof Error) message = error.message;
-          throw new Error(message);
+          console.log(message, "MESSAGE ERROR");
+          setUserMessage(message);
+          // throw new Error(message);
         }
       } else {
         if (!enteredUsername) {
-          window.alert("Please enter a username");
+          setUserMessage("Please enter a username");
         }
         if (enteredPassword !== enteredConfirmPassword) {
-          window.alert("Passwords do not match");
+          setUserMessage("Passwords do not match");
         }
       }
     } else {
@@ -173,6 +130,7 @@ export default function AuthForm() {
     <AuthContainer>
       {!toggleSignUpForm ? (
         <SignUpForm
+          userMessage={userMessage}
           toggleForm={toggleForm}
           firstnameInputRef={firstnameInputRef}
           lastnameInputRef={lastnameInputRef}
