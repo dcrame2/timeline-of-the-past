@@ -1,15 +1,5 @@
-import Image from "next/image";
-
 import { Button } from "@nextui-org/react";
 import { Container } from "./Container";
-// import logoLaravel from "./images/logos/laravel.svg";
-
-import logoLaravel from "../images/logos/laravel.svg";
-import logoMirage from "../images/logos/mirage.svg";
-import logoStatamic from "../images/logos/statamic.svg";
-import logoStaticKit from "../images/logos/laravel.svg";
-import logoTransistor from "../images/logos/transistor.svg";
-import logoTuple from "../images/logos/tuple.svg";
 import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import Link from "next/link";
@@ -22,7 +12,7 @@ const MainContainer = styled.div`
   background-position: center center;
   background-repeat: no-repeat;
   z-index: 2;
-  background-size: cover;
+  /* background-size: cover; */
   position: relative;
   align-items: center;
   display: flex;
@@ -34,8 +24,8 @@ const MainContainer = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(13, 51, 80, 0.75); /* Adjust opacity as needed */
-    z-index: 1; /* Ensure it's above the background image */
+    background-color: rgba(13, 51, 80, 0.75);
+    z-index: 1;
   }
 `;
 

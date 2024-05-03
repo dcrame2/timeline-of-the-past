@@ -1,7 +1,5 @@
-import clsx from "clsx";
-
 import { Button, Link } from "@nextui-org/react";
-import { Container } from "./Container";
+
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 
 const tiers = [

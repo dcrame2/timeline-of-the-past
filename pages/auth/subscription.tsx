@@ -14,7 +14,8 @@ import CreateButton from "@/components/reusable/createButton/Index";
 import { variables } from "@/styles/Variables";
 import StripeIcon from "@/components/reusable/svg/stripeIcon/Index";
 import SectionHeader from "@/components/reusable/sectionHeader/Index";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { CheckCircleIcon, CheckIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const Form = styled.form`
   display: flex;
@@ -111,7 +112,7 @@ function Subscription() {
   return (
     <Layout>
       <SectionHeader
-        heading="Pay only for what you need"
+        heading="Choose the right plan for you"
         // button={<CreateButton />}
         backButton={true}
       />
@@ -122,7 +123,75 @@ function Subscription() {
         action="/api/auth/stripe/checkout_sessions"
         method="POST"
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="bg-lightGray py-8 sm:py-8">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            {/* <div className="mt-20 flow-root"> */}
+            <div className="isolate -mt-16 grid max-w-sm grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0 xl:-mx-4">
+              {tiers.map((tier) => (
+                <div key={tier.id} className="pt-16 lg:pt-0  lg:px-8  xl:px-14">
+                  <h3
+                    id={tier.id}
+                    className="text-base font-semibold leading-7 text-gray-900"
+                  >
+                    {tier.name}
+                  </h3>
+                  <p className="mt-6 flex items-baseline gap-x-1">
+                    <span className="text-5xl font-bold tracking-tight text-gray-900">
+                      {tier.price.monthly}
+                    </span>
+                    <span className="text-sm font-semibold leading-6 text-gray-600">
+                      one time
+                    </span>
+                  </p>
+
+                  {!isLoading ? (
+                    <Button
+                      value={tier.product}
+                      name="productId"
+                      type="submit"
+                      onSubmit={() => {
+                        handleProductChange(tier.product);
+                      }}
+                      href={tier.href}
+                      aria-describedby={tier.id}
+                      className="mt-5 bg-lightOrange text-white w-full"
+                      endContent={<StripeIcon color={`${variables.white}`} />}
+                    >
+                      Buy this plan
+                    </Button>
+                  ) : (
+                    <Button
+                      style={{
+                        backgroundColor: `${variables.lightOrange}`,
+                        color: `${variables.white}`,
+                      }}
+                      isLoading
+                      disabled
+                    >
+                      Loading
+                    </Button>
+                  )}
+                  <ul
+                    role="list"
+                    className="mt-6 space-y-3 text-sm leading-6 text-gray-600"
+                  >
+                    {tier.features.map((feature) => (
+                      <li key={feature} className="flex gap-x-3">
+                        <CheckCircleIcon
+                          className="h-6 w-5 flex-none text-lightOrange "
+                          aria-hidden="true"
+                        />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* </div> */}
+        {/* <div className="mx-auto max-w-7xl">
           <div className=" flex justify-center">
             <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
               <input type="hidden" name="userEmail" value={userEmail} />
@@ -189,7 +258,6 @@ function Subscription() {
                               }
                         }
                         endContent={<StripeIcon color={`${variables.white}`} />}
-                        // onClick={handleSubmit}
                       >
                         Buy this plan
                       </Button>
@@ -205,24 +273,7 @@ function Subscription() {
                         Loading
                       </Button>
                     )}
-                    {/* <Button
-                      value={tier.product}
-                      name="productId"
-                      type="submit"
-                      onSubmit={() => {
-                        handleProductChange(tier.product);
-                      }}
-                      href={tier.href}
-                      aria-describedby={tier.id}
-                      className={classNames(
-                        tier.mostPopular
-                          ? "bg-indigo-600 text-black shadow-sm hover:bg-indigo-500"
-                          : "text-black ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
-                        "mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      )}
-                    >
-                      Buy plan
-                    </Button> */}
+
                     <ul
                       role="list"
                       className="mt-8 space-y-3 text-sm leading-6 text-black xl:mt-10"
@@ -242,9 +293,8 @@ function Subscription() {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </Form>
-      {/* </MainContainer> */}
     </Layout>
   );
 }
