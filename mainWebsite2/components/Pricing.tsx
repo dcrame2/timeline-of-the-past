@@ -1,170 +1,119 @@
 import clsx from "clsx";
 
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { Container } from "./Container";
+import { CheckCircleIcon } from "@heroicons/react/16/solid";
 
-function CheckIcon({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"svg">) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={clsx(
-        "h-6 w-6 flex-none fill-current stroke-current",
-        className
-      )}
-      {...props}
-    >
-      <path
-        d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
-        strokeWidth={0}
-      />
-      <circle
-        cx={12}
-        cy={12}
-        r={8.25}
-        fill="none"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function Plan({
-  name,
-  price,
-  description,
-  href,
-  features,
-  featured = false,
-}: {
-  name: string;
-  price: string;
-  description?: string;
-  href: string;
-  features: Array<string>;
-  featured?: boolean;
-}) {
-  return (
-    <section
-      className={clsx(
-        "flex flex-col rounded-3xl px-6 sm:px-8",
-        featured
-          ? "order-first bg-lightBlue py-8 lg:order-none"
-          : "lg:py-8 bg-darkerLightGrey"
-      )}
-    >
-      <h3
-        className={`{mt-5 font-display text-lg ${
-          featured ? "text-white" : "text-lightBlue"
-        }`}
-      >
-        {name}
-      </h3>
-      <p
-        className={clsx(
-          "mt-2 text-base",
-          featured ? "text-white" : "text-lightBlue"
-        )}
-      >
-        {description}
-      </p>
-      <p
-        className={` order-first font-display text-5xl font-light tracking-tight ${
-          featured ? "text-white" : "text-lightBlue"
-        }`}
-      >
-        {price}
-      </p>
-      <ul
-        role="list"
-        className={clsx(
-          "order-last mt-10 flex flex-col gap-y-3 text-sm",
-          featured ? "text-white" : "text-lightBlue"
-        )}
-      >
-        {features.map((feature) => (
-          <li key={feature} className="flex">
-            <CheckIcon className={featured ? "fill-white" : "text-white"} />
-            <span className="ml-4">{feature}</span>
-          </li>
-        ))}
-      </ul>
-      <Button
-        href={href}
-        className={`mt-8 ${
-          featured
-            ? "text-lightBlue bg-white"
-            : "text-lightBlue bg-white ring-lightBlue ring-2 hover:ring-lightOrange"
-        }`}
-        aria-label={`Get started with the ${name} plan for ${price}`}
-      >
-        Get started
-      </Button>
-    </section>
-  );
-}
+const tiers = [
+  {
+    name: "One Timeline",
+    id: "tier-freelancer",
+    href: "/auth/subscription",
+    price: { monthly: "$10" },
+    // description: "The essentials to provide your best work for clients.",
+    features: [
+      "Adds the ability to create one timeline",
+      "Change the theme to any allowed themes",
+      "Access for life to your created timeline",
+    ],
+    mostPopular: false,
+    product: "product1",
+  },
+  {
+    name: "Three Timelines",
+    id: "tier-startup",
+    href: "/auth/subscription",
+    price: { monthly: "$25" },
+    // description: "A plan that scales with your rapidly growing business.",
+    features: [
+      "Adds the ability to create three additional timelines",
+      "Change the theme to any allowed themes",
+      "Access for life to your created timelines",
+    ],
+    mostPopular: true,
+    product: "product2",
+  },
+  {
+    name: "Five Timelines",
+    id: "tier-enterprise",
+    href: "/auth/subscription",
+    price: { monthly: "$35" },
+    // description: "Dedicated support and infrastructure for your company.",
+    features: [
+      "Adds the ability to create five additional timelines",
+      "Change the theme to any allowed themes",
+      "Access for life to your created timelines",
+    ],
+    mostPopular: false,
+    product: "product3",
+  },
+];
 
 export function Pricing() {
   return (
-    <section
-      id="pricing"
-      aria-label="Pricing"
-      className="bg-lightGrey py-20 sm:py-32"
-    >
-      <Container>
-        <div className="md:text-center">
-          <h2 className="font-display text-3xl tracking-tight text-lightBlue sm:text-4xl">
-            <span className="relative whitespace-nowrap">
-              <span className="relative text-lightOrange">Simple pricing,</span>
-            </span>{" "}
-            for everyone.
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl sm:text-center">
+          <h2 className="text-base font-semibold leading-7 text-indigo-600">
+            Pricing
           </h2>
-          <p className="mt-4 text-lg text-slate-400">
-            Our pricing is simple and transparent. One time fees for all
-            timelines. No hidden fees.
+          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            Choose the right plan for&nbsp;you
           </p>
         </div>
-        <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8 bg-lightGrey ">
-          <Plan
-            name="One Timeline"
-            price="$10"
-            // description="Good for one additional timeline."
-            href="/auth/authenticate"
-            features={[
-              "Adds the ability to create one timeline",
-              "Change the theme to any allowed themes",
-              "Access for life to your created timeline",
-            ]}
-          />
-          <Plan
-            featured
-            name="Three Timelines"
-            price="$25"
-            // description="Perfect for building timelines for your family."
-            href="/auth/authenticate"
-            features={[
-              "Adds the ability to create three additional timelines",
-              "Change the theme to any allowed themes",
-              "Access for life to your created timelines",
-            ]}
-          />
-          <Plan
-            name="Five Timelines"
-            price="$35"
-            // description="For your building timelines for your friends and family"
-            href="/auth/authenticate"
-            features={[
-              "Adds the ability to create five additional timelines",
-              "Change the theme to any allowed themes",
-              "Access for life to your created timelines",
-            ]}
-          />
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600 sm:text-center">
+          Our pricing is simple and transparent. One time fees for all
+          timelines. No hidden fees.
+        </p>
+        <div className="mt-20 flow-root">
+          <div className="isolate -mt-16 grid max-w-sm grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0 xl:-mx-4">
+            {tiers.map((tier) => (
+              <div key={tier.id} className="pt-16 lg:px-8 lg:pt-0 xl:px-14">
+                <h3
+                  id={tier.id}
+                  className="text-base font-semibold leading-7 text-gray-900"
+                >
+                  {tier.name}
+                </h3>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-5xl font-bold tracking-tight text-gray-900">
+                    {tier.price.monthly}
+                  </span>
+                  <span className="text-sm font-semibold leading-6 text-gray-600">
+                    one time
+                  </span>
+                </p>
+
+                <Button
+                  as={Link}
+                  href={tier.href}
+                  aria-describedby={tier.id}
+                  className="w-full mt-8 bg-lightOrange text-white"
+                >
+                  Buy plan
+                </Button>
+                {/* <p className="mt-10 text-sm font-semibold leading-6 text-gray-900">
+                  {tier.description}
+                </p> */}
+                <ul
+                  role="list"
+                  className="mt-6 space-y-3 text-sm leading-6 text-gray-600"
+                >
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex gap-x-3">
+                      <CheckCircleIcon
+                        className="h-6 w-5 flex-none text-lightOrange "
+                        aria-hidden="true"
+                      />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
-      </Container>
-    </section>
+      </div>
+    </div>
   );
 }
