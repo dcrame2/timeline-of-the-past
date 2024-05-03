@@ -117,13 +117,7 @@ const motionProps = {
     delay: 0.5,
   },
 };
-// Define the type for uploadDatas state
-type UploadDataState = string[];
 
-// Define the type for setUploadDatas function
-type SetUploadDataState = React.Dispatch<React.SetStateAction<UploadDataState>>;
-
-// Define the type for an uploaded image
 interface UploadedImage {
   src: string;
   progress: number;
@@ -135,7 +129,6 @@ function UploadFileInputNew({
   setUploadDatas,
   setImageSrcs,
   imageSrcs,
-  handleRemoveImage,
   uploadedImages,
   setUploadedImages,
 }: {
@@ -150,8 +143,6 @@ function UploadFileInputNew({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-
-  const [value, setValue] = React.useState(0);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -191,6 +182,7 @@ function UploadFileInputNew({
         newImageSrcs.push(onLoadEvent.target.result);
         if (newImageSrcs.length === files.length) {
           setImageSrcs(newImageSrcs);
+          console.log(imageSrcs, "imageSrcs");
           // Upload files to cloudinary
           uploadFilesToCloudinary(files).then((uploadedUrls: string[]) => {
             // Once all files are uploaded, update the state with the accumulated URLs
