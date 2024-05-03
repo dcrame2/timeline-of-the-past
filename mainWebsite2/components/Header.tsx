@@ -29,7 +29,7 @@ function MobileNavIcon({ open }: { open: boolean }) {
   return (
     <svg
       aria-hidden="true"
-      className="h-3.5 w-3.5 overflow-visible stroke-slate-700"
+      className="h-3.5 w-3.5 overflow-visible stroke-lightBlue"
       fill="none"
       strokeWidth={2}
       strokeLinecap="round"
@@ -84,7 +84,7 @@ function MobileNavigation() {
         >
           <Popover.Panel
             as="div"
-            className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
+            className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl p-4 text-lg tracking-tight text-lightBlue   shadow-xl ring-1 ring-lightBlue  bg-white"
           >
             <MobileNavLink href="#features">Features</MobileNavLink>
             <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>

@@ -6,53 +6,53 @@ import backgroundImage from "../images/background-faqs.jpg";
 const faqs = [
   [
     {
-      question: "Does TaxPal handle VAT?",
+      question: "Can I customize the appearance of my timeline?",
       answer:
-        "Well no, but if you move your company offshore you can probably ignore it.",
+        "Yes, absolutely! Our Timeline app offers a variety of custom themes that you can choose from to personalize the look and feel of your timeline.",
     },
     {
-      question: "Can I pay for my subscription via purchase order?",
-      answer: "Absolutely, we are happy to take your money in all forms.",
+      question: "Can I edit my timeline at any time?",
+      answer:
+        "Yes, timelines are fully editable, allowing you to add, remove, or modify events as needed. You can update your timeline at any time to reflect milestones or new information.",
     },
     {
-      question: "How do I apply for a job at TaxPal?",
+      question: "How long is my timeline available for?",
       answer:
-        "We only hire our customers, so subscribe for a minimum of 6 months and then let’s talk.",
+        "Your timelines are available for life. You can access your timelines at any time and make changes as needed.",
     },
   ],
   [
     {
-      question: "What was that testimonial about tax fraud all about?",
+      question: "Is there a limit to the number of timelines I can create?",
       answer:
-        "TaxPal is just a software application, ultimately your books are your responsibility.",
+        "Yes, we offer one free timeline and then you must purchase more timelines with a one timeline payment.",
     },
     {
-      question:
-        "TaxPal sounds horrible but why do I still feel compelled to purchase?",
+      question: "Is my data secure on your platform?",
       answer:
-        "This is the power of excellent visual design. You just can’t resist it, no matter how poorly it actually functions.",
+        "We take the security and privacy of your data very seriously. Our platform employs industry-standard security measures to ensure that your information remains safe and confidential.",
     },
     {
-      question:
-        "I found other companies called TaxPal, are you sure you can use this name?",
+      question: "How can I share my timeline with others?",
       answer:
-        "Honestly not sure at all. We haven’t actually incorporated or anything, we just thought it sounded cool and made this website.",
+        "Sharing your timeline is easy! You can either share a link to your timeline which will be generated upon saving your timeline.",
     },
   ],
   [
     {
-      question: "How do you generate reports?",
+      question: "Can I collaborate with others on creating a timeline?",
       answer:
-        "You just tell us what data you need a report for, and we get our kids to create beautiful charts for you using only the finest crayons.",
+        "Currently, our platform doesn't support real-time collaboration, but you can share your timeline with others, allowing them to view it.",
     },
     {
-      question: "Can we expect more inventory features?",
-      answer: "In life it’s really better to never expect anything at all.",
+      question: "How often are updates and new features released?",
+      answer:
+        "We strive to continuously improve our platform based on user feedback. Updates and new features are released regularly to enhance your experience with our Timeline app.",
     },
     {
-      question: "I lost my password, how do I get into my account?",
+      question: "What kind of support do you offer?",
       answer:
-        "Send us an email and we will send you a copy of our latest password spreadsheet so you can find your information.",
+        "We provide comprehensive customer support to assist you with any questions or issues you may encounter while using Timeline That. You can reach out to us via email or the in app feedback form.",
     },
   ],
 ];
@@ -64,14 +64,14 @@ export function Faqs() {
       aria-labelledby="faq-title"
       className="relative overflow-hidden bg-slate-50 py-20 sm:py-32"
     >
-      <Image
+      {/* <Image
         className="absolute left-1/2 top-0 max-w-none -translate-y-1/4 translate-x-[-30%]"
         src={backgroundImage}
         alt=""
         width={1558}
         height={946}
         unoptimized
-      />
+      /> */}
       <Container className="relative">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2
@@ -81,8 +81,8 @@ export function Faqs() {
             Frequently asked questions
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            If you can’t find what you’re looking for, email our support team
-            and if you’re lucky someone will get back to you.
+            If you can’t find what you’re looking for, email our support team or
+            fill out the in app feedback form.
           </p>
         </div>
         <ul

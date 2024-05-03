@@ -11,19 +11,19 @@ const testimonials = [
   [
     {
       content:
-        "TaxPal is so easy to use I can’t help but wonder if it’s really doing the things the government expects me to do.",
+        "Timeline That is so easy to use and it’s so much fun to see my life laid out in front of me. I can’t wait to show my friends and family.",
       author: {
         name: "Sheryl Berge",
-        role: "CEO at Lynch LLC",
+        role: "Mother of 3",
         image: avatarImage1,
       },
     },
     {
       content:
-        "I’m trying to get a hold of someone in support, I’m in a lot of trouble right now and they are saying it has something to do with my books. Please get back to me right away.",
+        "I’ve been using Timeline That for a few months now and I can’t believe how many new themes its created since I joined.",
       author: {
         name: "Amy Hahn",
-        role: "Director at Velocity Industries",
+        role: "Aunt",
         image: avatarImage4,
       },
     },
@@ -31,19 +31,19 @@ const testimonials = [
   [
     {
       content:
-        "The best part about TaxPal is every time I pay my employees, my bank balance doesn’t go down like it used to. Looking forward to spending this extra cash when I figure out why my card is being declined.",
+        "My daughter introduced me to this amazing Timeline app, and I'm hooked! I've been able to create beautiful timelines of our family's milestones with ease. It's such a wonderful way to preserve memories.",
       author: {
         name: "Leland Kiehn",
-        role: "Founder of Kiehn and Sons",
+        role: "Proud Mom",
         image: avatarImage5,
       },
     },
     {
       content:
-        "There are so many things I had to do with my old software that I just don’t do at all with TaxPal. Suspicious but I can’t say I don’t love it.",
+        "I stumbled upon this Timeline app while searching for a way to document my family history, and it's exceeded my expectations! I've been able to create detailed timelines that I can share with future generations.",
       author: {
         name: "Erin Powlowski",
-        role: "COO at Armstrong Inc",
+        role: "Family Historian",
         image: avatarImage2,
       },
     },
@@ -51,32 +51,24 @@ const testimonials = [
   [
     {
       content:
-        "I used to have to remit tax to the EU and with TaxPal I somehow don’t have to do that anymore. Nervous to travel there now though.",
+        "This Timeline app has simplified my life! As a busy mom, I don't have much time to organize memories, but with this app, I can easily create timelines of my kids' milestones.",
       author: {
         name: "Peter Renolds",
-        role: "Founder of West Inc",
+        role: "Busy Mom",
         image: avatarImage3,
       },
     },
     {
       content:
-        "This is the fourth email I’ve sent to your support team. I am literally being held in jail for tax fraud. Please answer your damn emails, this is important.",
+        "I've been using this Timeline app to plan my upcoming family reunion, and it's been incredibly helpful! The custom themes make it look professional.",
       author: {
-        name: "Amy Hahn",
-        role: "Director at Velocity Industries",
+        name: "Jamie Anderson",
+        role: "Event Planner",
         image: avatarImage4,
       },
     },
   ],
 ];
-
-function QuoteIcon(props: React.ComponentPropsWithoutRef<"svg">) {
-  return (
-    <svg aria-hidden="true" width={105} height={78} {...props}>
-      <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z" />
-    </svg>
-  );
-}
 
 export function Testimonials() {
   return (
@@ -88,12 +80,12 @@ export function Testimonials() {
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            Loved by businesses worldwide.
+            Loved by family and friends
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            Our software is so simple that people can’t help but fall in love
-            with it. Simplicity is easy when you just skip tons of
-            mission-critical features.
+            See what people are saying about Timeline That. We love our users
+            and they love us back. Timeline That bringing you closer to the
+            people around you.
           </p>
         </div>
         <ul
