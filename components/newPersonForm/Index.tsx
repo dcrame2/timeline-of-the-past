@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { variables } from "@/styles/Variables";
 import UploadFileInputNew from "../reusable/formFields/uploadFileInputNew/Index";
 import { useRouter } from "next/router";
-import { Button } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
 import slugifyNames from "@/lib/slugify";
 import { MediaQueries } from "@/styles/Utilities";
 import { themeData } from "@/themes/themeData";
@@ -19,7 +19,10 @@ import MainImageUpload from "../reusable/mainImageUpload/Index";
 import UploadModal from "./uploadModal/Index";
 import FourImageGrid from "./fourImageGrid/Index";
 import SelectInput from "../reusable/formFields/selectInput/Index";
-import { ExclamationTriangleIcon } from "@heroicons/react/16/solid";
+import {
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/16/solid";
 import ErrorFormMessage from "../reusable/errorFormMessage/Index";
 import Notification from "../reusable/notification/Index";
 const Form = styled.form`
@@ -129,17 +132,14 @@ function NewPersonForm() {
   const [singleImageSrc, setSingleImageSrc] = useState();
 
   const [font, setFont] = useState("Arial, sans-serif");
-  console.log(font, "FONT");
-  const [theme, setTheme] = useState(1);
 
-  // console.log(theme, "theme");
+  const [theme, setTheme] = useState(1);
 
   const [saveAttempt, setSaveAttempt] = useState(false);
 
   const [mainImage, setMainImage] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [imageIsLoading, setImageIsLoading] = useState(false);
 
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
@@ -150,9 +150,18 @@ function NewPersonForm() {
     progress: number;
   }
 
-  function classNames(...classes: any) {
-    return classes.filter(Boolean).join(" ");
-  }
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      if (uploadProgress > 0 && uploadProgress <= 100) {
+        setUploadProgress((prevProgress) => prevProgress + 0.5);
+      }
+    }, 100);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [uploadProgress]);
 
   const submitNewPerson = async (event: any) => {
     event.preventDefault();
@@ -183,8 +192,6 @@ function NewPersonForm() {
     const slug = slugifyNames(firstName, middleName, lastName);
     const session = await getSession();
     const sessionUserEmail: string | null | undefined = session?.user?.email;
-
-    console.log(sessionUserEmail, "session");
 
     await fetch("/api/people/people", {
       method: "POST",
@@ -373,6 +380,7 @@ function NewPersonForm() {
 
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();
+    setUploadProgress(1);
     const file = changeEvent.target.files[0];
 
     // Ensure that only one file is selected
@@ -387,11 +395,17 @@ function NewPersonForm() {
 
     reader.onload = async (onLoadEvent: any) => {
       onLoadEvent.preventDefault();
+
+      console.log(onLoadEvent.target.result, "onLoadEvent.target.result");
       setSingleImageSrc(onLoadEvent.target.result);
       const imageDataUrl = onLoadEvent.target.result;
 
       // Upload file to Cloudinary
       const uploadedUrl = await uploadFileToCloudinary(file);
+
+      if (uploadedUrl !== null) {
+        setUploadProgress(100);
+      }
 
       // Once file is uploaded, update the state with the URL
       setMainImage(uploadedUrl);
@@ -448,8 +462,9 @@ function NewPersonForm() {
               handleSingleRemoveImage={handleSingleRemoveImage}
               mainImage={mainImage}
               handleOnChange={handleOnChange}
-              singleImageSrc={singleImageSrc}
               setSingleImageSrc={setSingleImageSrc}
+              singleImageSrc={singleImageSrc}
+              uploadProgress={uploadProgress}
             />
             {!mainImage && saveAttempt && (
               <ErrorFormMessage message="Main image is required" />
@@ -565,7 +580,14 @@ function NewPersonForm() {
           <ImageUploadedContainer>
             <SelectInput
               placeholder="Select Year/Age"
-              label={"Year/Age"}
+              label={
+                <Tooltip content="Must fill in Date of Birth">
+                  <div className="flex items-center">
+                    <span className="mr-2">Select Year/Age</span>
+                    <InformationCircleIcon className="w-4 h-4 text-gray-500" />
+                  </div>
+                </Tooltip>
+              }
               onChange={handleAgeChange}
               value={ageOptions[selectedAge]?.label || ageOptions[0]?.value}
               options={ageOptions}

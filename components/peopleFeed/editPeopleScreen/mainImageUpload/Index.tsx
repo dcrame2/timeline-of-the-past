@@ -134,12 +134,14 @@ function MainImageUpload({
   updatedPerson,
   handleOnChange,
   handleSingleRemoveImage,
-}: //   setSingleImageSrc,
-any) {
+  singleImageSrc,
+  uploadProgress,
+  setSingleImageSrc,
+}: any) {
   const [open, setOpen] = useState(false);
   const openCoverModal = () => {
     setOpen(true);
-    // setSingleImageSrc(undefined);
+    setSingleImageSrc(undefined);
   };
   return (
     <>
@@ -154,7 +156,7 @@ any) {
           <div className="mt-2 flex items-center gap-x-3">
             {!updatedPerson.mainImage ? (
               <UserCircleIcon
-                className="h-12 w-12 text-black"
+                className="w-16 h-16 text-black"
                 aria-hidden="true"
               />
             ) : (
@@ -178,43 +180,12 @@ any) {
               type="button"
               size="sm"
               className=" text-white bg-lightOrange border-lightBlue"
+              isDisabled={updatedPerson.mainImage ? true : false}
             >
               Change
             </Button>
           </div>
         </div>
-
-        {/* <p>Main Image</p>
-      {!updatedPerson.mainImage ? (
-        <MainImageUploadContainer>
-          <label htmlFor="file">
-            Add Main Image
-            <input
-              id="file"
-              type="file"
-              name="file"
-              accept="image/*"
-              onChange={(e) => handleOnChange(e)}
-            />
-          </label>
-        </MainImageUploadContainer>
-      ) : (
-        <SingleImageContainer>
-          <button
-            onClick={(e) =>
-              handleSingleRemoveImage(updatedPerson.mainImage ?? "", e)
-            }
-          >
-            x
-          </button>
-          <SingleImage
-            src={updatedPerson.mainImage}
-            alt="Uploaded image"
-            width={300}
-            height={200}
-          ></SingleImage>
-        </SingleImageContainer>
-      )} */}
       </MainContainerForImage>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={setOpen}>
@@ -278,8 +249,7 @@ any) {
                           </label>
                         </MainImageUploadContainer>
                       </div>
-
-                      {/* {singleImageSrc && (
+                      {singleImageSrc && (
                         <IndividualImageContainer>
                           <ImageContainer>
                             <img
@@ -287,27 +257,24 @@ any) {
                               alt={`Uploaded image`}
                               className="w-20"
                             />
-                            <button
+                            {/* <button
                               onClick={(e) =>
-                                handleSingleRemoveImage(
-                                  updatedPerson.mainImage,
-                                  e
-                                )
+                                handleSingleRemoveImage(mainImage, e)
                               }
                             >
                               x
-                            </button>
+                            </button> */}
                           </ImageContainer>
                           <Progress
                             aria-label="Downloading..."
                             size="md"
-                            // value={uploadProgress}
+                            value={uploadProgress}
                             color="success"
                             showValueLabel={true}
                             className="max-w-md"
                           />
                         </IndividualImageContainer>
-                      )} */}
+                      )}
                     </div>
                   </div>
                   <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">

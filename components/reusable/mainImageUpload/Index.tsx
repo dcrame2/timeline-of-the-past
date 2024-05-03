@@ -26,18 +26,18 @@ const MainContainerForImage = styled.div`
 
 const SingleImageContainer = styled.div`
   position: relative;
-  /* width: 60px; */
   button {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: ${variables.white};
-    color: black;
+    top: -3px;
+    right: 0px;
+    background-color: ${variables.black};
+    color: ${variables.white};
     border: none;
     width: 20px;
     height: 20px;
     font-size: 12px;
     z-index: 5;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -137,6 +137,7 @@ function MainImageUpload({
   handleOnChange,
   singleImageSrc,
   setSingleImageSrc,
+  uploadProgress,
 }: any) {
   const [open, setOpen] = useState(false);
   const openCoverModal = () => {
@@ -176,6 +177,7 @@ function MainImageUpload({
               onPress={openCoverModal}
               type="button"
               className="bg-lightOrange text-white"
+              isDisabled={mainImage ? true : false}
             >
               Change
             </Button>
@@ -264,7 +266,7 @@ function MainImageUpload({
                           <Progress
                             aria-label="Downloading..."
                             size="md"
-                            // value={uploadProgress}
+                            value={uploadProgress}
                             color="success"
                             showValueLabel={true}
                             className="max-w-md"

@@ -17,12 +17,14 @@ import {
   Link,
   Button,
   Textarea,
+  Tooltip,
 } from "@nextui-org/react";
 import MainContainer from "@/components/reusable/mainContainer/Index";
 import SectionHeader from "@/components/reusable/sectionHeader/Index";
 import MainImageUpload from "./mainImageUpload/Index";
 import UploadModal from "@/components/newPersonForm/uploadModal/Index";
 import FourImageGrid from "@/components/newPersonForm/fourImageGrid/Index";
+import { InformationCircleIcon } from "@heroicons/react/16/solid";
 
 const Form = styled.form`
   @media ${MediaQueries.mobile} {
@@ -141,6 +143,10 @@ function EditPeopleScreen({
 
   console.log(updatedPerson, "updatedPerson");
 
+  const [singleImageSrc, setSingleImageSrc] = useState();
+
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   useEffect(() => {
     if (person) {
       setUpdatedPerson({ ...person });
@@ -170,6 +176,17 @@ function EditPeopleScreen({
       }
     }
   }, [person]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (uploadProgress > 0 && uploadProgress <= 100) {
+        setUploadProgress((prevProgress) => prevProgress + 0.5);
+      }
+    }, 100);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [uploadProgress]);
 
   const handleRemoveImage = async (
     imageUrlToDelete: string,
@@ -363,6 +380,7 @@ function EditPeopleScreen({
 
   const handleOnChange = async (changeEvent: any) => {
     changeEvent.preventDefault();
+    setUploadProgress(1);
     const file = changeEvent.target.files[0];
 
     // Ensure that only one file is selected
@@ -377,11 +395,13 @@ function EditPeopleScreen({
 
     reader.onload = async (onLoadEvent: any) => {
       onLoadEvent.preventDefault();
-      // setSingleImageSrc(onLoadEvent.target.result);
+      setSingleImageSrc(onLoadEvent.target.result);
       const imageDataUrl = onLoadEvent.target.result;
 
       // Upload file to Cloudinary
       const uploadedUrl = await uploadFileToCloudinary(file);
+
+      setUploadProgress(100);
 
       // Once file is uploaded, update the state with the URL
       const updatedPersonCopy = { ...updatedPerson };
@@ -491,6 +511,9 @@ function EditPeopleScreen({
                 updatedPerson={updatedPerson}
                 handleOnChange={handleOnChange}
                 handleSingleRemoveImage={handleSingleRemoveImage}
+                singleImageSrc={singleImageSrc}
+                uploadProgress={uploadProgress}
+                setSingleImageSrc={setSingleImageSrc}
               />
               <MainFieldContainer>
                 <ThemeInfoContainer className="w-full">
@@ -631,7 +654,14 @@ function EditPeopleScreen({
               </div>
               <ImageUploadedContainer>
                 <Select
-                  label={"Year/Age"}
+                  label={
+                    <Tooltip content="Must fill in Date of Birth">
+                      <div className="flex items-center">
+                        <span className="mr-2">Select Year/Age</span>
+                        <InformationCircleIcon className="w-4 h-4 text-gray-500" />
+                      </div>
+                    </Tooltip>
+                  }
                   placeholder={
                     ageOptions[selectedAge]?.label
                       ? ageOptions[selectedAge].label
