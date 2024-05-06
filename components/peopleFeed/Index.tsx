@@ -46,6 +46,9 @@ const PeopleFeedInnerContainer = styled.div`
   flex-direction: column;
   padding: 8px;
   overflow-y: scroll;
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
   @media ${MediaQueries.tablet} {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -68,19 +71,6 @@ const CRUDBtns = styled.div`
   z-index: 1;
   position: relative;
   align-items: center;
-`;
-
-const NoTimelineContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 8px;
-  p {
-    ${pSmall}
-  }
 `;
 
 const ModalDescription = styled.p`

@@ -378,41 +378,10 @@ function EditPeopleScreen({
     }
   };
 
-  const handleOnChange = async (changeEvent: any) => {
-    changeEvent.preventDefault();
-    setUploadProgress(1);
-    const file = changeEvent.target.files[0];
-
-    // Ensure that only one file is selected
-    if (!file) {
-      alert(`Please select an image.`);
-      return;
-    }
-
-    // setIsLoading(true);
-
-    const reader = new FileReader();
-
-    reader.onload = async (onLoadEvent: any) => {
-      onLoadEvent.preventDefault();
-      setSingleImageSrc(onLoadEvent.target.result);
-      const imageDataUrl = onLoadEvent.target.result;
-
-      // Upload file to Cloudinary
-      const uploadedUrl = await uploadFileToCloudinary(file);
-
-      setUploadProgress(100);
-
-      // Once file is uploaded, update the state with the URL
-      const updatedPersonCopy = { ...updatedPerson };
-      // Update the mainImage property with the uploaded URL
-      updatedPersonCopy.mainImage = uploadedUrl;
-      // Update the state with the modified object
-      setUpdatedPerson(updatedPersonCopy);
-      // setIsLoading(false);
-    };
-
-    reader.readAsDataURL(file);
+  const handleOnChange = async (result: any) => {
+    const updatedPersonCopy = { ...updatedPerson };
+    updatedPersonCopy.mainImage = result.info.url;
+    setUpdatedPerson(updatedPersonCopy);
   };
 
   const handleUpload = (
