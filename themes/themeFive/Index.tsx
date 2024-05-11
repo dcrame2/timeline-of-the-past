@@ -8,14 +8,6 @@ import { createGlobalStyle } from "styled-components";
 
 type DataProps = [];
 
-const GlobalStyles = createGlobalStyle`
-  body {
-    font-family: ${({ theme }) =>
-      theme.fontFamily}; /* Example: Applying fontFamily */
-    /* Other global styles */
-  }
-`;
-
 interface Person {
   data: [
     {
