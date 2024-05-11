@@ -3,19 +3,11 @@ import MainHero from "./components/mainHero/Index";
 import ImagesWithTitles from "./components/imagesWithTitles/Index";
 import Footer from "./components/footer/Index";
 import Navigation from "./components/navigation/Index";
-import Carousel from "./components/carousel/Index";
+// import Carousel from "./components/carousel/Index";
 
 import { createGlobalStyle } from "styled-components";
 
 type DataProps = [];
-
-const GlobalStyles = createGlobalStyle`
-  body {
-    font-family: ${({ theme }) =>
-      theme.fontFamily}; /* Example: Applying fontFamily */
-    /* Other global styles */
-  }
-`;
 
 interface Person {
   data: [
@@ -48,8 +40,8 @@ function ThemeThree({ data }: Person) {
       <div style={{ fontFamily: `${font} !important` }}>
         <Navigation data={data} />
         <MainHero data={data} />
-        <Carousel data={data} />
-        {/* <ImagesWithTitles data={data} /> */}
+        {/* <Carousel data={data} /> */}
+        <ImagesWithTitles data={data} />
         <Footer data={data} />
       </div>
     </>
