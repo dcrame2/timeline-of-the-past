@@ -65,12 +65,14 @@ interface Person {
       color?: string;
       theme?: string;
       mainImage?: string;
+      mainText?: string;
     }
   ];
 }
 
 function MainHero({ data }: Person) {
-  const { firstName, middleName, lastName, color, dob, mainImage } = data[0];
+  const { firstName, middleName, lastName, color, dob, mainImage, mainText } =
+    data[0];
   const [countdownTimer, setCountdownTimer] = useState("");
 
   useEffect(() => {
@@ -113,6 +115,7 @@ function MainHero({ data }: Person) {
         <h1>
           {firstName} {middleName} {lastName}
         </h1>
+        <p>{mainText}</p>
         <p>Born: {formatDate(dob)}</p>
         {countdownTimer && (
           <motion.p

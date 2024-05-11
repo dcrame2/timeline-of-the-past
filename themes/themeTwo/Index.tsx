@@ -48,8 +48,8 @@ function ThemeTwo({ data }: Person) {
       <div style={{ fontFamily: `${font} !important` }}>
         <Navigation data={data} />
         <MainHero data={data} />
-        <Carousel data={data} />
-        {/* <ImagesWithTitles data={data} /> */}
+        {/* <Carousel data={data} /> */}
+        <ImagesWithTitles data={data} />
         <Footer data={data} />
       </div>
     </>

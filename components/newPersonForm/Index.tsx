@@ -13,18 +13,19 @@ import { fontOptions } from "@/lib/fonts";
 import { Textarea } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
 import { uploadFileToCloudinary } from "@/lib/uploadFileToCloudinary";
-import MainContainer from "../reusable/mainContainer/Index";
 import SectionHeader from "../reusable/sectionHeader/Index";
 import MainImageUpload from "../reusable/mainImageUpload/Index";
 import UploadModal from "./uploadModal/Index";
 import FourImageGrid from "./fourImageGrid/Index";
 import SelectInput from "../reusable/formFields/selectInput/Index";
-import {
-  ExclamationTriangleIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/16/solid";
+import { InformationCircleIcon } from "@heroicons/react/16/solid";
 import ErrorFormMessage from "../reusable/errorFormMessage/Index";
 import Notification from "../reusable/notification/Index";
+import {
+  CldUploadButton,
+  CloudinaryUploadWidgetResults,
+  CloudinaryUploadWidgetInfo,
+} from "next-cloudinary";
 const Form = styled.form`
   max-width: 100%;
 
@@ -99,6 +100,13 @@ const ImageUploadedContainer = styled.div`
   gap: 12px;
   grid-column: 2;
 `;
+
+type UploadResult = {
+  event: "success";
+  info: {
+    public_id: string;
+  };
+};
 
 function NewPersonForm() {
   const firstNameRef = React.useRef<HTMLInputElement>(null);
@@ -307,6 +315,7 @@ function NewPersonForm() {
     e: any
   ) => {
     e.preventDefault();
+
     // Check if selectedAge is not empty
     if (selectedAge !== null) {
       // Create a copy of the uploadDatas object
@@ -336,6 +345,7 @@ function NewPersonForm() {
         // Handle any errors that occur during the fetch operation
         console.error("Error deleting image:", error);
       }
+
       // Update the uploadDatas state with the modified object
       setUploadedImages((prevImages) =>
         prevImages.filter((_, i) => i !== imageIndex)
@@ -378,41 +388,51 @@ function NewPersonForm() {
     }
   };
 
-  const handleOnChange = async (changeEvent: any) => {
-    changeEvent.preventDefault();
-    setUploadProgress(1);
-    const file = changeEvent.target.files[0];
-
-    // Ensure that only one file is selected
-    if (!file) {
-      alert(`Please select an image.`);
+  const handleOnChange = async (result: CloudinaryUploadWidgetResults) => {
+    if (typeof result.info === "string") {
       return;
     }
 
-    // setIsLoading(true);
+    if (result?.info?.url) {
+      setMainImage(result?.info?.url);
+    }
+  };
 
-    const reader = new FileReader();
+  interface UploadedImage {
+    publicId: string;
+    url: string;
+    format: string;
+  }
 
-    reader.onload = async (onLoadEvent: any) => {
-      onLoadEvent.preventDefault();
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
 
-      console.log(onLoadEvent.target.result, "onLoadEvent.target.result");
-      setSingleImageSrc(onLoadEvent.target.result);
-      const imageDataUrl = onLoadEvent.target.result;
+  React.useEffect(() => {
+    if (uploadedImageUrls.length > 0) {
+      const updatedUploadDatas = {
+        ...uploadDatas,
+        [selectedAge]: {
+          ...uploadDatas[selectedAge],
+          images: [
+            ...(uploadDatas[selectedAge]?.images || []), // Use existing images or initialize as an empty array
+            ...uploadedImageUrls, // Append uploaded image URLs
+          ],
+        },
+      };
+      setUploadDatas(updatedUploadDatas);
+      setUploadedImageUrls([]); // Clear uploaded image URLs after saving
+    }
+  }, [uploadedImageUrls]);
 
-      // Upload file to Cloudinary
-      const uploadedUrl = await uploadFileToCloudinary(file);
+  const handleSuccess = (result: CloudinaryUploadWidgetResults) => {
+    if (typeof result.info === "string") {
+      return; // Handle the case where result.info is a string
+    }
 
-      if (uploadedUrl !== null) {
-        setUploadProgress(100);
-      }
+    const uploadedUrl = result.info?.url;
 
-      // Once file is uploaded, update the state with the URL
-      setMainImage(uploadedUrl);
-      // setIsLoading(false);
-    };
-
-    reader.readAsDataURL(file);
+    if (uploadedUrl) {
+      setUploadedImageUrls((prevUrls) => [...prevUrls, uploadedUrl]); // Accumulate uploaded image URLs
+    }
   };
 
   return (
@@ -462,9 +482,6 @@ function NewPersonForm() {
               handleSingleRemoveImage={handleSingleRemoveImage}
               mainImage={mainImage}
               handleOnChange={handleOnChange}
-              setSingleImageSrc={setSingleImageSrc}
-              singleImageSrc={singleImageSrc}
-              uploadProgress={uploadProgress}
             />
             {!mainImage && saveAttempt && (
               <ErrorFormMessage message="Main image is required" />
@@ -604,23 +621,21 @@ function NewPersonForm() {
               onChange={handleAgeTextChange}
               labelPlacement={"outside"}
             />
-            <UploadModal
-              uploadDatas={uploadDatas}
-              selectedAge={selectedAge}
-              ageOptions={ageOptions}
-              setUploadedImages={setUploadedImages}
+            <Button
+              type="button"
+              size="sm"
+              className="text-white fit-content bg-lightOrange border-lightBlue inline px-4"
             >
-              <UploadFileInputNew
-                uploadedImages={uploadedImages}
-                setUploadedImages={setUploadedImages}
-                selectedAge={selectedAge}
-                setUploadDatas={setUploadDatas}
-                uploadDatas={uploadDatas}
-                setImageSrcs={setImageSrcs}
-                imageSrcs={imageSrcs}
-                handleRemoveImage={handleRemoveImage}
-              />
-            </UploadModal>
+              <CldUploadButton
+                uploadPreset="my-uploads"
+                onSuccess={handleSuccess}
+              >
+                Add Images -{" "}
+                {ageOptions[selectedAge]?.label
+                  ? ageOptions[selectedAge].label
+                  : "Born"}
+              </CldUploadButton>
+            </Button>
           </ImageUploadedContainer>
           <FourImageGrid
             uploadDatas={uploadDatas}
