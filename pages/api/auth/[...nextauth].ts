@@ -5,11 +5,6 @@ import { verifyPassword } from "@/lib/auth";
 import { NextAuthOptions } from "next-auth";
 import { NextApiRequest, NextApiResponse } from "next";
 
-type Credentials = {
-  identifier: string;
-  password: string;
-};
-
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   session: {
