@@ -5,78 +5,6 @@ import { Container, MediaQueries } from "@/styles/Utilities";
 import formatDate from "@/lib/formatDate";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 
-const ImagesWithTitlesContainer = styled.div`
-  margin-top: 88px;
-  margin-bottom: 88px;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 80px;
-`;
-
-interface IndividualAgeContainerProps {
-  reverseRow?: boolean;
-  color?: string;
-}
-
-const IndividualAgeContainer = styled.div<IndividualAgeContainerProps>`
-  h3 {
-    ${pLarge}
-    color:  ${({ color }) => color};
-  }
-
-  ${({ reverseRow }) =>
-    reverseRow &&
-    `
-    ${IndividualInnerContainer} {
-      flex-direction: row-reverse;
-      @media ${MediaQueries.tablet} {
-    flex-direction: column;
-  }
-    }
-  `}
-`;
-
-const IndividualInnerContainer = styled.div`
-  ${Container}
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  @media ${MediaQueries.tablet} {
-    flex-direction: column;
-  }
-`;
-
-interface ImagesContainerProps {
-  children: React.ReactNode;
-}
-
-const ImagesContainer = styled(motion.div)<ImagesContainerProps>`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-items: center; /* Center items horizontally */
-  align-content: center;
-
-  gap: 10px;
-  @media ${MediaQueries.tablet} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  /* @media ${MediaQueries.mobile} {
-    grid-template-columns: repeat(1, 1fr);
-  } */
-`;
-
-const ImageWrapper = styled.div`
-  display: flex;
-
-  img {
-    max-width: 200px;
-    width: 100%;
-    object-fit: cover;
-  }
-`;
-
 interface Person {
   data: [
     {
@@ -102,55 +30,30 @@ function ImagesWithTitles({ data }: Person) {
   const { uploadDatas, color, dob }: any = data[0];
   console.log(uploadDatas, "uploadDatas");
 
-  const motionPropsFadeIn = {
-    initial: {
-      opacity: 0,
-    },
-    animate: {
-      opacity: 1,
-    },
-    exit: {
-      opacity: 0,
-    },
-    transition: {
-      duration: 0.4,
-    },
-  };
-
   return (
-    <ImagesWithTitlesContainer>
-      {/* <AnimatePresence> */}
+    <div>
       {Object.keys(uploadDatas).map((key, index) => (
-        <IndividualAgeContainer
-          color={color}
-          key={key}
-          reverseRow={index % 2 !== 0}
-        >
-          <IndividualInnerContainer>
-            <h3>{key === "0" ? `Born: ${formatDate(dob)}` : `Age ${key}`}</h3>
-
-            <ImagesContainer
-              key={`key-${index}`}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: `0.6` }}
-              viewport={{ once: true }}
-            >
+        <div className="bg-white">
+          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <h2 className="text-2xl">
+              {key === "0" ? `Born: ${formatDate(dob)}` : `Age ${key}`}
+            </h2>
+            <p className="font-extralight">{uploadDatas[key].ageText}</p>
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
               {uploadDatas[key].images?.map((src: string, index: number) => (
-                <ImageWrapper key={index}>
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                   <img
-                    key={`key-${index + 1}`}
                     src={src}
                     alt={`Image ${index}`}
+                    className="h-full w-full object-cover object-center group-hover:opacity-75"
                   />
-                </ImageWrapper>
+                </div>
               ))}
-            </ImagesContainer>
-          </IndividualInnerContainer>
-        </IndividualAgeContainer>
+            </div>
+          </div>
+        </div>
       ))}
-      {/* </AnimatePresence> */}
-    </ImagesWithTitlesContainer>
+    </div>
   );
 }
 
