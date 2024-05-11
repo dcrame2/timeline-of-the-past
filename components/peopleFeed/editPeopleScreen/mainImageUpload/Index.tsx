@@ -11,7 +11,6 @@ import {
 } from "@heroicons/react/16/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { motion } from "framer-motion";
-import { CldUploadButton } from "next-cloudinary";
 
 const MainContainerForImage = styled.div`
   display: flex;
@@ -176,21 +175,7 @@ function MainImageUpload({
                 ></SingleImage>
               </SingleImageContainer>
             )}
-
             <Button
-              type="button"
-              size="sm"
-              className="text-white fit-content bg-lightOrange border-lightBlue inline px-4"
-              isDisabled={updatedPerson.mainImage ? true : false}
-            >
-              <CldUploadButton
-                uploadPreset="my-uploads"
-                onSuccess={handleOnChange}
-              >
-                Change
-              </CldUploadButton>
-            </Button>
-            {/* <Button
               onPress={openCoverModal}
               type="button"
               size="sm"
@@ -198,7 +183,7 @@ function MainImageUpload({
               isDisabled={updatedPerson.mainImage ? true : false}
             >
               Change
-            </Button> */}
+            </Button>
           </div>
         </div>
       </MainContainerForImage>

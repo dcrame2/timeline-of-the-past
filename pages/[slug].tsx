@@ -121,9 +121,9 @@ export default function Page({ data }: { data: any }) {
     case 2:
       themeComponent = <ThemeTwo data={data} />;
       break;
-    // case 3:
-    //   themeComponent = <ThemeThree data={data} />;
-    //   break;
+    case 3:
+      themeComponent = <ThemeThree data={data} />;
+      break;
     case 4:
       themeComponent = <ThemeFour data={data} />;
       break;
