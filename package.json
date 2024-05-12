@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--max-http-header-size=12800000' next dev",
+    "dev": "NODE_OPTIONS='--max-http-header-size=12800000'next dev",
     "build": "NODE_OPTIONS='--max-http-header-size=12800000' next build",
-    "start": "NODE_OPTIONS='--max-http-header-size=12800000' next start",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -22,7 +22,7 @@
     "cloudinary-build-url": "^0.2.4",
     "cloudinary-react": "^1.8.1",
     "formidable": "^3.5.1",
-    "framer-motion": "^11.1.9",
+    "framer-motion": "^11.0.28",
     "lottie-react": "^2.4.0",
     "micro": "^10.0.1",
     "micro-cors": "^0.1.1",
@@ -35,7 +35,7 @@
     "react-dom": "^18",
     "react-lottie": "^1.2.4",
     "stripe": "^15.1.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
